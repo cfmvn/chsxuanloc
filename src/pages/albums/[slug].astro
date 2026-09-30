@@ -5,11 +5,19 @@ import albumsData from '../../data/albums.json';
 export async function getStaticPaths() {
   return albumsData.map((album) => ({
     params: { slug: album.slug },
-    props: { album },
+    props: {
+      album,
+      relatedAlbums: albumsData.filter((a) => a.slug !== album.slug).slice(0, 4),
+    },
   }));
 }
 
-const { album } = Astro.props;
+interface Props {
+  album: typeof albumsData[0];
+  relatedAlbums: typeof albumsData;
+}
+
+const { album, relatedAlbums } = Astro.props;
 ---
 
 <BaseLayout
@@ -17,50 +25,301 @@ const { album } = Astro.props;
   description={`Xem trọn bộ album ảnh ${album.title} gồm ${album.photoCount} bức ảnh lưu niệm của Trường THPT Xuân Lộc.`}
   image={album.coverImage}
 >
-  <!-- Header -->
-  <section class="bg-navy-950 text-white py-14 border-b border-navy-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="mb-4">
-        <a href="/albums" class="inline-flex items-center text-xs font-semibold text-warmOrange-400 hover:text-warmOrange-300">
-          &larr; Quay lại Thư Viện Album
-        </a>
+  <!-- Header Banner -->
+  <section class="relative bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950 text-white py-14 lg:py-16 border-b border-navy-800 overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(221,107,32,0.15),transparent_50%)]"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <!-- Breadcrumb -->
+      <nav class="flex items-center space-x-2 text-xs font-medium text-slate-400 mb-4" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-warmOrange-400 transition-colors">Trang Chủ</a>
+        <span>/</span>
+        <a href="/albums" class="hover:text-warmOrange-400 transition-colors">Thư Viện Ảnh</a>
+        <span>/</span>
+        <span class="text-warmOrange-400 truncate max-w-xs">{album.title}</span>
+      </nav>
+
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-warmOrange-500/20 text-warmOrange-300 border border-warmOrange-500/30 text-xs font-bold uppercase tracking-wider mb-3">
+            <span>Bộ Sưu Tập Tư Liệu</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight" set:html={album.title}>
+          </h1>
+          <p class="text-slate-300 text-sm sm:text-base mt-2 flex items-center space-x-3">
+            <span>Trường THPT Xuân Lộc</span>
+            <span>•</span>
+            <span class="font-semibold text-warmOrange-400">{album.photoCount} bức ảnh tư liệu</span>
+          </p>
+        </div>
+
+        <div class="flex items-center space-x-3 shrink-0">
+          <a
+            href="/albums"
+            class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-200 bg-navy-800 hover:bg-navy-700 border border-navy-700 transition flex items-center space-x-2"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            <span>Tất Cả Album</span>
+          </a>
+          <button
+            id="btn-slideshow-start"
+            class="px-4 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-lg shadow-warmOrange-500/25 transition flex items-center space-x-2"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Xem Trình Chiếu</span>
+          </button>
+        </div>
       </div>
-      <div class="inline-flex items-center px-3 py-1 rounded-full bg-warmOrange-500/20 text-warmOrange-300 border border-warmOrange-500/30 text-xs font-semibold uppercase tracking-wider mb-3">
-        Kho Tư Liệu • {album.photoCount} Bức Ảnh
-      </div>
-      <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-2" set:html={album.title}>
-      </h1>
-      <p class="text-slate-300 text-sm max-w-3xl">
-        Kỷ niệm quý giá được lưu giữ tại cổng thông tin Cựu Học Sinh Trường THPT Xuân Lộc.
-      </p>
+
     </div>
   </section>
 
   <!-- Photo Gallery Grid -->
-  <section class="py-12 bg-slate-50 min-h-[70vh]">
+  <section class="py-12 bg-slate-50 min-h-[50vh]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6" id="gallery-container">
         {album.photos.map((photo, index) => (
-          <div class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
-            <div class="h-64 overflow-hidden bg-slate-100 relative cursor-pointer" onclick={`window.open('${photo.src}', '_blank')`}>
-              <img
-                src={photo.src}
-                alt={photo.caption}
-                loading="lazy"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-                <span class="opacity-0 group-hover:opacity-100 transition-opacity bg-navy-900/90 text-white text-xs px-3 py-1.5 rounded-lg shadow font-medium">
-                  Xem ảnh gốc ↗
+          <div
+            class="gallery-item group relative bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer aspect-[4/3]"
+            data-index={index}
+            data-src={photo.src}
+            data-caption={photo.caption}
+          >
+            <img
+              src={photo.src}
+              alt={photo.caption}
+              loading="lazy"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            
+            <!-- Hover Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-3.5">
+              <div class="flex justify-end">
+                <span class="p-1.5 rounded-lg bg-white/20 backdrop-blur-md text-white text-xs">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                  </svg>
                 </span>
               </div>
+              <div class="text-white">
+                <span class="text-xs font-semibold block text-warmOrange-300">Ảnh {index + 1} / {album.photoCount}</span>
+                <span class="text-xs text-slate-200 line-clamp-1">{photo.caption}</span>
+              </div>
             </div>
-            <div class="p-3 text-center border-t border-slate-100 bg-white">
-              <span class="text-xs text-slate-500 font-medium">Ảnh {index + 1} / {album.photoCount}</span>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Related Albums Section -->
+  <section class="py-14 bg-white border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <div class="text-xs font-bold uppercase tracking-wider text-warmOrange-600 mb-1">Ký ức đồng hành</div>
+          <h2 class="text-2xl font-bold text-navy-900">Các Bộ Album Khác Bạn Sẽ Thích</h2>
+        </div>
+        <a href="/albums" class="text-sm font-semibold text-warmOrange-600 hover:text-warmOrange-700 flex items-center space-x-1">
+          <span>Xem tất cả album</span>
+          <span>&rarr;</span>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {relatedAlbums.map((rel) => (
+          <div class="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden hover:shadow-lg transition-all duration-300 group flex flex-col justify-between">
+            <a href={`/albums/${rel.slug}`} class="block h-44 overflow-hidden bg-slate-900 relative">
+              <img
+                src={rel.coverImage}
+                alt={rel.title}
+                loading="lazy"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <span class="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded-md text-[11px] font-bold bg-navy-950/80 text-warmOrange-300 backdrop-blur-md">
+                {rel.photoCount} ảnh
+              </span>
+            </a>
+            <div class="p-4 flex-1 flex flex-col justify-between">
+              <h3 class="text-sm font-bold text-navy-900 group-hover:text-warmOrange-600 line-clamp-2 leading-snug mb-2">
+                <a href={`/albums/${rel.slug}`} set:html={rel.title}></a>
+              </h3>
+              <div class="pt-2 border-t border-slate-200/60 flex items-center justify-end">
+                <a href={`/albums/${rel.slug}`} class="text-xs font-bold text-warmOrange-600 hover:underline">
+                  Xem ngay &rarr;
+                </a>
+              </div>
             </div>
           </div>
         ))}
       </div>
     </div>
   </section>
+
+  <!-- Fullscreen Lightbox Modal -->
+  <div
+    id="lightbox-modal"
+    class="fixed inset-0 z-50 bg-black/95 backdrop-blur-lg hidden flex flex-col justify-between select-none"
+    tabindex="-1"
+    role="dialog"
+  >
+    <!-- Top Bar -->
+    <div class="flex items-center justify-between p-4 sm:px-8 border-b border-white/10 text-white z-10">
+      <div>
+        <span id="lightbox-counter" class="text-sm font-bold text-warmOrange-400">1 / 10</span>
+        <span id="lightbox-title" class="text-xs text-slate-300 ml-3 hidden sm:inline">{album.title}</span>
+      </div>
+      <div class="flex items-center space-x-3">
+        <button id="lightbox-zoom" class="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition text-xs font-semibold">
+          Phóng to / Thu nhỏ
+        </button>
+        <button id="lightbox-close" class="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main View Area -->
+    <div class="flex-1 relative flex items-center justify-center p-4 overflow-hidden">
+      <!-- Previous Button -->
+      <button
+        id="lightbox-prev"
+        class="absolute left-4 sm:left-8 z-20 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-md transition shadow-lg"
+        aria-label="Ảnh trước"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <!-- Active Image -->
+      <img
+        id="lightbox-img"
+        src=""
+        alt=""
+        class="max-h-[82vh] max-w-[90vw] object-contain rounded-lg shadow-2xl transition-transform duration-300 cursor-zoom-in"
+      />
+
+      <!-- Next Button -->
+      <button
+        id="lightbox-next"
+        class="absolute right-4 sm:right-8 z-20 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-md transition shadow-lg"
+        aria-label="Ảnh kế tiếp"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Bottom Caption Bar -->
+    <div class="p-4 text-center border-t border-white/10 text-slate-300 text-xs z-10 bg-black/40">
+      <span id="lightbox-caption"></span>
+    </div>
+  </div>
 </BaseLayout>
+
+<script>
+  // Lightbox & Slideshow Logic
+  const items = document.querySelectorAll('.gallery-item');
+  const modal = document.getElementById('lightbox-modal');
+  const modalImg = document.getElementById('lightbox-img') as HTMLImageElement;
+  const counter = document.getElementById('lightbox-counter');
+  const caption = document.getElementById('lightbox-caption');
+  const btnClose = document.getElementById('lightbox-close');
+  const btnPrev = document.getElementById('lightbox-prev');
+  const btnNext = document.getElementById('lightbox-next');
+  const btnZoom = document.getElementById('lightbox-zoom');
+  const btnStartSlideshow = document.getElementById('btn-slideshow-start');
+
+  let currentIndex = 0;
+  let isZoomed = false;
+  const photos: { src: string; caption: string }[] = [];
+
+  items.forEach((item, idx) => {
+    const src = item.getAttribute('data-src') || '';
+    const cap = item.getAttribute('data-caption') || '';
+    photos.push({ src, caption: cap });
+
+    item.addEventListener('click', () => {
+      openLightbox(idx);
+    });
+  });
+
+  function openLightbox(index: number) {
+    if (!modal || !modalImg) return;
+    currentIndex = index;
+    updateModalImage();
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    if (!modal) return;
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+    resetZoom();
+  }
+
+  function updateModalImage() {
+    if (!modalImg || !photos[currentIndex]) return;
+    modalImg.src = photos[currentIndex].src;
+    if (counter) counter.textContent = `${currentIndex + 1} / ${photos.length}`;
+    if (caption) caption.textContent = photos[currentIndex].caption;
+    resetZoom();
+  }
+
+  function prevPhoto() {
+    currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+    updateModalImage();
+  }
+
+  function nextPhoto() {
+    currentIndex = (currentIndex + 1) % photos.length;
+    updateModalImage();
+  }
+
+  function toggleZoom() {
+    if (!modalImg) return;
+    if (isZoomed) {
+      resetZoom();
+    } else {
+      modalImg.style.transform = 'scale(1.5)';
+      modalImg.classList.remove('cursor-zoom-in');
+      modalImg.classList.add('cursor-zoom-out');
+      isZoomed = true;
+    }
+  }
+
+  function resetZoom() {
+    if (!modalImg) return;
+    modalImg.style.transform = 'scale(1)';
+    modalImg.classList.remove('cursor-zoom-out');
+    modalImg.classList.add('cursor-zoom-in');
+    isZoomed = false;
+  }
+
+  btnClose?.addEventListener('click', closeLightbox);
+  btnPrev?.addEventListener('click', (e) => { e.stopPropagation(); prevPhoto(); });
+  btnNext?.addEventListener('click', (e) => { e.stopPropagation(); nextPhoto(); });
+  btnZoom?.addEventListener('click', toggleZoom);
+  modalImg?.addEventListener('click', toggleZoom);
+  btnStartSlideshow?.addEventListener('click', () => openLightbox(0));
+
+  // Keyboard navigation
+  window.addEventListener('keydown', (e) => {
+    if (!modal || modal.classList.contains('hidden')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') prevPhoto();
+    if (e.key === 'ArrowRight') nextPhoto();
+  });
+</script>
