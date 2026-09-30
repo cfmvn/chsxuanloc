@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const teachersList = [
+  {
+    name: "Thầy Kiều Mạnh Hà",
+    role: "Hiệu trưởng Nhà trường (Đương nhiệm)",
+    subject: "Quản lý Giáo dục",
+    quote: "Kế thừa và phát huy truyền thống vẻ vang, xây dựng THPT Xuân Lộc thành ngôi trường hạnh phúc và chất lượng cao.",
+    years: "2018 - Nay",
+  },
+  {
+    name: "Thầy Phan Bá Kiên",
+    role: "Phó Hiệu trưởng Nhà trường",
+    subject: "Ban Giám Hiệu",
+    quote: "Mỗi ngày đến trường là một niềm vui, mỗi tiết học là một sự tiến bộ của các em học sinh.",
+    years: "2016 - Nay",
+  },
+  {
+    name: "Thầy Hồ Đức Nghỉ",
+    role: "Phó Hiệu trưởng Nhà trường",
+    subject: "Ban Giám Hiệu",
+    quote: "Kỷ cương - Tình thương - Trách nhiệm luôn là kim chỉ nam trong sự nghiệp giáo dục.",
+    years: "2020 - Nay",
+  },
+  {
+    name: "Thầy Nguyễn Văn Hiếu",
+    role: "Nguyên Hiệu trưởng qua các thời kỳ",
+    subject: "Quản lý Giáo dục - Toán",
+    quote: "Mỗi thế hệ học trò trưởng thành và sống tử tế là phần thưởng lớn nhất của người cầm phấn.",
+    years: "1990 - 2002",
+  },
+  {
+    name: "Thầy Đặng Thành Luân",
+    role: "Giáo viên Toán - Nguyên Bí thư Đoàn trường",
+    subject: "Môn Toán - Công tác Đoàn",
+    quote: "Tuổi trẻ THPT Xuân Lộc luôn tràn đầy ngọn lửa nhiệt huyết và tinh thần xung kích.",
+    years: "2000 - Nay",
+  },
+  {
+    name: "Cô Huỳnh Thu Thủy",
+    role: "Tổ trưởng Chuyên môn",
+    subject: "Môn Vật Lý",
+    quote: "Mỗi bài học vật lý là một sự khám phá thú vị về thế giới tự nhiên xung quanh ta.",
+    years: "2003 - Nay",
+  }
+];
+---
+
+<BaseLayout
+  title="Tri Ân Quý Thầy Cô Qua Các Thời Kỳ - THPT Xuân Lộc"
+  description="Khu vực tri ân, tôn vinh và lưu giữ những lời dạy quý báu của quý thầy cô giáo Trường THPT Xuân Lộc qua các thời kỳ từ năm 1990 đến nay."
+>
+  <section class="bg-navy-950 text-white py-14 border-b border-navy-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-warmOrange-500/20 text-warmOrange-300 border border-warmOrange-500/30 text-xs font-semibold uppercase tracking-wider mb-3">
+        <span>Tôn Sư Trọng Đạo - Uống Nước Nhớ Nguồn</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-4">
+        Tri Ân Quý Thầy Cô Qua Các Thời Kỳ
+      </h1>
+      <p class="text-slate-300 max-w-2xl mx-auto text-base">
+        Kính dâng lòng biết ơn sâu sắc đến những người lái đò thầm lặng đã dìu dắt bao thế hệ học sinh Xuân Lộc nên người.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-12 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {teachersList.map((teacher) => (
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between hover:shadow-md transition duration-200">
+            <div>
+              <div class="flex items-center space-x-4 mb-4">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-navy-800 to-navy-900 flex items-center justify-center text-warmOrange-400 font-bold text-xl shadow-inner border border-navy-700">
+                  {teacher.name.split(' ').pop()?.[0]}
+                </div>
+                <div>
+                  <h2 class="font-bold text-navy-900 text-lg">{teacher.name}</h2>
+                  <p class="text-xs text-warmOrange-600 font-semibold">{teacher.role}</p>
+                  <p class="text-xs text-slate-500">Thời gian công tác: {teacher.years}</p>
+                </div>
+              </div>
+
+              <blockquote class="p-4 rounded-xl bg-slate-50 text-xs text-slate-700 italic border-l-2 border-warmOrange-500 leading-relaxed my-3">
+                "{teacher.quote}"
+              </blockquote>
+            </div>
+
+            <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+              <span class="font-medium bg-slate-100 px-2.5 py-0.5 rounded">{teacher.subject}</span>
+              <a href="/nien-khoa" class="text-warmOrange-600 hover:underline">Gửi lời tri ân &rarr;</a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

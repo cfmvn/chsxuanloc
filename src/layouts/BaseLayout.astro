@@ -1,0 +1,71 @@
+---
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import SeoMeta from '../components/SeoMeta.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  author?: string;
+  jsonLd?: Record<string, any>;
+}
+
+const {
+  title,
+  description = 'Cổng thông tin chính thức của Cựu Học Sinh Trường THPT Xuân Lộc (Đồng Nai). Nơi kết nối các thế hệ học sinh từ năm 1990 đến nay.',
+  image = '/assets/images/og-default.jpg',
+  type = 'website',
+  publishedTime,
+  author,
+  jsonLd
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#0b1d30" />
+    
+    <!-- Google Fonts Inter & Merriweather -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+    <!-- Firebase / Google Analytics (G-G6S5FJGLBE) -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-G6S5FJGLBE"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-G6S5FJGLBE');
+    </script>
+
+    <!-- SEO Meta & OpenGraph -->
+    <SeoMeta
+      title={title}
+      description={description}
+      image={image}
+      type={type}
+      publishedTime={publishedTime}
+      author={author}
+      jsonLd={jsonLd}
+    />
+  </head>
+  <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen font-sans antialiased selection:bg-warmOrange-500 selection:text-white">
+    <Navbar />
+    
+    <main class="flex-grow">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

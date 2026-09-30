@@ -1,0 +1,276 @@
+---
+export interface Props {
+  batchSlug?: string;
+  batchTitle?: string;
+}
+
+const { batchSlug, batchTitle } = Astro.props;
+---
+
+<div class="bg-white rounded-2xl shadow-xl border border-slate-200/80 p-6 md:p-8" id="gui-ky-yeu">
+  <div class="border-b border-slate-100 pb-5 mb-6">
+    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-warmOrange-50 text-warmOrange-700 text-xs font-semibold mb-2">
+      <svg class="w-4 h-4 text-warmOrange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+      </svg>
+      <span>Đóng góp kỷ niệm & Lưu bút</span>
+    </div>
+    <h3 class="text-xl md:text-2xl font-bold text-navy-900">
+      {batchTitle ? `Gửi ảnh & Kỷ niệm - ${batchTitle}` : 'Gửi ảnh & Kỷ niệm thời đi học'}
+    </h3>
+    <p class="text-sm text-slate-500 mt-1">
+      Mỗi bức ảnh, một dòng tâm sự đều là tài sản quý giá của cựu học sinh THPT Xuân Lộc. Bài viết sẽ được hiển thị sau khi Ban quản trị duyệt.
+    </p>
+  </div>
+
+  <form id="submission-form" class="space-y-5" data-preset-batch={batchSlug || ''}>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div>
+        <label for="fullName" class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
+          Họ và tên của bạn <span class="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          id="fullName"
+          name="fullName"
+          required
+          placeholder="VD: Nguyễn Văn An"
+          class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-warmOrange-500 focus:border-warmOrange-500 text-sm outline-none transition"
+        />
+      </div>
+
+      <div>
+        <label for="batch" class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
+          Niên khóa <span class="text-red-500">*</span>
+        </label>
+        <select
+          id="batch"
+          name="batch"
+          required
+          class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-warmOrange-500 focus:border-warmOrange-500 text-sm outline-none bg-white transition"
+        >
+          <option value="">-- Chọn niên khóa của bạn --</option>
+          <option value="khoa-1990-1993">Khóa 1990 - 1993</option>
+          <option value="khoa-1995-1998">Khóa 1995 - 1998</option>
+          <option value="khoa-2000-2003">Khóa 2000 - 2003</option>
+          <option value="khoa-2005-2008">Khóa 2005 - 2008</option>
+          <option value="khoa-2010-2013">Khóa 2010 - 2013</option>
+          <option value="khoa-2015-2018">Khóa 2015 - 2018</option>
+          <option value="khoa-2018-2021">Khóa 2018 - 2021</option>
+          <option value="khoa-2021-2024">Khóa 2021 - 2024</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div>
+        <label for="className" class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
+          Lớp / Ban (Không bắt buộc)
+        </label>
+        <input
+          type="text"
+          id="className"
+          name="className"
+          placeholder="VD: 12A1, 12A6..."
+          class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-warmOrange-500 focus:border-warmOrange-500 text-sm outline-none transition"
+        />
+      </div>
+
+      <div>
+        <label for="contactInfo" class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
+          Số điện thoại / Zalo / Email (Bảo mật)
+        </label>
+        <input
+          type="text"
+          id="contactInfo"
+          name="contactInfo"
+          placeholder="Để BLL kết nối khi cần"
+          class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-warmOrange-500 focus:border-warmOrange-500 text-sm outline-none transition"
+        />
+      </div>
+    </div>
+
+    <div>
+      <label for="message" class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
+        Lời nhắn, kỷ niệm hoặc lời tri ân thầy cô <span class="text-red-500">*</span>
+      </label>
+      <textarea
+        id="message"
+        name="message"
+        rows="4"
+        required
+        placeholder="Chia sẻ những khoảnh khắc đáng nhớ, kỷ niệm tuổi học trò dưới mái trường Xuân Lộc..."
+        class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-warmOrange-500 focus:border-warmOrange-500 text-sm outline-none transition"
+      ></textarea>
+    </div>
+
+    <div>
+      <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-1.5">
+        Ảnh kỷ niệm (Tự động nén tối ưu dung lượng)
+      </label>
+      <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-300 border-dashed rounded-xl hover:border-warmOrange-400 transition bg-slate-50/50">
+        <div class="space-y-2 text-center">
+          <svg class="mx-auto h-10 w-10 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="flex text-sm text-slate-600 justify-center">
+            <label for="photo" class="relative cursor-pointer bg-white rounded-md font-medium text-warmOrange-600 hover:text-warmOrange-500 focus-within:outline-none px-2 py-0.5 border border-slate-200">
+              <span>Chọn ảnh từ máy</span>
+              <input id="photo" name="photo" type="file" accept="image/*" class="sr-only" />
+            </label>
+          </div>
+          <p class="text-xs text-slate-500" id="file-info-text">Hỗ trợ JPG, PNG, WEBP. Hệ thống sẽ tự động tối ưu.</p>
+          <div id="image-preview-container" class="hidden mt-3">
+            <img id="image-preview" src="#" alt="Preview" class="max-h-40 mx-auto rounded-lg shadow-sm border border-slate-200" />
+            <p id="compression-status" class="text-xs text-warmOrange-600 font-medium mt-1"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Button & Feedback Status -->
+    <div class="pt-2">
+      <button
+        type="submit"
+        id="submit-btn"
+        class="w-full flex items-center justify-center space-x-2 py-3.5 px-6 rounded-xl text-white font-semibold bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-lg shadow-warmOrange-500/25 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <span id="btn-text">Gửi Kỷ Yếu & Tâm Sự</span>
+        <svg id="btn-spinner" class="hidden animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div id="form-feedback" class="hidden p-4 rounded-xl text-sm font-medium"></div>
+  </form>
+</div>
+
+<script>
+  import imageCompression from 'browser-image-compression';
+  import { db, storage } from '../lib/firebase';
+  import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+  import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
+  const form = document.getElementById('submission-form') as HTMLFormElement;
+  const fileInput = document.getElementById('photo') as HTMLInputElement;
+  const previewContainer = document.getElementById('image-preview-container');
+  const previewImg = document.getElementById('image-preview') as HTMLImageElement;
+  const compressionStatus = document.getElementById('compression-status');
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const btnText = document.getElementById('btn-text');
+  const btnSpinner = document.getElementById('btn-spinner');
+  const formFeedback = document.getElementById('form-feedback');
+  const batchSelect = document.getElementById('batch') as HTMLSelectElement;
+
+  // Preset batch if provided
+  const presetBatch = form?.getAttribute('data-preset-batch');
+  if (presetBatch && batchSelect) {
+    batchSelect.value = presetBatch;
+  }
+
+  let compressedFile: File | null = null;
+
+  // Client-side image compression on file select
+  fileInput?.addEventListener('change', async (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+
+    if (previewContainer && previewImg && compressionStatus) {
+      previewContainer.classList.remove('hidden');
+      previewImg.src = URL.createObjectURL(file);
+      compressionStatus.textContent = `Đang nén ảnh (${(file.size / 1024 / 1024).toFixed(2)} MB)...`;
+
+      try {
+        const options = {
+          maxSizeMB: 0.8, // Nén xuống dưới 800KB để siêu tiết kiệm băng thông và Storage Firebase
+          maxWidthOrHeight: 1600,
+          useWebWorker: true,
+        };
+        compressedFile = await imageCompression(file, options);
+        compressionStatus.textContent = `Đã nén tối ưu: ${(compressedFile.size / 1024).toFixed(0)} KB (Sẵn sàng)`;
+      } catch (err) {
+        console.error('Nén ảnh lỗi:', err);
+        compressedFile = file; // Fallback
+        compressionStatus.textContent = `Đã sẵn sàng tải lên (${(file.size / 1024).toFixed(0)} KB)`;
+      }
+    }
+  });
+
+  // Handle submit form
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!submitBtn || !btnText || !btnSpinner || !formFeedback) return;
+
+    submitBtn.disabled = true;
+    btnText.textContent = 'Đang xử lý tải lên...';
+    btnSpinner.classList.remove('hidden');
+    formFeedback.classList.add('hidden');
+
+    try {
+      const formData = new FormData(form);
+      const fullName = (formData.get('fullName') as string).trim();
+      const batch = formData.get('batch') as string;
+      const className = (formData.get('className') as string || '').trim();
+      const contactInfo = (formData.get('contactInfo') as string || '').trim();
+      const message = (formData.get('message') as string).trim();
+
+      let imageUrl = '';
+
+      // 1. Upload ảnh nếu có
+      if (compressedFile) {
+        btnText.textContent = 'Đang lưu trữ ảnh kỷ niệm...';
+        const fileExt = compressedFile.name.split('.').pop() || 'jpg';
+        const uniqueFileName = `${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${fileExt}`;
+        const storageRef = ref(storage, `submissions/${batch}/${uniqueFileName}`);
+        
+        const uploadResult = await uploadBytes(storageRef, compressedFile);
+        imageUrl = await getDownloadURL(uploadResult.ref);
+      }
+
+      // 2. Lưu thông tin vào Firestore
+      btnText.textContent = 'Đang ghi danh dữ liệu...';
+      await addDoc(collection(db, 'submissions'), {
+        fullName,
+        batch,
+        className,
+        contactInfo,
+        message,
+        imageUrl,
+        status: 'pending', // Chờ Admin duyệt
+        createdAt: serverTimestamp(),
+      });
+
+      // Thành công
+      formFeedback.className = 'p-4 rounded-xl text-sm font-medium bg-emerald-50 text-emerald-800 border border-emerald-200';
+      formFeedback.innerHTML = `
+        <div class="flex items-center space-x-2">
+          <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          <span class="font-semibold">Gửi kỷ yếu thành công!</span>
+        </div>
+        <p class="mt-1 text-xs text-emerald-700">Cảm ơn bạn đã đóng góp kỷ niệm. Bài viết sẽ xuất hiện trên trang niên khóa ngay sau khi Ban quản trị duyệt.</p>
+      `;
+      formFeedback.classList.remove('hidden');
+      form.reset();
+      if (previewContainer) previewContainer.classList.add('hidden');
+      compressedFile = null;
+
+    } catch (err: any) {
+      console.error('Submit error:', err);
+      formFeedback.className = 'p-4 rounded-xl text-sm font-medium bg-rose-50 text-rose-800 border border-rose-200';
+      formFeedback.innerHTML = `
+        <p class="font-semibold">Chưa thể gửi dữ liệu lúc này</p>
+        <p class="text-xs text-rose-700 mt-0.5">${err.message || 'Vui lòng kiểm tra lại kết nối mạng hoặc thử lại sau ít phút.'}</p>
+      `;
+      formFeedback.classList.remove('hidden');
+    } finally {
+      submitBtn.disabled = false;
+      btnText.textContent = 'Gửi Kỷ Yếu & Tâm Sự';
+      btnSpinner.classList.add('hidden');
+    }
+  });
+</script>

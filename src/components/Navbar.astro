@@ -1,0 +1,150 @@
+---
+const navLinks = [
+  { href: '/', label: 'Trang Chủ' },
+  { href: '/nien-khoa', label: 'Niên Khóa' },
+  { href: '/tin-tuc', label: 'Tin Tức & Hoạt Động' },
+  { href: '/bang-vang', label: 'Bảng Vàng Thành Tích' },
+  { href: '/thay-co', label: 'Tri Ân Thầy Cô' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 bg-navy-950/90 backdrop-blur-md border-b border-navy-800/80 shadow-md">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      
+      <!-- Logo & Brand -->
+      <a href="/" class="flex items-center space-x-3 group" id="nav-brand-logo">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-warmOrange-500 to-amber-600 flex items-center justify-center text-white shadow-lg shadow-warmOrange-500/20 group-hover:scale-105 transition-transform duration-200">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+        </div>
+        <div>
+          <span class="block text-xs font-semibold uppercase tracking-wider text-warmOrange-400">Trường THPT Xuân Lộc</span>
+          <span class="block text-lg font-bold text-white tracking-tight group-hover:text-warmOrange-300 transition-colors">
+            Cựu Học Sinh
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center space-x-1" aria-label="Desktop Navigation">
+        {navLinks.map((link) => {
+          const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
+          return (
+            <a
+              href={link.href}
+              class={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                isActive
+                  ? 'bg-navy-800 text-warmOrange-400 shadow-sm border border-navy-700'
+                  : 'text-slate-200 hover:text-white hover:bg-navy-900/60'
+              }`}
+            >
+              {link.label}
+            </a>
+          );
+        })}
+      </nav>
+
+      <!-- Action Button & Admin Link -->
+      <div class="hidden lg:flex items-center space-x-3">
+        <a
+          href="/admin"
+          class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 bg-navy-900 border border-navy-700 hover:bg-navy-800 hover:text-white transition-all flex items-center space-x-1.5"
+          id="nav-admin-link"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          <span>Ban Quản Trị</span>
+        </a>
+        <a
+          href="/nien-khoa#gui-ky-yeu"
+          class="px-4 py-2 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-md shadow-warmOrange-600/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+        >
+          + Gửi Kỷ Yếu
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <div class="flex md:hidden">
+        <button
+          type="button"
+          id="mobile-menu-button"
+          class="inline-flex items-center justify-center p-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-navy-900 focus:outline-none focus:ring-2 focus:ring-warmOrange-500"
+          aria-controls="mobile-menu"
+          aria-expanded="false"
+          aria-label="Mở danh mục chính"
+        >
+          <svg id="icon-menu-open" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="icon-menu-close" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="hidden md:hidden bg-navy-950 border-b border-navy-800" id="mobile-menu">
+    <div class="px-4 pt-2 pb-5 space-y-1.5">
+      {navLinks.map((link) => {
+        const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
+        return (
+          <a
+            href={link.href}
+            class={`block px-3.5 py-2.5 rounded-lg text-base font-medium transition-colors ${
+              isActive
+                ? 'bg-navy-800 text-warmOrange-400 font-semibold'
+                : 'text-slate-200 hover:text-white hover:bg-navy-900'
+            }`}
+          >
+            {link.label}
+          </a>
+        );
+      })}
+      <div class="pt-3 border-t border-navy-800/80 flex flex-col space-y-2">
+        <a
+          href="/nien-khoa#gui-ky-yeu"
+          class="w-full text-center px-4 py-2.5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-warmOrange-500 to-amber-600 shadow-md"
+        >
+          Gửi Kỷ Yếu / Tâm Sự
+        </a>
+        <a
+          href="/admin"
+          class="w-full text-center px-4 py-2 rounded-lg text-xs font-medium text-slate-400 bg-navy-900 hover:text-slate-200 border border-navy-800"
+        >
+          Khu Vực Ban Quản Trị
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const menuBtn = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('icon-menu-open');
+  const iconClose = document.getElementById('icon-menu-close');
+
+  if (menuBtn && mobileMenu && iconOpen && iconClose) {
+    menuBtn.addEventListener('click', () => {
+      const isHidden = mobileMenu.classList.contains('hidden');
+      if (isHidden) {
+        mobileMenu.classList.remove('hidden');
+        iconOpen.classList.add('hidden');
+        iconClose.classList.remove('hidden');
+        menuBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        mobileMenu.classList.add('hidden');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+</script>

@@ -1,0 +1,88 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-navy-950 text-slate-300 border-t border-navy-800/80">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+      
+      <!-- Brand & Mission -->
+      <div class="space-y-4">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-warmOrange-500 to-amber-600 flex items-center justify-center text-white font-bold text-xl shadow-md">
+            XL
+          </div>
+          <div>
+            <div class="text-xs uppercase font-semibold text-warmOrange-400 tracking-wider">Cộng Đồng Cựu Học Sinh</div>
+            <div class="text-base font-bold text-white">THPT Xuân Lộc</div>
+          </div>
+        </div>
+        <p class="text-sm text-slate-400 leading-relaxed">
+          Nơi kết nối các thế hệ cựu học sinh Trường THPT Xuân Lộc (Đồng Nai) từ năm 1990 đến nay. Lưu giữ kỷ niệm, tri ân thầy cô và hỗ trợ các thế hệ đàn em tiếp bước.
+        </p>
+        <div class="pt-2">
+          <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-navy-800 text-warmOrange-300 border border-navy-700">
+            Trang thông tin phi lợi nhuận
+          </span>
+        </div>
+      </div>
+
+      <!-- Quick Navigation -->
+      <div>
+        <h3 class="text-sm font-semibold text-white tracking-wider uppercase mb-4">Danh Mục</h3>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="/" class="hover:text-warmOrange-400 transition-colors">Trang Chủ</a></li>
+          <li><a href="/nien-khoa" class="hover:text-warmOrange-400 transition-colors">Kỷ Yếu Niên Khóa</a></li>
+          <li><a href="/tin-tuc" class="hover:text-warmOrange-400 transition-colors">Tin Tức & Hoạt Động</a></li>
+          <li><a href="/thay-co" class="hover:text-warmOrange-400 transition-colors">Tri Ân Thầy Cô</a></li>
+        </ul>
+      </div>
+
+      <!-- Batches Fast Link -->
+      <div>
+        <h3 class="text-sm font-semibold text-white tracking-wider uppercase mb-4">Các Thời Kỳ</h3>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="/nien-khoa/khoa-1990-1993" class="hover:text-warmOrange-400 transition-colors">Khóa 1990 - 1993 (Thời sơ khai)</a></li>
+          <li><a href="/nien-khoa/khoa-2000-2003" class="hover:text-warmOrange-400 transition-colors">Khóa 2000 - 2003 (Chuyển giao)</a></li>
+          <li><a href="/nien-khoa/khoa-2005-2008" class="hover:text-warmOrange-400 transition-colors">Khóa 2005 - 2008</a></li>
+          <li><a href="/nien-khoa/khoa-2015-2018" class="hover:text-warmOrange-400 transition-colors">Khóa 2015 - 2018</a></li>
+          <li><a href="/nien-khoa/khoa-2021-2024" class="hover:text-warmOrange-400 transition-colors">Khóa 2021 - 2024 (Mới tốt nghiệp)</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact & School Info -->
+      <div>
+        <h3 class="text-sm font-semibold text-white tracking-wider uppercase mb-4">Thông Tin Liên Hệ</h3>
+        <ul class="space-y-3 text-sm text-slate-400">
+          <li class="flex items-start space-x-2">
+            <svg class="w-5 h-5 text-warmOrange-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span>Trường THPT Xuân Lộc, TT. Gia Ray, Huyện Xuân Lộc, Tỉnh Đồng Nai</span>
+          </li>
+          <li class="flex items-center space-x-2">
+            <svg class="w-5 h-5 text-warmOrange-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            <span>banlienlac@chsxuanloc.com</span>
+          </li>
+          <li class="pt-2">
+            <a href="/admin" class="text-xs text-slate-500 hover:text-slate-300 underline">
+              Dành cho Quản trị viên
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom copyright -->
+    <div class="mt-12 pt-8 border-t border-navy-900 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400">
+      <p>© {currentYear} Cổng thông tin Cựu học sinh THPT Xuân Lộc. Vận hành phi lợi nhuận bởi các cựu học sinh.</p>
+      <div class="mt-4 sm:mt-0 flex space-x-6">
+        <span class="hover:text-slate-300">Tự hào THPT Xuân Lộc</span>
+        <span class="hover:text-slate-300">Tình Thầy Trò • Tình Bạn Hữu</span>
+      </div>
+    </div>
+  </div>
+</footer>

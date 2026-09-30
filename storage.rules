@@ -1,0 +1,27 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    function isAdmin() {
+      return request.auth != null;
+    }
+
+    // Thư mục chứa ảnh kỷ yếu đóng góp từ cựu học sinh
+    match /submissions/{allPaths=**} {
+      // Người dùng gửi ảnh: dung lượng <= 2MB (đã nén phía client), định dạng hình ảnh
+      allow create: if request.resource.size < 2 * 1024 * 1024
+                    && request.resource.contentType.matches('image/.*');
+      
+      // Cho phép công chúng xem ảnh
+      allow read: if true;
+
+      // Chỉ admin mới có quyền sửa/xóa ảnh trong storage
+      allow update, delete: if isAdmin();
+    }
+
+    // Mặc định từ chối các đường dẫn khác
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

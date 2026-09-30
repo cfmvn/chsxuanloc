@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts')).filter(
+  (p) => p.data.category === 'Bảng vàng' || p.data.category === 'Gương sáng'
+).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<BaseLayout
+  title="Bảng Vàng Thành Tích & Gương Sáng Cựu Học Sinh - THPT Xuân Lộc"
+  description="Vinh danh các thủ khoa, giải thưởng học sinh giỏi quốc gia, cấp tỉnh và những câu chuyện thành công của các thế hệ Cựu học sinh THPT Xuân Lộc."
+>
+  <section class="bg-navy-950 text-white py-14 border-b border-navy-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-warmOrange-500/20 text-warmOrange-300 border border-warmOrange-500/30 text-xs font-semibold uppercase tracking-wider mb-3">
+        <span>Tự Hào Truyền Thống Xuân Lộc</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-4">
+        Bảng Vàng Thành Tích & Gương Sáng Cựu Học Sinh
+      </h1>
+      <p class="text-slate-300 max-w-2xl mx-auto text-base">
+        Tôn vinh các thành tích nổi bật của thầy trò Trường THPT Xuân Lộc và những tấm gương cựu học sinh tiêu biểu qua các thời kỳ.
+      </p>
+    </div>
+  </section>
+
+  <!-- Key Achievement Stats -->
+  <section class="py-10 bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100">
+          <div class="text-3xl font-extrabold text-navy-900">99,83%</div>
+          <div class="text-xs text-slate-500 mt-1">Tỷ lệ đậu tốt nghiệp THPT</div>
+        </div>
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100">
+          <div class="text-3xl font-extrabold text-warmOrange-600">69+</div>
+          <div class="text-xs text-slate-500 mt-1">Giải HSG Cấp Tỉnh & Quốc Gia</div>
+        </div>
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100">
+          <div class="text-3xl font-extrabold text-emerald-600">Giải Nhất</div>
+          <div class="text-xs text-slate-500 mt-1">Hùng biện Tiếng Anh Cấp Tỉnh</div>
+        </div>
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100">
+          <div class="text-3xl font-extrabold text-indigo-600">Chuẩn QG</div>
+          <div class="text-xs text-slate-500 mt-1">Trường chuẩn mức độ 2</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content Grid -->
+  <section class="py-12 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {posts.map((post) => (
+          <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col group">
+            <div class="h-48 overflow-hidden bg-slate-100 relative">
+              <img
+                src={post.data.featuredImage}
+                alt={post.data.title}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold bg-navy-950/80 text-warmOrange-400 backdrop-blur-sm border border-navy-800">
+                {post.data.category}
+              </span>
+            </div>
+
+            <div class="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <time datetime={post.data.pubDate.toISOString()} class="text-xs text-slate-400 block mb-2">
+                  {post.data.pubDate.toLocaleDateString('vi-VN')}
+                </time>
+                <h2 class="text-lg font-bold text-navy-900 group-hover:text-warmOrange-600 transition mb-2">
+                  <a href={`/tin-tuc/${post.slug}`}>{post.data.title}</a>
+                </h2>
+                <p class="text-sm text-slate-600 line-clamp-3 leading-relaxed">
+                  {post.data.description}
+                </p>
+              </div>
+
+              <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+                <span class="text-slate-500 font-medium">{post.data.author}</span>
+                <a href={`/tin-tuc/${post.slug}`} class="font-bold text-warmOrange-600 hover:text-warmOrange-700">
+                  Xem chi tiết &rarr;
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

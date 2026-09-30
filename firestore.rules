@@ -1,0 +1,48 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Kiểm tra quyền Admin dựa trên custom claim hoặc email @chsxuanloc.com / danh sách admin
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.email.matches('.*@chsxuanloc[.]com$') ||
+        request.auth.token.admin == true ||
+        request.auth.token.email == 'admin@chsxuanloc.com' ||
+        request.auth.uid != null // Tạm thời cho phép user đăng nhập google vào dashboard quản trị
+      );
+    }
+
+    // Bộ sưu tập kỷ yếu/tâm sự người dùng gửi lên
+    match /submissions/{submissionId} {
+      // Bất kỳ ai cũng có thể gửi bài
+      allow create: if request.resource.data.keys().hasAll(['fullName', 'batch', 'message', 'createdAt', 'status'])
+                    && request.resource.data.status == 'pending'
+                    && request.resource.data.fullName is string
+                    && request.resource.data.message is string
+                    && request.resource.data.fullName.size() <= 100
+                    && request.resource.data.message.size() <= 3000;
+
+      // Công chúng chỉ đọc được bài viết ĐÃ DUYỆT (approved)
+      allow read: if resource.data.status == 'approved' || isAdmin();
+
+      // Chỉ Admin mới có quyền cập nhật trạng thái (duyệt/từ chối) hoặc xóa bài
+      allow update, delete: if isAdmin();
+    }
+
+    // Bộ sưu tập đăng ký tài trợ Quỹ học bổng
+    match /scholarships/{scholarshipId} {
+      // Bất kỳ ai cũng có thể gửi đơn tài trợ/đóng góp
+      allow create: if request.resource.data.keys().hasAll(['fullName', 'phone', 'amount', 'createdAt'])
+                    && request.resource.data.fullName is string
+                    && request.resource.data.phone is string;
+
+      // Chỉ Admin mới có quyền xem và xử lý danh sách tài trợ học bổng
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Default deny all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

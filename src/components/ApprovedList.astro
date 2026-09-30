@@ -1,0 +1,136 @@
+---
+export interface Props {
+  batchSlug?: string;
+}
+
+const { batchSlug } = Astro.props;
+---
+
+<div class="mt-12 bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8" id="approved-contributions-section">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-slate-100 pb-5 mb-6 gap-4">
+    <div>
+      <div class="inline-flex items-center space-x-2 text-xs font-semibold uppercase tracking-wider text-warmOrange-600 mb-1">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+        </svg>
+        <span>Góc Kỷ Niệm & Lưu Bút</span>
+      </div>
+      <h3 class="text-xl font-bold text-navy-900">Chia sẻ từ các bạn đồng môn</h3>
+    </div>
+    <div class="text-xs text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg">
+      Cập nhật tự động trực tiếp từ Firebase
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div id="approved-loading" class="py-12 text-center text-slate-400 space-y-3">
+    <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-warmOrange-500 border-t-transparent"></div>
+    <p class="text-sm">Đang tải ký ức của các cựu học sinh...</p>
+  </div>
+
+  <!-- Empty State -->
+  <div id="approved-empty" class="hidden py-10 text-center text-slate-500 bg-slate-50 rounded-xl border border-dashed border-slate-200">
+    <svg class="w-12 h-12 text-slate-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+    </svg>
+    <p class="font-medium text-slate-700">Chưa có bài lưu bút nào được hiển thị ở khóa này</p>
+    <p class="text-xs text-slate-500 mt-1">Hãy là người đầu tiên gửi những bức ảnh quý giá và kỷ niệm thân thương tại form phía trên!</p>
+  </div>
+
+  <!-- Items Grid Container -->
+  <div id="approved-list" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+</div>
+
+<script define:vars={{ batchSlug }}>
+  import { db } from '../lib/firebase';
+  import { collection, query, where, getDocs } from 'firebase/firestore';
+
+  async function loadApprovedSubmissions() {
+    const loadingEl = document.getElementById('approved-loading');
+    const emptyEl = document.getElementById('approved-empty');
+    const listEl = document.getElementById('approved-list');
+
+    if (!loadingEl || !emptyEl || !listEl) return;
+
+    try {
+      const submissionsRef = collection(db, 'submissions');
+      
+      let q = query(
+        submissionsRef,
+        where('status', '==', 'approved')
+      );
+
+      if (batchSlug) {
+        q = query(
+          submissionsRef,
+          where('status', '==', 'approved'),
+          where('batch', '==', batchSlug)
+        );
+      }
+
+      const querySnapshot = await getDocs(q);
+
+      loadingEl.classList.add('hidden');
+
+      if (querySnapshot.empty) {
+        emptyEl.classList.remove('hidden');
+        return;
+      }
+
+      listEl.innerHTML = '';
+      listEl.classList.remove('hidden');
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const dateStr = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('vi-VN') : '';
+
+        const card = document.createElement('div');
+        card.className = 'bg-slate-50/80 rounded-xl border border-slate-200/80 p-5 flex flex-col justify-between hover:shadow-md transition-shadow';
+        
+        let imageHtml = '';
+        if (data.imageUrl) {
+          imageHtml = `
+            <div class="mb-4 overflow-hidden rounded-lg bg-slate-200 max-h-64 flex items-center justify-center">
+              <img src="${data.imageUrl}" alt="Ảnh kỷ niệm ${data.fullName}" loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300 cursor-pointer" onclick="window.open('${data.imageUrl}', '_blank')" />
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div>
+            ${imageHtml}
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-bold text-navy-900 text-base">${escapeHtml(data.fullName)}</span>
+              ${data.className ? `<span class="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-navy-100 text-navy-800">Lớp ${escapeHtml(data.className)}</span>` : ''}
+            </div>
+            <p class="text-sm text-slate-700 whitespace-pre-line leading-relaxed italic">"${escapeHtml(data.message)}"</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-200/60 flex items-center justify-between text-xs text-slate-400">
+            <span>${data.batch ? escapeHtml(data.batch.replace('khoa-', 'Khóa ')) : ''}</span>
+            <span>${dateStr}</span>
+          </div>
+        `;
+
+        listEl.appendChild(card);
+      });
+
+    } catch (err) {
+      console.warn('Lỗi khi fetch approved list (nếu mới tạo index firestore cần ít phút):', err);
+      if (loadingEl) loadingEl.classList.add('hidden');
+      if (emptyEl) emptyEl.classList.remove('hidden');
+    }
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  // Khởi chạy khi DOM load
+  loadApprovedSubmissions();
+</script>
