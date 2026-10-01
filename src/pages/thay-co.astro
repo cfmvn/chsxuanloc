@@ -269,24 +269,130 @@ const alumniTeacherGenerations = [
           </div>
         </div>
 
-        <!-- Cột Phải: Bảng Danh Sách Giáo Viên Chi Tiết -->
-        <div class="lg:col-span-8 space-y-4">
-          <!-- Thanh trạng thái kết quả -->
-          <div class="flex items-center justify-between px-1">
-            <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span class="text-xs font-bold text-navy-900" id="current-filter-title">
-                Tất Cả Các Tổ ({facultyMembersData.length} Thầy Cô)
-              </span>
+        <!-- Cột Phải: Danh Sách Giáo Viên Chi Tiết (Cards & Table Switcher) -->
+        <div class="lg:col-span-8 space-y-5">
+          <!-- Thanh công cụ tìm kiếm, bộ lọc trạng thái và chuyển đổi hiển thị -->
+          <div class="bg-slate-50/90 p-4 rounded-3xl border border-slate-200/90 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <div class="relative flex-1">
+              <input
+                type="text"
+                id="faculty-search-input"
+                placeholder="Tìm kiếm thầy cô giáo theo tên, bộ môn hoặc dấu ấn..."
+                class="w-full pl-9 pr-4 py-2.5 rounded-2xl bg-white border border-slate-200 text-xs text-navy-950 placeholder-slate-400 focus:outline-none focus:border-warmOrange-500 focus:ring-1 focus:ring-warmOrange-500 transition"
+              />
+              <span class="absolute left-3 top-3 text-slate-400 text-xs">🔍</span>
             </div>
-            <div class="flex items-center gap-2 text-[11px] text-slate-500">
-              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Đang dạy</span>
-              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Hưu trí</span>
+
+            <!-- Bộ lọc trạng thái -->
+            <div class="flex items-center gap-1.5 overflow-x-auto">
+              <select
+                id="faculty-status-filter"
+                aria-label="Lọc theo tình trạng công tác"
+                class="px-3 py-2 rounded-2xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 focus:outline-none focus:border-warmOrange-500"
+              >
+                <option value="all">Tất cả tình trạng</option>
+                <option value="Đang công tác">🟢 Đang công tác</option>
+                <option value="Đã nghỉ hưu">🟡 Đã nghỉ hưu</option>
+                <option value="Đã chuyển công tác">⚪ Đã chuyển</option>
+              </select>
+
+              <!-- View Switcher -->
+              <div class="flex items-center bg-white rounded-2xl border border-slate-200 p-0.5">
+                <button
+                  id="view-cards-btn"
+                  class="px-3 py-1.5 rounded-xl text-xs font-bold transition bg-navy-950 text-white shadow-xs"
+                  title="Xem dạng thẻ danh thiếp"
+                >
+                  🎴 Thẻ
+                </button>
+                <button
+                  id="view-table-btn"
+                  class="px-3 py-1.5 rounded-xl text-xs font-bold transition text-slate-600 hover:text-navy-950"
+                  title="Xem dạng bảng"
+                >
+                  📋 Bảng
+                </button>
+              </div>
             </div>
           </div>
 
-          <!-- Bảng danh sách giáo viên -->
-          <div class="overflow-x-auto rounded-3xl border border-slate-200 bg-white shadow-sm">
+          <!-- Thanh trạng thái kết quả -->
+          <div class="flex items-center justify-between px-1 text-xs">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span class="font-bold text-navy-900" id="current-filter-title">
+                Tất Cả Các Tổ ({facultyMembersData.length} Thầy Cô)
+              </span>
+            </div>
+            <span class="text-slate-500 text-[11px]" id="result-count-text">
+              Đang hiển thị {facultyMembersData.length}/{facultyMembersData.length} thầy cô
+            </span>
+          </div>
+
+          <!-- CHẾ ĐỘ 1: DẠNG THẺ DANH THIẾP CHI TIẾT (Cards View) -->
+          <div id="faculty-cards-view" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {facultyMembersData.map((member) => (
+              <div
+                class="faculty-item-card bg-white rounded-3xl p-5 border border-slate-200 shadow-sm hover:border-warmOrange-300 hover:shadow-md transition duration-200 flex flex-col justify-between"
+                data-dept={member.departmentId}
+                data-status={member.status}
+                data-name={member.name.toLowerCase()}
+                data-note={member.roleOrNote.toLowerCase()}
+              >
+                <div>
+                  <div class="flex items-start justify-between gap-2 mb-3">
+                    <div class="flex items-center space-x-3">
+                      <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-navy-800 to-navy-900 flex items-center justify-center text-warmOrange-400 font-bold text-base shadow-inner border border-navy-700">
+                        {member.name.split(' ').pop()?.[0]}
+                      </div>
+                      <div>
+                        <h4 class="font-bold text-navy-950 text-sm leading-snug">{member.name}</h4>
+                        <span class="inline-block text-[11px] font-semibold text-warmOrange-700 bg-warmOrange-50 px-2 py-0.5 rounded-md border border-warmOrange-200/60 mt-0.5">
+                          {member.departmentName}
+                        </span>
+                      </div>
+                    </div>
+
+                    <span class={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold shrink-0 ${
+                      member.status === 'Đang công tác' ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' :
+                      member.status === 'Đã nghỉ hưu' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
+                      'bg-slate-100 text-slate-700 border border-slate-200'
+                    }`}>
+                      {member.status}
+                    </span>
+                  </div>
+
+                  <div class="space-y-1 text-xs text-slate-600 bg-slate-50/80 p-3 rounded-2xl border border-slate-100 mb-3">
+                    <p class="flex items-center justify-between text-[11px]">
+                      <span class="text-slate-500 font-medium">Thời gian công tác:</span>
+                      <strong class="text-navy-900 font-semibold">{member.period}</strong>
+                    </p>
+                    <p class="flex items-center justify-between text-[11px]">
+                      <span class="text-slate-500 font-medium">Năm về trường:</span>
+                      <strong class="text-navy-900 font-semibold">{member.startYear}</strong>
+                    </p>
+                  </div>
+
+                  <div class="text-xs text-slate-700 leading-relaxed">
+                    <span class="font-bold text-navy-900 block text-[11px] uppercase tracking-wider mb-1">Dấu ấn & Ghi chú:</span>
+                    <p class="text-slate-600 text-xs italic bg-white pl-2 border-l-2 border-warmOrange-400">
+                      "{member.roleOrNote}"
+                    </p>
+                  </div>
+                </div>
+
+                <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                  <span class="text-slate-400">THPT Xuân Lộc</span>
+                  <a href="#gui-loi-chuc-thay-co" class="text-warmOrange-600 hover:text-warmOrange-700 font-semibold hover:underline">
+                    Gửi lời tri ân &rarr;
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <!-- CHẾ ĐỘ 2: DẠNG BẢNG (Table View) -->
+          <div id="faculty-table-view" class="hidden overflow-x-auto rounded-3xl border border-slate-200 bg-white shadow-sm">
             <table class="w-full text-left text-xs sm:text-sm">
               <thead class="bg-slate-50 text-navy-900 font-bold uppercase tracking-wider text-[11px] border-b border-slate-200">
                 <tr>
@@ -299,7 +405,13 @@ const alumniTeacherGenerations = [
               </thead>
               <tbody class="divide-y divide-slate-100 text-slate-700" id="faculty-table-body">
                 {facultyMembersData.map((member) => (
-                  <tr class="faculty-row hover:bg-slate-50/80 transition" data-dept={member.departmentId}>
+                  <tr
+                    class="faculty-item-row hover:bg-slate-50/80 transition"
+                    data-dept={member.departmentId}
+                    data-status={member.status}
+                    data-name={member.name.toLowerCase()}
+                    data-note={member.roleOrNote.toLowerCase()}
+                  >
                     <td class="py-3.5 px-4 sm:px-5 font-bold text-navy-950 whitespace-nowrap">
                       {member.name}
                     </td>
@@ -327,6 +439,13 @@ const alumniTeacherGenerations = [
                 ))}
               </tbody>
             </table>
+          </div>
+
+          <!-- Thông báo khi không tìm thấy kết quả -->
+          <div id="no-faculty-found" class="hidden text-center py-12 bg-slate-50 rounded-3xl border border-dashed border-slate-300">
+            <span class="text-3xl block mb-2">🔍</span>
+            <p class="font-bold text-navy-900 text-sm">Không tìm thấy thông tin thầy cô phù hợp</p>
+            <p class="text-xs text-slate-500 mt-1">Vui lòng thử tìm kiếm bằng từ khóa khác hoặc chọn "Tất Cả Các Tổ".</p>
           </div>
         </div>
       </div>
@@ -361,11 +480,24 @@ const alumniTeacherGenerations = [
 </BaseLayout>
 
 <script>
-  function setupFacultyFilter() {
-    const buttons = document.querySelectorAll<HTMLButtonElement>('.dept-filter-btn');
-    const rows = document.querySelectorAll<HTMLTableRowElement>('.faculty-row');
+  function setupFacultyApp() {
+    const deptButtons = document.querySelectorAll<HTMLButtonElement>('.dept-filter-btn');
+    const cards = document.querySelectorAll<HTMLDivElement>('.faculty-item-card');
+    const rows = document.querySelectorAll<HTMLTableRowElement>('.faculty-item-row');
+    const searchInput = document.getElementById('faculty-search-input') as HTMLInputElement | null;
+    const statusFilter = document.getElementById('faculty-status-filter') as HTMLSelectElement | null;
     const titleEl = document.getElementById('current-filter-title');
     const descEl = document.getElementById('dept-desc-box');
+    const countTextEl = document.getElementById('result-count-text');
+    const noResultEl = document.getElementById('no-faculty-found');
+    const cardsView = document.getElementById('faculty-cards-view');
+    const tableView = document.getElementById('faculty-table-view');
+    const viewCardsBtn = document.getElementById('view-cards-btn');
+    const viewTableBtn = document.getElementById('view-table-btn');
+
+    let currentDept = 'all';
+    let currentStatus = 'all';
+    let searchQuery = '';
 
     const deptDescriptions: Record<string, string> = {
       'all': 'Hiển thị toàn bộ danh sách thầy cô giáo THPT Xuân Lộc từ 1985 đến nay.',
@@ -380,12 +512,52 @@ const alumniTeacherGenerations = [
       'the-chat-gdqp': 'Tổ Thể dục - GDQP-AN: Đoàn Hội khỏe Phù Đổng, hội thao GDQP và rèn luyện thể chất.'
     };
 
-    buttons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const dept = btn.getAttribute('data-dept') || 'all';
+    function filterFaculty() {
+      let visibleCount = 0;
 
-        // Style updates cho nút được chọn ở sidebar
-        buttons.forEach((b) => {
+      const filterElement = (el: HTMLElement) => {
+        const itemDept = el.getAttribute('data-dept') || '';
+        const itemStatus = el.getAttribute('data-status') || '';
+        const itemName = el.getAttribute('data-name') || '';
+        const itemNote = el.getAttribute('data-note') || '';
+
+        const matchesDept = currentDept === 'all' || itemDept === currentDept;
+        const matchesStatus = currentStatus === 'all' || itemStatus === currentStatus;
+        const matchesSearch = !searchQuery || itemName.includes(searchQuery) || itemNote.includes(searchQuery);
+
+        const isVisible = matchesDept && matchesStatus && matchesSearch;
+        el.style.display = isVisible ? '' : 'none';
+        return isVisible;
+      };
+
+      cards.forEach((card) => {
+        if (filterElement(card)) {
+          visibleCount++;
+        }
+      });
+
+      rows.forEach((row) => {
+        filterElement(row);
+      });
+
+      // Update Result Count text & No result box
+      if (countTextEl) {
+        countTextEl.textContent = `Đang hiển thị ${visibleCount}/${cards.length} thầy cô`;
+      }
+      if (noResultEl) {
+        noResultEl.style.display = visibleCount === 0 ? 'block' : 'none';
+      }
+      if (cardsView) {
+        cardsView.style.display = (visibleCount === 0 || cardsView.classList.contains('hidden')) ? 'none' : 'grid';
+      }
+    }
+
+    // Tổ chuyên môn buttons
+    deptButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentDept = btn.getAttribute('data-dept') || 'all';
+
+        deptButtons.forEach((b) => {
           b.classList.remove('bg-navy-950', 'text-white', 'shadow-sm', 'border-navy-900');
           b.classList.add('bg-white', 'text-slate-700', 'border-slate-200/80');
           const countBadge = b.querySelector('span:last-child');
@@ -401,30 +573,56 @@ const alumniTeacherGenerations = [
           activeBadge.className = 'text-[11px] bg-navy-800/80 text-warmOrange-300 px-2 py-0.5 rounded-full font-bold ml-2 shrink-0';
         }
 
-        // Lọc số hàng và cập nhật tiêu đề
-        let visibleCount = 0;
-        rows.forEach((row) => {
-          const rowDept = row.getAttribute('data-dept');
-          if (dept === 'all' || rowDept === dept) {
-            row.style.display = '';
-            visibleCount++;
-          } else {
-            row.style.display = 'none';
-          }
-        });
-
-        // Cập nhật tiêu đề và mô tả
         const btnName = btn.querySelector('span.truncate, span:first-child')?.textContent?.trim() || 'Tất Cả Các Tổ';
         if (titleEl) {
-          titleEl.textContent = `${btnName} (${visibleCount} Thầy Cô)`;
+          titleEl.textContent = btnName;
         }
-        if (descEl && deptDescriptions[dept]) {
-          descEl.textContent = deptDescriptions[dept];
+        if (descEl && deptDescriptions[currentDept]) {
+          descEl.textContent = deptDescriptions[currentDept];
         }
+
+        filterFaculty();
       });
     });
+
+    // Search Input
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = (e.target as HTMLInputElement).value.trim().toLowerCase();
+        filterFaculty();
+      });
+    }
+
+    // Status Filter
+    if (statusFilter) {
+      statusFilter.addEventListener('change', (e) => {
+        currentStatus = (e.target as HTMLSelectElement).value;
+        filterFaculty();
+      });
+    }
+
+    // View Switcher
+    if (viewCardsBtn && viewTableBtn && cardsView && tableView) {
+      viewCardsBtn.addEventListener('click', () => {
+        cardsView.classList.remove('hidden');
+        tableView.classList.add('hidden');
+
+        viewCardsBtn.className = 'px-3 py-1.5 rounded-xl text-xs font-bold transition bg-navy-950 text-white shadow-xs';
+        viewTableBtn.className = 'px-3 py-1.5 rounded-xl text-xs font-bold transition text-slate-600 hover:text-navy-950';
+        filterFaculty();
+      });
+
+      viewTableBtn.addEventListener('click', () => {
+        cardsView.classList.add('hidden');
+        tableView.classList.remove('hidden');
+
+        viewTableBtn.className = 'px-3 py-1.5 rounded-xl text-xs font-bold transition bg-navy-950 text-white shadow-xs';
+        viewCardsBtn.className = 'px-3 py-1.5 rounded-xl text-xs font-bold transition text-slate-600 hover:text-navy-950';
+        filterFaculty();
+      });
+    }
   }
 
-  document.addEventListener('DOMContentLoaded', setupFacultyFilter);
+  document.addEventListener('DOMContentLoaded', setupFacultyApp);
 </script>
 
