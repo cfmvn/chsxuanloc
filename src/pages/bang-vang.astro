@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CrossLinkingNav from '../components/CrossLinkingNav.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('posts')).filter(
@@ -25,25 +26,25 @@ const posts = (await getCollection('posts')).filter(
     </div>
   </section>
 
-  <!-- Key Achievement Stats -->
+  <!-- Key Achievement Stats (Updated 40-Year Overview) -->
   <section class="py-10 bg-white border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
         <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100">
-          <div class="text-3xl font-extrabold text-navy-900">99,83%</div>
-          <div class="text-xs text-slate-500 mt-1">Tỷ lệ đậu tốt nghiệp THPT</div>
+          <div class="text-3xl font-extrabold text-navy-900">Top 3 - 5</div>
+          <div class="text-xs text-slate-500 mt-1">HSG Cấp Tỉnh trên ~90 trường THPT</div>
         </div>
         <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100">
-          <div class="text-3xl font-extrabold text-warmOrange-600">69+</div>
-          <div class="text-xs text-slate-500 mt-1">Giải HSG Cấp Tỉnh & Quốc Gia</div>
+          <div class="text-3xl font-extrabold text-warmOrange-600">60 - 80</div>
+          <div class="text-xs text-slate-500 mt-1">Giải HSG Cấp Tỉnh hàng năm</div>
         </div>
         <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100">
-          <div class="text-3xl font-extrabold text-emerald-600">Giải Nhất</div>
-          <div class="text-xs text-slate-500 mt-1">Hùng biện Tiếng Anh Cấp Tỉnh</div>
+          <div class="text-3xl font-extrabold text-indigo-600">Top 149</div>
+          <div class="text-xs text-slate-500 mt-1">Trường ưu tiên tuyển thẳng ĐHQG TP.HCM</div>
         </div>
         <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100">
-          <div class="text-3xl font-extrabold text-indigo-600">Chuẩn QG</div>
-          <div class="text-xs text-slate-500 mt-1">Trường chuẩn mức độ 2</div>
+          <div class="text-3xl font-extrabold text-emerald-600">99,5 - 100%</div>
+          <div class="text-xs text-slate-500 mt-1">Tỷ lệ đậu tốt nghiệp THPT ổn định</div>
         </div>
       </div>
     </div>
@@ -91,4 +92,7 @@ const posts = (await getCollection('posts')).filter(
       </div>
     </div>
   </section>
+
+  <!-- Cross Linking Footer -->
+  <CrossLinkingNav currentModule="bang-vang" />
 </BaseLayout>
