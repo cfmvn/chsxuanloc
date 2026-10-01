@@ -2,6 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TributeWall from '../components/TributeWall.astro';
 import CrossLinkingNav from '../components/CrossLinkingNav.astro';
+import { 
+  departmentsData, 
+  facultyMembersData, 
+  facultyDevPhases, 
+  facultyPillars 
+} from '../data/facultyDirectory';
 
 const teachersList = [
   {
@@ -78,25 +84,62 @@ const alumniTeacherGenerations = [
 ---
 
 <BaseLayout
-  title="Tri Ân Quý Thầy Cô Qua Các Thời Kỳ - THPT Xuân Lộc"
-  description="Khu vực tri ân, tôn vinh và lưu giữ những lời dạy quý báu của quý thầy cô giáo Trường THPT Xuân Lộc qua các thời kỳ từ năm 1990 đến nay."
+  title="Kỷ Yếu Đội Ngũ Giáo Viên & Tri Ân Thầy Cô (1985 - Nay) - THPT Xuân Lộc"
+  description="Kỷ yếu danh bạ thầy cô giáo qua các thời kỳ theo từng tổ chuyên môn và lưu giữ những lời dạy quý báu của nhà giáo Trường THPT Xuân Lộc."
 >
+  <!-- Hero Section -->
   <section class="bg-navy-950 text-white py-14 border-b border-navy-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-warmOrange-500/20 text-warmOrange-300 border border-warmOrange-500/30 text-xs font-semibold uppercase tracking-wider mb-3">
-        <span>Tôn Sư Trọng Đạo - Uống Nước Nhớ Nguồn</span>
+        <span>Tôn Sư Trọng Đạo • 40 Năm Nghĩa Tình Thầy Trò (1985 – Nay)</span>
       </div>
       <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-4">
-        Tri Ân Quý Thầy Cô Qua Các Thời Kỳ
+        Kỷ Yếu Đội Ngũ Giáo Viên & Tri Ân Thầy Cô
       </h1>
       <p class="text-slate-300 max-w-2xl mx-auto text-base">
-        Kính dâng lòng biết ơn sâu sắc đến những người lái đò thầm lặng đã dìu dắt bao thế hệ học sinh Xuân Lộc nên người.
+        Kính dâng lòng biết ơn sâu sắc đến những người lái đò thầm lặng đã dìu dắt bao thế hệ học sinh Xuân Lộc vươn cao, tỏa sáng.
       </p>
     </div>
   </section>
 
+  <!-- 3 Chặng đường phát triển đội ngũ sư phạm -->
+  <section class="py-12 bg-white border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <h2 class="text-2xl sm:text-3xl font-bold text-navy-950">Hành Trình 40 Năm Chuyển Mình Sư Phạm</h2>
+        <p class="text-xs sm:text-sm text-slate-600 mt-2">Từ lứa nhà giáo xung phong thời kỳ đầu đến đội ngũ trên 20% Thạc sĩ và hơn 30% cựu học sinh trở về kế thừa</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {facultyDevPhases.map((phase) => (
+          <div class="bg-slate-50 rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div>
+              <span class="inline-block px-3 py-1 rounded-full bg-navy-900 text-warmOrange-300 text-[11px] font-bold mb-3">
+                {phase.phase}
+              </span>
+              <h3 class="font-bold text-navy-900 text-base mb-2">{phase.title}</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">{phase.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Ban Giám Hiệu & Thầy Cô Tiêu Biểu -->
   <section class="py-12 bg-slate-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+        <div>
+          <h2 class="text-2xl font-bold text-navy-950">Gương Mặt Thầy Cô Tiêu Biểu</h2>
+          <p class="text-xs text-slate-600">Lời tâm huyết và dấu ấn cống hiến của các thầy cô qua các thời kỳ</p>
+        </div>
+        <a href="#ky-yeu-to-chuyen-mon" class="inline-flex items-center space-x-1 text-xs font-bold text-warmOrange-600 hover:text-warmOrange-700 bg-warmOrange-50 px-3.5 py-2 rounded-xl border border-warmOrange-200">
+          <span>Xem Danh Sách Theo 9 Tổ Chuyên Môn</span>
+          <span>↓</span>
+        </a>
+      </div>
+
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {teachersList.map((teacher) => (
           <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col justify-between hover:shadow-md transition duration-200">
@@ -106,7 +149,7 @@ const alumniTeacherGenerations = [
                   {teacher.name.split(' ').pop()?.[0]}
                 </div>
                 <div>
-                  <h2 class="font-bold text-navy-900 text-lg">{teacher.name}</h2>
+                  <h3 class="font-bold text-navy-900 text-lg">{teacher.name}</h3>
                   <p class="text-xs text-warmOrange-600 font-semibold">{teacher.role}</p>
                   <p class="text-xs text-slate-500">Thời gian công tác: {teacher.years}</p>
                 </div>
@@ -126,7 +169,7 @@ const alumniTeacherGenerations = [
       </div>
 
       <!-- Nét đặc thù: Cựu học sinh trở thành giáo viên -->
-      <div class="mt-14 mb-16 bg-white rounded-3xl p-8 md:p-10 border border-warmOrange-200/80 shadow-sm relative overflow-hidden">
+      <div class="mt-14 bg-white rounded-3xl p-8 md:p-10 border border-warmOrange-200/80 shadow-sm relative overflow-hidden">
         <div class="absolute -right-16 -top-16 w-48 h-48 rounded-full bg-warmOrange-100/50 pointer-events-none"></div>
         <div class="max-w-3xl mb-8">
           <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-warmOrange-100 text-warmOrange-800 text-xs font-bold uppercase tracking-wider mb-2">
@@ -153,14 +196,147 @@ const alumniTeacherGenerations = [
           ))}
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- Tribute Wall Section -->
-      <div class="mt-8 pt-12 border-t border-slate-200">
-        <TributeWall teachers={teachersList.map(t => t.name)} />
+  <!-- KỶ YẾU DANH SÁCH GIÁO VIÊN THEO 9 TỔ CHUYÊN MÔN -->
+  <section class="py-16 bg-white border-t border-b border-slate-200" id="ky-yeu-to-chuyen-mon">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      <div class="text-center max-w-3xl mx-auto space-y-2">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-navy-100 text-navy-900 text-xs font-bold uppercase tracking-wider">
+          <span>Kỷ Yếu Sư Phạm 1985 – Nay</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-navy-950">
+          Danh Sách Thầy Cô Theo 9 Tổ Chuyên Môn
+        </h2>
+        <p class="text-slate-600 text-xs sm:text-sm">
+          Tra cứu thông tin đội ngũ nhà giáo đang công tác, đã nghỉ hưu hoặc đã chuyển công tác qua các thời kỳ.
+        </p>
       </div>
+
+      <!-- Bộ lọc tổ bộ môn tương tác -->
+      <div class="space-y-8" id="faculty-app">
+        <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+          <button
+            class="dept-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-navy-950 text-white border border-navy-900 shadow-sm whitespace-nowrap"
+            data-dept="all"
+          >
+            Tất Cả Các Tổ ({facultyMembersData.length})
+          </button>
+          {departmentsData.map((d) => (
+            <button
+              class="dept-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 whitespace-nowrap"
+              data-dept={d.id}
+            >
+              <span>{d.icon}</span> <span class="ml-1">{d.name}</span>
+            </button>
+          ))}
+        </div>
+
+        <!-- Bảng danh sách giáo viên -->
+        <div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-slate-50 text-navy-900 font-bold uppercase tracking-wider text-[11px] border-b border-slate-200">
+              <tr>
+                <th class="py-3.5 px-4 sm:px-6">Họ và Tên Giáo Viên</th>
+                <th class="py-3.5 px-4 sm:px-6">Tổ Chuyên Môn</th>
+                <th class="py-3.5 px-4 sm:px-6">Thời Gian</th>
+                <th class="py-3.5 px-4 sm:px-6">Tình Trạng</th>
+                <th class="py-3.5 px-4 sm:px-6">Dấu Ấn / Ghi Chú Chuyên Môn</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-slate-700" id="faculty-table-body">
+              {facultyMembersData.map((member) => (
+                <tr class="faculty-row hover:bg-slate-50/80 transition" data-dept={member.departmentId}>
+                  <td class="py-3.5 px-4 sm:px-6 font-bold text-navy-950 whitespace-nowrap">
+                    {member.name}
+                  </td>
+                  <td class="py-3.5 px-4 sm:px-6 text-slate-600 whitespace-nowrap">
+                    <span class="px-2 py-0.5 rounded bg-slate-100 text-[11px] font-medium text-slate-800">
+                      {member.departmentName}
+                    </span>
+                  </td>
+                  <td class="py-3.5 px-4 sm:px-6 font-medium text-slate-500 whitespace-nowrap">
+                    {member.period}
+                  </td>
+                  <td class="py-3.5 px-4 sm:px-6 whitespace-nowrap">
+                    <span class={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                      member.status === 'Đang công tác' ? 'bg-emerald-100 text-emerald-800' :
+                      member.status === 'Đã nghỉ hưu' ? 'bg-amber-100 text-amber-800' :
+                      'bg-slate-200 text-slate-700'
+                    }`}>
+                      {member.status}
+                    </span>
+                  </td>
+                  <td class="py-3.5 px-4 sm:px-6 text-xs text-slate-600 leading-relaxed">
+                    {member.roleOrNote}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Phân tích 3 trụ cột sức mạnh đội ngũ -->
+      <div class="bg-navy-950 text-white rounded-3xl p-8 md:p-10 border border-navy-800">
+        <h3 class="text-xl font-bold mb-6 text-warmOrange-400 text-center">
+          3 Trụ Cột Khẳng Định Bản Sắc Đội Ngũ Sư Phạm Xuân Lộc
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {facultyPillars.map((p) => (
+            <div class="bg-navy-900/80 rounded-2xl p-6 border border-navy-800 space-y-2">
+              <div class="text-2xl">{p.icon}</div>
+              <h4 class="font-bold text-white text-sm">{p.title}</h4>
+              <p class="text-xs text-slate-300 leading-relaxed">{p.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tribute Wall Section -->
+  <section class="py-12 bg-slate-50" id="gui-loi-chuc-thay-co">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <TributeWall teachers={teachersList.map(t => t.name)} />
     </div>
   </section>
 
   <!-- Cross Linking Footer -->
   <CrossLinkingNav currentModule="thay-co" />
 </BaseLayout>
+
+<script>
+  function setupFacultyFilter() {
+    const buttons = document.querySelectorAll<HTMLButtonElement>('.dept-filter-btn');
+    const rows = document.querySelectorAll<HTMLTableRowElement>('.faculty-row');
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const dept = btn.getAttribute('data-dept');
+
+        // Style updates
+        buttons.forEach((b) => {
+          b.classList.remove('bg-navy-950', 'text-white', 'border-navy-900', 'shadow-sm');
+          b.classList.add('bg-slate-100', 'text-slate-700', 'border-slate-200');
+        });
+        btn.classList.remove('bg-slate-100', 'text-slate-700', 'border-slate-200');
+        btn.classList.add('bg-navy-950', 'text-white', 'border-navy-900', 'shadow-sm');
+
+        // Filter rows
+        rows.forEach((row) => {
+          const rowDept = row.getAttribute('data-dept');
+          if (dept === 'all' || rowDept === dept) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', setupFacultyFilter);
+</script>
+
