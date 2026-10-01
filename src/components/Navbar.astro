@@ -2,43 +2,43 @@
 const navLinks = [
   { href: '/', label: 'Trang Chủ' },
   { href: '/nien-khoa', label: 'Niên Khóa' },
-  { href: '/tim-ban', label: 'Tìm Bạn Học' },
-  { href: '/albums', label: 'Thư Viện Ảnh' },
-  { href: '/doanh-nghiep', label: 'Doanh Nghiệp CHS' },
+  { href: '/tim-ban', label: 'Tìm Bạn' },
+  { href: '/albums', label: 'Album Ảnh' },
+  { href: '/doanh-nghiep', label: 'Doanh Nghiệp' },
   { href: '/tin-tuc', label: 'Tin Tức' },
-  { href: '/thay-co', label: 'Tri Ân Thầy Cô' },
+  { href: '/thay-co', label: 'Tri Ân' },
 ];
 
 const currentPath = Astro.url.pathname;
 ---
 
 <header class="sticky top-0 z-50 bg-navy-950/90 backdrop-blur-md border-b border-navy-800/80 shadow-md">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-20">
+  <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20 gap-2">
       
-      <!-- Logo & Brand -->
-      <a href="/" class="flex items-center space-x-3 group" id="nav-brand-logo">
+      <!-- Logo & Brand (No-wrap & compact) -->
+      <a href="/" class="flex items-center space-x-2.5 group shrink-0" id="nav-brand-logo">
         <img
           src="/assets/logo.png"
           alt="Logo THPT Xuân Lộc"
-          class="w-12 h-12 rounded-xl object-contain shadow-lg shadow-warmOrange-500/20 group-hover:scale-105 transition-transform duration-200 bg-white/10 p-0.5 border border-white/10"
+          class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl object-contain shadow-lg shadow-warmOrange-500/20 group-hover:scale-105 transition-transform duration-200 bg-white/10 p-0.5 border border-white/10 shrink-0"
         />
-        <div>
-          <span class="block text-xs font-semibold uppercase tracking-wider text-warmOrange-400">Trường THPT Xuân Lộc</span>
-          <span class="block text-lg font-bold text-white tracking-tight group-hover:text-warmOrange-300 transition-colors">
+        <div class="hidden sm:block">
+          <span class="block text-[11px] font-semibold uppercase tracking-wider text-warmOrange-400 whitespace-nowrap">THPT Xuân Lộc</span>
+          <span class="block text-base sm:text-lg font-bold text-white tracking-tight group-hover:text-warmOrange-300 transition-colors whitespace-nowrap">
             Cựu Học Sinh
           </span>
         </div>
       </a>
 
-      <!-- Desktop Nav -->
-      <nav class="hidden md:flex items-center space-x-1" aria-label="Desktop Navigation">
+      <!-- Desktop Nav (Compact padding & single-line whitespace-nowrap) -->
+      <nav class="hidden lg:flex items-center space-x-0.5 xl:space-x-1" aria-label="Desktop Navigation">
         {navLinks.map((link) => {
           const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
           return (
             <a
               href={link.href}
-              class={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              class={`px-2.5 xl:px-3.5 py-2 rounded-lg text-xs xl:text-sm font-medium transition-all duration-200 whitespace-nowrap ${
                 isActive
                   ? 'bg-navy-800 text-warmOrange-400 shadow-sm border border-navy-700'
                   : 'text-slate-200 hover:text-white hover:bg-navy-900/60'
@@ -50,32 +50,33 @@ const currentPath = Astro.url.pathname;
         })}
       </nav>
 
-      <!-- Action Button & Admin Link -->
-      <div class="hidden lg:flex items-center space-x-3">
+      <!-- Action Buttons (Compact & Responsive) -->
+      <div class="hidden sm:flex items-center space-x-2 shrink-0">
         <a
           href="/admin"
-          class="px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 bg-navy-900 border border-navy-700 hover:bg-navy-800 hover:text-white transition-all flex items-center space-x-1.5"
+          class="px-2.5 xl:px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 bg-navy-900 border border-navy-700 hover:bg-navy-800 hover:text-white transition-all flex items-center space-x-1 whitespace-nowrap"
           id="nav-admin-link"
         >
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
           </svg>
-          <span>Ban Quản Trị</span>
+          <span class="hidden md:inline">Ban Quản Trị</span>
+          <span class="md:hidden">Admin</span>
         </a>
         <a
           href="/nien-khoa#gui-ky-yeu"
-          class="px-4 py-2 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-md shadow-warmOrange-600/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+          class="px-3 xl:px-4 py-1.5 xl:py-2 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-md shadow-warmOrange-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap"
         >
           + Gửi Kỷ Yếu
         </a>
       </div>
 
-      <!-- Mobile Hamburger Button -->
-      <div class="flex md:hidden">
+      <!-- Mobile & Tablet Hamburger Button -->
+      <div class="flex lg:hidden">
         <button
           type="button"
           id="mobile-menu-button"
-          class="inline-flex items-center justify-center p-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-navy-900 focus:outline-none focus:ring-2 focus:ring-warmOrange-500"
+          class="inline-flex items-center justify-center p-2 rounded-xl text-slate-300 hover:text-white hover:bg-navy-900 focus:outline-none focus:ring-2 focus:ring-warmOrange-500"
           aria-controls="mobile-menu"
           aria-expanded="false"
           aria-label="Mở danh mục chính"
@@ -92,14 +93,14 @@ const currentPath = Astro.url.pathname;
   </div>
 
   <!-- Mobile Drawer Menu -->
-  <div class="hidden md:hidden bg-navy-950 border-b border-navy-800" id="mobile-menu">
+  <div class="hidden lg:hidden bg-navy-950 border-b border-navy-800" id="mobile-menu">
     <div class="px-4 pt-2 pb-5 space-y-1.5">
       {navLinks.map((link) => {
         const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
         return (
           <a
             href={link.href}
-            class={`block px-3.5 py-2.5 rounded-lg text-base font-medium transition-colors ${
+            class={`block px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
               isActive
                 ? 'bg-navy-800 text-warmOrange-400 font-semibold'
                 : 'text-slate-200 hover:text-white hover:bg-navy-900'
@@ -112,9 +113,9 @@ const currentPath = Astro.url.pathname;
       <div class="pt-3 border-t border-navy-800/80 flex flex-col space-y-2">
         <a
           href="/nien-khoa#gui-ky-yeu"
-          class="w-full text-center px-4 py-2.5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-warmOrange-500 to-amber-600 shadow-md"
+          class="w-full text-center px-4 py-2.5 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-warmOrange-500 to-amber-600 shadow-md"
         >
-          Gửi Kỷ Yếu / Tâm Sự
+          + Gửi Kỷ Yếu / Tâm Sự
         </a>
         <a
           href="/admin"
