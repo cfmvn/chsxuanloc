@@ -1,0 +1,447 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { BUSINESS_CATEGORIES, INITIAL_BUSINESSES } from '../../data/businesses';
+---
+
+<BaseLayout
+  title="Mạng Lưới Doanh Nghiệp & Nghề Nghiệp Cựu Học Sinh THPT Xuân Lộc"
+  description="Kết nối các doanh nghiệp, chuyên gia, nhà sáng lập là Cựu học sinh Trường THPT Xuân Lộc. Mở rộng cơ hội việc làm, hợp tác kinh doanh và chia sẻ giá trị."
+>
+  <!-- Hero Section -->
+  <section class="bg-navy-950 text-white py-14 border-b border-navy-800 relative overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_70%_70%_at_50%_-10%,rgba(221,107,32,0.18),rgba(255,255,255,0))]"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-warmOrange-500/20 text-warmOrange-300 border border-warmOrange-500/30 text-xs font-semibold uppercase tracking-wider mb-3">
+        <span>Gắn Kết Doanh Nghiệp & Đồng Môn</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-4">
+        Mạng Lưới Doanh Nghiệp Cựu Học Sinh
+      </h1>
+      <p class="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed mb-6">
+        Nơi hội tụ các doanh nghiệp, nhà khởi nghiệp và chuyên gia xuất thân từ mái trường THPT Xuân Lộc. Đồng hành cùng phát triển, ưu tiên hợp tác và hỗ trợ việc làm cho thế hệ đàn em.
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <a
+          href="#dang-ky-doanh-nghiep"
+          class="px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-lg shadow-warmOrange-500/20 transition transform hover:-translate-y-0.5 text-sm"
+        >
+          + Đăng Ký Doanh Nghiệp Của Bạn
+        </a>
+        <a
+          href="#danh-sach-doanh-nghiep"
+          class="px-5 py-2.5 rounded-xl font-medium text-slate-200 bg-navy-900 border border-navy-700 hover:bg-navy-800 hover:text-white transition text-sm"
+        >
+          Khám Phá Danh Bạ
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter & Search Section -->
+  <section class="py-8 bg-white border-b border-slate-200 sticky top-20 z-30 shadow-sm" id="danh-sach-doanh-nghiep">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        
+        <!-- Search input -->
+        <div class="relative flex-1 max-w-md">
+          <svg class="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            type="text"
+            id="biz-search"
+            placeholder="Tìm theo tên doanh nghiệp, ngành nghề, người sáng lập..."
+            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-warmOrange-500 focus:border-transparent transition bg-slate-50 focus:bg-white"
+          />
+        </div>
+
+        <!-- Hiring only toggle -->
+        <div class="flex items-center space-x-2">
+          <label class="flex items-center cursor-pointer select-none space-x-2 text-xs font-semibold text-slate-700 bg-slate-100 px-3.5 py-2 rounded-xl border border-slate-200 hover:bg-slate-200 transition">
+            <input type="checkbox" id="filter-hiring" class="rounded text-warmOrange-600 focus:ring-warmOrange-500 w-4 h-4" />
+            <span>Đang tuyển dụng nhân sự 🔥</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Categories Pills -->
+      <div class="flex items-center space-x-2 overflow-x-auto pt-4 pb-1 scrollbar-none" id="category-filters">
+        {BUSINESS_CATEGORIES.map((cat, idx) => (
+          <button
+            data-cat={cat.id}
+            class={`category-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+              idx === 0
+                ? 'bg-navy-950 text-white shadow-sm'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            }`}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Business Cards Grid -->
+  <section class="py-12 bg-slate-50 min-h-[60vh]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex items-center justify-between mb-6">
+        <p class="text-xs sm:text-sm text-slate-500 font-medium">
+          Hiển thị <span id="biz-count" class="font-bold text-navy-950">{INITIAL_BUSINESSES.length}</span> doanh nghiệp cựu học sinh
+        </p>
+      </div>
+
+      <!-- Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="biz-grid">
+        {INITIAL_BUSINESSES.map((biz) => (
+          <div
+            class="biz-card bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm hover:shadow-xl hover:border-warmOrange-200 transition-all duration-300 flex flex-col justify-between group"
+            data-category={biz.category}
+            data-hiring={biz.hiring ? 'true' : 'false'}
+            data-keywords={`${biz.name} ${biz.founderName} ${biz.batch} ${biz.categoryLabel} ${biz.address} ${biz.city}`.toLowerCase()}
+          >
+            <div class="space-y-4">
+              <!-- Header tag & Hiring badge -->
+              <div class="flex items-start justify-between gap-2">
+                <span class="px-2.5 py-1 rounded-md bg-navy-50 text-navy-700 text-[11px] font-semibold tracking-wide border border-navy-100">
+                  {biz.categoryLabel}
+                </span>
+                {biz.hiring && (
+                  <span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold uppercase tracking-wider flex items-center space-x-1 animate-pulse">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    <span>Tuyển dụng</span>
+                  </span>
+                )}
+              </div>
+
+              <!-- Business Name -->
+              <div>
+                <h3 class="text-base sm:text-lg font-bold text-navy-950 group-hover:text-warmOrange-600 transition-colors line-clamp-2">
+                  {biz.name}
+                </h3>
+                <p class="text-xs text-slate-500 italic mt-1 line-clamp-2">"{biz.tagline}"</p>
+              </div>
+
+              <!-- Founder info -->
+              <div class="flex items-center space-x-3 p-3 rounded-xl bg-slate-50 border border-slate-100">
+                <div class="w-9 h-9 rounded-lg bg-navy-900 text-warmOrange-400 font-bold text-xs flex items-center justify-center shrink-0">
+                  {biz.founderName.charAt(0)}
+                </div>
+                <div class="text-xs">
+                  <div class="font-bold text-navy-900">{biz.founderName}</div>
+                  <div class="text-slate-500">{biz.role} • <span class="text-warmOrange-600 font-medium">{biz.batch}</span></div>
+                </div>
+              </div>
+
+              <!-- Description -->
+              <p class="text-xs text-slate-600 leading-relaxed line-clamp-3">
+                {biz.description}
+              </p>
+
+              <!-- Exclusive Offer for Alumni -->
+              {biz.exclusiveOffer && (
+                <div class="p-2.5 rounded-lg bg-amber-50/80 border border-amber-200/80 text-[11px] text-amber-900 space-y-0.5">
+                  <span class="font-bold text-amber-800 flex items-center space-x-1">
+                    <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                    </svg>
+                    <span>Đặc quyền Cựu Học Sinh:</span>
+                  </span>
+                  <p class="text-slate-700 leading-tight">{biz.exclusiveOffer}</p>
+                </div>
+              )}
+
+              <!-- Hiring Roles if active -->
+              {biz.hiring && biz.hiringRoles && biz.hiringRoles.length > 0 && (
+                <div class="space-y-1">
+                  <div class="text-[11px] font-semibold text-slate-700">Vị trí đang mở:</div>
+                  <div class="flex flex-wrap gap-1">
+                    {biz.hiringRoles.map((role) => (
+                      <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 text-[10px] font-medium border border-emerald-100">
+                        {role}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <!-- Footer Contacts & Action -->
+            <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+              <div class="text-slate-500 flex items-center space-x-1 text-[11px]">
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span class="truncate max-w-[120px]">{biz.city}</span>
+              </div>
+
+              <div class="flex items-center space-x-2">
+                {biz.phone && (
+                  <a
+                    href={`tel:${biz.phone}`}
+                    class="p-2 rounded-lg bg-slate-100 hover:bg-warmOrange-50 text-slate-700 hover:text-warmOrange-600 transition"
+                    title={`Gọi điện: ${biz.phone}`}
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                  </a>
+                )}
+                {biz.email && (
+                  <a
+                    href={`mailto:${biz.email}`}
+                    class="p-2 rounded-lg bg-slate-100 hover:bg-warmOrange-50 text-slate-700 hover:text-warmOrange-600 transition"
+                    title={`Gửi email: ${biz.email}`}
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </a>
+                )}
+                {biz.website && (
+                  <a
+                    href={biz.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="px-2.5 py-1.5 rounded-lg bg-navy-900 hover:bg-navy-800 text-white font-semibold text-[11px] transition"
+                  >
+                    Website ↗
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="hidden text-center py-16 bg-white rounded-2xl border border-slate-200 mt-6">
+        <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h4 class="text-base font-bold text-navy-900">Không tìm thấy doanh nghiệp phù hợp</h4>
+        <p class="text-xs text-slate-500 mt-1">Thử thay đổi từ khóa tìm kiếm hoặc chọn danh mục khác.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Business Registration Form Section -->
+  <section class="py-16 bg-white border-t border-slate-200" id="dang-ky-doanh-nghiep">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center space-y-2 mb-8">
+        <div class="inline-flex items-center space-x-1 text-warmOrange-600 text-xs font-bold uppercase tracking-wider">
+          <span>Gia Nhập Mạng Lưới CHS</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-navy-950">Đăng Ký Niêm Yết Doanh Nghiệp</h2>
+        <p class="text-slate-500 text-xs sm:text-sm">
+          Bạn là cựu học sinh THPT Xuân Lộc đang làm chủ doanh nghiệp hoặc khởi nghiệp? Hãy đưa thông tin doanh nghiệp vào mạng lưới để kết nối và nhận sự hỗ trợ từ cộng đồng đồng môn.
+        </p>
+      </div>
+
+      <form id="biz-register-form" class="bg-slate-50 p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Tên Doanh Nghiệp / Thương Hiệu *</label>
+            <input
+              type="text"
+              name="companyName"
+              required
+              placeholder="VD: Cty TNHH Công Nghệ ABC"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Lĩnh Vực Hoạt Động *</label>
+            <select
+              name="category"
+              required
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            >
+              {BUSINESS_CATEGORIES.filter(c => c.id !== 'ALL').map(c => (
+                <option value={c.id}>{c.label}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Họ & Tên Người Đại Diện / Sáng Lập *</label>
+            <input
+              type="text"
+              name="founderName"
+              required
+              placeholder="VD: Nguyễn Văn A"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Niên Khóa Từng Học *</label>
+            <input
+              type="text"
+              name="batch"
+              required
+              placeholder="VD: Khóa 2005 - 2008 (Lớp 12A1)"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Số Điện Thoại Liên Hệ *</label>
+            <input
+              type="tel"
+              name="phone"
+              required
+              placeholder="09xx xxx xxx"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Email Doanh Nghiệp</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="contact@company.com"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Website / Fanpage</label>
+            <input
+              type="url"
+              name="website"
+              placeholder="https://..."
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Địa Chỉ / Tỉnh Thành Hoạt Động *</label>
+          <input
+            type="text"
+            name="address"
+            required
+            placeholder="VD: TP. Long Khánh / Biên Hòa / TP. Hồ Chí Minh..."
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Mô Tả Hoạt Động & Sản Phẩm Chính</label>
+          <textarea
+            name="description"
+            rows="3"
+            placeholder="Giới thiệu sơ lược về dịch vụ, sản phẩm của doanh nghiệp..."
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+          ></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Chính Sách Ưu Đãi / Hợp Tác Dành Cho Cựu Học Sinh</label>
+          <input
+            type="text"
+            name="exclusiveOffer"
+            placeholder="VD: Giảm 10% chi phí cho cựu học sinh hoặc tuyển dụng thực tập sinh..."
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+          />
+        </div>
+
+        <div id="biz-form-notice" class="hidden p-4 rounded-xl text-xs font-medium"></div>
+
+        <button
+          type="submit"
+          id="biz-submit-btn"
+          class="w-full py-3.5 rounded-xl text-white font-bold text-sm bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-md shadow-warmOrange-500/20 transition transform active:scale-[0.99]"
+        >
+          Gửi Đăng Ký Doanh Nghiệp
+        </button>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  let activeCategory = 'ALL';
+  const categoryBtns = document.querySelectorAll<HTMLButtonElement>('.category-btn');
+  const searchInput = document.getElementById('biz-search') as HTMLInputElement | null;
+  const filterHiring = document.getElementById('filter-hiring') as HTMLInputElement | null;
+  const cards = document.querySelectorAll<HTMLElement>('.biz-card');
+  const countEl = document.getElementById('biz-count');
+  const emptyState = document.getElementById('empty-state');
+
+  function applyFilters() {
+    const query = searchInput?.value.toLowerCase().trim() || '';
+    const hiringOnly = filterHiring?.checked || false;
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const cardCat = card.dataset.category || '';
+      const cardHiring = card.dataset.hiring === 'true';
+      const cardKeywords = card.dataset.keywords || '';
+
+      const matchCat = activeCategory === 'ALL' || cardCat === activeCategory;
+      const matchHiring = !hiringOnly || cardHiring;
+      const matchSearch = query === '' || cardKeywords.includes(query);
+
+      if (matchCat && matchHiring && matchSearch) {
+        card.style.display = 'flex';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    if (countEl) countEl.textContent = visibleCount.toString();
+    if (emptyState) {
+      emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+  }
+
+  categoryBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      categoryBtns.forEach((b) => {
+        b.classList.remove('bg-navy-950', 'text-white', 'shadow-sm');
+        b.classList.add('bg-slate-100', 'text-slate-600');
+      });
+      btn.classList.add('bg-navy-950', 'text-white', 'shadow-sm');
+      btn.classList.remove('bg-slate-100', 'text-slate-600');
+
+      activeCategory = btn.dataset.cat || 'ALL';
+      applyFilters();
+    });
+  });
+
+  searchInput?.addEventListener('input', applyFilters);
+  filterHiring?.addEventListener('change', applyFilters);
+
+  // Form submission handler
+  const form = document.getElementById('biz-register-form') as HTMLFormElement | null;
+  const notice = document.getElementById('biz-form-notice');
+  const submitBtn = document.getElementById('biz-submit-btn') as HTMLButtonElement | null;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!submitBtn || !notice) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Đang gửi thông tin...';
+
+    // Simulate direct success submission feedback
+    setTimeout(() => {
+      notice.className = 'p-4 rounded-xl text-xs font-medium bg-emerald-50 text-emerald-800 border border-emerald-200 block';
+      notice.innerHTML = '🎉 <strong>Đăng ký thành công!</strong> Ban Liên Lạc đã tiếp nhận hồ sơ doanh nghiệp của bạn và sẽ tiến hành kiểm duyệt để niêm yết trong thời gian sớm nhất.';
+      form.reset();
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Gửi Đăng Ký Doanh Nghiệp';
+    }, 800);
+  });
+</script>

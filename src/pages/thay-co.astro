@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import TributeWall from '../components/TributeWall.astro';
 
 const teachersList = [
   {
@@ -89,10 +90,15 @@ const teachersList = [
 
             <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
               <span class="font-medium bg-slate-100 px-2.5 py-0.5 rounded">{teacher.subject}</span>
-              <a href="/nien-khoa" class="text-warmOrange-600 hover:underline">Gửi lời tri ân &rarr;</a>
+              <a href="#gui-loi-chuc-thay-co" class="text-warmOrange-600 hover:underline font-semibold">Gửi lời tri ân &rarr;</a>
             </div>
           </div>
         ))}
+      </div>
+
+      <!-- Tribute Wall Section -->
+      <div class="mt-16 pt-12 border-t border-slate-200">
+        <TributeWall teachers={teachersList.map(t => t.name)} />
       </div>
     </div>
   </section>

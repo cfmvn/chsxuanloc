@@ -1,0 +1,288 @@
+---
+import { INITIAL_TRIBUTES } from '../data/tributes';
+
+interface Props {
+  teachers: string[];
+}
+
+const { teachers } = Astro.props;
+---
+
+<div class="space-y-12">
+  
+  <!-- Interactive Header & Action Button -->
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-gradient-to-r from-navy-900 to-navy-950 p-6 sm:p-8 rounded-2xl border border-navy-800 text-white shadow-lg">
+    <div class="space-y-1 text-center sm:text-left">
+      <div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-warmOrange-500/20 text-warmOrange-300 text-xs font-semibold">
+        <span>💐 Tri Ân Người Đưa Đò</span>
+      </div>
+      <h2 class="text-xl sm:text-2xl font-bold">Tường Lưu Niệm & Lời Chúc Thầy Cô</h2>
+      <p class="text-xs sm:text-sm text-slate-300">
+        Gửi gắm những tình cảm chân thành, lời chúc sức khỏe và kỷ niệm khó phai tới quý Thầy Cô.
+      </p>
+    </div>
+    <a
+      href="#gui-loi-chuc-thay-co"
+      class="px-6 py-3 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-md shadow-warmOrange-500/30 transition transform hover:-translate-y-0.5 whitespace-nowrap"
+    >
+      + Gửi Lời Tri Ân Của Bạn
+    </a>
+  </div>
+
+  <!-- Filter & Tributes Grid -->
+  <div class="space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div class="text-xs sm:text-sm font-semibold text-slate-700">
+        Hiển thị <span id="tribute-count" class="text-warmOrange-600 font-bold">{INITIAL_TRIBUTES.length}</span> tâm thư tri ân
+      </div>
+      
+      <!-- Filter select by Teacher -->
+      <div class="flex items-center space-x-2">
+        <label class="text-xs text-slate-500 whitespace-nowrap">Lọc theo:</label>
+        <select
+          id="filter-teacher-tribute"
+          class="px-3 py-1.5 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+        >
+          <option value="ALL">Tất cả Thầy Cô</option>
+          <option value="Tất cả quý Thầy Cô">Tất cả quý Thầy Cô (Chung)</option>
+          {teachers.map((t) => (
+            <option value={t}>{t}</option>
+          ))}
+        </select>
+      </div>
+    </div>
+
+    <!-- Cards List -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="tribute-cards-grid">
+      {INITIAL_TRIBUTES.map((trib) => (
+        <div
+          class="tribute-card bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+          data-teacher={trib.teacherName}
+        >
+          <div class="space-y-3">
+            <!-- Header: Receiver Teacher & Date -->
+            <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <span class="px-2.5 py-1 rounded-md bg-warmOrange-50 text-warmOrange-700 text-xs font-bold border border-warmOrange-200 flex items-center space-x-1">
+                <span>Kính gửi:</span>
+                <span class="text-warmOrange-900 font-extrabold">{trib.teacherName}</span>
+              </span>
+              <span class="text-[11px] text-slate-400">{trib.dateStr}</span>
+            </div>
+
+            <!-- Message content -->
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+              "{trib.message}"
+            </p>
+          </div>
+
+          <!-- Footer: Sender info & Reactions -->
+          <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+            <div>
+              <div class="font-bold text-navy-950">{trib.senderName}</div>
+              <div class="text-[11px] text-slate-500">{trib.className} • <span class="text-warmOrange-600 font-semibold">{trib.batch}</span></div>
+            </div>
+
+            <!-- Reaction Counters (Tặng Hoa / Thả Tim) -->
+            <div class="flex items-center space-x-2">
+              <button
+                class="react-btn flex items-center space-x-1 px-2.5 py-1.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200/60 font-semibold transition active:scale-90"
+                data-type="heart"
+              >
+                <span>❤️</span>
+                <span class="count-heart text-[11px]">{trib.heartCount}</span>
+              </button>
+              <button
+                class="react-btn flex items-center space-x-1 px-2.5 py-1.5 rounded-lg bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200/60 font-semibold transition active:scale-90"
+                data-type="flower"
+              >
+                <span>💐</span>
+                <span class="count-flower text-[11px]">{trib.flowerCount}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Form to Post Tribute -->
+  <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm" id="gui-loi-chuc-thay-co">
+    <div class="max-w-2xl mx-auto space-y-6">
+      <div class="text-center space-y-1">
+        <h3 class="text-xl font-bold text-navy-950">Gửi Lời Tri Ân & Kỷ Niệm Tới Thầy Cô</h3>
+        <p class="text-xs text-slate-500">Lời tri ân của bạn sẽ xuất hiện trên tường lưu niệm sau khi gửi.</p>
+      </div>
+
+      <form id="tribute-submit-form" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Họ và Tên Cựu Học Sinh *</label>
+            <input
+              type="text"
+              name="senderName"
+              required
+              placeholder="VD: Trần Văn Bình"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Niên Khóa Học *</label>
+            <input
+              type="text"
+              name="batch"
+              required
+              placeholder="VD: Khóa 2010 - 2013"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Lớp Học (VD: 12A1) *</label>
+            <input
+              type="text"
+              name="className"
+              required
+              placeholder="VD: 12A3"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Kính Gửi Tới Thầy Cô *</label>
+            <select
+              name="teacherName"
+              required
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            >
+              <option value="Tất cả quý Thầy Cô">Tất cả quý Thầy Cô</option>
+              {teachers.map((t) => (
+                <option value={t}>{t}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Lời Tri Ân / Kỷ Niệm *</label>
+          <textarea
+            name="message"
+            rows="4"
+            required
+            placeholder="Viết những dòng tri ân, kỷ niệm đáng nhớ của bạn với Thầy Cô..."
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none"
+          ></textarea>
+        </div>
+
+        <div id="tribute-notice" class="hidden p-3 rounded-xl text-xs font-medium"></div>
+
+        <button
+          type="submit"
+          id="tribute-submit-btn"
+          class="w-full py-3.5 rounded-xl text-white font-bold text-sm bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-md shadow-warmOrange-500/20 transition transform active:scale-[0.99]"
+        >
+          💐 Dâng Hoa & Gửi Lời Tri Ân
+        </button>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Filter tribute cards
+  const teacherFilter = document.getElementById('filter-teacher-tribute') as HTMLSelectElement | null;
+  const cards = document.querySelectorAll<HTMLElement>('.tribute-card');
+  const countEl = document.getElementById('tribute-count');
+
+  teacherFilter?.addEventListener('change', () => {
+    const selected = teacherFilter.value;
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const cardTeacher = card.dataset.teacher || '';
+      if (selected === 'ALL' || cardTeacher === selected) {
+        card.style.display = 'flex';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    if (countEl) countEl.textContent = visibleCount.toString();
+  });
+
+  // Reaction click handlers
+  document.querySelectorAll<HTMLButtonElement>('.react-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const type = btn.dataset.type;
+      const countSpan = btn.querySelector(`span.count-${type}`);
+      if (countSpan) {
+        const current = parseInt(countSpan.textContent || '0', 10);
+        countSpan.textContent = (current + 1).toString();
+        btn.classList.add('scale-110');
+        setTimeout(() => btn.classList.remove('scale-110'), 200);
+      }
+    });
+  });
+
+  // Submission
+  const form = document.getElementById('tribute-submit-form') as HTMLFormElement | null;
+  const notice = document.getElementById('tribute-notice');
+  const submitBtn = document.getElementById('tribute-submit-btn') as HTMLButtonElement | null;
+  const grid = document.getElementById('tribute-cards-grid');
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!submitBtn || !notice || !grid) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Đang gửi lời tri ân...';
+
+    const formData = new FormData(form);
+    const sender = formData.get('senderName')?.toString() || '';
+    const batch = formData.get('batch')?.toString() || '';
+    const className = formData.get('className')?.toString() || '';
+    const teacherName = formData.get('teacherName')?.toString() || '';
+    const message = formData.get('message')?.toString() || '';
+
+    setTimeout(() => {
+      // Create new dynamic card
+      const newCard = document.createElement('div');
+      newCard.className = 'tribute-card bg-white rounded-2xl border border-warmOrange-300 p-6 shadow-md transition-all flex flex-col justify-between animate-fadeIn';
+      newCard.dataset.teacher = teacherName;
+      newCard.innerHTML = `
+        <div class="space-y-3">
+          <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <span class="px-2.5 py-1 rounded-md bg-warmOrange-50 text-warmOrange-700 text-xs font-bold border border-warmOrange-200 flex items-center space-x-1">
+              <span>Kính gửi:</span>
+              <span class="text-warmOrange-900 font-extrabold">${teacherName}</span>
+            </span>
+            <span class="text-[11px] text-emerald-600 font-semibold">Vừa gửi</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+            "${message}"
+          </p>
+        </div>
+        <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+          <div>
+            <div class="font-bold text-navy-950">${sender}</div>
+            <div class="text-[11px] text-slate-500">${className} • <span class="text-warmOrange-600 font-semibold">${batch}</span></div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-1.5 rounded-lg bg-rose-50 text-rose-600 text-xs font-semibold">❤️ 1</span>
+            <span class="px-2.5 py-1.5 rounded-lg bg-amber-50 text-amber-700 text-xs font-semibold">💐 1</span>
+          </div>
+        </div>
+      `;
+
+      grid.prepend(newCard);
+
+      notice.className = 'p-3 rounded-xl text-xs font-medium bg-emerald-50 text-emerald-800 border border-emerald-200 block';
+      notice.innerHTML = '💐 <strong>Đã gửi thành công!</strong> Cảm ơn tấm lòng tri ân quý báu của bạn tới quý Thầy Cô.';
+      form.reset();
+      submitBtn.disabled = false;
+      submitBtn.textContent = '💐 Dâng Hoa & Gửi Lời Tri Ân';
+    }, 700);
+  });
+</script>

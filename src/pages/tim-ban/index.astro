@@ -1,0 +1,429 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { ALUMNI_DIRECTORY } from '../../data/alumni';
+
+// Unique values for filter dropdowns
+const uniqueBatches = Array.from(new Set(ALUMNI_DIRECTORY.map(a => a.batch))).sort();
+const uniqueLocations = Array.from(new Set(ALUMNI_DIRECTORY.map(a => a.currentLocation))).sort();
+---
+
+<BaseLayout
+  title="Tìm Bạn Cùng Khóa & Danh Bạ Cựu Học Sinh THPT Xuân Lộc"
+  description="Tra cứu và kết nối cùng bạn bè đồng môn các thế hệ học sinh Trường THPT Xuân Lộc theo niên khóa, lớp học, nơi sinh sống và ngành nghề."
+>
+  <!-- Hero Section -->
+  <section class="bg-navy-950 text-white py-14 border-b border-navy-800 relative overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_70%_70%_at_50%_-10%,rgba(221,107,32,0.18),rgba(255,255,255,0))]"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-warmOrange-500/20 text-warmOrange-300 border border-warmOrange-500/30 text-xs font-semibold uppercase tracking-wider mb-3">
+        <span>Kết Nối Bạn Học & Kỷ Niệm Xưa</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-4">
+        Tìm Bạn Cùng Khóa & Kết Nối Đồng Môn
+      </h1>
+      <p class="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed mb-6">
+        Tìm lại những người bạn cùng bàn, cùng lớp, cùng khóa sau bao năm xa cách. Cập nhật thông tin để bạn bè dễ dàng liên lạc khi tổ chức họp khóa hoặc tương trợ lẫn nhau.
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <a
+          href="#dang-ky-thong-tin"
+          class="px-5 py-2.5 rounded-xl font-semibold text-white bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-lg shadow-warmOrange-500/20 transition transform hover:-translate-y-0.5 text-sm"
+        >
+          + Cập Nhật Thông Tin Của Bạn
+        </a>
+        <a
+          href="#danh-ba-cuu-hoc-sinh"
+          class="px-5 py-2.5 rounded-xl font-medium text-slate-200 bg-navy-900 border border-navy-700 hover:bg-navy-800 hover:text-white transition text-sm"
+        >
+          Tra Cứu Danh Bạ
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter & Search Controls -->
+  <section class="py-6 bg-white border-b border-slate-200 sticky top-20 z-30 shadow-sm" id="danh-ba-cuu-hoc-sinh">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        
+        <!-- Search Name/Job -->
+        <div class="relative">
+          <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            type="text"
+            id="alumni-search"
+            placeholder="Tìm theo họ tên, nghề nghiệp..."
+            class="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-slate-50 focus:bg-white"
+          />
+        </div>
+
+        <!-- Batch Filter -->
+        <div>
+          <select
+            id="alumni-filter-batch"
+            class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-slate-50 focus:bg-white"
+          >
+            <option value="ALL">Tất cả niên khóa</option>
+            {uniqueBatches.map(b => (
+              <option value={b}>{b}</option>
+            ))}
+          </select>
+        </div>
+
+        <!-- Class Filter -->
+        <div>
+          <input
+            type="text"
+            id="alumni-filter-class"
+            placeholder="Lọc theo Lớp (VD: 12A1, 12B2...)"
+            class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-slate-50 focus:bg-white"
+          />
+        </div>
+
+        <!-- Location Filter -->
+        <div>
+          <select
+            id="alumni-filter-location"
+            class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-slate-50 focus:bg-white"
+          >
+            <option value="ALL">Tất cả nơi sinh sống</option>
+            {uniqueLocations.map(l => (
+              <option value={l}>{l}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Alumni Directory Grid -->
+  <section class="py-12 bg-slate-50 min-h-[60vh]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex items-center justify-between mb-6">
+        <p class="text-xs sm:text-sm text-slate-500 font-medium">
+          Tìm thấy <span id="alumni-count" class="font-bold text-navy-950">{ALUMNI_DIRECTORY.length}</span> cựu học sinh
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="alumni-grid">
+        {ALUMNI_DIRECTORY.map((alm) => (
+          <div
+            class="alumni-card bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm hover:shadow-xl hover:border-warmOrange-200 transition-all duration-300 flex flex-col justify-between group"
+            data-batch={alm.batch}
+            data-class={alm.className.toLowerCase()}
+            data-location={alm.currentLocation}
+            data-keywords={`${alm.fullName} ${alm.currentJob} ${alm.company || ''} ${alm.homeroomTeacher || ''} ${alm.className} ${alm.batch}`.toLowerCase()}
+          >
+            <div class="space-y-3">
+              <!-- Top Row: Avatar & Class Pill -->
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex items-center space-x-3">
+                  <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-navy-900 to-navy-800 text-warmOrange-400 font-bold text-base flex items-center justify-center shadow-md">
+                    {alm.fullName.split(' ').pop()?.charAt(0) || 'A'}
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-navy-950 text-base group-hover:text-warmOrange-600 transition-colors">
+                      {alm.fullName}
+                    </h3>
+                    <div class="text-xs text-warmOrange-600 font-semibold">{alm.batch}</div>
+                  </div>
+                </div>
+                <span class="px-2.5 py-1 rounded-lg bg-navy-50 text-navy-800 font-bold text-xs border border-navy-100">
+                  Lớp {alm.className}
+                </span>
+              </div>
+
+              <!-- Homeroom teacher -->
+              {alm.homeroomTeacher && (
+                <div class="text-[11px] text-slate-500 flex items-center space-x-1">
+                  <span>GVCN:</span>
+                  <span class="font-medium text-slate-700">{alm.homeroomTeacher}</span>
+                </div>
+              )}
+
+              <!-- Job & Location -->
+              <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 space-y-1 text-xs">
+                <div class="font-semibold text-slate-800 flex items-center space-x-1.5">
+                  <svg class="w-3.5 h-3.5 text-warmOrange-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <span class="truncate">{alm.currentJob}</span>
+                </div>
+                {alm.company && <div class="text-slate-500 pl-5 text-[11px]">{alm.company}</div>}
+                <div class="text-slate-500 flex items-center space-x-1.5 pt-1 text-[11px]">
+                  <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span>{alm.currentLocation}</span>
+                </div>
+              </div>
+
+              <!-- Bio -->
+              {alm.bio && (
+                <p class="text-xs text-slate-600 italic leading-relaxed line-clamp-2">
+                  "{alm.bio}"
+                </p>
+              )}
+            </div>
+
+            <!-- Connect Action Buttons -->
+            <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+              <span class="text-[11px] text-emerald-600 font-medium flex items-center space-x-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>Đã xác thực</span>
+              </span>
+
+              <div class="flex items-center space-x-1.5">
+                {alm.facebook && (
+                  <a
+                    href={alm.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition"
+                    title="Facebook"
+                  >
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                  </a>
+                )}
+                {alm.email && (
+                  <a
+                    href={`mailto:${alm.email}`}
+                    class="p-2 rounded-lg bg-slate-100 hover:bg-warmOrange-50 text-slate-700 hover:text-warmOrange-600 transition"
+                    title={`Email: ${alm.email}`}
+                  >
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </a>
+                )}
+                {alm.phone && (
+                  <a
+                    href={`tel:${alm.phone}`}
+                    class="p-2 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition"
+                    title={`Gọi điện: ${alm.phone}`}
+                  >
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Empty Result State -->
+      <div id="alumni-empty-state" class="hidden text-center py-16 bg-white rounded-2xl border border-slate-200 mt-6">
+        <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        </div>
+        <h4 class="text-base font-bold text-navy-900">Không tìm thấy bạn học phù hợp</h4>
+        <p class="text-xs text-slate-500 mt-1">Hãy thử xóa bớt bộ lọc hoặc thêm thông tin của bạn vào danh bạ.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Submit Info Section -->
+  <section class="py-16 bg-white border-t border-slate-200" id="dang-ky-thong-tin">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center space-y-2 mb-8">
+        <div class="inline-flex items-center space-x-1 text-warmOrange-600 text-xs font-bold uppercase tracking-wider">
+          <span>Điểm Danh Đồng Môn</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-navy-950">Đăng Ký & Cập Nhật Danh Bạ Cựu Học Sinh</h2>
+        <p class="text-slate-500 text-xs sm:text-sm">
+          Thông tin của bạn giúp kết nối bạn bè cùng khóa và nhận các thông báo họp trường, hoạt động thiện nguyện từ Ban Liên Lạc.
+        </p>
+      </div>
+
+      <form id="alumni-register-form" class="bg-slate-50 p-6 sm:p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Họ và Tên *</label>
+            <input
+              type="text"
+              name="fullName"
+              required
+              placeholder="VD: Nguyễn Văn Nam"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Niên Khóa Học *</label>
+            <input
+              type="text"
+              name="batch"
+              required
+              placeholder="VD: Khóa 2005 - 2008"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Tên Lớp (VD: 12A1, 12B3) *</label>
+            <input
+              type="text"
+              name="className"
+              required
+              placeholder="VD: 12A1"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Giáo Viên Chủ Nhiệm (Nếu nhớ)</label>
+            <input
+              type="text"
+              name="teacher"
+              placeholder="VD: Thầy Luân / Cô Thủy..."
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Nghề Nghiệp / Chức Danh Hiện Tại</label>
+            <input
+              type="text"
+              name="job"
+              placeholder="VD: Kỹ sư xây dựng / Bác sĩ / Kinh doanh..."
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Tỉnh Thành / Nơi Đang Sinh Sống *</label>
+            <input
+              type="text"
+              name="location"
+              required
+              placeholder="VD: TP. Hồ Chí Minh / Đồng Nai..."
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Số Điện Thoại / Zalo (Tùy chọn)</label>
+            <input
+              type="tel"
+              name="phone"
+              placeholder="09xx xxx xxx"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Link Facebook cá nhân (Tùy chọn)</label>
+            <input
+              type="url"
+              name="facebook"
+              placeholder="https://facebook.com/..."
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Lời Nhắn / Kỷ Niệm Gửi Bạn Bè & Thầy Cô</label>
+          <textarea
+            name="bio"
+            rows="2"
+            placeholder="Gửi vài dòng tâm sự ngắn đến bạn bè cùng khóa..."
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+          ></textarea>
+        </div>
+
+        <div id="alumni-form-notice" class="hidden p-4 rounded-xl text-xs font-medium"></div>
+
+        <button
+          type="submit"
+          id="alumni-submit-btn"
+          class="w-full py-3.5 rounded-xl text-white font-bold text-sm bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-md shadow-warmOrange-500/20 transition transform active:scale-[0.99]"
+        >
+          Lưu Vào Danh Bạ Cựu Học Sinh
+        </button>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const searchInput = document.getElementById('alumni-search') as HTMLInputElement | null;
+  const batchFilter = document.getElementById('alumni-filter-batch') as HTMLSelectElement | null;
+  const classFilter = document.getElementById('alumni-filter-class') as HTMLInputElement | null;
+  const locationFilter = document.getElementById('alumni-filter-location') as HTMLSelectElement | null;
+  const cards = document.querySelectorAll<HTMLElement>('.alumni-card');
+  const countEl = document.getElementById('alumni-count');
+  const emptyState = document.getElementById('alumni-empty-state');
+
+  function applyAlumniFilters() {
+    const query = searchInput?.value.toLowerCase().trim() || '';
+    const selectedBatch = batchFilter?.value || 'ALL';
+    const classQuery = classFilter?.value.toLowerCase().trim() || '';
+    const selectedLoc = locationFilter?.value || 'ALL';
+
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const cardBatch = card.dataset.batch || '';
+      const cardClass = card.dataset.class || '';
+      const cardLoc = card.dataset.location || '';
+      const cardKeywords = card.dataset.keywords || '';
+
+      const matchBatch = selectedBatch === 'ALL' || cardBatch === selectedBatch;
+      const matchClass = classQuery === '' || cardClass.includes(classQuery);
+      const matchLoc = selectedLoc === 'ALL' || cardLoc === selectedLoc;
+      const matchSearch = query === '' || cardKeywords.includes(query);
+
+      if (matchBatch && matchClass && matchLoc && matchSearch) {
+        card.style.display = 'flex';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    if (countEl) countEl.textContent = visibleCount.toString();
+    if (emptyState) {
+      emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+  }
+
+  searchInput?.addEventListener('input', applyAlumniFilters);
+  batchFilter?.addEventListener('change', applyAlumniFilters);
+  classFilter?.addEventListener('input', applyAlumniFilters);
+  locationFilter?.addEventListener('change', applyAlumniFilters);
+
+  // Form submission
+  const form = document.getElementById('alumni-register-form') as HTMLFormElement | null;
+  const notice = document.getElementById('alumni-form-notice');
+  const submitBtn = document.getElementById('alumni-submit-btn') as HTMLButtonElement | null;
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!submitBtn || !notice) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Đang lưu danh bạ...';
+
+    setTimeout(() => {
+      notice.className = 'p-4 rounded-xl text-xs font-medium bg-emerald-50 text-emerald-800 border border-emerald-200 block';
+      notice.innerHTML = '🎉 <strong>Cập nhật thành công!</strong> Cảm ơn bạn đã kết nối. Thông tin của bạn đã được ghi nhận vào Danh bạ Cựu học sinh THPT Xuân Lộc.';
+      form.reset();
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Lưu Vào Danh Bạ Cựu Học Sinh';
+    }, 800);
+  });
+</script>
