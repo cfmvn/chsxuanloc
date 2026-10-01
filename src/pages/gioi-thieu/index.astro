@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CrossLinkingNav from '../../components/CrossLinkingNav.astro';
+import { principalsHistoryData, vicePrincipalsNotable, leadershipLessons } from '../../data/leadershipHistory';
 
 const milestones = [
   {
@@ -221,6 +222,102 @@ const honors = [
           </tbody>
         </table>
       </div>
+    </div>
+  </section>
+
+  <!-- Section: Biên niên sử Quản trị & Phong cách Lãnh đạo qua các thời kỳ -->
+  <section class="py-16 bg-white border-b border-slate-200" id="quan-tri-su-pham">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <div class="text-center space-y-2 max-w-3xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-navy-100 text-navy-900 text-xs font-bold uppercase tracking-wider">
+          <span>Biên Niên Sử Quản Trị Sư Phạm</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-navy-950">
+          Đội Ngũ Cán Bộ Quản Lý & Phong Cách Lãnh Đạo
+        </h2>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          4 thập kỷ xây dựng và trưởng thành, thành công của THPT Xuân Lộc gắn liền với năng lực định hướng chiến lược, tính tiếp nối xuyên suốt và văn hóa tôn trọng người dạy - trao quyền cho người học của tập thể Ban Giám hiệu.
+        </p>
+      </div>
+
+      <!-- Dấu ấn các thế hệ Hiệu trưởng -->
+      <div class="space-y-6">
+        <h3 class="text-lg font-bold text-navy-900 flex items-center space-x-2">
+          <span class="w-2.5 h-6 bg-warmOrange-500 rounded-full inline-block"></span>
+          <span>Dấu Ấn Các Thời Kỳ Ban Giám Hiệu (1985 – Nay)</span>
+        </h3>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {principalsHistoryData.map((p) => (
+            <div class="bg-slate-50 rounded-2xl p-6 sm:p-7 border border-slate-200/80 shadow-sm flex flex-col justify-between hover:border-warmOrange-300 transition duration-200">
+              <div>
+                <div class="flex items-start justify-between gap-2 mb-3">
+                  <span class="px-2.5 py-1 rounded-md bg-navy-900 text-warmOrange-300 text-[11px] font-bold">
+                    {p.badge}
+                  </span>
+                  <span class="text-xs font-semibold text-slate-500 bg-white px-2.5 py-1 rounded-full border border-slate-200">
+                    {p.period}
+                  </span>
+                </div>
+
+                <h4 class="text-lg font-bold text-navy-950">{p.name}</h4>
+                <p class="text-xs font-semibold text-warmOrange-600 mb-3">{p.role}</p>
+
+                <div class="space-y-2 text-xs text-slate-700 mb-4">
+                  <p><strong class="text-slate-900">Phong cách lãnh đạo:</strong> {p.leadershipStyle}</p>
+                  <p><strong class="text-slate-900">Bối cảnh lịch sử:</strong> {p.context}</p>
+                  <p><strong class="text-slate-900">Trọng tâm:</strong> {p.keyFocus}</p>
+                </div>
+              </div>
+
+              <div class="pt-3 border-t border-slate-200/80">
+                <span class="text-[11px] font-bold text-navy-900 uppercase tracking-wide block mb-1.5">Thành tựu cốt lõi:</span>
+                <ul class="space-y-1 text-xs text-slate-600 list-disc list-inside">
+                  {p.achievements.map((ach) => (
+                    <li>{ach}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Đội ngũ Phó Hiệu trưởng & Cán bộ cốt cán -->
+      <div class="bg-navy-950 text-white rounded-3xl p-8 sm:p-10 border border-navy-800">
+        <h3 class="text-xl font-bold mb-6 text-warmOrange-400 flex items-center space-x-2">
+          <span>👥</span>
+          <span>Đội Ngũ Phó Hiệu Trưởng & Cán Bộ Cốt Cán Tiêu Biểu</span>
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs sm:text-sm">
+          {vicePrincipalsNotable.map((v) => (
+            <div class="bg-navy-900/80 rounded-2xl p-5 border border-navy-800 flex flex-col justify-between">
+              <div>
+                <h4 class="font-bold text-warmOrange-300 text-sm mb-2">{v.era}</h4>
+                <p class="text-white font-medium mb-3">{v.leaders}</p>
+              </div>
+              <p class="text-slate-400 text-xs leading-relaxed pt-3 border-t border-navy-800/80">{v.role}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Bài học kinh nghiệm lãnh đạo -->
+      <div class="bg-orange-50/50 rounded-3xl p-8 sm:p-10 border border-warmOrange-200">
+        <h3 class="text-xl font-bold mb-6 text-navy-950 text-center">
+          Bài Học Kinh Nghiệm Từ Mô Hình Quản Trị Sư Phạm Xuân Lộc
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {leadershipLessons.map((lesson) => (
+            <div class="bg-white rounded-2xl p-6 border border-warmOrange-100 shadow-sm space-y-2">
+              <div class="text-2xl">{lesson.icon}</div>
+              <h4 class="font-bold text-navy-900 text-sm">{lesson.title}</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">{lesson.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
     </div>
   </section>
 
