@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import CrossLinkingNav from '../../components/CrossLinkingNav.astro';
 import { ALUMNI_DIRECTORY } from '../../data/alumni';
 
 // Unique values for filter dropdowns
@@ -357,6 +358,9 @@ const uniqueLocations = Array.from(new Set(ALUMNI_DIRECTORY.map(a => a.currentLo
       </form>
     </div>
   </section>
+
+  <!-- Cross Linking Footer -->
+  <CrossLinkingNav currentModule="tim-ban" />
 </BaseLayout>
 
 <script>

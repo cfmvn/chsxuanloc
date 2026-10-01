@@ -1,0 +1,76 @@
+---
+interface Props {
+  currentModule: 'nien-khoa' | 'albums' | 'tim-ban' | 'doanh-nghiep' | 'thay-co' | 'bang-vang' | 'tin-tuc';
+}
+
+const { currentModule } = Astro.props;
+
+const hubs = [
+  {
+    title: 'Ký Ức & Niên Khóa',
+    items: [
+      { href: '/nien-khoa', label: 'Niên Khóa', icon: '🎓', key: 'nien-khoa' },
+      { href: '/albums', label: 'Album Ảnh', icon: '📸', key: 'albums' },
+    ]
+  },
+  {
+    title: 'Mạng Lưới Đồng Môn',
+    items: [
+      { href: '/tim-ban', label: 'Tìm Bạn Học', icon: '👥', key: 'tim-ban' },
+      { href: '/doanh-nghiep', label: 'Doanh Nghiệp CHS', icon: '💼', key: 'doanh-nghiep' },
+    ]
+  },
+  {
+    title: 'Tri Ân & Tự Hào',
+    items: [
+      { href: '/thay-co', label: 'Tri Ân Thầy Cô', icon: '💐', key: 'thay-co' },
+      { href: '/bang-vang', label: 'Bảng Vàng', icon: '🏆', key: 'bang-vang' },
+    ]
+  }
+];
+---
+
+<section class="py-12 bg-white border-t border-slate-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4 border-b border-slate-100 gap-2">
+      <div>
+        <div class="text-xs font-bold uppercase tracking-wider text-warmOrange-600 mb-1">Khám phá cộng đồng</div>
+        <h3 class="text-xl sm:text-2xl font-bold text-navy-950">Góc Kết Nối & Khám Phá Thêm</h3>
+      </div>
+      <p class="text-xs sm:text-sm text-slate-500">Truy cập nhanh các khu vực tính năng liên quan</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {hubs.map((hub) => (
+        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 space-y-3 flex flex-col justify-between">
+          <div>
+            <div class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">{hub.title}</div>
+            <div class="space-y-2">
+              {hub.items.map((item) => {
+                const isCurrent = currentModule === item.key;
+                return (
+                  <a
+                    href={item.href}
+                    class={`flex items-center justify-between p-3 rounded-xl text-sm font-semibold transition-all ${
+                      isCurrent
+                        ? 'bg-navy-950 text-white shadow-sm'
+                        : 'bg-white text-navy-900 hover:bg-warmOrange-50 hover:text-warmOrange-600 border border-slate-200/60 shadow-xs'
+                    }`}
+                  >
+                    <div class="flex items-center space-x-2.5">
+                      <span class="text-base">{item.icon}</span>
+                      <span>{item.label}</span>
+                    </div>
+                    <span class={`text-xs ${isCurrent ? 'text-warmOrange-400 font-normal' : 'text-slate-400'}`}>
+                      {isCurrent ? 'Đang xem' : 'Khám phá →'}
+                    </span>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

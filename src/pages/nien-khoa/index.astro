@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SubmissionForm from '../../components/SubmissionForm.astro';
+import CrossLinkingNav from '../../components/CrossLinkingNav.astro';
 import { getCollection } from 'astro:content';
 
 const batches = (await getCollection('batches')).sort((a, b) => b.data.startYear - a.data.startYear);
@@ -87,4 +88,7 @@ const batches = (await getCollection('batches')).sort((a, b) => b.data.startYear
       <SubmissionForm />
     </div>
   </section>
+
+  <!-- Cross Linking Footer -->
+  <CrossLinkingNav currentModule="nien-khoa" />
 </BaseLayout>
