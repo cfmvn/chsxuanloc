@@ -13,7 +13,7 @@ export interface TributeMessage {
 export const INITIAL_TRIBUTES: TributeMessage[] = [
   {
     id: 'trib-01',
-    senderName: 'Lê Hoàng Nam',
+    senderName: 'Cựu học sinh ẩn danh',
     batch: 'Khóa 2002 - 2005',
     className: '12A2',
     teacherName: 'Thầy Kiều Mạnh Hà',
@@ -24,7 +24,7 @@ export const INITIAL_TRIBUTES: TributeMessage[] = [
   },
   {
     id: 'trib-02',
-    senderName: 'Nguyễn Thị Hồng Nhung',
+    senderName: 'Cựu học sinh (Ẩn danh)',
     batch: 'Khóa 2008 - 2011',
     className: '12B1',
     teacherName: 'Cô Huỳnh Thu Thủy',
@@ -46,7 +46,7 @@ export const INITIAL_TRIBUTES: TributeMessage[] = [
   },
   {
     id: 'trib-04',
-    senderName: 'Phạm Trần Gia Bảo',
+    senderName: 'Cựu học sinh K2018',
     batch: 'Khóa 2018 - 2021',
     className: '12A4',
     teacherName: 'Thầy Đặng Thành Luân',
@@ -57,7 +57,7 @@ export const INITIAL_TRIBUTES: TributeMessage[] = [
   },
   {
     id: 'trib-05',
-    senderName: 'Trần Vũ Phương Linh',
+    senderName: 'Cựu học sinh Niên khóa 2021-2024',
     batch: 'Khóa 2021 - 2024',
     className: '12A3',
     teacherName: 'Tất cả quý Thầy Cô',
