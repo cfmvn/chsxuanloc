@@ -199,7 +199,7 @@ const alumniTeacherGenerations = [
     </div>
   </section>
 
-  <!-- KỶ YẾU DANH SÁCH GIÁO VIÊN THEO 9 TỔ CHUYÊN MÔN -->
+  <!-- KỶ YẾU DANH SÁCH GIÁO VIÊN THEO 9 TỔ CHUYÊN MÔN (SIDEBAR LAYOUT) -->
   <section class="py-16 bg-white border-t border-b border-slate-200" id="ky-yeu-to-chuyen-mon">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
       <div class="text-center max-w-3xl mx-auto space-y-2">
@@ -210,71 +210,124 @@ const alumniTeacherGenerations = [
           Danh Sách Thầy Cô Theo 9 Tổ Chuyên Môn
         </h2>
         <p class="text-slate-600 text-xs sm:text-sm">
-          Tra cứu thông tin đội ngũ nhà giáo đang công tác, đã nghỉ hưu hoặc đã chuyển công tác qua các thời kỳ.
+          Chọn tổ chuyên môn ở cột bên trái để tra cứu nhanh thông tin đội ngũ nhà giáo đang công tác, đã nghỉ hưu hoặc đã chuyển công tác.
         </p>
       </div>
 
-      <!-- Bộ lọc tổ bộ môn tương tác -->
-      <div class="space-y-8" id="faculty-app">
-        <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-          <button
-            class="dept-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-navy-950 text-white border border-navy-900 shadow-sm whitespace-nowrap"
-            data-dept="all"
-          >
-            Tất Cả Các Tổ ({facultyMembersData.length})
-          </button>
-          {departmentsData.map((d) => (
+      <!-- Layout 2 Cột: Sidebar Trái (Tổ Chuyên Môn) + Content Phải (Bảng Giáo Viên) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start" id="faculty-app">
+        <!-- Cột Trái: Sidebar Bộ Lọc Các Tổ Chuyên Môn (Sticky) -->
+        <div class="lg:col-span-4 bg-slate-50/90 p-5 rounded-3xl border border-slate-200 shadow-sm sticky top-24">
+          <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-200">
+            <h3 class="font-bold text-navy-950 text-sm uppercase tracking-wider flex items-center gap-2">
+              <span>📚</span>
+              <span>Tổ Chuyên Môn</span>
+            </h3>
+            <span class="text-[11px] font-semibold text-slate-500 bg-white px-2 py-0.5 rounded-full border border-slate-200">
+              {facultyMembersData.length} Thầy Cô
+            </span>
+          </div>
+
+          <div class="space-y-1.5 max-h-[600px] overflow-y-auto pr-1">
             <button
-              class="dept-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 whitespace-nowrap"
-              data-dept={d.id}
+              class="dept-filter-btn w-full text-left px-3.5 py-3 rounded-2xl text-xs font-bold transition flex items-center justify-between bg-navy-950 text-white shadow-sm border border-navy-900"
+              data-dept="all"
             >
-              <span>{d.icon}</span> <span class="ml-1">{d.name}</span>
+              <span class="flex items-center gap-2">
+                <span class="text-base">🏫</span>
+                <span>Tất Cả Các Tổ</span>
+              </span>
+              <span class="text-[11px] bg-navy-800/80 text-warmOrange-300 px-2 py-0.5 rounded-full font-bold">
+                {facultyMembersData.length}
+              </span>
             </button>
-          ))}
+
+            {departmentsData.map((d) => {
+              const count = facultyMembersData.filter(m => m.departmentId === d.id).length;
+              return (
+                <button
+                  class="dept-filter-btn w-full text-left px-3.5 py-2.5 rounded-2xl text-xs font-semibold transition flex items-center justify-between bg-white text-slate-700 hover:bg-slate-100 hover:text-navy-950 border border-slate-200/80"
+                  data-dept={d.id}
+                >
+                  <span class="flex items-center gap-2 truncate">
+                    <span class="text-base">{d.icon}</span>
+                    <span class="truncate">{d.name}</span>
+                  </span>
+                  <span class="text-[11px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-medium ml-2 shrink-0">
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <!-- Thông tin tóm tắt tổ đang chọn -->
+          <div class="mt-4 pt-3 border-t border-slate-200 text-xs text-slate-500">
+            <p id="dept-desc-box" class="italic leading-relaxed">
+              Hiển thị toàn bộ danh sách thầy cô giáo THPT Xuân Lộc từ 1985 đến nay.
+            </p>
+          </div>
         </div>
 
-        <!-- Bảng danh sách giáo viên -->
-        <div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
-          <table class="w-full text-left text-xs sm:text-sm">
-            <thead class="bg-slate-50 text-navy-900 font-bold uppercase tracking-wider text-[11px] border-b border-slate-200">
-              <tr>
-                <th class="py-3.5 px-4 sm:px-6">Họ và Tên Giáo Viên</th>
-                <th class="py-3.5 px-4 sm:px-6">Tổ Chuyên Môn</th>
-                <th class="py-3.5 px-4 sm:px-6">Thời Gian</th>
-                <th class="py-3.5 px-4 sm:px-6">Tình Trạng</th>
-                <th class="py-3.5 px-4 sm:px-6">Dấu Ấn / Ghi Chú Chuyên Môn</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100 text-slate-700" id="faculty-table-body">
-              {facultyMembersData.map((member) => (
-                <tr class="faculty-row hover:bg-slate-50/80 transition" data-dept={member.departmentId}>
-                  <td class="py-3.5 px-4 sm:px-6 font-bold text-navy-950 whitespace-nowrap">
-                    {member.name}
-                  </td>
-                  <td class="py-3.5 px-4 sm:px-6 text-slate-600 whitespace-nowrap">
-                    <span class="px-2 py-0.5 rounded bg-slate-100 text-[11px] font-medium text-slate-800">
-                      {member.departmentName}
-                    </span>
-                  </td>
-                  <td class="py-3.5 px-4 sm:px-6 font-medium text-slate-500 whitespace-nowrap">
-                    {member.period}
-                  </td>
-                  <td class="py-3.5 px-4 sm:px-6 whitespace-nowrap">
-                    <span class={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                      member.status === 'Đang công tác' ? 'bg-emerald-100 text-emerald-800' :
-                      member.status === 'Đã nghỉ hưu' ? 'bg-amber-100 text-amber-800' :
-                      'bg-slate-200 text-slate-700'
-                    }`}>
-                      {member.status}
-                    </span>
-                  </td>
-                  <td class="py-3.5 px-4 sm:px-6 text-xs text-slate-600 leading-relaxed">
-                    {member.roleOrNote}
-                  </td>
+        <!-- Cột Phải: Bảng Danh Sách Giáo Viên Chi Tiết -->
+        <div class="lg:col-span-8 space-y-4">
+          <!-- Thanh trạng thái kết quả -->
+          <div class="flex items-center justify-between px-1">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span class="text-xs font-bold text-navy-900" id="current-filter-title">
+                Tất Cả Các Tổ ({facultyMembersData.length} Thầy Cô)
+              </span>
+            </div>
+            <div class="flex items-center gap-2 text-[11px] text-slate-500">
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Đang dạy</span>
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Hưu trí</span>
+            </div>
+          </div>
+
+          <!-- Bảng danh sách giáo viên -->
+          <div class="overflow-x-auto rounded-3xl border border-slate-200 bg-white shadow-sm">
+            <table class="w-full text-left text-xs sm:text-sm">
+              <thead class="bg-slate-50 text-navy-900 font-bold uppercase tracking-wider text-[11px] border-b border-slate-200">
+                <tr>
+                  <th class="py-3.5 px-4 sm:px-5">Họ và Tên Giáo Viên</th>
+                  <th class="py-3.5 px-3 sm:px-4">Tổ Bộ Môn</th>
+                  <th class="py-3.5 px-3 sm:px-4">Thời Gian</th>
+                  <th class="py-3.5 px-3 sm:px-4">Tình Trạng</th>
+                  <th class="py-3.5 px-4 sm:px-5">Dấu Ấn / Ghi Chú Chuyên Môn</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-slate-700" id="faculty-table-body">
+                {facultyMembersData.map((member) => (
+                  <tr class="faculty-row hover:bg-slate-50/80 transition" data-dept={member.departmentId}>
+                    <td class="py-3.5 px-4 sm:px-5 font-bold text-navy-950 whitespace-nowrap">
+                      {member.name}
+                    </td>
+                    <td class="py-3.5 px-3 sm:px-4 text-slate-600 whitespace-nowrap">
+                      <span class="px-2 py-0.5 rounded bg-slate-100 text-[11px] font-medium text-slate-800">
+                        {member.departmentName}
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-3 sm:px-4 font-medium text-slate-500 whitespace-nowrap">
+                      {member.period}
+                    </td>
+                    <td class="py-3.5 px-3 sm:px-4 whitespace-nowrap">
+                      <span class={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                        member.status === 'Đang công tác' ? 'bg-emerald-100 text-emerald-800' :
+                        member.status === 'Đã nghỉ hưu' ? 'bg-amber-100 text-amber-800' :
+                        'bg-slate-200 text-slate-700'
+                      }`}>
+                        {member.status}
+                      </span>
+                    </td>
+                    <td class="py-3.5 px-4 sm:px-5 text-xs text-slate-600 leading-relaxed">
+                      {member.roleOrNote}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -311,28 +364,63 @@ const alumniTeacherGenerations = [
   function setupFacultyFilter() {
     const buttons = document.querySelectorAll<HTMLButtonElement>('.dept-filter-btn');
     const rows = document.querySelectorAll<HTMLTableRowElement>('.faculty-row');
+    const titleEl = document.getElementById('current-filter-title');
+    const descEl = document.getElementById('dept-desc-box');
+
+    const deptDescriptions: Record<string, string> = {
+      'all': 'Hiển thị toàn bộ danh sách thầy cô giáo THPT Xuân Lộc từ 1985 đến nay.',
+      'toan': 'Tổ Toán học: Nòng cốt bồi dưỡng tư duy logic, STEM Toán và đội tuyển HSG.',
+      'van': 'Tổ Ngữ văn: Gìn giữ hồn văn học, dự án trải nghiệm và văn hóa đọc.',
+      'ly-cn': 'Tổ Vật lý - Công nghệ: Tiên phong hướng dẫn NCKH, sáng tạo kỹ thuật và thực nghiệm.',
+      'hoa': 'Tổ Hóa học: Đổi mới thí nghiệm số, luyện thi chuyên sâu và bồi dưỡng HSG.',
+      'sinh': 'Tổ Sinh học: Thực địa sinh thái Chứa Chan, Y sinh và bảo vệ môi trường.',
+      'tin': 'Tổ Tin học: Huấn luyện HSG Quốc gia môn Tin học, chuyển đổi số & AI.',
+      'su-dia-gdcd': 'Tổ Sử - Địa - GDKT&PL: Giáo dục di sản, chủ quyền biển đảo và pháp lý học đường.',
+      'ngoai-ngu': 'Tổ Ngoại ngữ (Tiếng Anh): Phát triển CLB E-Club, mô hình Debate và chứng chỉ quốc tế.',
+      'the-chat-gdqp': 'Tổ Thể dục - GDQP-AN: Đoàn Hội khỏe Phù Đổng, hội thao GDQP và rèn luyện thể chất.'
+    };
 
     buttons.forEach((btn) => {
       btn.addEventListener('click', () => {
-        const dept = btn.getAttribute('data-dept');
+        const dept = btn.getAttribute('data-dept') || 'all';
 
-        // Style updates
+        // Style updates cho nút được chọn ở sidebar
         buttons.forEach((b) => {
-          b.classList.remove('bg-navy-950', 'text-white', 'border-navy-900', 'shadow-sm');
-          b.classList.add('bg-slate-100', 'text-slate-700', 'border-slate-200');
+          b.classList.remove('bg-navy-950', 'text-white', 'shadow-sm', 'border-navy-900');
+          b.classList.add('bg-white', 'text-slate-700', 'border-slate-200/80');
+          const countBadge = b.querySelector('span:last-child');
+          if (countBadge) {
+            countBadge.className = 'text-[11px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-medium ml-2 shrink-0';
+          }
         });
-        btn.classList.remove('bg-slate-100', 'text-slate-700', 'border-slate-200');
-        btn.classList.add('bg-navy-950', 'text-white', 'border-navy-900', 'shadow-sm');
 
-        // Filter rows
+        btn.classList.remove('bg-white', 'text-slate-700', 'border-slate-200/80');
+        btn.classList.add('bg-navy-950', 'text-white', 'shadow-sm', 'border-navy-900');
+        const activeBadge = btn.querySelector('span:last-child');
+        if (activeBadge) {
+          activeBadge.className = 'text-[11px] bg-navy-800/80 text-warmOrange-300 px-2 py-0.5 rounded-full font-bold ml-2 shrink-0';
+        }
+
+        // Lọc số hàng và cập nhật tiêu đề
+        let visibleCount = 0;
         rows.forEach((row) => {
           const rowDept = row.getAttribute('data-dept');
           if (dept === 'all' || rowDept === dept) {
             row.style.display = '';
+            visibleCount++;
           } else {
             row.style.display = 'none';
           }
         });
+
+        // Cập nhật tiêu đề và mô tả
+        const btnName = btn.querySelector('span.truncate, span:first-child')?.textContent?.trim() || 'Tất Cả Các Tổ';
+        if (titleEl) {
+          titleEl.textContent = `${btnName} (${visibleCount} Thầy Cô)`;
+        }
+        if (descEl && deptDescriptions[dept]) {
+          descEl.textContent = deptDescriptions[dept];
+        }
       });
     });
   }
