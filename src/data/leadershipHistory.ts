@@ -32,19 +32,34 @@ export const principalsHistoryData: PrincipalHistory[] = [
     badge: "Lãnh Đạo Tiên Phong"
   },
   {
-    id: "nguyen-ngoc-hiep-tran-dinh-vinh",
-    name: "Thầy Nguyễn Ngọc Hiệp & Thầy Trần Đình Vinh",
-    role: "Hiệu trưởng qua các thời kỳ",
-    period: "1992 – Thập niên 2000",
+    id: "nguyen-ngoc-hiep",
+    name: "Thầy Nguyễn Ngọc Hiệp",
+    role: "Nguyên Hiệu trưởng",
+    period: "1992 – Đầu thập niên 2000",
     leadershipStyle: "Quy chuẩn, nề nếp, kỷ cương & Tầm nhìn kiến thiết",
-    context: "Nền kinh tế mở cửa, dân số tăng nhanh, nhu cầu học tập của nhân dân Xuân Lộc đòi hỏi chuyển đổi thành trường trung tâm chất lượng cao cấp huyện.",
-    keyFocus: "Mở rộng quy mô, kiên cố hóa trường lớp, quy chuẩn hóa chuyên môn, chuẩn hóa hồ sơ sổ sách và bước đầu ứng dụng CNTT.",
+    context: "Giai đoạn đổi mới và mở cửa kinh tế, nhu cầu học tập của nhân dân Xuân Lộc tăng mạnh. Trường chuyển từ mô hình quy mô nhỏ thành trường trung tâm chất lượng cao cấp huyện.",
+    keyFocus: "Mở rộng quy mô trường lớp, kiên cố hóa cơ sở vật chất, xây dựng nề nếp kỷ cương dạy - học và tiên phong thiết lập hệ thống phòng thí nghiệm thực hành chuyên ngành Hóa học.",
     achievements: [
-      "Tham mưu quy hoạch và hoàn thành xây mới khuôn viên khang trang gần 20.000 m² (1998) tại thị trấn Gia Ray.",
-      "Đón nhận Bằng khen của Thủ tướng Chính phủ (1997) và Huân chương Lao động hạng Ba (1998).",
-      "Nâng tỷ lệ tốt nghiệp THPT bình quân lên 95% – 98%, khẳng định uy tín vững chắc của trường."
+      "Trực tiếp tham mưu với Sở GD&ĐT và UBND tỉnh quy hoạch diện tích khuôn viên mới gần 20.000 m² (1998) tại thị trấn Gia Ray.",
+      "Lãnh đạo trường đón nhận Bằng khen của Thủ tướng Chính phủ (1997) và Huân chương Lao động hạng Ba (1998).",
+      "Nâng tỷ lệ tốt nghiệp THPT bình quân lên 95% – 98%, xây dựng nền móng vững chắc cho danh tiếng của trường."
     ],
-    badge: "Quy Phạm & Mở Rộng"
+    badge: "Kiến Thiết & Kỷ Cương"
+  },
+  {
+    id: "tran-dinh-vinh",
+    name: "Thầy Trần Đình Vinh",
+    role: "Nguyên Hiệu trưởng",
+    period: "Đầu thập niên 2000 – 2008",
+    leadershipStyle: "Chuẩn hóa học thuật, thực chất & Ứng dụng công nghệ",
+    context: "Ngành giáo dục đẩy mạnh chuẩn hóa chương trình THPT, nâng cao chất lượng đánh giá thực chất và những bước đi đầu tiên của tin học hóa trường học.",
+    keyFocus: "Chuẩn hóa quy chế chuyên môn, tăng cường đánh giá thực chất học sinh, bồi dưỡng giáo viên dạy giỏi và bước đầu đưa công nghệ thông tin vào giảng dạy môn Toán và tự nhiên.",
+    achievements: [
+      "Xây dựng đội ngũ giáo viên Toán và tự nhiên cốt cán cấp tỉnh, bồi dưỡng nhiều thế hệ HSG đạt giải cao.",
+      "Thúc đẩy phong trào thi đua dạy tốt - học tốt, củng cố vững chắc chất lượng thi đậu vào các trường đại học công lập.",
+      "Hiện đại hóa công tác quản trị trường học, chuẩn bị tiền đề quan trọng để trường tiến tới Chuẩn Quốc gia."
+    ],
+    badge: "Chuẩn Hóa Chuyên Môn"
   },
   {
     id: "tran-thi-kim-tan",
