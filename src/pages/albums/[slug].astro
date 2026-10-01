@@ -171,7 +171,7 @@ const { album, relatedAlbums } = Astro.props;
     </div>
   </section>
 
-  <!-- Fullscreen Lightbox & Slideshow Modal with Pro Transition Effects -->
+  <!-- Fullscreen Lightbox & Slideshow Modal with Pro Cross-Fade & Ken Burns Effects -->
   <div
     id="lightbox-modal"
     class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden flex flex-col justify-between select-none"
@@ -179,7 +179,7 @@ const { album, relatedAlbums } = Astro.props;
     role="dialog"
   >
     <!-- Top Control Bar -->
-    <div class="flex flex-wrap items-center justify-between p-3 sm:px-6 border-b border-white/10 text-white z-20 gap-3 bg-black/40">
+    <div class="flex flex-wrap items-center justify-between p-3 sm:px-6 border-b border-white/10 text-white z-20 gap-3 bg-black/50">
       
       <!-- Counter & Title -->
       <div class="flex items-center space-x-3">
@@ -193,8 +193,8 @@ const { album, relatedAlbums } = Astro.props;
         <!-- Play / Pause Slideshow Button -->
         <button
           id="btn-toggle-slideshow"
-          class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-warmOrange-500 hover:bg-warmOrange-600 text-white transition shadow-sm"
-          title="Bật/Tắt tự động chạy slide"
+          class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-warmOrange-500 hover:bg-warmOrange-600 text-white transition shadow-sm cursor-pointer"
+          title="Bật/Tắt tự động chạy slide (Phím Space)"
         >
           <span id="icon-play-state">▶</span>
           <span id="label-play-state">Chạy Slide</span>
@@ -212,15 +212,15 @@ const { album, relatedAlbums } = Astro.props;
           <span class="sm:hidden">Hiệu ứng</span>
         </label>
 
-        <!-- Effect Style Selector (Chỉ hiện khi Effect bật) -->
+        <!-- Effect Style Selector -->
         <select
           id="select-effect-style"
-          class="px-2.5 py-1.5 rounded-lg bg-navy-900 border border-white/20 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-warmOrange-500"
+          class="px-2.5 py-1.5 rounded-lg bg-navy-900 border border-white/20 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-warmOrange-500 cursor-pointer"
         >
-          <option value="fade">Hiệu ứng Mờ Dần (Smooth Fade)</option>
-          <option value="zoom">Hiệu ứng Thu Phóng (Ken Burns)</option>
-          <option value="slide">Hiệu ứng Trượt Ngang (Slide X)</option>
-          <option value="flip">Hiệu ứng Lật 3D (Flip 3D)</option>
+          <option value="fade">Mờ Dần Điện Ảnh (Cross Fade)</option>
+          <option value="zoom">Thu Phóng Điện Ảnh (Ken Burns)</option>
+          <option value="slide">Trượt Ngang (Slide Smooth)</option>
+          <option value="rotate">Xoay Lật 3D (3D Dynamic)</option>
         </select>
       </div>
 
@@ -237,13 +237,13 @@ const { album, relatedAlbums } = Astro.props;
       </div>
     </div>
 
-    <!-- Main View Stage -->
+    <!-- Main View Stage (Dual Layer for Seamless Transitions) -->
     <div class="flex-1 relative flex items-center justify-center p-2 sm:p-6 overflow-hidden perspective-1000">
       
       <!-- Previous Button -->
       <button
         id="lightbox-prev"
-        class="absolute left-2 sm:left-6 z-30 p-3 rounded-full bg-black/50 hover:bg-warmOrange-600 text-white backdrop-blur-md transition shadow-lg border border-white/10 active:scale-90"
+        class="absolute left-2 sm:left-6 z-30 p-3 rounded-full bg-black/60 hover:bg-warmOrange-600 text-white backdrop-blur-md transition shadow-lg border border-white/10 active:scale-90"
         aria-label="Ảnh trước"
       >
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -251,20 +251,30 @@ const { album, relatedAlbums } = Astro.props;
         </svg>
       </button>
 
-      <!-- Active Image Container with Transitions -->
-      <div id="image-stage" class="relative max-h-[80vh] max-w-[92vw] flex items-center justify-center overflow-hidden">
+      <!-- Stage Layers Container -->
+      <div id="image-stage" class="relative w-full h-full max-h-[82vh] max-w-[94vw] flex items-center justify-center overflow-hidden">
+        
+        <!-- Back Layer (Old Image for Cross-fade) -->
         <img
-          id="lightbox-img"
+          id="lightbox-img-back"
           src=""
           alt=""
-          class="max-h-[80vh] max-w-[92vw] object-contain rounded-lg shadow-2xl transition-all duration-700 ease-out cursor-zoom-in select-none"
+          class="absolute max-h-[82vh] max-w-[94vw] object-contain rounded-lg shadow-2xl opacity-0 pointer-events-none"
+        />
+
+        <!-- Front Layer (Active Image) -->
+        <img
+          id="lightbox-img-front"
+          src=""
+          alt=""
+          class="relative max-h-[82vh] max-w-[94vw] object-contain rounded-lg shadow-2xl cursor-zoom-in select-none z-10"
         />
       </div>
 
       <!-- Next Button -->
       <button
         id="lightbox-next"
-        class="absolute right-2 sm:right-6 z-30 p-3 rounded-full bg-black/50 hover:bg-warmOrange-600 text-white backdrop-blur-md transition shadow-lg border border-white/10 active:scale-90"
+        class="absolute right-2 sm:right-6 z-30 p-3 rounded-full bg-black/60 hover:bg-warmOrange-600 text-white backdrop-blur-md transition shadow-lg border border-white/10 active:scale-90"
         aria-label="Ảnh kế tiếp"
       >
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -282,54 +292,56 @@ const { album, relatedAlbums } = Astro.props;
   </div>
 </BaseLayout>
 
-<style>
+<style is:global>
   .perspective-1000 {
-    perspective: 1000px;
+    perspective: 1200px;
   }
 
-  /* Transition Classes */
-  .effect-fade-enter {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-  .effect-fade-active {
-    opacity: 1;
-    transform: scale(1);
+  /* CSS Keyframe Animations for Image Transitions */
+  @keyframes anim-fade-in {
+    0% { opacity: 0; transform: scale(0.96); }
+    100% { opacity: 1; transform: scale(1); }
   }
 
-  .effect-zoom-enter {
-    opacity: 0;
-    transform: scale(1.15);
-  }
-  .effect-zoom-active {
-    opacity: 1;
-    transform: scale(1);
+  @keyframes anim-ken-burns {
+    0% { opacity: 0; transform: scale(1.18); }
+    30% { opacity: 1; }
+    100% { opacity: 1; transform: scale(1); }
   }
 
-  .effect-slide-enter {
-    opacity: 0;
-    transform: translateX(60px);
-  }
-  .effect-slide-active {
-    opacity: 1;
-    transform: translateX(0);
+  @keyframes anim-slide-in {
+    0% { opacity: 0; transform: translateX(80px); }
+    100% { opacity: 1; transform: translateX(0); }
   }
 
-  .effect-flip-enter {
-    opacity: 0;
-    transform: rotateY(90deg) scale(0.9);
+  @keyframes anim-rotate-3d {
+    0% { opacity: 0; transform: rotateY(50deg) scale(0.85); }
+    100% { opacity: 1; transform: rotateY(0deg) scale(1); }
   }
-  .effect-flip-active {
-    opacity: 1;
-    transform: rotateY(0deg) scale(1);
+
+  .trans-fade {
+    animation: anim-fade-in 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  }
+
+  .trans-zoom {
+    animation: anim-ken-burns 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  }
+
+  .trans-slide {
+    animation: anim-slide-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  }
+
+  .trans-rotate {
+    animation: anim-rotate-3d 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
   }
 </style>
 
 <script>
-  // Lightbox & Pro Slideshow Logic
+  // Lightbox & Dual-Layer Pro Slideshow Logic
   const items = document.querySelectorAll('.gallery-item');
   const modal = document.getElementById('lightbox-modal');
-  const modalImg = document.getElementById('lightbox-img') as HTMLImageElement;
+  const frontImg = document.getElementById('lightbox-img-front') as HTMLImageElement;
+  const backImg = document.getElementById('lightbox-img-back') as HTMLImageElement;
   const counter = document.getElementById('lightbox-counter');
   const caption = document.getElementById('lightbox-caption');
   const btnClose = document.getElementById('lightbox-close');
@@ -348,7 +360,7 @@ const { album, relatedAlbums } = Astro.props;
   let isZoomed = false;
   let isSlideshowPlaying = false;
   let slideshowTimer: any = null;
-  const SLIDESHOW_INTERVAL = 3200; // 3.2s per slide
+  const SLIDESHOW_INTERVAL = 3500; // 3.5 seconds per slide
 
   const photos: { src: string; caption: string }[] = [];
 
@@ -358,14 +370,14 @@ const { album, relatedAlbums } = Astro.props;
     photos.push({ src, caption: cap });
 
     item.addEventListener('click', () => {
-      openLightbox(idx);
+      openLightbox(idx, false);
     });
   });
 
   function openLightbox(index: number, autoPlay: boolean = false) {
-    if (!modal || !modalImg) return;
+    if (!modal || !frontImg) return;
     currentIndex = index;
-    updateModalImage();
+    updateModalImage(false); // First open without back layer
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
 
@@ -384,54 +396,61 @@ const { album, relatedAlbums } = Astro.props;
     resetZoom();
   }
 
-  function applyImageTransition() {
-    if (!modalImg) return;
+  function updateModalImage(withTransition: boolean = true) {
+    if (!frontImg || !photos[currentIndex]) return;
+    
+    const nextPhoto = photos[currentIndex];
     const hasEffects = toggleEffectCheckbox?.checked ?? true;
     const effectStyle = selectEffectStyle?.value || 'fade';
 
-    if (!hasEffects) {
-      modalImg.className = 'max-h-[80vh] max-w-[92vw] object-contain rounded-lg shadow-2xl cursor-zoom-in select-none';
-      return;
+    // Update text metadata
+    if (counter) counter.textContent = `${currentIndex + 1} / ${photos.length}`;
+    if (caption) caption.textContent = nextPhoto.caption;
+
+    if (withTransition && hasEffects && backImg) {
+      // Set back layer to current image
+      backImg.src = frontImg.src;
+      backImg.style.opacity = '1';
+
+      // Reset animations on front image
+      frontImg.classList.remove('trans-fade', 'trans-zoom', 'trans-slide', 'trans-rotate');
+      void frontImg.offsetWidth; // Trigger DOM reflow
+
+      // Load new source and trigger animation
+      frontImg.src = nextPhoto.src;
+      
+      const animClass = `trans-${effectStyle}`;
+      frontImg.classList.add(animClass);
+
+      // Fade out back layer smoothly
+      setTimeout(() => {
+        if (backImg) backImg.style.opacity = '0';
+      }, 300);
+    } else {
+      frontImg.classList.remove('trans-fade', 'trans-zoom', 'trans-slide', 'trans-rotate');
+      frontImg.src = nextPhoto.src;
     }
 
-    // Reset base classes with transition
-    modalImg.className = `max-h-[80vh] max-w-[92vw] object-contain rounded-lg shadow-2xl transition-all duration-700 ease-out cursor-zoom-in select-none effect-${effectStyle}-enter`;
-
-    // Trigger reflow & animate in
-    requestAnimationFrame(() => {
-      modalImg.classList.remove(`effect-${effectStyle}-enter`);
-      modalImg.classList.add(`effect-${effectStyle}-active`);
-    });
-  }
-
-  function updateModalImage() {
-    if (!modalImg || !photos[currentIndex]) return;
-    
-    modalImg.src = photos[currentIndex].src;
-    if (counter) counter.textContent = `${currentIndex + 1} / ${photos.length}`;
-    if (caption) caption.textContent = photos[currentIndex].caption;
-    
     resetZoom();
-    applyImageTransition();
   }
 
   function prevPhoto() {
     currentIndex = (currentIndex - 1 + photos.length) % photos.length;
-    updateModalImage();
+    updateModalImage(true);
   }
 
   function nextPhoto() {
     currentIndex = (currentIndex + 1) % photos.length;
-    updateModalImage();
+    updateModalImage(true);
   }
 
   function startSlideshow() {
     isSlideshowPlaying = true;
     if (iconPlayState) iconPlayState.textContent = '⏸';
     if (labelPlayState) labelPlayState.textContent = 'Tạm Dừng';
-    if (slideshowStatusTag) slideshowStatusTag.textContent = 'Tự động: Đang chạy (3s)';
+    if (slideshowStatusTag) slideshowStatusTag.textContent = 'Tự động: Đang chạy (3.5s)';
     if (btnToggleSlideshow) {
-      btnToggleSlideshow.className = 'flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-sm';
+      btnToggleSlideshow.className = 'flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-sm cursor-pointer';
     }
 
     clearInterval(slideshowTimer);
@@ -448,7 +467,7 @@ const { album, relatedAlbums } = Astro.props;
     if (labelPlayState) labelPlayState.textContent = 'Chạy Slide';
     if (slideshowStatusTag) slideshowStatusTag.textContent = 'Tự động: Tắt';
     if (btnToggleSlideshow) {
-      btnToggleSlideshow.className = 'flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-warmOrange-500 hover:bg-warmOrange-600 text-white transition shadow-sm';
+      btnToggleSlideshow.className = 'flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-warmOrange-500 hover:bg-warmOrange-600 text-white transition shadow-sm cursor-pointer';
     }
   }
 
@@ -461,23 +480,23 @@ const { album, relatedAlbums } = Astro.props;
   }
 
   function toggleZoom() {
-    if (!modalImg) return;
+    if (!frontImg) return;
     if (isZoomed) {
       resetZoom();
     } else {
-      modalImg.style.transform = 'scale(1.5)';
-      modalImg.classList.remove('cursor-zoom-in');
-      modalImg.classList.add('cursor-zoom-out');
+      frontImg.style.transform = 'scale(1.5)';
+      frontImg.classList.remove('cursor-zoom-in');
+      frontImg.classList.add('cursor-zoom-out');
       isZoomed = true;
-      stopSlideshow(); // Pause slideshow when user is inspecting details
+      stopSlideshow();
     }
   }
 
   function resetZoom() {
-    if (!modalImg) return;
-    modalImg.style.transform = 'scale(1)';
-    modalImg.classList.remove('cursor-zoom-out');
-    modalImg.classList.add('cursor-zoom-in');
+    if (!frontImg) return;
+    frontImg.style.transform = 'scale(1)';
+    frontImg.classList.remove('cursor-zoom-out');
+    frontImg.classList.add('cursor-zoom-in');
     isZoomed = false;
   }
 
@@ -486,15 +505,15 @@ const { album, relatedAlbums } = Astro.props;
   btnPrev?.addEventListener('click', (e) => { 
     e.stopPropagation(); 
     prevPhoto(); 
-    if (isSlideshowPlaying) startSlideshow(); // Reset interval
+    if (isSlideshowPlaying) startSlideshow();
   });
   btnNext?.addEventListener('click', (e) => { 
     e.stopPropagation(); 
     nextPhoto(); 
-    if (isSlideshowPlaying) startSlideshow(); // Reset interval
+    if (isSlideshowPlaying) startSlideshow();
   });
   btnZoom?.addEventListener('click', toggleZoom);
-  modalImg?.addEventListener('click', toggleZoom);
+  frontImg?.addEventListener('click', toggleZoom);
   
   btnStartSlideshow?.addEventListener('click', () => openLightbox(0, true));
   btnToggleSlideshow?.addEventListener('click', toggleSlideshow);
@@ -502,7 +521,7 @@ const { album, relatedAlbums } = Astro.props;
   toggleEffectCheckbox?.addEventListener('change', () => {
     if (selectEffectStyle) {
       selectEffectStyle.disabled = !toggleEffectCheckbox.checked;
-      selectEffectStyle.style.opacity = toggleEffectCheckbox.checked ? '1' : '0.5';
+      selectEffectStyle.style.opacity = toggleEffectCheckbox.checked ? '1' : '0.4';
     }
   });
 
