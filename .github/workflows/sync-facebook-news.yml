@@ -1,4 +1,4 @@
-name: Tự động đồng bộ tin tức Fanpage THPT Xuân Lộc
+name: Tự động đồng bộ tin tức Fanpage & Cổng TTĐT Xuân Lộc
 
 on:
   schedule:
@@ -22,13 +22,18 @@ jobs:
       - name: Cài đặt dependencies
         run: npm ci
 
-      - name: Chạy AI Quét & Biên tập tin tức Fanpage
+      - name: Chạy AI Quét & Biên tập tin tức Fanpage THPT Xuân Lộc
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: node src/services/syncFacebookCron.js
 
+      - name: Chạy AI Quét & Đồng bộ tin tức Cổng TTĐT Xuân Lộc (Văn hóa - Xã hội)
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: node -e "import('./src/services/portalNewsAiPipeline.js').then(m => m.syncPortalNews())"
+
       - name: Tự động Commit & Push bài báo mới lên website
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "auto(news): sync new articles from THPT Xuan Loc Facebook fanpage"
+          commit_message: "auto(news): sync new articles from Facebook fanpage & Xuan Loc portal"
           branch: main
