@@ -32,7 +32,7 @@ const postsCollection = defineCollection({
     pubDate: z.date(),
     author: z.string().default('Ban Liên Lạc CHS'),
     description: z.string(),
-    category: z.enum(['Tin tức', 'Sự kiện', 'Họp khóa', 'Gương sáng', 'Tri ân', 'Bảng vàng', 'Lịch sử']),
+    category: z.enum(['Tin tức', 'Sự kiện', 'Họp khóa', 'Gương sáng', 'Tri ân', 'Bảng vàng', 'Lịch sử', 'Cựu học sinh', 'Học bổng']),
     featuredImage: z.string().default('/assets/images/default-post.jpg'),
     featured: z.boolean().optional().default(false),
     tags: z.array(z.string()).optional().default([])

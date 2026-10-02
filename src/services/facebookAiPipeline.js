@@ -18,8 +18,6 @@ const GROQ_API_KEY = getGroqKey();
 
 /**
  * Tải ảnh từ URL Facebook về lưu cục bộ trong public/assets/posts/[slug]/
- * @param {string} url 
- * @param {string} destPath 
  */
 export function downloadImage(url, destPath) {
   return new Promise((resolve, reject) => {
@@ -43,9 +41,6 @@ export function downloadImage(url, destPath) {
 
 /**
  * Xử lý tải toàn bộ ảnh từ bài đăng Facebook và lưu cục bộ
- * @param {string} slug 
- * @param {string[]} imageUrls 
- * @returns {Promise<string[]>} Danh sách đường dẫn ảnh local: ['/assets/posts/slug/anh-1.jpg', ...]
  */
 export async function processPostMedia(slug, imageUrls = []) {
   if (!imageUrls || imageUrls.length === 0) {
@@ -72,7 +67,8 @@ export async function processPostMedia(slug, imageUrls = []) {
 }
 
 /**
- * Viết lại nội dung bài đăng từ Fanpage thành bài báo Markdown hoàn chỉnh có nhúng ảnh
+ * AI Phân loại & Viết lại nội dung bài đăng từ Fanpage
+ * Tự động lọc các bài spam / cá nhân / không phù hợp
  * @param {Object} rawPost { content, postedAt, mediaUrls: string[], link }
  */
 export async function transformFacebookPostToArticle(rawPost) {
@@ -84,11 +80,11 @@ export async function transformFacebookPostToArticle(rawPost) {
 
   const prompt = `
 Bạn là Trưởng ban Biên tập Cổng thông tin Cựu học sinh & Nhà trường Trường THPT Xuân Lộc (Đồng Nai).
-Dưới đây là nội dung một bài đăng từ Fanpage Đoàn Trường THPT Xuân Lộc (https://www.facebook.com/vpdoan.thptxl):
+Dưới đây là một bài đăng từ Fanpage Đoàn Trường THPT Xuân Lộc (https://www.facebook.com/vpdoan.thptxl):
 
 --- NỘI DUNG GỐC ---
 Thời gian đăng: ${rawPost.postedAt || new Date().toISOString()}
-Số lượng ảnh đính kèm trong bài: ${mediaCount} ảnh
+Số lượng ảnh đính kèm: ${mediaCount} ảnh
 Nội dung bài viết:
 """
 ${rawPost.content}
@@ -96,22 +92,41 @@ ${rawPost.content}
 --- HẾT NỘI DUNG GỐC ---
 
 NHIỆM VỤ CỦA BẠN:
-1. Phân tích nội dung, trích xuất sự kiện, thời gian diễn ra sự kiện và ý nghĩa hoạt động.
-2. Viết lại thành một bài báo hoàn chỉnh, văn phong trang trọng, chuẩn mực báo chí học đường.
-3. Nếu bài viết có đính kèm ảnh (số lượng: ${mediaCount}), hãy chèn placeholder hình ảnh vào các vị trí thích hợp trong bài viết theo cú pháp:
-   ![Chú thích ảnh 1]({{IMAGE_1}})
-   ![Chú thích ảnh 2]({{IMAGE_2}}) (nếu có từ 2 ảnh trở lên)
-4. Phân loại vào 1 trong các chuyên mục: 'Tin tức', 'Sự kiện', 'Họp khóa', 'Gương sáng', 'Tri ân', 'Bảng vàng', 'Lịch sử'.
-5. Trả về kết quả dưới dạng JSON thuần túy (không bọc trong \`\`\`json) với cấu trúc:
+1. BỘ LỌC THÔNG MINH (QUAN TRỌNG):
+   - Đánh giá xem bài viết có giá trị thông tin tin tức với nhà trường / cựu học sinh / học sinh hay không.
+   - Nếu là bài chào hỏi ngắn, bài spam, chia sẻ cá nhân vu vơ, hoặc bài viết dưới 15 từ không mang thông tin sự kiện -> Đặt "shouldPublish": false và "rejectReason": "Lý do từ chối".
+   - Nếu là thông tin hữu ích (hoạt động đoàn trường, phong trào thi đua, học bổng, thông báo nhà trường, gương học sinh, tri ân thầy cô, hoạt động cựu học sinh...) -> Đặt "shouldPublish": true.
+
+2. PHÂN LOẠI CHUYÊN MỤC CHÍNH XÁC:
+   Chọn đúng 1 trong các chuyên mục sau:
+   - 'Tin tức': Các thông báo chính thức, tin tức giáo dục, thời sự nhà trường.
+   - 'Sự kiện': Khai giảng, bế giảng, lễ 20/11, hội trại, hội khỏe phù đổng, chào cờ chủ điểm.
+   - 'Cựu học sinh': Các hoạt động của cựu học sinh, họp mặt, tài trợ học bổng, kết nối việc làm.
+   - 'Gương sáng': Tuyên dương học sinh 3 tốt, học sinh giỏi quốc gia/tỉnh, thầy cô tiêu biểu.
+   - 'Học bổng': Chương trình San sẻ yêu thương, trao tặng quà, quỹ khuyến học.
+   - 'Tri ân': Thư tri ân, kỷ niệm thầy trò, các hoạt động tri ân thầy cô hưu trí.
+   - 'Bảng vàng': Thành tích các kỳ thi tốt nghiệp, đại học, thể thao, văn nghệ.
+   - 'Lịch sử': Kỷ niệm thành lập trường (1985 - Nay), tư liệu truyền thống.
+
+3. BIÊN TẬP BÀI BÁO HOÀN CHỈNH:
+   - Viết lại nội dung theo văn phong báo chí học đường trang trọng, xúc tích, truyền cảm hứng.
+   - Trích xuất ngày giờ thực tế của sự kiện (nếu có) để đặt "pubDate".
+   - Nếu bài có ảnh (${mediaCount} ảnh), hãy chèn placeholder vào các đoạn văn phù hợp:
+     ![Chú thích ảnh 1]({{IMAGE_1}})
+     ![Chú thích ảnh 2]({{IMAGE_2}})
+
+4. TRẢ VỀ JSON THUẦN TÚY (không bọc trong markdown block):
 {
-  "title": "Tiêu đề bài báo ngắn gọn, đúng phong cách tin tức",
+  "shouldPublish": true / false,
+  "rejectReason": "",
+  "title": "Tiêu đề bài báo hấp dẫn, trang trọng",
   "slug": "tieu-de-khong-dau-ngan-gon",
   "pubDate": "YYYY-MM-DD",
-  "author": "Đoàn Trường THPT Xuân Lộc / Ban Truyền Thông CHS",
-  "description": "Tóm tắt ngắn gọn 1-2 câu về nội dung bài viết",
-  "category": "Tin tức / Sự kiện / Gương sáng ...",
+  "author": "Đoàn Trường THPT Xuân Lộc",
+  "description": "Tóm tắt ngắn gọn 1-2 câu",
+  "category": "Sự kiện / Tin tức / Gương sáng / Cựu học sinh / Học bổng / Tri ân / Bảng vàng / Lịch sử",
   "tags": ["Tag1", "Tag2"],
-  "markdownBody": "Nội dung bài viết hoàn chỉnh định dạng Markdown (có tiêu đề mục, đoạn văn, danh sách gạch đầu dòng, và các placeholder {{IMAGE_1}}, {{IMAGE_2}}...)"
+  "markdownBody": "Toàn bộ bài viết định dạng Markdown hoàn chỉnh"
 }
 `;
 
@@ -127,7 +142,7 @@ NHIỆM VỤ CỦA BẠN:
         { role: 'system', content: 'You are an expert Vietnamese journalist and school editor. You always output clean JSON without markdown codeblock wrappers.' },
         { role: 'user', content: prompt }
       ],
-      temperature: 0.3,
+      temperature: 0.2,
       response_format: { type: "json_object" }
     })
   });
@@ -140,23 +155,25 @@ NHIỆM VỤ CỦA BẠN:
   const resJson = await response.json();
   const article = JSON.parse(resJson.choices[0].message.content);
 
+  // Nếu bài viết bị bộ lọc từ chối
+  if (article.shouldPublish === false) {
+    return article;
+  }
+
   // Tải và xử lý ảnh nếu có
   let downloadedImages = [];
   if (rawPost.mediaUrls && rawPost.mediaUrls.length > 0) {
     downloadedImages = await processPostMedia(article.slug, rawPost.mediaUrls);
   }
 
-  // Ảnh đại diện (Cover/Featured Image) lấy ảnh đầu tiên
   const featuredImage = downloadedImages[0] || rawPost.featuredImage || '/assets/images/default-post.jpg';
 
-  // Thay thế placeholder {{IMAGE_1}}, {{IMAGE_2}} bằng link ảnh local thực tế
-  let finalMarkdown = article.markdownBody;
+  let finalMarkdown = article.markdownBody || '';
   if (downloadedImages.length > 0) {
     downloadedImages.forEach((imgUrl, idx) => {
       finalMarkdown = finalMarkdown.replace(new RegExp(`\\{\\{IMAGE_${idx + 1}\\}\\}`, 'g'), imgUrl);
     });
   }
-  // Xóa các placeholder thừa nếu có
   finalMarkdown = finalMarkdown.replace(/\{\{IMAGE_\d+\}\}/g, featuredImage);
 
   article.featuredImage = featuredImage;
@@ -169,6 +186,11 @@ NHIỆM VỤ CỦA BẠN:
  * Lưu bài báo thành file Markdown trong src/content/posts/
  */
 export function saveArticleToMarkdown(article) {
+  if (article.shouldPublish === false) {
+    console.log(`⚠️ Bỏ qua không xuất bản: ${article.rejectReason || 'Không đủ tiêu chuẩn tin tức'}`);
+    return null;
+  }
+
   const postsDir = path.join(process.cwd(), 'src', 'content', 'posts');
   if (!fs.existsSync(postsDir)) {
     fs.mkdirSync(postsDir, { recursive: true });
@@ -191,6 +213,6 @@ ${article.markdownBody}
 `;
 
   fs.writeFileSync(filePath, fileContent, 'utf8');
-  console.log(`✅ Đã xuất bản bài viết mới kèm ảnh: ${filePath}`);
+  console.log(`✅ [ĐÃ XUẤT BẢN - Chuyên mục: ${article.category}] ${filePath}`);
   return filePath;
 }
