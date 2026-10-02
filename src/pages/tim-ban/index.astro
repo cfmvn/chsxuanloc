@@ -221,15 +221,26 @@ const uniqueLocations = Array.from(new Set(ALUMNI_DIRECTORY.map(a => a.currentLo
         ))}
       </div>
 
-      <!-- Empty Result State -->
-      <div id="alumni-empty-state" class="hidden text-center py-16 bg-white rounded-2xl border border-slate-200 mt-6">
-        <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <!-- Empty Result State & Initial State -->
+      <div id="alumni-empty-state" class={`${ALUMNI_DIRECTORY.length === 0 ? 'block' : 'hidden'} text-center py-16 px-6 bg-white rounded-3xl border border-dashed border-slate-300 mt-2 max-w-2xl mx-auto shadow-sm`}>
+        <div class="w-16 h-16 rounded-3xl bg-warmOrange-50 text-warmOrange-600 flex items-center justify-center mx-auto mb-4 border border-warmOrange-200">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
           </svg>
         </div>
-        <h4 class="text-base font-bold text-navy-900">Không tìm thấy bạn học phù hợp</h4>
-        <p class="text-xs text-slate-500 mt-1">Hãy thử xóa bớt bộ lọc hoặc thêm thông tin của bạn vào danh bạ.</p>
+        <h4 class="text-lg font-bold text-navy-950">Chưa Có Dữ Liệu Cựu Học Sinh Được Đăng Ký</h4>
+        <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed max-w-lg mx-auto">
+          Danh bạ đang trong giai đoạn tiếp nhận thông tin từ các thế hệ cựu học sinh. Hãy là người đầu tiên đăng ký thông tin của bạn hoặc lớp mình để kết nối cùng đồng môn!
+        </p>
+        <div class="mt-6">
+          <a
+            href="#dang-ky-thong-tin"
+            class="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl font-bold text-xs text-white bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-md transition"
+          >
+            <span>✍️</span>
+            <span>Đăng Ký Thông Tin Ngay</span>
+          </a>
+        </div>
       </div>
     </div>
   </section>

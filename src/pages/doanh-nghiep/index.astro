@@ -262,14 +262,25 @@ const categoryCounts = BUSINESS_CATEGORIES.map(cat => {
           </div>
 
           <!-- Empty State -->
-          <div id="empty-state" class="hidden text-center py-16 bg-white rounded-2xl border border-slate-200 mt-6">
-            <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <div id="empty-state" class={`${INITIAL_BUSINESSES.length === 0 ? 'block' : 'hidden'} text-center py-16 px-6 bg-white rounded-3xl border border-dashed border-slate-300 mt-2 max-w-2xl mx-auto shadow-sm`}>
+            <div class="w-16 h-16 rounded-3xl bg-warmOrange-50 text-warmOrange-600 flex items-center justify-center mx-auto mb-4 border border-warmOrange-200">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
               </svg>
             </div>
-            <h4 class="text-base font-bold text-navy-900">Không tìm thấy doanh nghiệp phù hợp</h4>
-            <p class="text-xs text-slate-500 mt-1">Thử thay đổi từ khóa tìm kiếm hoặc chọn danh mục khác ở cột bên trái.</p>
+            <h4 class="text-lg font-bold text-navy-950">Chưa Có Doanh Nghiệp Cựu Học Sinh Được Đăng Ký</h4>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed max-w-lg mx-auto">
+              Cổng kết nối doanh nghiệp đang mở tiếp nhận hồ sơ từ các anh chị cựu học sinh là chủ doanh nghiệp, nhà sáng lập hoặc đại diện thương hiệu. Hãy đăng ký ngay để kết nối mạng lưới đồng môn!
+            </p>
+            <div class="mt-6">
+              <a
+                href="#dang-ky-doanh-nghiep"
+                class="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl font-bold text-xs text-white bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-md transition"
+              >
+                <span>🏢</span>
+                <span>Đăng Ký Doanh Nghiệp Của Bạn</span>
+              </a>
+            </div>
           </div>
 
         </main>
