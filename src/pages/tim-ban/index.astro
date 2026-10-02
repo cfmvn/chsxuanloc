@@ -59,8 +59,16 @@ import { GRADUATION_YEARS_SUMMARY, TOTAL_OFFICIAL_ALUMNI } from '../../data/offi
             <p class="text-xs text-slate-500 mt-0.5">Chọn năm tốt nghiệp, lớp hoặc gõ tên để tra cứu danh sách bạn bè cùng khóa.</p>
           </div>
 
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-semibold text-slate-500" id="status-loading-text">Đang tải dữ liệu hồ sơ...</span>
+          <div class="flex items-center gap-3">
+            <button
+              id="open-wizard-btn"
+              type="button"
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-warmOrange-500 to-amber-500 text-white text-xs font-bold shadow-md shadow-warmOrange-500/20 hover:from-warmOrange-600 hover:to-amber-600 transition transform active:scale-95"
+            >
+              <span>🧭</span>
+              <span>Trợ Lý Tìm Lớp Của Bạn</span>
+            </button>
+            <span class="text-xs font-semibold text-slate-500 hidden sm:inline" id="status-loading-text">Đang tải dữ liệu hồ sơ...</span>
           </div>
         </div>
 
@@ -308,6 +316,161 @@ import { GRADUATION_YEARS_SUMMARY, TOTAL_OFFICIAL_ALUMNI } from '../../data/offi
     </div>
   </section>
 
+  <!-- Guided Wizard Modal -->
+  <div
+    id="guided-wizard-modal"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/80 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden transform scale-95 transition-transform duration-300" id="wizard-modal-box">
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-navy-900 to-navy-950 text-white p-6 relative">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <span class="w-10 h-10 rounded-2xl bg-warmOrange-500/20 border border-warmOrange-500/30 flex items-center justify-center text-xl">
+              🎓
+            </span>
+            <div>
+              <h3 class="text-base sm:text-lg font-bold">Hướng Dẫn Tìm Niên Khóa & Bạn Cùng Lớp</h3>
+              <p class="text-xs text-slate-300">Trợ lý 3 bước giúp bạn tìm chính xác danh bạ học sinh</p>
+            </div>
+          </div>
+          <button
+            id="close-wizard-modal-btn"
+            type="button"
+            class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-white/10 transition text-lg leading-none"
+            aria-label="Đóng"
+          >
+            ✕
+          </button>
+        </div>
+
+        <!-- Progress Steps Indicator -->
+        <div class="grid grid-cols-3 gap-2 mt-5">
+          <div id="step-pill-1" class="h-1.5 rounded-full bg-warmOrange-500 transition-all duration-300"></div>
+          <div id="step-pill-2" class="h-1.5 rounded-full bg-navy-800 transition-all duration-300"></div>
+          <div id="step-pill-3" class="h-1.5 rounded-full bg-navy-800 transition-all duration-300"></div>
+        </div>
+      </div>
+
+      <!-- Step Contents -->
+      <div class="p-6 sm:p-8 space-y-6">
+        <!-- STEP 1: Chọn Năm Tốt Nghiệp / Năm Sinh -->
+        <div id="wizard-step-1" class="space-y-4">
+          <div class="space-y-1">
+            <span class="text-xs font-bold text-warmOrange-600 uppercase tracking-wider">Bước 1 trên 3</span>
+            <h4 class="text-lg font-bold text-navy-950">Bạn tốt nghiệp năm nào (hoặc sinh năm bao nhiêu)?</h4>
+            <p class="text-xs text-slate-500">Hệ thống đang lưu trữ 25 niên khóa từ năm 1986 đến năm 2011.</p>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1.5">Chọn Năm Tốt Nghiệp THPT (Lớp 12):</label>
+              <select
+                id="wizard-year-select"
+                class="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm font-semibold text-navy-950 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-warmOrange-500 focus:outline-none transition"
+              >
+                <option value="">-- Vui lòng chọn năm tốt nghiệp --</option>
+                {GRADUATION_YEARS_SUMMARY.map(y => (
+                  <option value={y.year}>Năm {y.year} (Khóa học {y.batch} • {y.totalStudents} học sinh)</option>
+                ))}
+              </select>
+            </div>
+
+            <!-- Quick Birth Year helper -->
+            <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80 text-xs text-slate-600 space-y-1.5">
+              <span class="font-bold text-slate-700 block">💡 Gợi ý nhanh theo năm sinh:</span>
+              <div class="flex flex-wrap gap-1.5 text-[11px]" id="birth-year-quick-picks">
+                <button type="button" data-grad="1986" class="birth-btn px-2 py-1 bg-white hover:bg-warmOrange-50 border border-slate-200 rounded-lg text-slate-700 font-medium">Sinh 1968 &rarr; TN 1986</button>
+                <button type="button" data-grad="1990" class="birth-btn px-2 py-1 bg-white hover:bg-warmOrange-50 border border-slate-200 rounded-lg text-slate-700 font-medium">Sinh 1972 &rarr; TN 1990</button>
+                <button type="button" data-grad="1995" class="birth-btn px-2 py-1 bg-white hover:bg-warmOrange-50 border border-slate-200 rounded-lg text-slate-700 font-medium">Sinh 1977 &rarr; TN 1995</button>
+                <button type="button" data-grad="2000" class="birth-btn px-2 py-1 bg-white hover:bg-warmOrange-50 border border-slate-200 rounded-lg text-slate-700 font-medium">Sinh 1982 &rarr; TN 2000</button>
+                <button type="button" data-grad="2005" class="birth-btn px-2 py-1 bg-white hover:bg-warmOrange-50 border border-slate-200 rounded-lg text-slate-700 font-medium">Sinh 1987 &rarr; TN 2005</button>
+                <button type="button" data-grad="2010" class="birth-btn px-2 py-1 bg-white hover:bg-warmOrange-50 border border-slate-200 rounded-lg text-slate-700 font-medium">Sinh 1992 &rarr; TN 2010</button>
+                <button type="button" data-grad="2011" class="birth-btn px-2 py-1 bg-white hover:bg-warmOrange-50 border border-slate-200 rounded-lg text-slate-700 font-medium">Sinh 1993 &rarr; TN 2011</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-2">
+            <button
+              id="wizard-step1-next-btn"
+              type="button"
+              disabled
+              class="px-6 py-2.5 rounded-xl bg-warmOrange-500 text-white font-bold text-xs disabled:opacity-40 disabled:cursor-not-allowed hover:bg-warmOrange-600 transition shadow-sm"
+            >
+              Tiếp Tục &rarr; Chọn Lớp
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: Chọn Lớp Học -->
+        <div id="wizard-step-2" class="space-y-4 hidden">
+          <div class="space-y-1">
+            <span class="text-xs font-bold text-warmOrange-600 uppercase tracking-wider">Bước 2 trên 3</span>
+            <h4 class="text-lg font-bold text-navy-950">Bạn học lớp nào ở niên khóa <span id="wizard-selected-year-text" class="text-warmOrange-600 font-extrabold"></span>?</h4>
+            <p class="text-xs text-slate-500">Bấm chọn một lớp cụ thể hoặc chọn xem tất cả các lớp của khóa này.</p>
+          </div>
+
+          <div class="space-y-3">
+            <div id="wizard-classes-grid" class="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-48 overflow-y-auto p-1">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+            <button
+              id="wizard-step2-back-btn"
+              type="button"
+              class="px-4 py-2 rounded-xl text-slate-600 bg-slate-100 hover:bg-slate-200 font-bold text-xs transition"
+            >
+              &larr; Chọn Lại Năm
+            </button>
+            <button
+              id="wizard-step2-next-btn"
+              type="button"
+              class="px-6 py-2.5 rounded-xl bg-warmOrange-500 text-white font-bold text-xs hover:bg-warmOrange-600 transition shadow-sm"
+            >
+              Xem Danh Sách &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Xem Kết Quả & Tìm Bạn Cùng Lớp -->
+        <div id="wizard-step-3" class="space-y-4 hidden text-center py-2">
+          <div class="w-16 h-16 rounded-3xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-3xl shadow-inner">
+            ✨
+          </div>
+          <div class="space-y-1">
+            <h4 class="text-xl font-bold text-navy-950">Đã Sẵn Sàng Danh Sách Của Bạn!</h4>
+            <p class="text-xs sm:text-sm text-slate-600 max-w-sm mx-auto">
+              Hệ thống đã lọc sẵn danh sách: <br/>
+              <strong id="wizard-summary-result" class="text-warmOrange-600 text-sm"></strong>
+            </p>
+          </div>
+
+          <div class="pt-3 space-y-2">
+            <button
+              id="wizard-finish-btn"
+              type="button"
+              class="w-full py-3 rounded-2xl bg-gradient-to-r from-warmOrange-500 to-amber-600 text-white font-bold text-sm shadow-md shadow-warmOrange-500/20 hover:from-warmOrange-600 hover:to-amber-700 transition"
+            >
+              Mở Danh Sách Học Sinh Ngay
+            </button>
+            <button
+              id="wizard-reset-btn"
+              type="button"
+              class="text-xs text-slate-500 hover:text-slate-700 font-medium py-1"
+            >
+              Bắt đầu lại từ đầu
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Cross Linking Footer -->
   <CrossLinkingNav currentModule="tim-ban" />
 </BaseLayout>
@@ -534,4 +697,212 @@ import { GRADUATION_YEARS_SUMMARY, TOTAL_OFFICIAL_ALUMNI } from '../../data/offi
       submitBtn.textContent = 'Gửi Thông Tin Cập Nhật Danh Bạ';
     }, 700);
   });
+
+  // ==========================================
+  // WIZARD MODAL INTERACTION LOGIC
+  // ==========================================
+  const wizardModal = document.getElementById('guided-wizard-modal');
+  const wizardBox = document.getElementById('wizard-modal-box');
+  const openWizardBtn = document.getElementById('open-wizard-btn');
+  const closeWizardBtn = document.getElementById('close-wizard-modal-btn');
+
+  const stepPill1 = document.getElementById('step-pill-1');
+  const stepPill2 = document.getElementById('step-pill-2');
+  const stepPill3 = document.getElementById('step-pill-3');
+
+  const step1 = document.getElementById('wizard-step-1');
+  const step2 = document.getElementById('wizard-step-2');
+  const step3 = document.getElementById('wizard-step-3');
+
+  const wizardYearSelect = document.getElementById('wizard-year-select') as HTMLSelectElement | null;
+  const wizardStep1NextBtn = document.getElementById('wizard-step1-next-btn') as HTMLButtonElement | null;
+  const wizardSelectedYearText = document.getElementById('wizard-selected-year-text');
+  const wizardClassesGrid = document.getElementById('wizard-classes-grid');
+  const wizardStep2BackBtn = document.getElementById('wizard-step2-back-btn');
+  const wizardStep2NextBtn = document.getElementById('wizard-step2-next-btn');
+  const wizardSummaryResult = document.getElementById('wizard-summary-result');
+  const wizardFinishBtn = document.getElementById('wizard-finish-btn');
+  const wizardResetBtn = document.getElementById('wizard-reset-btn');
+  const birthBtns = document.querySelectorAll<HTMLButtonElement>('.birth-btn');
+
+  let wizardSelectedYear = '';
+  let wizardSelectedClass = 'ALL';
+
+  function openWizard() {
+    if (!wizardModal || !wizardBox) return;
+    wizardModal.classList.remove('hidden');
+    setTimeout(() => {
+      wizardModal.classList.remove('opacity-0');
+      wizardBox.classList.remove('scale-95');
+      wizardBox.classList.add('scale-100');
+    }, 10);
+  }
+
+  function closeWizard() {
+    if (!wizardModal || !wizardBox) return;
+    wizardModal.classList.add('opacity-0');
+    wizardBox.classList.remove('scale-100');
+    wizardBox.classList.add('scale-95');
+    setTimeout(() => {
+      wizardModal.classList.add('hidden');
+    }, 300);
+  }
+
+  function goToStep(stepNum: number) {
+    if (!step1 || !step2 || !step3 || !stepPill1 || !stepPill2 || !stepPill3) return;
+    
+    // Hide all steps
+    step1.classList.add('hidden');
+    step2.classList.add('hidden');
+    step3.classList.add('hidden');
+
+    // Reset indicator colors
+    stepPill1.className = 'h-1.5 rounded-full bg-navy-800 transition-all duration-300';
+    stepPill2.className = 'h-1.5 rounded-full bg-navy-800 transition-all duration-300';
+    stepPill3.className = 'h-1.5 rounded-full bg-navy-800 transition-all duration-300';
+
+    if (stepNum === 1) {
+      step1.classList.remove('hidden');
+      stepPill1.className = 'h-1.5 rounded-full bg-warmOrange-500 transition-all duration-300';
+    } else if (stepNum === 2) {
+      step2.classList.remove('hidden');
+      stepPill1.className = 'h-1.5 rounded-full bg-warmOrange-500 transition-all duration-300';
+      stepPill2.className = 'h-1.5 rounded-full bg-warmOrange-500 transition-all duration-300';
+      populateWizardClasses();
+    } else if (stepNum === 3) {
+      step3.classList.remove('hidden');
+      stepPill1.className = 'h-1.5 rounded-full bg-warmOrange-500 transition-all duration-300';
+      stepPill2.className = 'h-1.5 rounded-full bg-warmOrange-500 transition-all duration-300';
+      stepPill3.className = 'h-1.5 rounded-full bg-warmOrange-500 transition-all duration-300';
+
+      if (wizardSummaryResult) {
+        const classLabel = wizardSelectedClass === 'ALL' ? 'Tất cả các lớp' : `Lớp ${wizardSelectedClass}`;
+        wizardSummaryResult.textContent = `Năm Tốt Nghiệp ${wizardSelectedYear} • ${classLabel}`;
+      }
+    }
+  }
+
+  function populateWizardClasses() {
+    if (!wizardClassesGrid || !wizardSelectedYear) return;
+    if (wizardSelectedYearText) wizardSelectedYearText.textContent = wizardSelectedYear;
+
+    const yr = parseInt(wizardSelectedYear, 10);
+    const classes = Array.from(new Set(allAlumniData.filter(a => a.gradYear === yr).map(a => a.className))).filter(Boolean).sort();
+
+    wizardClassesGrid.innerHTML = `
+      <button
+        type="button"
+        data-class="ALL"
+        class="wizard-class-btn p-3 rounded-2xl border text-xs font-bold text-center transition ${wizardSelectedClass === 'ALL' ? 'border-warmOrange-500 bg-warmOrange-50 text-warmOrange-900 shadow-sm ring-2 ring-warmOrange-400' : 'border-slate-200 bg-white hover:bg-slate-50 text-slate-700'}"
+      >
+        🌟 Tất cả các lớp (${allAlumniData.filter(a => a.gradYear === yr).length} HS)
+      </button>
+      ${classes.map(c => {
+        const count = allAlumniData.filter(a => a.gradYear === yr && a.className === c).length;
+        const isSelected = wizardSelectedClass === c;
+        return `
+          <button
+            type="button"
+            data-class="${c}"
+            class="wizard-class-btn p-3 rounded-2xl border text-xs font-bold text-center transition ${isSelected ? 'border-warmOrange-500 bg-warmOrange-50 text-warmOrange-900 shadow-sm ring-2 ring-warmOrange-400' : 'border-slate-200 bg-white hover:bg-slate-50 text-slate-700'}"
+          >
+            Lớp ${c}
+            <span class="block text-[10px] font-medium text-slate-400 mt-0.5">${count} bạn</span>
+          </button>
+        `;
+      }).join('')}
+    `;
+
+    wizardClassesGrid.querySelectorAll<HTMLButtonElement>('.wizard-class-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        wizardSelectedClass = btn.getAttribute('data-class') || 'ALL';
+        populateWizardClasses();
+      });
+    });
+  }
+
+  // Event Listeners for Wizard
+  openWizardBtn?.addEventListener('click', () => {
+    goToStep(1);
+    openWizard();
+  });
+
+  closeWizardBtn?.addEventListener('click', closeWizard);
+
+  wizardModal?.addEventListener('click', (e) => {
+    if (e.target === wizardModal) closeWizard();
+  });
+
+  wizardYearSelect?.addEventListener('change', () => {
+    wizardSelectedYear = wizardYearSelect.value;
+    if (wizardStep1NextBtn) {
+      wizardStep1NextBtn.disabled = !wizardSelectedYear;
+    }
+  });
+
+  birthBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const gradYear = btn.getAttribute('data-grad') || '';
+      if (wizardYearSelect) {
+        wizardYearSelect.value = gradYear;
+        wizardSelectedYear = gradYear;
+        if (wizardStep1NextBtn) wizardStep1NextBtn.disabled = false;
+      }
+    });
+  });
+
+  wizardStep1NextBtn?.addEventListener('click', () => {
+    if (!wizardSelectedYear) return;
+    wizardSelectedClass = 'ALL';
+    goToStep(2);
+  });
+
+  wizardStep2BackBtn?.addEventListener('click', () => {
+    goToStep(1);
+  });
+
+  wizardStep2NextBtn?.addEventListener('click', () => {
+    goToStep(3);
+  });
+
+  wizardResetBtn?.addEventListener('click', () => {
+    if (wizardYearSelect) wizardYearSelect.value = '';
+    wizardSelectedYear = '';
+    wizardSelectedClass = 'ALL';
+    if (wizardStep1NextBtn) wizardStep1NextBtn.disabled = true;
+    goToStep(1);
+  });
+
+  wizardFinishBtn?.addEventListener('click', () => {
+    closeWizard();
+    if (selectYear && wizardSelectedYear) {
+      selectYear.value = wizardSelectedYear;
+      updateClassDropdown();
+      if (selectClass) selectClass.value = wizardSelectedClass;
+      
+      // Update pill highlight
+      yearPillButtons.forEach(b => {
+        if (b.getAttribute('data-year') === wizardSelectedYear) {
+          b.className = 'year-pill-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-navy-950 text-white shadow-xs';
+        } else {
+          b.className = 'year-pill-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-warmOrange-100 hover:text-warmOrange-900 border border-slate-200/80';
+        }
+      });
+
+      applyFilters();
+      setTimeout(() => {
+        document.getElementById('app-tra-cuu')?.scrollIntoView({ behavior: 'smooth' });
+      }, 350);
+    }
+  });
+
+  // Tự động gợi ý mở Modal nếu người dùng chưa từng tìm kiếm (hoặc bấm vào trang lần đầu)
+  setTimeout(() => {
+    const hasSeenWizard = sessionStorage.getItem('hasSeenAlumniWizard');
+    if (!hasSeenWizard) {
+      sessionStorage.setItem('hasSeenAlumniWizard', 'true');
+      goToStep(1);
+      openWizard();
+    }
+  }, 1000);
 </script>
