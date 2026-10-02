@@ -356,52 +356,35 @@ import { GRADUATION_YEARS_SUMMARY, TOTAL_OFFICIAL_ALUMNI } from '../../data/offi
 
       <!-- Step Contents -->
       <div class="p-6 sm:p-8 space-y-6">
-        <!-- STEP 1: Chọn Năm Tốt Nghiệp / Năm Sinh -->
+        <!-- STEP 1: Chọn Năm Tốt Nghiệp Trực Quan -->
         <div id="wizard-step-1" class="space-y-4">
           <div class="space-y-1">
-            <span class="text-xs font-bold text-warmOrange-600 uppercase tracking-wider">Bước 1 trên 3</span>
-            <h4 class="text-lg font-bold text-navy-950">Bạn tốt nghiệp năm nào (hoặc sinh năm bao nhiêu)?</h4>
-            <p class="text-xs text-slate-500">Hệ thống đang lưu trữ 25 niên khóa từ năm 1986 đến năm 2011.</p>
+            <span class="text-xs font-bold text-warmOrange-600 uppercase tracking-wider">Bước 1 trên 2</span>
+            <h4 class="text-lg font-bold text-navy-950">Chọn Năm Bạn Tốt Nghiệp THPT (Lớp 12):</h4>
+            <p class="text-xs text-slate-500">Chỉ cần bấm trực tiếp vào năm tốt nghiệp của bạn dưới đây:</p>
           </div>
 
-          <div class="space-y-3">
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">Chọn Năm Tốt Nghiệp THPT (Lớp 12):</label>
-              <select
-                id="wizard-year-select"
-                class="w-full px-4 py-3 rounded-2xl border border-slate-300 text-sm font-semibold text-navy-950 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-warmOrange-500 focus:outline-none transition"
+          <!-- Direct Grid of Year Buttons -->
+          <div class="grid grid-cols-4 sm:grid-cols-5 gap-2 max-h-64 overflow-y-auto p-1.5 bg-slate-50 rounded-2xl border border-slate-200/80" id="wizard-years-grid">
+            {GRADUATION_YEARS_SUMMARY.map(y => (
+              <button
+                type="button"
+                data-year={y.year}
+                class="wizard-year-btn p-2.5 rounded-xl border border-slate-200 bg-white hover:border-warmOrange-400 hover:bg-warmOrange-50 text-navy-950 hover:text-warmOrange-900 transition text-center shadow-xs group"
               >
-                <option value="">-- Vui lòng chọn năm tốt nghiệp --</option>
-                {GRADUATION_YEARS_SUMMARY.map(y => (
-                  <option value={y.year}>Năm {y.year} (Khóa học {y.batch} • {y.totalStudents} học sinh)</option>
-                ))}
-              </select>
-            </div>
-
-            <!-- Quick Birth Year helper -->
-            <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80 text-xs text-slate-600 space-y-1.5">
-              <span class="font-bold text-slate-700 block">💡 Gợi ý nhanh theo năm sinh:</span>
-              <div class="flex flex-wrap gap-1.5 text-[11px]" id="birth-year-quick-picks">
-                <button type="button" data-grad="1986" class="birth-btn px-2 py-1 bg-white hover:bg-warmOrange-50 border border-slate-200 rounded-lg text-slate-700 font-medium">Sinh 1968 &rarr; TN 1986</button>
-                <button type="button" data-grad="1990" class="birth-btn px-2 py-1 bg-white hover:bg-warmOrange-50 border border-slate-200 rounded-lg text-slate-700 font-medium">Sinh 1972 &rarr; TN 1990</button>
-                <button type="button" data-grad="1995" class="birth-btn px-2 py-1 bg-white hover:bg-warmOrange-50 border border-slate-200 rounded-lg text-slate-700 font-medium">Sinh 1977 &rarr; TN 1995</button>
-                <button type="button" data-grad="2000" class="birth-btn px-2 py-1 bg-white hover:bg-warmOrange-50 border border-slate-200 rounded-lg text-slate-700 font-medium">Sinh 1982 &rarr; TN 2000</button>
-                <button type="button" data-grad="2005" class="birth-btn px-2 py-1 bg-white hover:bg-warmOrange-50 border border-slate-200 rounded-lg text-slate-700 font-medium">Sinh 1987 &rarr; TN 2005</button>
-                <button type="button" data-grad="2010" class="birth-btn px-2 py-1 bg-white hover:bg-warmOrange-50 border border-slate-200 rounded-lg text-slate-700 font-medium">Sinh 1992 &rarr; TN 2010</button>
-                <button type="button" data-grad="2011" class="birth-btn px-2 py-1 bg-white hover:bg-warmOrange-50 border border-slate-200 rounded-lg text-slate-700 font-medium">Sinh 1993 &rarr; TN 2011</button>
-              </div>
-            </div>
+                <span class="block text-sm font-extrabold text-navy-900 group-hover:text-warmOrange-600">{y.year}</span>
+                <span class="block text-[10px] text-slate-400 font-medium">{y.totalStudents} HS</span>
+              </button>
+            ))}
           </div>
 
-          <div class="flex justify-end pt-2">
-            <button
-              id="wizard-step1-next-btn"
-              type="button"
-              disabled
-              class="px-6 py-2.5 rounded-xl bg-warmOrange-500 text-white font-bold text-xs disabled:opacity-40 disabled:cursor-not-allowed hover:bg-warmOrange-600 transition shadow-sm"
-            >
-              Tiếp Tục &rarr; Chọn Lớp
-            </button>
+          <!-- Quick helper for Birth Years -->
+          <div class="p-3 bg-amber-50/60 rounded-2xl border border-amber-200/60 text-xs text-slate-600 flex items-start gap-2">
+            <span class="text-base">💡</span>
+            <div>
+              <strong class="text-slate-800">Không nhớ năm tốt nghiệp?</strong>
+              <p class="text-[11px] text-slate-500 mt-0.5">Quy tắc thông thường: <em>Năm Tốt Nghiệp = Năm Sinh + 18</em> (VD: Sinh năm 1989 &rarr; Tốt nghiệp 2007).</p>
+            </div>
           </div>
         </div>
 
@@ -723,7 +706,7 @@ import { GRADUATION_YEARS_SUMMARY, TOTAL_OFFICIAL_ALUMNI } from '../../data/offi
   const wizardSummaryResult = document.getElementById('wizard-summary-result');
   const wizardFinishBtn = document.getElementById('wizard-finish-btn');
   const wizardResetBtn = document.getElementById('wizard-reset-btn');
-  const birthBtns = document.querySelectorAll<HTMLButtonElement>('.birth-btn');
+  const wizardYearBtns = document.querySelectorAll<HTMLButtonElement>('.wizard-year-btn');
 
   let wizardSelectedYear = '';
   let wizardSelectedClass = 'ALL';
@@ -816,7 +799,8 @@ import { GRADUATION_YEARS_SUMMARY, TOTAL_OFFICIAL_ALUMNI } from '../../data/offi
     wizardClassesGrid.querySelectorAll<HTMLButtonElement>('.wizard-class-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         wizardSelectedClass = btn.getAttribute('data-class') || 'ALL';
-        populateWizardClasses();
+        // Tự động chuyển thẳng sang màn hình kết quả bước 3
+        goToStep(3);
       });
     });
   }
@@ -833,28 +817,15 @@ import { GRADUATION_YEARS_SUMMARY, TOTAL_OFFICIAL_ALUMNI } from '../../data/offi
     if (e.target === wizardModal) closeWizard();
   });
 
-  wizardYearSelect?.addEventListener('change', () => {
-    wizardSelectedYear = wizardYearSelect.value;
-    if (wizardStep1NextBtn) {
-      wizardStep1NextBtn.disabled = !wizardSelectedYear;
-    }
-  });
-
-  birthBtns.forEach(btn => {
+  // Bấm vào 1 năm trong grid -> tự động chọn năm và chuyển sang bước 2 (chọn lớp) ngay lập tức!
+  wizardYearBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      const gradYear = btn.getAttribute('data-grad') || '';
-      if (wizardYearSelect) {
-        wizardYearSelect.value = gradYear;
-        wizardSelectedYear = gradYear;
-        if (wizardStep1NextBtn) wizardStep1NextBtn.disabled = false;
-      }
+      const yr = btn.getAttribute('data-year') || '';
+      if (!yr) return;
+      wizardSelectedYear = yr;
+      wizardSelectedClass = 'ALL';
+      goToStep(2);
     });
-  });
-
-  wizardStep1NextBtn?.addEventListener('click', () => {
-    if (!wizardSelectedYear) return;
-    wizardSelectedClass = 'ALL';
-    goToStep(2);
   });
 
   wizardStep2BackBtn?.addEventListener('click', () => {
@@ -866,10 +837,8 @@ import { GRADUATION_YEARS_SUMMARY, TOTAL_OFFICIAL_ALUMNI } from '../../data/offi
   });
 
   wizardResetBtn?.addEventListener('click', () => {
-    if (wizardYearSelect) wizardYearSelect.value = '';
     wizardSelectedYear = '';
     wizardSelectedClass = 'ALL';
-    if (wizardStep1NextBtn) wizardStep1NextBtn.disabled = true;
     goToStep(1);
   });
 
