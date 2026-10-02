@@ -501,6 +501,7 @@ import { GRADUATION_YEARS_SUMMARY, TOTAL_OFFICIAL_ALUMNI } from '../../data/offi
       }
 
       updateClassDropdown();
+      restoreSavedPreferences();
       renderTable();
     } catch (err) {
       console.error(err);
@@ -509,6 +510,36 @@ import { GRADUATION_YEARS_SUMMARY, TOTAL_OFFICIAL_ALUMNI } from '../../data/offi
         statusLoading.className = 'text-xs font-semibold text-rose-600';
       }
     }
+  }
+
+  // Khôi phục tùy chọn đã lưu từ LocalStorage
+  function restoreSavedPreferences() {
+    try {
+      const saved = localStorage.getItem('chs_saved_alumni_pref');
+      if (saved) {
+        const { year, className } = JSON.parse(saved);
+        if (year && selectYear) {
+          selectYear.value = year;
+          updateClassDropdown();
+          if (className && selectClass) {
+            selectClass.value = className;
+          }
+          // Cập nhật pill năm
+          yearPillButtons.forEach(b => {
+            if (b.getAttribute('data-year') === year) {
+              b.className = 'year-pill-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-navy-950 text-white shadow-xs';
+            } else {
+              b.className = 'year-pill-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 text-slate-700 hover:bg-warmOrange-100 hover:text-warmOrange-900 border border-slate-200/80';
+            }
+          });
+          applyFilters();
+          return true;
+        }
+      }
+    } catch (e) {
+      console.error('Error reading saved preferences', e);
+    }
+    return false;
   }
 
   function updateClassDropdown() {
@@ -849,6 +880,16 @@ import { GRADUATION_YEARS_SUMMARY, TOTAL_OFFICIAL_ALUMNI } from '../../data/offi
       updateClassDropdown();
       if (selectClass) selectClass.value = wizardSelectedClass;
       
+      // Lưu vào LocalStorage của thiết bị
+      try {
+        localStorage.setItem('chs_saved_alumni_pref', JSON.stringify({
+          year: wizardSelectedYear,
+          className: wizardSelectedClass
+        }));
+      } catch (e) {
+        console.error('Failed to save preferences', e);
+      }
+
       // Update pill highlight
       yearPillButtons.forEach(b => {
         if (b.getAttribute('data-year') === wizardSelectedYear) {
@@ -865,13 +906,31 @@ import { GRADUATION_YEARS_SUMMARY, TOTAL_OFFICIAL_ALUMNI } from '../../data/offi
     }
   });
 
-  // Tự động gợi ý mở Modal nếu người dùng chưa từng tìm kiếm (hoặc bấm vào trang lần đầu)
+  // Tự động lưu nếu người dùng tự thay đổi bộ lọc trên giao diện
+  selectYear?.addEventListener('change', () => {
+    try {
+      localStorage.setItem('chs_saved_alumni_pref', JSON.stringify({
+        year: selectYear.value,
+        className: selectClass?.value || 'ALL'
+      }));
+    } catch (e) {}
+  });
+
+  selectClass?.addEventListener('change', () => {
+    try {
+      localStorage.setItem('chs_saved_alumni_pref', JSON.stringify({
+        year: selectYear?.value || 'ALL',
+        className: selectClass.value
+      }));
+    } catch (e) {}
+  });
+
+  // Tự động kiểm tra: nếu chưa từng có thông tin lưu trữ dưới LocalStorage thì bật Modal ngay
   setTimeout(() => {
-    const hasSeenWizard = sessionStorage.getItem('hasSeenAlumniWizard');
-    if (!hasSeenWizard) {
-      sessionStorage.setItem('hasSeenAlumniWizard', 'true');
+    const saved = localStorage.getItem('chs_saved_alumni_pref');
+    if (!saved) {
       goToStep(1);
       openWizard();
     }
-  }, 1000);
+  }, 600);
 </script>
