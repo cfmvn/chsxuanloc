@@ -563,3 +563,56 @@ export const facultyPillars = [
     icon: '🚀'
   }
 ];
+
+export interface TeacherAward {
+  id: string;
+  name: string;
+  awardType: 'Huy chương Vì sự nghiệp Giáo dục' | 'Kỷ niệm chương Vì sự nghiệp Giáo dục' | 'Kỷ niệm chương Vì thế hệ trẻ';
+  year: number;
+  note?: string;
+}
+
+export const teacherAwardsData: TeacherAward[] = [
+  // 1. Huy chương Vì sự nghiệp giáo dục (30 thầy cô)
+  { id: 'hc-1', name: 'Thầy Nguyễn Ngọc Hiệp', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 1995, note: 'Nguyên Hiệu trưởng' },
+  { id: 'hc-2', name: 'Cô Nguyễn Thị Huệ', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 1996 },
+  { id: 'hc-3', name: 'Thầy Nguyễn Anh Dũng', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 1997 },
+  { id: 'hc-4', name: 'Thầy Nghiêm Sỹ Thịnh', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 1997 },
+  { id: 'hc-5', name: 'Thầy Trương Văn Nhi', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 1997 },
+  { id: 'hc-6', name: 'Thầy Nguyễn Văn Thế', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 1998 },
+  { id: 'hc-7', name: 'Thầy Phan Tư', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 1998 },
+  { id: 'hc-8', name: 'Thầy Trần Công Phát', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2000 },
+  { id: 'hc-9', name: 'Cô Nguyễn Thị Bảy', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2000 },
+  { id: 'hc-10', name: 'Cô Hồ Thị Mẫn', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2000 },
+  { id: 'hc-11', name: 'Cô Phạm Thị Vân', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2000 },
+  { id: 'hc-12', name: 'Cô Nguyễn Xuân Hạnh', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2000 },
+  { id: 'hc-13', name: 'Thầy Nguyễn Quốc Thắng', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2000 },
+  { id: 'hc-14', name: 'Thầy Nguyễn Phan Khang', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2000 },
+  { id: 'hc-15', name: 'Thầy Trần Đình Vinh', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2001, note: 'Nguyên Hiệu trưởng' },
+  { id: 'hc-16', name: 'Cô Nguyễn Thị Phụng', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2001 },
+  { id: 'hc-17', name: 'Thầy Đoàn Đức Thịnh', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2001 },
+  { id: 'hc-18', name: 'Cô Trần Thị Kim Tân', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2002 },
+  { id: 'hc-19', name: 'Thầy Nguyễn Văn Duyên', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2002 },
+  { id: 'hc-20', name: 'Thầy Dương Trang Nhã', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2002 },
+  { id: 'hc-21', name: 'Thầy Nguyễn Quốc Dân', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2003 },
+  { id: 'hc-22', name: 'Thầy Trần Hữu Hoan', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2003 },
+  { id: 'hc-23', name: 'Thầy Bùi Văn Dũng', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2003, note: 'Nguyên Phó Hiệu trưởng' },
+  { id: 'hc-24', name: 'Thầy Hồ Văn Sinh', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2003 },
+  { id: 'hc-25', name: 'Thầy Nguyễn Đức Hiền', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2003 },
+  { id: 'hc-26', name: 'Cô Đinh Thị Thanh Nguyên', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2003 },
+  { id: 'hc-27', name: 'Cô Huỳnh Ngọc Bích', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2004 },
+  { id: 'hc-28', name: 'Cô Hoàng Thị Yến', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2004 },
+  { id: 'hc-29', name: 'Thầy Nguyễn Hào Quang', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2004 },
+  { id: 'hc-30', name: 'Thầy Nguyễn Ngọc Hiệp', awardType: 'Huy chương Vì sự nghiệp Giáo dục', year: 2004, note: 'Giáo viên Hóa' },
+
+  // 2. Kỷ niệm chương Vì sự nghiệp giáo dục
+  { id: 'knc-gd-1', name: 'Thầy Phạm An Nghiệp', awardType: 'Kỷ niệm chương Vì sự nghiệp Giáo dục', year: 2005 },
+  { id: 'knc-gd-2', name: 'Cô Đào Thị Vấn', awardType: 'Kỷ niệm chương Vì sự nghiệp Giáo dục', year: 2005 },
+  { id: 'knc-gd-3', name: 'Ông Mai Văn Hoàng', awardType: 'Kỷ niệm chương Vì sự nghiệp Giáo dục', year: 2005, note: 'Cán bộ nhân viên trường' },
+
+  // 3. Kỷ niệm chương Vì thế hệ trẻ
+  { id: 'knc-tht-1', name: 'Thầy Trần Đình Vinh', awardType: 'Kỷ niệm chương Vì thế hệ trẻ', year: 2006, note: 'Nguyên Hiệu trưởng' },
+  { id: 'knc-tht-2', name: 'Thầy Vũ Ngọc Cường', awardType: 'Kỷ niệm chương Vì thế hệ trẻ', year: 2006 },
+  { id: 'knc-tht-3', name: 'Thầy Hồ Viết Khoa', awardType: 'Kỷ niệm chương Vì thế hệ trẻ', year: 2007 }
+];
+

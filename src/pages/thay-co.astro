@@ -6,8 +6,19 @@ import {
   departmentsData, 
   facultyMembersData, 
   facultyDevPhases, 
-  facultyPillars 
+  facultyPillars,
+  teacherAwardsData
 } from '../data/facultyDirectory';
+
+// Helper to normalize teacher name for matching awards
+function getTeacherAwards(teacherName: string) {
+  const cleanName = teacherName.replace(/^(Thầy|Cô|Ông|Bà)\s+/i, '').trim().toLowerCase();
+  return teacherAwardsData.filter(award => {
+    const awardCleanName = award.name.replace(/^(Thầy|Cô|Ông|Bà)\s+/i, '').trim().toLowerCase();
+    return awardCleanName === cleanName;
+  });
+}
+
 
 const teachersList = [
   {
@@ -199,6 +210,162 @@ const alumniTeacherGenerations = [
     </div>
   </section>
 
+  <!-- BẢNG VÀNG DANH HIỆU CAO QUÝ CỦA NHÀ GIÁO (Huy chương & Kỷ niệm chương) -->
+  <section class="py-14 bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950 text-white relative overflow-hidden" id="danh-hieu-cao-quy">
+    <div class="absolute inset-0 bg-[radial-gradient(#f59e0b_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold uppercase tracking-wider">
+          <span>🎖️ Huân Chương • Huy Chương • Kỷ Niệm Chương</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white">
+          Bảng Vàng Danh Hiệu Cao Quý Của Nhà Giáo
+        </h2>
+        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+          Tôn vinh những cống hiến trọn đời và thành tích xuất sắc của các thế hệ Thầy Cô giáo Trường THPT Xuân Lộc được Nhà nước, Bộ GD&ĐT và Trung ương Đoàn trao tặng.
+        </p>
+      </div>
+
+      <!-- Thống kê danh hiệu tóm tắt -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
+        <div class="bg-navy-900/90 rounded-2xl p-4 border border-amber-500/30 flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center text-2xl shrink-0">
+            🥇
+          </div>
+          <div>
+            <div class="text-xl sm:text-2xl font-black text-amber-400">30 Thầy Cô</div>
+            <div class="text-xs text-slate-300 font-medium">Huy chương Vì sự nghiệp Giáo dục</div>
+            <div class="text-[10px] text-amber-300/80">Bộ GD&ĐT (1995 – 2004)</div>
+          </div>
+        </div>
+
+        <div class="bg-navy-900/90 rounded-2xl p-4 border border-blue-500/30 flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-2xl shrink-0">
+            🎖️
+          </div>
+          <div>
+            <div class="text-xl sm:text-2xl font-black text-blue-400">3 Thầy Cô & CB</div>
+            <div class="text-xs text-slate-300 font-medium">Kỷ niệm chương Vì SN Giáo dục</div>
+            <div class="text-[10px] text-blue-300/80">Bộ GD&ĐT (2005)</div>
+          </div>
+        </div>
+
+        <div class="bg-navy-900/90 rounded-2xl p-4 border border-emerald-500/30 flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center text-2xl shrink-0">
+            🌟
+          </div>
+          <div>
+            <div class="text-xl sm:text-2xl font-black text-emerald-400">3 Thầy Cô</div>
+            <div class="text-xs text-slate-300 font-medium">Kỷ niệm chương Vì thế hệ trẻ</div>
+            <div class="text-[10px] text-emerald-300/80">TW Đoàn TNCS Hồ Chí Minh</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bộ lọc danh hiệu Tabs & Search -->
+      <div class="bg-navy-900/70 p-4 rounded-3xl border border-navy-800 flex flex-col md:flex-row items-center justify-between gap-4">
+        <!-- Tabs -->
+        <div class="flex flex-wrap items-center gap-2 w-full md:w-auto" id="awards-tabs">
+          <button
+            class="award-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition bg-amber-500 text-navy-950 shadow-sm"
+            data-award-filter="all"
+          >
+            Tất Cả ({teacherAwardsData.length})
+          </button>
+          <button
+            class="award-filter-btn px-4 py-2 rounded-2xl text-xs font-semibold transition bg-navy-800 text-slate-300 hover:text-white hover:bg-navy-700"
+            data-award-filter="Huy chương Vì sự nghiệp Giáo dục"
+          >
+            🥇 Huy chương GD ({teacherAwardsData.filter(a => a.awardType === 'Huy chương Vì sự nghiệp Giáo dục').length})
+          </button>
+          <button
+            class="award-filter-btn px-4 py-2 rounded-2xl text-xs font-semibold transition bg-navy-800 text-slate-300 hover:text-white hover:bg-navy-700"
+            data-award-filter="Kỷ niệm chương Vì sự nghiệp Giáo dục"
+          >
+            🎖️ KNC Giáo dục ({teacherAwardsData.filter(a => a.awardType === 'Kỷ niệm chương Vì sự nghiệp Giáo dục').length})
+          </button>
+          <button
+            class="award-filter-btn px-4 py-2 rounded-2xl text-xs font-semibold transition bg-navy-800 text-slate-300 hover:text-white hover:bg-navy-700"
+            data-award-filter="Kỷ niệm chương Vì thế hệ trẻ"
+          >
+            🌟 KNC Thế hệ trẻ ({teacherAwardsData.filter(a => a.awardType === 'Kỷ niệm chương Vì thế hệ trẻ').length})
+          </button>
+        </div>
+
+        <!-- Search Input -->
+        <div class="relative w-full md:w-72">
+          <input
+            type="text"
+            id="awards-search-input"
+            placeholder="Tìm tên thầy cô nhận giải..."
+            class="w-full pl-9 pr-4 py-2 rounded-2xl bg-navy-950/80 border border-navy-700 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amber-400 transition"
+          />
+          <span class="absolute left-3 top-2.5 text-slate-400 text-xs">🔍</span>
+        </div>
+      </div>
+
+      <!-- Danh sách thẻ Thầy Cô Nhận Thưởng -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="awards-grid">
+        {teacherAwardsData.map((award) => {
+          const isGold = award.awardType === 'Huy chương Vì sự nghiệp Giáo dục';
+          const isBlue = award.awardType === 'Kỷ niệm chương Vì sự nghiệp Giáo dục';
+          const isGreen = award.awardType === 'Kỷ niệm chương Vì thế hệ trẻ';
+
+          return (
+            <div
+              class="award-card bg-navy-900/90 rounded-2xl p-4 border border-navy-800 hover:border-amber-400/60 transition flex flex-col justify-between"
+              data-award-type={award.awardType}
+              data-award-name={award.name.toLowerCase()}
+              data-award-year={award.year}
+            >
+              <div>
+                <div class="flex items-start justify-between gap-2 mb-2">
+                  <div class="flex items-center space-x-3">
+                    <div class={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm ${
+                      isGold ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' :
+                      isBlue ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40' :
+                      'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                    }`}>
+                      {award.name.split(' ').pop()?.[0]}
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-white text-sm">{award.name}</h4>
+                      {award.note && (
+                        <p class="text-[11px] text-amber-400/90 font-medium">{award.note}</p>
+                      )}
+                    </div>
+                  </div>
+                  <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-navy-950 text-amber-400 border border-navy-700 shrink-0">
+                    Năm {award.year}
+                  </span>
+                </div>
+
+                <div class="mt-2 pt-2 border-t border-navy-800 text-[11px]">
+                  <span class={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg font-medium ${
+                    isGold ? 'bg-amber-500/10 text-amber-300 border border-amber-500/20' :
+                    isBlue ? 'bg-blue-500/10 text-blue-300 border border-blue-500/20' :
+                    'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
+                  }`}>
+                    <span>{isGold ? '🥇' : isBlue ? '🎖️' : '🌟'}</span>
+                    <span>{award.awardType}</span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="mt-3 pt-2 flex items-center justify-between text-[10px] text-slate-400 border-t border-navy-800/60">
+                <span>Trường THPT Xuân Lộc</span>
+                <span class="text-amber-400/80">Bộ GD&ĐT / TƯ Đoàn</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div id="no-awards-found" class="hidden text-center py-10 bg-navy-900/50 rounded-2xl border border-dashed border-navy-700">
+        <p class="text-xs text-slate-400">Không tìm thấy giáo viên nhận danh hiệu tương ứng</p>
+      </div>
+    </div>
+  </section>
+
   <!-- KỶ YẾU DANH SÁCH GIÁO VIÊN THEO 9 TỔ CHUYÊN MÔN (SIDEBAR LAYOUT) -->
   <section class="py-16 bg-white border-t border-b border-slate-200" id="ky-yeu-to-chuyen-mon">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
@@ -213,6 +380,7 @@ const alumniTeacherGenerations = [
           Chọn tổ chuyên môn ở cột bên trái để tra cứu nhanh thông tin đội ngũ nhà giáo đang công tác, đã nghỉ hưu hoặc đã chuyển công tác.
         </p>
       </div>
+
 
       <!-- Layout 2 Cột: Sidebar Trái (Tổ Chuyên Môn) + Content Phải (Bảng Giáo Viên) -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start" id="faculty-app">
@@ -331,64 +499,79 @@ const alumniTeacherGenerations = [
 
           <!-- CHẾ ĐỘ 1: DẠNG THẺ DANH THIẾP CHI TIẾT (Cards View) -->
           <div id="faculty-cards-view" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {facultyMembersData.map((member) => (
-              <div
-                class="faculty-item-card bg-white rounded-3xl p-5 border border-slate-200 shadow-sm hover:border-warmOrange-300 hover:shadow-md transition duration-200 flex flex-col justify-between"
-                data-dept={member.departmentId}
-                data-status={member.status}
-                data-name={member.name.toLowerCase()}
-                data-note={member.roleOrNote.toLowerCase()}
-              >
-                <div>
-                  <div class="flex items-start justify-between gap-2 mb-3">
-                    <div class="flex items-center space-x-3">
-                      <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-navy-800 to-navy-900 flex items-center justify-center text-warmOrange-400 font-bold text-base shadow-inner border border-navy-700">
-                        {member.name.split(' ').pop()?.[0]}
+            {facultyMembersData.map((member) => {
+              const awards = getTeacherAwards(member.name);
+              return (
+                <div
+                  class="faculty-item-card bg-white rounded-3xl p-5 border border-slate-200 shadow-sm hover:border-warmOrange-300 hover:shadow-md transition duration-200 flex flex-col justify-between"
+                  data-dept={member.departmentId}
+                  data-status={member.status}
+                  data-name={member.name.toLowerCase()}
+                  data-note={member.roleOrNote.toLowerCase()}
+                >
+                  <div>
+                    <div class="flex items-start justify-between gap-2 mb-3">
+                      <div class="flex items-center space-x-3">
+                        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-navy-800 to-navy-900 flex items-center justify-center text-warmOrange-400 font-bold text-base shadow-inner border border-navy-700 shrink-0">
+                          {member.name.split(' ').pop()?.[0]}
+                        </div>
+                        <div>
+                          <h4 class="font-bold text-navy-950 text-sm leading-snug">{member.name}</h4>
+                          <span class="inline-block text-[11px] font-semibold text-warmOrange-700 bg-warmOrange-50 px-2 py-0.5 rounded-md border border-warmOrange-200/60 mt-0.5">
+                            {member.departmentName}
+                          </span>
+                        </div>
                       </div>
-                      <div>
-                        <h4 class="font-bold text-navy-950 text-sm leading-snug">{member.name}</h4>
-                        <span class="inline-block text-[11px] font-semibold text-warmOrange-700 bg-warmOrange-50 px-2 py-0.5 rounded-md border border-warmOrange-200/60 mt-0.5">
-                          {member.departmentName}
-                        </span>
-                      </div>
+
+                      <span class={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold shrink-0 ${
+                        member.status === 'Đang công tác' ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' :
+                        member.status === 'Đã nghỉ hưu' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
+                        'bg-slate-100 text-slate-700 border border-slate-200'
+                      }`}>
+                        {member.status}
+                      </span>
                     </div>
 
-                    <span class={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold shrink-0 ${
-                      member.status === 'Đang công tác' ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' :
-                      member.status === 'Đã nghỉ hưu' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
-                      'bg-slate-100 text-slate-700 border border-slate-200'
-                    }`}>
-                      {member.status}
-                    </span>
+                    <!-- Huy hiệu Vinh danh nếu có -->
+                    {awards.length > 0 && (
+                      <div class="mb-3 flex flex-wrap gap-1.5">
+                        {awards.map(aw => (
+                          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-amber-50 text-amber-900 border border-amber-300/80 text-[10px] font-bold shadow-2xs">
+                            <span>🎖️</span>
+                            <span>{aw.awardType} ({aw.year})</span>
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    <div class="space-y-1 text-xs text-slate-600 bg-slate-50/80 p-3 rounded-2xl border border-slate-100 mb-3">
+                      <p class="flex items-center justify-between text-[11px]">
+                        <span class="text-slate-500 font-medium">Thời gian công tác:</span>
+                        <strong class="text-navy-900 font-semibold">{member.period}</strong>
+                      </p>
+                      <p class="flex items-center justify-between text-[11px]">
+                        <span class="text-slate-500 font-medium">Năm về trường:</span>
+                        <strong class="text-navy-900 font-semibold">{member.startYear}</strong>
+                      </p>
+                    </div>
+
+                    <div class="text-xs text-slate-700 leading-relaxed">
+                      <span class="font-bold text-navy-900 block text-[11px] uppercase tracking-wider mb-1">Dấu ấn & Ghi chú:</span>
+                      <p class="text-slate-600 text-xs italic bg-white pl-2 border-l-2 border-warmOrange-400">
+                        "{member.roleOrNote}"
+                      </p>
+                    </div>
                   </div>
 
-                  <div class="space-y-1 text-xs text-slate-600 bg-slate-50/80 p-3 rounded-2xl border border-slate-100 mb-3">
-                    <p class="flex items-center justify-between text-[11px]">
-                      <span class="text-slate-500 font-medium">Thời gian công tác:</span>
-                      <strong class="text-navy-900 font-semibold">{member.period}</strong>
-                    </p>
-                    <p class="flex items-center justify-between text-[11px]">
-                      <span class="text-slate-500 font-medium">Năm về trường:</span>
-                      <strong class="text-navy-900 font-semibold">{member.startYear}</strong>
-                    </p>
-                  </div>
-
-                  <div class="text-xs text-slate-700 leading-relaxed">
-                    <span class="font-bold text-navy-900 block text-[11px] uppercase tracking-wider mb-1">Dấu ấn & Ghi chú:</span>
-                    <p class="text-slate-600 text-xs italic bg-white pl-2 border-l-2 border-warmOrange-400">
-                      "{member.roleOrNote}"
-                    </p>
+                  <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                    <span class="text-slate-400">THPT Xuân Lộc</span>
+                    <a href="#gui-loi-chuc-thay-co" class="text-warmOrange-600 hover:text-warmOrange-700 font-semibold hover:underline">
+                      Gửi lời tri ân &rarr;
+                    </a>
                   </div>
                 </div>
-
-                <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-                  <span class="text-slate-400">THPT Xuân Lộc</span>
-                  <a href="#gui-loi-chuc-thay-co" class="text-warmOrange-600 hover:text-warmOrange-700 font-semibold hover:underline">
-                    Gửi lời tri ân &rarr;
-                  </a>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <!-- CHẾ ĐỘ 2: DẠNG BẢNG (Table View) -->
@@ -400,43 +583,60 @@ const alumniTeacherGenerations = [
                   <th class="py-3.5 px-3 sm:px-4">Tổ Bộ Môn</th>
                   <th class="py-3.5 px-3 sm:px-4">Thời Gian</th>
                   <th class="py-3.5 px-3 sm:px-4">Tình Trạng</th>
-                  <th class="py-3.5 px-4 sm:px-5">Dấu Ấn / Ghi Chú Chuyên Môn</th>
+                  <th class="py-3.5 px-4 sm:px-5">Dấu Ấn & Danh Hiệu</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100 text-slate-700" id="faculty-table-body">
-                {facultyMembersData.map((member) => (
-                  <tr
-                    class="faculty-item-row hover:bg-slate-50/80 transition"
-                    data-dept={member.departmentId}
-                    data-status={member.status}
-                    data-name={member.name.toLowerCase()}
-                    data-note={member.roleOrNote.toLowerCase()}
-                  >
-                    <td class="py-3.5 px-4 sm:px-5 font-bold text-navy-950 whitespace-nowrap">
-                      {member.name}
-                    </td>
-                    <td class="py-3.5 px-3 sm:px-4 text-slate-600 whitespace-nowrap">
-                      <span class="px-2 py-0.5 rounded bg-slate-100 text-[11px] font-medium text-slate-800">
-                        {member.departmentName}
-                      </span>
-                    </td>
-                    <td class="py-3.5 px-3 sm:px-4 font-medium text-slate-500 whitespace-nowrap">
-                      {member.period}
-                    </td>
-                    <td class="py-3.5 px-3 sm:px-4 whitespace-nowrap">
-                      <span class={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                        member.status === 'Đang công tác' ? 'bg-emerald-100 text-emerald-800' :
-                        member.status === 'Đã nghỉ hưu' ? 'bg-amber-100 text-amber-800' :
-                        'bg-slate-200 text-slate-700'
-                      }`}>
-                        {member.status}
-                      </span>
-                    </td>
-                    <td class="py-3.5 px-4 sm:px-5 text-xs text-slate-600 leading-relaxed">
-                      {member.roleOrNote}
-                    </td>
-                  </tr>
-                ))}
+                {facultyMembersData.map((member) => {
+                  const awards = getTeacherAwards(member.name);
+                  return (
+                    <tr
+                      class="faculty-item-row hover:bg-slate-50/80 transition"
+                      data-dept={member.departmentId}
+                      data-status={member.status}
+                      data-name={member.name.toLowerCase()}
+                      data-note={member.roleOrNote.toLowerCase()}
+                    >
+                      <td class="py-3.5 px-4 sm:px-5 font-bold text-navy-950 whitespace-nowrap">
+                        <div class="flex items-center gap-1.5">
+                          <span>{member.name}</span>
+                          {awards.length > 0 && (
+                            <span class="text-amber-500" title={`Được vinh danh: ${awards.map(a => a.awardType).join(', ')}`}>🎖️</span>
+                          )}
+                        </div>
+                      </td>
+                      <td class="py-3.5 px-3 sm:px-4 text-slate-600 whitespace-nowrap">
+                        <span class="px-2 py-0.5 rounded bg-slate-100 text-[11px] font-medium text-slate-800">
+                          {member.departmentName}
+                        </span>
+                      </td>
+                      <td class="py-3.5 px-3 sm:px-4 font-medium text-slate-500 whitespace-nowrap">
+                        {member.period}
+                      </td>
+                      <td class="py-3.5 px-3 sm:px-4 whitespace-nowrap">
+                        <span class={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                          member.status === 'Đang công tác' ? 'bg-emerald-100 text-emerald-800' :
+                          member.status === 'Đã nghỉ hưu' ? 'bg-amber-100 text-amber-800' :
+                          'bg-slate-200 text-slate-700'
+                        }`}>
+                          {member.status}
+                        </span>
+                      </td>
+                      <td class="py-3.5 px-4 sm:px-5 text-xs text-slate-600 leading-relaxed">
+                        <div>{member.roleOrNote}</div>
+                        {awards.length > 0 && (
+                          <div class="mt-1 flex flex-wrap gap-1">
+                            {awards.map(aw => (
+                              <span class="inline-block px-1.5 py-0.5 rounded bg-amber-50 text-amber-900 border border-amber-200 text-[10px] font-semibold">
+                                {aw.awardType} ({aw.year})
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -623,6 +823,62 @@ const alumniTeacherGenerations = [
     }
   }
 
-  document.addEventListener('DOMContentLoaded', setupFacultyApp);
+  function setupAwardsApp() {
+    const filterButtons = document.querySelectorAll<HTMLButtonElement>('.award-filter-btn');
+    const cards = document.querySelectorAll<HTMLDivElement>('.award-card');
+    const searchInput = document.getElementById('awards-search-input') as HTMLInputElement | null;
+    const noAwardsEl = document.getElementById('no-awards-found');
+
+    let currentFilter = 'all';
+    let searchQuery = '';
+
+    function filterAwards() {
+      let visibleCount = 0;
+      cards.forEach((card) => {
+        const itemType = card.getAttribute('data-award-type') || '';
+        const itemName = card.getAttribute('data-award-name') || '';
+
+        const matchesType = currentFilter === 'all' || itemType === currentFilter;
+        const matchesSearch = !searchQuery || itemName.includes(searchQuery);
+
+        const isVisible = matchesType && matchesSearch;
+        card.style.display = isVisible ? '' : 'none';
+        if (isVisible) visibleCount++;
+      });
+
+      if (noAwardsEl) {
+        noAwardsEl.style.display = visibleCount === 0 ? 'block' : 'none';
+      }
+    }
+
+    filterButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentFilter = btn.getAttribute('data-award-filter') || 'all';
+
+        filterButtons.forEach((b) => {
+          b.classList.remove('bg-amber-500', 'text-navy-950', 'font-bold', 'shadow-sm');
+          b.classList.add('bg-navy-800', 'text-slate-300', 'font-semibold');
+        });
+
+        btn.classList.remove('bg-navy-800', 'text-slate-300', 'font-semibold');
+        btn.classList.add('bg-amber-500', 'text-navy-950', 'font-bold', 'shadow-sm');
+
+        filterAwards();
+      });
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = (e.target as HTMLInputElement).value.trim().toLowerCase();
+        filterAwards();
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setupFacultyApp();
+    setupAwardsApp();
+  });
 </script>
+
 
