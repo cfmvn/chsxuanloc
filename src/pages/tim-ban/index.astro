@@ -364,9 +364,9 @@ import { GRADUATION_YEARS_SUMMARY, TOTAL_OFFICIAL_ALUMNI } from '../../data/offi
             <p class="text-xs text-slate-500">Chỉ cần bấm trực tiếp vào năm tốt nghiệp của bạn dưới đây:</p>
           </div>
 
-          <!-- Direct Grid of Year Buttons -->
+          <!-- Direct Grid of Year Buttons (Sorted Descending: 2011 -> 1986) -->
           <div class="grid grid-cols-4 sm:grid-cols-5 gap-2 max-h-64 overflow-y-auto p-1.5 bg-slate-50 rounded-2xl border border-slate-200/80" id="wizard-years-grid">
-            {GRADUATION_YEARS_SUMMARY.map(y => (
+            {[...GRADUATION_YEARS_SUMMARY].reverse().map(y => (
               <button
                 type="button"
                 data-year={y.year}
@@ -542,16 +542,23 @@ import { GRADUATION_YEARS_SUMMARY, TOTAL_OFFICIAL_ALUMNI } from '../../data/offi
     return false;
   }
 
+  // Hàm sắp xếp tên lớp tự nhiên: A1 -> A2 -> A10 -> B1 -> C1 -> C13
+  function naturalSortClasses(arr: string[]): string[] {
+    return arr.sort((a, b) => {
+      return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+    });
+  }
+
   function updateClassDropdown() {
     if (!selectClass) return;
     const selectedYear = selectYear?.value || 'ALL';
     
     let classes: string[] = [];
     if (selectedYear === 'ALL') {
-      classes = Array.from(new Set(allAlumniData.map(a => a.className))).filter(Boolean).sort();
+      classes = naturalSortClasses(Array.from(new Set(allAlumniData.map(a => a.className))).filter(Boolean));
     } else {
       const yr = parseInt(selectedYear, 10);
-      classes = Array.from(new Set(allAlumniData.filter(a => a.gradYear === yr).map(a => a.className))).filter(Boolean).sort();
+      classes = naturalSortClasses(Array.from(new Set(allAlumniData.filter(a => a.gradYear === yr).map(a => a.className))).filter(Boolean));
     }
 
     selectClass.innerHTML = '<option value="ALL">Tất cả các lớp</option>' + 
@@ -801,7 +808,7 @@ import { GRADUATION_YEARS_SUMMARY, TOTAL_OFFICIAL_ALUMNI } from '../../data/offi
     if (wizardSelectedYearText) wizardSelectedYearText.textContent = wizardSelectedYear;
 
     const yr = parseInt(wizardSelectedYear, 10);
-    const classes = Array.from(new Set(allAlumniData.filter(a => a.gradYear === yr).map(a => a.className))).filter(Boolean).sort();
+    const classes = naturalSortClasses(Array.from(new Set(allAlumniData.filter(a => a.gradYear === yr).map(a => a.className))).filter(Boolean));
 
     wizardClassesGrid.innerHTML = `
       <button
