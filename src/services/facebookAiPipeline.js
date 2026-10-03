@@ -137,13 +137,13 @@ NHIỆM VỤ CỦA BẠN:
       'Authorization': `Bearer ${GROQ_API_KEY}`
     },
     body: JSON.stringify({
-      model: 'openai/gpt-oss-120b',
+      model: 'openai/gpt-oss-20b',
       messages: [
-        { role: 'system', content: 'You are an expert Vietnamese journalist and school editor. You always output clean JSON without markdown codeblock wrappers.' },
+        { role: 'system', content: 'You are an expert Vietnamese journalist and school editor. You always output valid JSON.' },
         { role: 'user', content: prompt }
       ],
       temperature: 0.2,
-      response_format: { type: "json_object" }
+      max_tokens: 2000
     })
   });
 
@@ -153,7 +153,10 @@ NHIỆM VỤ CỦA BẠN:
   }
 
   const resJson = await response.json();
-  const article = JSON.parse(resJson.choices[0].message.content);
+  const rawContent = resJson.choices[0].message.content.trim();
+  const cleanJson = rawContent.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/i, '');
+  const article = JSON.parse(cleanJson);
+
 
   // Nếu bài viết bị bộ lọc từ chối
   if (article.shouldPublish === false) {
