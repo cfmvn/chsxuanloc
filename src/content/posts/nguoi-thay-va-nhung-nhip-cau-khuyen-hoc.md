@@ -9,14 +9,27 @@ featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội"]
 ---
 
-# Người thầy và những nhịp cầu khuyến học
+### 1. Chiếc xe máy chở niềm tin đến từng hoàn cảnh nghèo
+Mỗi tháng, chiếc xe máy của thầy Đoàn Công Khanh (giáo viên Trường THPT Xuân Lộc) lại lướt qua những con đường làng, ngõ xóm nhỏ của huyện Xuân Lộc, mang theo niềm tin và sự quan tâm sâu sắc tới những ngôi nhà có học sinh nghèo, mồ côi hoặc gia đình gặp biến cố ngặt nghèo. Thầy không chỉ trao tặng số tiền hỗ trợ hàng tháng mà còn lắng nghe, thăm hỏi ân cần và động viên các em kiên trì bám lớp, thắp sáng ước mơ học tập.
 
-Mỗi tháng, chiếc xe máy của thầy Khanh lướt qua những con đường nhỏ của Xuân Lộc, mang theo niềm tin và sự quan tâm tới những ngôi nhà có học sinh nghèo, mồ côi hoặc gia đình đặc biệt khó khăn. Thầy không chỉ trao tặng 500 ngàn đồng mỗi tháng, mà còn lắng nghe, hỏi han và động viên các em cố gắng học tập, tạo nên những nhịp cầu tinh thần nối liền giữa học sinh và cộng đồng.
+![Thầy giáo Đoàn Công Khanh cùng các học trò và phụ huynh trong chuyến trao học bổng](/assets/posts/nguoi-thay-va-nhung-nhip-cau-khuyen-hoc/anh-1.png)
 
-Một trong những học sinh được thầy hỗ trợ là Lê Thị Thêm, học sinh lớp 11C5, ngụ xã Xuân Thành. Cô sống cùng dì bị tật bẩm sinh và phải bán vé số để sinh tồn. Khi nhận được sự giúp đỡ của thầy, Thêm không chỉ được giảm bớt gánh nặng tài chính mà còn được khích lệ, hứa sẽ học thật tốt để không phụ lòng thầy và các mạnh thường quân. Câu chuyện của cô là minh chứng cho sức mạnh của tình yêu thương và sự hỗ trợ bền vững.
+### 2. Nghị lực vượt khó của những cô cậu học trò nghèo
+Một trong những học sinh được thầy hỗ trợ là em Lê Thị Thêm, học sinh lớp 11C5 Trường THPT Xuân Lộc, ngụ xã Xuân Thành. Thêm sống cùng người dì bị tật bẩm sinh và phải đi bán vé số sau giờ học để mưu sinh. Khi nhận được sự tiếp sức kịp thời từ thầy và các cựu học sinh, Thêm không chỉ vơi bớt gánh nặng cơm áo mà còn được tiếp thêm niềm tin mạnh mẽ, quyết tâm học thật giỏi để không phụ lòng thầy cô và các nhà hảo tâm.
 
-Chương trình "San sẻ yêu thương" bắt đầu từ những cuộc trò chuyện của thầy Khanh với các cựu học sinh trên mạng xã hội. Nhận thấy nhiều học trò cũ đã trưởng thành, thành đạt và mong muốn giúp đỡ đàn em, thầy đã dũng cảm kết nối những tấm lòng ấy. Qua 3 năm, chương trình đã hỗ trợ hơn 100 học sinh có hoàn cảnh khó khăn, với tổng kinh phí trên 900 triệu đồng. Trong tháng 8 và 9 năm 2026, các cựu học sinh đã trao 53,6 triệu đồng hỗ trợ học sinh khó khăn, mồ côi, thiếu điều kiện.
+![Thầy Khanh tận tay trao quà và kinh phí học tập cho các em học sinh có hoàn cảnh ngặt nghèo](/assets/posts/nguoi-thay-va-nhung-nhip-cau-khuyen-hoc/anh-2.png)
 
-Sự kiện này không chỉ là hành động nhân ái mà còn là biểu tượng của tinh thần đoàn kết, yêu thương và trách nhiệm của cộng đồng Xuân Lộc. Thầy Khanh và những người tham gia chương trình đã khắc sâu vào trái tim mỗi người, nhắc nhở chúng ta rằng, trong mỗi ngôi nhà, mỗi học sinh, luôn có một nhịp cầu khuyến học đang chờ được xây dựng.
+### 3. "San sẻ yêu thương" – Nhịp cầu nối liền các thế hệ Cựu học sinh
+Chương trình **"San sẻ yêu thương"** bắt đầu từ những cuộc trò chuyện tâm tình của thầy Khanh với các thế hệ cựu học sinh trên mạng xã hội. Nhận thấy nhiều học trò cũ sau khi trưởng thành, lập nghiệp thành đạt đều mong mỏi được đóng góp tiếp sức cho đàn em khóa sau, thầy đã đứng ra làm cầu nối gắn kết những tấm lòng thiện nguyện.
 
+![Chương trình San sẻ yêu thương kết nối hàng trăm triệu đồng từ cựu học sinh các khóa](/assets/posts/nguoi-thay-va-nhung-nhip-cau-khuyen-hoc/anh-3.png)
+
+Qua hơn 3 năm bền bỉ hoạt động, chương trình đã hỗ trợ thường xuyên cho hơn 100 học sinh có hoàn cảnh khó khăn với tổng kinh phí vận động trên 900 triệu đồng. Riêng trong tháng 8 và tháng 9 năm 2026, các anh chị cựu học sinh đã trao thêm 53,6 triệu đồng học bổng tiếp sức đầu năm học mới.
+
+![Những nụ cười rạng rỡ của các em học sinh nghèo khi nhận được sự tiếp sức từ cựu học sinh Xuân Lộc](/assets/posts/nguoi-thay-va-nhung-nhip-cau-khuyen-hoc/anh-4.png)
+
+Hành trình nhân ái của Thầy Đoàn Công Khanh cùng các thế hệ Cựu học sinh THPT Xuân Lộc là minh chứng sống động cho đạo lý "Lá lành đùm lá rách" và truyền thống nghĩa tình sâu nặng của ngôi trường thân yêu bên sườn núi Chứa Chan.
+
+---
 *Nguồn: Cổng thông tin điện tử phường Xuân Lộc (https://xuanloc.dongnai.gov.vn/vi/news/van-hoa-xa-hoi/nguoi-thay-va-nhung-nhip-cau-khuyen-hoc-1808.html)*
+
