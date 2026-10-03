@@ -209,6 +209,16 @@ const categoryIcons: Record<string, string> = {
     let currentCategory = 'Tất cả';
     let searchQuery = '';
 
+    // Check URL parameters for q or category
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialQuery = urlParams.get('q');
+    const initialCat = urlParams.get('cat');
+
+    if (initialQuery && searchInput) {
+      searchInput.value = initialQuery;
+      searchQuery = initialQuery.trim().toLowerCase();
+    }
+
     function filterPosts() {
       let visibleCount = 0;
 
@@ -265,6 +275,13 @@ const categoryIcons: Record<string, string> = {
       });
     });
 
+    if (initialCat) {
+      const matchBtn = Array.from(categoryButtons).find(b => b.getAttribute('data-category') === initialCat);
+      if (matchBtn) {
+        matchBtn.click();
+      }
+    }
+
     // Search input handler
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
@@ -281,6 +298,8 @@ const categoryIcons: Record<string, string> = {
         categoryButtons[0].click();
       });
     }
+
+    filterPosts();
   }
 
   document.addEventListener('DOMContentLoaded', setupNewsFilter);
