@@ -65,6 +65,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <button id="tab-scholarships" class="pb-3 px-2 border-b-2 border-transparent font-medium text-sm text-slate-500 hover:text-navy-900">
             Danh Sách Đăng Ký Tài Trợ Học Bổng
           </button>
+          <button id="tab-automation" class="pb-3 px-2 border-b-2 border-transparent font-medium text-sm text-slate-500 hover:text-navy-900 flex items-center space-x-1.5">
+            <span>⚡ Tự Động Hóa & Actions</span>
+          </button>
         </div>
 
         <!-- Section 1: Submissions Management -->
@@ -113,6 +116,106 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </div>
         </div>
 
+        <!-- Section 3: Automation & GitHub Actions Trigger -->
+        <div id="panel-automation" class="hidden space-y-6">
+          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <div class="flex items-center space-x-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-xl">
+                ⚙️
+              </div>
+              <div>
+                <h2 class="text-lg font-bold text-navy-900">Điều Khiển Tự Động Hóa (GitHub Actions & AI)</h2>
+                <p class="text-xs text-slate-500">Kích hoạt tác vụ quét tin tức, AI sáng tác bài tâm sự hoặc Build lại website theo yêu cầu</p>
+              </div>
+            </div>
+
+            <!-- GitHub Personal Access Token Config -->
+            <div class="mb-6 p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <label class="block text-xs font-bold text-slate-700 mb-1.5 flex items-center justify-between">
+                <span>GitHub Personal Access Token (PAT) <span class="text-slate-400 font-normal">(Cần quyền `repo` hoặc `workflow`)</span>:</span>
+                <a href="https://github.com/settings/tokens/new?scopes=repo,workflow&description=CHS+Xuan+Loc+Admin+Trigger" target="_blank" rel="noopener noreferrer" class="text-warmOrange-600 hover:underline font-normal text-xs">Tạo token tại đây &rarr;</a>
+              </label>
+              <div class="flex space-x-2">
+                <input 
+                  type="password" 
+                  id="gh-pat-input" 
+                  placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" 
+                  class="flex-1 px-3 py-2 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-warmOrange-500 font-mono"
+                />
+                <button 
+                  id="btn-save-pat" 
+                  class="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-semibold transition"
+                >
+                  Lưu vào trình duyệt
+                </button>
+              </div>
+              <p class="text-[11px] text-slate-500 mt-1.5">
+                🔒 Token được lưu an toàn trong trình duyệt (LocalStorage) của bạn và chỉ được gửi trực tiếp tới GitHub API khi bạn bấm kích hoạt.
+              </p>
+            </div>
+
+            <!-- Action Trigger Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              
+              <!-- Trigger Card 1: AI Daily Tam Su & News Sync -->
+              <div class="p-4 rounded-xl border border-purple-200 bg-purple-50/50 hover:bg-purple-50 transition space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold uppercase tracking-wider text-purple-700 bg-purple-100 px-2 py-0.5 rounded">Tin tức & Sáng tác AI</span>
+                  <span class="text-[11px] text-slate-400">sync-facebook-news.yml</span>
+                </div>
+                <div>
+                  <h3 class="text-sm font-bold text-navy-900">Chạy Quét Tin Tức & AI Tâm Tình</h3>
+                  <p class="text-xs text-slate-600 mt-1">
+                    Kích hoạt AI quét bài Fanpage trường, tin Cổng TTĐT Xuân Lộc và tự động viết 1 bài tâm sự/thơ hoài niệm mới.
+                  </p>
+                </div>
+                <button 
+                  id="btn-trigger-sync-news" 
+                  class="w-full py-2.5 px-4 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg text-xs shadow-sm transition flex items-center justify-center space-x-2"
+                >
+                  <span>🚀 Kích hoạt ngay</span>
+                </button>
+              </div>
+
+              <!-- Trigger Card 2: Re-deploy Website -->
+              <div class="p-4 rounded-xl border border-blue-200 bg-blue-50/50 hover:bg-blue-50 transition space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Hệ thống & Build</span>
+                  <span class="text-[11px] text-slate-400">deploy.yml</span>
+                </div>
+                <div>
+                  <h3 class="text-sm font-bold text-navy-900">Build & Triển Khai Hosting</h3>
+                  <p class="text-xs text-slate-600 mt-1">
+                    Kích hoạt quy trình build lại toàn bộ các trang tĩnh và đẩy bản phát hành mới nhất lên Firebase Hosting.
+                  </p>
+                </div>
+                <button 
+                  id="btn-trigger-deploy" 
+                  class="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg text-xs shadow-sm transition flex items-center justify-center space-x-2"
+                >
+                  <span>🌐 Kích hoạt Deploy</span>
+                </button>
+              </div>
+
+            </div>
+
+            <!-- Direct GitHub Actions Link -->
+            <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+              <span>Bạn cũng có thể xem trực tiếp nhật ký và tiến độ chạy trên GitHub:</span>
+              <a 
+                href="https://github.com/cfmvn/chsxuanloc/actions" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="inline-flex items-center font-bold text-navy-800 hover:text-warmOrange-600 transition"
+              >
+                <span>Mở trang GitHub Actions</span>
+                <span class="ml-1">&rarr;</span>
+              </a>
+            </div>
+
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -131,71 +234,82 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   
   const tabSubmissions = document.getElementById('tab-submissions');
   const tabScholarships = document.getElementById('tab-scholarships');
+  const tabAutomation = document.getElementById('tab-automation');
   const panelSubmissions = document.getElementById('panel-submissions');
   const panelScholarships = document.getElementById('panel-scholarships');
+  const panelAutomation = document.getElementById('panel-automation');
 
-  const submissionsContainer = document.getElementById('submissions-container');
-  const submissionsLoading = document.getElementById('submissions-table-loading');
-  const submissionsEmpty = document.getElementById('submissions-table-empty');
-  const countPending = document.getElementById('count-pending');
-  const refreshBtn = document.getElementById('btn-refresh-submissions');
+  const ghPatInput = document.getElementById('gh-pat-input') as HTMLInputElement | null;
+  const btnSavePat = document.getElementById('btn-save-pat');
+  const btnTriggerSyncNews = document.getElementById('btn-trigger-sync-news');
+  const btnTriggerDeploy = document.getElementById('btn-trigger-deploy');
 
-  const scholarshipsTbody = document.getElementById('scholarships-tbody');
+  // Load saved PAT from localStorage
+  const STORAGE_KEY_GH_PAT = 'chs_admin_gh_pat';
+  if (ghPatInput) {
+    ghPatInput.value = localStorage.getItem(STORAGE_KEY_GH_PAT) || '';
+  }
 
-  // Danh sách Email Admin được ủy quyền từ biến môi trường
-  const allowedAdminEmailsStr = import.meta.env.PUBLIC_ADMIN_EMAILS || 'chsxuanloc@gmail.com';
-  const allowedAdminEmails = allowedAdminEmailsStr
-    .split(',')
-    .map((e: string) => e.trim().toLowerCase())
-    .filter(Boolean);
-
-  // Listen to Auth State
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      const userEmail = (user.email || '').toLowerCase().trim();
-      const isAuthorized = allowedAdminEmails.includes(userEmail);
-
-      if (!isAuthorized) {
-        // Tài khoản không có trong danh sách được phép
-        alert(`Tài khoản "${user.email}" không thuộc danh sách Ban Quản Trị được cấp quyền. Vui lòng đăng nhập bằng tài khoản Admin!`);
-        await signOut(auth);
-        if (loginRequired) loginRequired.classList.remove('hidden');
-        if (adminDashboard) adminDashboard.classList.add('hidden');
-        if (authActions) authActions.innerHTML = '';
-        return;
-      }
-
-      // Xác thực thành công
-      if (loginRequired) loginRequired.classList.add('hidden');
-      if (adminDashboard) adminDashboard.classList.remove('hidden');
-
-      if (authActions) {
-        authActions.innerHTML = `
-          <div class="flex items-center space-x-3">
-            <span class="text-xs text-emerald-400 font-semibold hidden sm:inline">🛡️ ${user.displayName || user.email}</span>
-            <button id="btn-signout" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-600/80 hover:bg-rose-600 text-white transition">
-              Đăng xuất
-            </button>
-          </div>
-        `;
-        document.getElementById('btn-signout')?.addEventListener('click', () => signOut(auth));
-      }
-
-      loadAdminSubmissions();
-      loadAdminScholarships();
-
-    } else {
-      if (loginRequired) loginRequired.classList.remove('hidden');
-      if (adminDashboard) adminDashboard.classList.add('hidden');
-      if (authActions) authActions.innerHTML = '';
+  btnSavePat?.addEventListener('click', () => {
+    if (ghPatInput) {
+      localStorage.setItem(STORAGE_KEY_GH_PAT, ghPatInput.value.trim());
+      alert('✅ Đã lưu GitHub Access Token vào trình duyệt!');
     }
   });
 
-  googleBtn?.addEventListener('click', async () => {
+  // Function to dispatch GitHub Action workflow
+  async function triggerGitHubWorkflow(workflowFile: string, btnElement: HTMLElement | null, successMsg: string) {
+    const pat = (ghPatInput?.value || localStorage.getItem(STORAGE_KEY_GH_PAT) || '').trim();
+    if (!pat) {
+      alert('⚠️ Vui lòng nhập GitHub Personal Access Token (PAT) và bấm "Lưu vào trình duyệt" trước khi kích hoạt!');
+      tabAutomation?.click();
+      ghPatInput?.focus();
+      return;
+    }
+
+    if (!btnElement) return;
+    const originalText = btnElement.innerHTML;
+    btnElement.innerHTML = `<span class="inline-block animate-spin">⏳</span> <span>Đang gửi lệnh tới GitHub...</span>`;
+    (btnElement as HTMLButtonElement).disabled = true;
+
     try {
-      await signInWithPopup(auth, googleProvider);
+      const repoOwner = 'cfmvn';
+      const repoName = 'chsxuanloc';
+      const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/actions/workflows/${workflowFile}/dispatches`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/vnd.github+json',
+          'Authorization': `Bearer ${pat}`,
+          'X-GitHub-Api-Version': '2022-11-28',
+        },
+        body: JSON.stringify({
+          ref: 'main'
+        })
+      });
+
+      if (response.status === 204) {
+        alert(`🎉 Thành công! ${successMsg}\nGitHub Actions đang xử lý trong nền.`);
+      } else {
+        const data = await response.json().catch(() => ({}));
+        alert(`❌ Lỗi (${response.status}): ${data.message || 'Không thể kích hoạt workflow. Vui lòng kiểm tra lại Token & Quyền hạn!'}`);
+      }
     } catch (err: any) {
-      alert('Đăng nhập thất bại: ' + (err.message || 'Lỗi không xác định'));
+      alert('❌ Lỗi kết nối tới GitHub API: ' + (err.message || err));
+    } finally {
+      btnElement.innerHTML = originalText;
+      (btnElement as HTMLButtonElement).disabled = false;
+    }
+  }
+
+  btnTriggerSyncNews?.addEventListener('click', () => {
+    if (confirm('Bạn muốn kích hoạt quy trình AI Quét tin tức & Tự động sáng tác bài tâm sự mới ngay bây giờ?')) {
+      triggerGitHubWorkflow('sync-facebook-news.yml', btnTriggerSyncNews, 'Đã kích hoạt quét tin tức & AI sáng tác bài tâm sự!');
+    }
+  });
+
+  btnTriggerDeploy?.addEventListener('click', () => {
+    if (confirm('Bạn muốn kích hoạt quy trình Build & Deploy lại toàn bộ website lên Firebase Hosting?')) {
+      triggerGitHubWorkflow('deploy.yml', btnTriggerDeploy, 'Đã kích hoạt Deploy website lên Firebase Hosting!');
     }
   });
 
@@ -203,15 +317,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   tabSubmissions?.addEventListener('click', () => {
     tabSubmissions.className = 'pb-3 px-2 border-b-2 border-warmOrange-500 font-bold text-sm text-navy-900';
     tabScholarships!.className = 'pb-3 px-2 border-b-2 border-transparent font-medium text-sm text-slate-500 hover:text-navy-900';
+    tabAutomation!.className = 'pb-3 px-2 border-b-2 border-transparent font-medium text-sm text-slate-500 hover:text-navy-900 flex items-center space-x-1.5';
     panelSubmissions?.classList.remove('hidden');
     panelScholarships?.classList.add('hidden');
+    panelAutomation?.classList.add('hidden');
   });
 
   tabScholarships?.addEventListener('click', () => {
     tabScholarships.className = 'pb-3 px-2 border-b-2 border-warmOrange-500 font-bold text-sm text-navy-900';
     tabSubmissions!.className = 'pb-3 px-2 border-b-2 border-transparent font-medium text-sm text-slate-500 hover:text-navy-900';
+    tabAutomation!.className = 'pb-3 px-2 border-b-2 border-transparent font-medium text-sm text-slate-500 hover:text-navy-900 flex items-center space-x-1.5';
     panelScholarships?.classList.remove('hidden');
     panelSubmissions?.classList.add('hidden');
+    panelAutomation?.classList.add('hidden');
+  });
+
+  tabAutomation?.addEventListener('click', () => {
+    tabAutomation.className = 'pb-3 px-2 border-b-2 border-warmOrange-500 font-bold text-sm text-navy-900 flex items-center space-x-1.5';
+    tabSubmissions!.className = 'pb-3 px-2 border-b-2 border-transparent font-medium text-sm text-slate-500 hover:text-navy-900';
+    tabScholarships!.className = 'pb-3 px-2 border-b-2 border-transparent font-medium text-sm text-slate-500 hover:text-navy-900';
+    panelAutomation?.classList.remove('hidden');
+    panelSubmissions?.classList.add('hidden');
+    panelScholarships?.classList.add('hidden');
   });
 
   refreshBtn?.addEventListener('click', () => {
