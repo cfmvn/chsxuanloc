@@ -37,6 +37,11 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: node -e "import('./src/services/portalNewsAiPipeline.js').then(m => m.syncPortalNews())"
 
+      - name: Chạy AI Tự động sáng tác bài Góc Tâm Tình Cựu Học Sinh
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: node src/services/autoDailyTamSu.js
+
       - name: Tự động Commit & Push bài báo mới lên Git
         id: auto_commit
         uses: stefanzweifel/git-auto-commit-action@v5

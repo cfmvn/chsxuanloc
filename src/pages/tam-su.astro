@@ -1,6 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CrossLinkingNav from '../components/CrossLinkingNav.astro';
+import initialStories from '../data/tamSuStore.json';
+
+const approvedInitialStories = (initialStories as any[])
+  .filter(s => s.status === 'approved')
+  .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
 // Các chủ đề tâm sự gợi ý
 const storyTopics = [
