@@ -173,9 +173,8 @@ const batches = (await getCollection('batches')).sort((a, b) => b.data.startYear
 
 <script>
   import imageCompression from 'browser-image-compression';
-  import { db, storage } from '../lib/firebase';
+  import { db } from '../lib/firebase';
   import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-  import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
   const form = document.getElementById('submission-form') as HTMLFormElement;
   const fileInput = document.getElementById('photo') as HTMLInputElement;
@@ -311,20 +310,10 @@ const batches = (await getCollection('batches')).sort((a, b) => b.data.startYear
 
       let imageUrl = '';
 
-      // 1. Upload ảnh nếu có
+      // 1. Chuyển đổi ảnh nén thành Data URL để lưu trực tiếp vào Firestore
       if (compressedFile) {
-        btnText.textContent = 'Đang lưu trữ ảnh kỷ niệm...';
-        try {
-          const fileExt = compressedFile.name.split('.').pop() || 'jpg';
-          const uniqueFileName = `${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${fileExt}`;
-          const storageRef = ref(storage, `submissions/${batch}/${uniqueFileName}`);
-          
-          const uploadResult = await uploadBytes(storageRef, compressedFile);
-          imageUrl = await getDownloadURL(uploadResult.ref);
-        } catch (storageErr) {
-          console.warn('Storage upload fallback to Data URL:', storageErr);
-          imageUrl = await fileToDataUrl(compressedFile);
-        }
+        btnText.textContent = 'Đang xử lý ảnh kỷ niệm...';
+        imageUrl = await fileToDataUrl(compressedFile);
       }
 
       // 2. Lưu thông tin vào Firestore

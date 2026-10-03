@@ -274,9 +274,8 @@ const batchOptions = [
 
 <script>
   import imageCompression from 'browser-image-compression';
-  import { db, storage } from '../lib/firebase';
+  import { db } from '../lib/firebase';
   import { collection, addDoc, getDocs, query, where, orderBy, serverTimestamp } from 'firebase/firestore';
-  import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
   import { notifyAdminNewSubmission } from '../lib/notifications';
 
   // Topic Icons & Labels
@@ -539,16 +538,8 @@ const batchOptions = [
 
       let imageUrl = '';
       if (compressedPhoto) {
-        btnText.textContent = 'Đang tải ảnh lên máy chủ...';
-        try {
-          const ext = compressedPhoto.name.split('.').pop() || 'jpg';
-          const fileRef = ref(storage, `tam_su/${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${ext}`);
-          const uploadRes = await uploadBytes(fileRef, compressedPhoto);
-          imageUrl = await getDownloadURL(uploadRes.ref);
-        } catch (storageErr) {
-          console.warn('Storage upload fallback to Data URL:', storageErr);
-          imageUrl = await fileToDataUrl(compressedPhoto);
-        }
+        btnText.textContent = 'Đang xử lý ảnh kỷ niệm...';
+        imageUrl = await fileToDataUrl(compressedPhoto);
       }
 
       btnText.textContent = 'Đang lưu trữ dữ liệu...';
