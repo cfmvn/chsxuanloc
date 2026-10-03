@@ -268,12 +268,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                       👁️
                     </button>
                     <button 
+                      type="button"
                       id="btn-save-pat" 
-                      class="px-5 py-2.5 bg-navy-950 hover:bg-warmOrange-600 text-white rounded-xl text-xs font-bold transition shadow-sm"
+                      class="px-5 py-2.5 bg-navy-950 hover:bg-warmOrange-600 text-white rounded-xl text-xs font-bold transition shadow-sm flex items-center space-x-1.5"
                     >
-                      Lưu Lên Database
+                      <span>Lưu Cấu Hình</span>
                     </button>
                     <button 
+                      type="button"
                       id="btn-clear-pat" 
                       class="px-3 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-xl text-xs font-semibold transition"
                       title="Xóa token khỏi hệ thống"
@@ -282,6 +284,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                     </button>
                   </div>
                 </div>
+
+                <div id="pat-feedback" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
 
                 <div class="text-[11px] text-slate-500 space-y-1 pt-1">
                   <p>🔒 <strong>Cơ chế bảo mật:</strong> Token được lưu trữ an toàn trong Cloud Firestore (Collection <code>settings/app_config</code>) và đồng bộ trong trình duyệt của Ban Quản Trị.</p>
@@ -434,6 +438,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     }
   }
 
+  const patFeedback = document.getElementById('pat-feedback');
+
+  function showPatFeedback(msg: string, type: 'success' | 'error' | 'info') {
+    if (!patFeedback) return;
+    patFeedback.className = `p-3 rounded-xl text-xs font-semibold ${
+      type === 'success' 
+        ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' 
+        : type === 'error'
+        ? 'bg-rose-50 text-rose-800 border border-rose-200'
+        : 'bg-blue-50 text-blue-800 border border-blue-200'
+    }`;
+    patFeedback.textContent = msg;
+    patFeedback.classList.remove('hidden');
+  }
+
   // Load PAT from Firestore and LocalStorage
   async function loadPatFromDatabase() {
     // 1. Check LocalStorage first for instant render
@@ -442,18 +461,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       updatePatState(cachedPat);
     }
 
-    // 2. Fetch official config from Firestore
+    // 2. Fetch official config from Firestore with timeout
     try {
-      const configDoc = await getDoc(doc(db, 'settings', 'app_config'));
-      if (configDoc.exists() && configDoc.data()?.githubPat) {
-        const dbPat = configDoc.data().githubPat;
+      const fetchPromise = getDoc(doc(db, 'settings', 'app_config'));
+      const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 2500));
+      const res: any = await Promise.race([fetchPromise, timeoutPromise]);
+      if (res && res.exists && res.exists() && res.data()?.githubPat) {
+        const dbPat = res.data().githubPat;
         localStorage.setItem(STORAGE_KEY_GH_PAT, dbPat);
         updatePatState(dbPat);
       } else if (!cachedPat) {
         updatePatState('');
       }
     } catch (err) {
-      console.warn('Không thể đọc settings từ Firestore (nếu chưa tạo collection):', err);
+      console.warn('Không thể đọc settings từ Firestore:', err);
     }
   }
 
@@ -461,33 +482,31 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   btnSavePat?.addEventListener('click', async () => {
     const val = (ghPatInput?.value || '').trim();
     if (!val) {
-      alert('Vui lòng nhập GitHub Personal Access Token!');
+      showPatFeedback('⚠️ Vui lòng nhập GitHub Personal Access Token trước khi lưu!', 'error');
+      ghPatInput?.focus();
       return;
     }
 
-    if (btnSavePat) btnSavePat.textContent = 'Đang lưu...';
+    // 1. Lưu ngay tức thì vào LocalStorage & cập nhật UI
+    localStorage.setItem(STORAGE_KEY_GH_PAT, val);
+    updatePatState(val);
+    showPatFeedback('✓ Đang lưu Token và đồng bộ lên Database...', 'info');
 
+    // 2. Đồng bộ lên Firestore với timeout
     try {
-      // Save in Firestore
-      await setDoc(doc(db, 'settings', 'app_config'), {
+      const savePromise = setDoc(doc(db, 'settings', 'app_config'), {
         githubPat: val,
         updatedAt: serverTimestamp(),
         updatedBy: auth.currentUser?.email || 'admin',
       }, { merge: true });
 
-      // Save in LocalStorage
-      localStorage.setItem(STORAGE_KEY_GH_PAT, val);
-      updatePatState(val);
+      const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 3000));
+      await Promise.race([savePromise, timeoutPromise]);
 
-      alert('🎉 Đã lưu GitHub Access Token vào cơ sở dữ liệu và trình duyệt thành công! Tab Tự Động Hóa đã sẵn sàng hoạt động.');
+      showPatFeedback('🎉 Đã lưu thành công GitHub Token vào cơ sở dữ liệu và trình duyệt! Tab Tự Động Hóa đã sẵn sàng hoạt động.', 'success');
     } catch (err: any) {
-      console.error('Lỗi khi lưu PAT:', err);
-      // Fallback save in localstorage
-      localStorage.setItem(STORAGE_KEY_GH_PAT, val);
-      updatePatState(val);
-      alert('✅ Đã lưu vào trình duyệt (LocalStorage)!');
-    } finally {
-      if (btnSavePat) btnSavePat.textContent = 'Lưu Lên Database';
+      console.warn('Lỗi khi sync PAT lên Firestore:', err);
+      showPatFeedback('✓ Đã lưu Token vào trình duyệt của bạn (Tab Tự Động Hóa đã sẵn sàng hoạt động)!', 'success');
     }
   });
 
@@ -495,16 +514,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   btnClearPat?.addEventListener('click', async () => {
     if (!confirm('Bạn có chắc chắn muốn xóa Token khỏi hệ thống không?')) return;
 
+    localStorage.removeItem(STORAGE_KEY_GH_PAT);
+    updatePatState('');
+    showPatFeedback('Đã xóa Token khỏi hệ thống.', 'info');
+
     try {
-      await setDoc(doc(db, 'settings', 'app_config'), {
+      const clearPromise = setDoc(doc(db, 'settings', 'app_config'), {
         githubPat: '',
         updatedAt: serverTimestamp(),
       }, { merge: true });
+      const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 2000));
+      await Promise.race([clearPromise, timeoutPromise]);
     } catch {}
-
-    localStorage.removeItem(STORAGE_KEY_GH_PAT);
-    updatePatState('');
-    alert('Đã xóa Token!');
   });
 
   // Toggle Visibility
