@@ -244,6 +244,65 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   const btnTriggerSyncNews = document.getElementById('btn-trigger-sync-news');
   const btnTriggerDeploy = document.getElementById('btn-trigger-deploy');
 
+  const scholarshipsTbody = document.getElementById('scholarships-tbody');
+
+  // Danh sách Email Admin được ủy quyền từ biến môi trường (hỗ trợ nhiều email cách nhau bằng dấu phẩy)
+  const allowedAdminEmailsStr = import.meta.env.PUBLIC_ADMIN_EMAILS || 'chsxuanloc@gmail.com';
+  const allowedAdminEmails = allowedAdminEmailsStr
+    .split(',')
+    .map((e: string) => e.trim().toLowerCase())
+    .filter(Boolean);
+
+  // Lắng nghe trạng thái đăng nhập Firebase Auth & Phân quyền Admin
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const userEmail = (user.email || '').toLowerCase().trim();
+      const isAuthorized = allowedAdminEmails.includes(userEmail);
+
+      if (!isAuthorized) {
+        // Tài khoản không có trong danh sách được phép
+        alert(`Tài khoản "${user.email}" không thuộc danh sách Ban Quản Trị được cấp quyền. Vui lòng đăng nhập bằng tài khoản Admin!`);
+        await signOut(auth);
+        if (loginRequired) loginRequired.classList.remove('hidden');
+        if (adminDashboard) adminDashboard.classList.add('hidden');
+        if (authActions) authActions.innerHTML = '';
+        return;
+      }
+
+      // Xác thực thành công (thuộc danh sách Admin)
+      if (loginRequired) loginRequired.classList.add('hidden');
+      if (adminDashboard) adminDashboard.classList.remove('hidden');
+
+      if (authActions) {
+        authActions.innerHTML = `
+          <div class="flex items-center space-x-3">
+            <span class="text-xs text-emerald-400 font-semibold hidden sm:inline">🛡️ ${user.displayName || user.email}</span>
+            <button id="btn-signout" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-600/80 hover:bg-rose-600 text-white transition">
+              Đăng xuất
+            </button>
+          </div>
+        `;
+        document.getElementById('btn-signout')?.addEventListener('click', () => signOut(auth));
+      }
+
+      loadAdminSubmissions();
+      loadAdminScholarships();
+
+    } else {
+      if (loginRequired) loginRequired.classList.remove('hidden');
+      if (adminDashboard) adminDashboard.classList.add('hidden');
+      if (authActions) authActions.innerHTML = '';
+    }
+  });
+
+  googleBtn?.addEventListener('click', async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (err: any) {
+      alert('Đăng nhập thất bại: ' + (err.message || 'Lỗi không xác định'));
+    }
+  });
+
   // Load saved PAT from localStorage
   const STORAGE_KEY_GH_PAT = 'chs_admin_gh_pat';
   if (ghPatInput) {
