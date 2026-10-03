@@ -1,13 +1,13 @@
-name: Tự động đồng bộ tin tức Fanpage & Cổng TTĐT Xuân Lộc
+name: Quét & Đồng Bộ Tin Tức (Fanpage & Cổng TTĐT)
 
 on:
   schedule:
-    # Chạy định kỳ vào 06:00 sáng và 18:00 chiều mỗi ngày (UTC: 23:00 và 11:00)
+    # Chạy định kỳ 2 lần mỗi ngày (06:00 và 18:00 giờ VN - UTC 23:00 và 11:00)
     - cron: '0 23,11 * * *'
-  workflow_dispatch: # Cho phép bấm chạy thủ công trên GitHub bất cứ lúc nào
+  workflow_dispatch: # Cho phép kích hoạt thủ công từ Admin / GitHub Actions
 
 jobs:
-  sync-and-publish:
+  sync-news:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -16,7 +16,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-
 
       - name: Cài đặt Node.js
         uses: actions/setup-node@v4
@@ -32,33 +31,28 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: node src/services/syncFacebookCron.js
 
-      - name: Chạy AI Quét & Đồng bộ tin tức Cổng TTĐT Xuân Lộc (Văn hóa - Xã hội)
+      - name: Chạy AI Quét & Đồng bộ tin tức Cổng TTĐT Xuân Lộc
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: node -e "import('./src/services/portalNewsAiPipeline.js').then(m => m.syncPortalNews())"
-
-      - name: Chạy AI Tự động sáng tác bài Góc Tâm Tình Cựu Học Sinh
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: node src/services/autoDailyTamSu.js
 
       - name: Tự động Commit & Push bài báo mới lên Git
         id: auto_commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "auto(news): sync new articles from Facebook fanpage & Xuan Loc portal"
+          commit_message: "auto(news): dong bo tin tuc moi tu Fanpage & Cong TTDT Xuan Loc"
           branch: main
 
-      - name: Build & Xuất bản trực tiếp lên Firebase Hosting
+      - name: Build & Xuất bản lên Firebase Hosting
         if: steps.auto_commit.outputs.changes_detected == 'true' || github.event_name == 'workflow_dispatch'
         run: npm run build
         env:
-          PUBLIC_FIREBASE_API_KEY: ${{ secrets.PUBLIC_FIREBASE_API_KEY }}
-          PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.PUBLIC_FIREBASE_AUTH_DOMAIN }}
-          PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.PUBLIC_FIREBASE_PROJECT_ID }}
-          PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ secrets.PUBLIC_FIREBASE_STORAGE_BUCKET }}
-          PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
-          PUBLIC_FIREBASE_APP_ID: ${{ secrets.PUBLIC_FIREBASE_APP_ID }}
+          PUBLIC_FIREBASE_API_KEY: ${{ secrets.PUBLIC_FIREBASE_API_KEY || 'AIzaSyDqpHnIWyPAA1rlGimPHBeaW4SIZfUX9-w' }}
+          PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.PUBLIC_FIREBASE_AUTH_DOMAIN || 'xuanlocchs.firebaseapp.com' }}
+          PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.PUBLIC_FIREBASE_PROJECT_ID || 'xuanlocchs' }}
+          PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ secrets.PUBLIC_FIREBASE_STORAGE_BUCKET || 'xuanlocchs.firebasestorage.app' }}
+          PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '173381053400' }}
+          PUBLIC_FIREBASE_APP_ID: ${{ secrets.PUBLIC_FIREBASE_APP_ID || '1:173381053400:web:1f59ec02ad7ad05ea620ad' }}
 
       - name: Deploy Live lên Firebase Hosting
         if: steps.auto_commit.outputs.changes_detected == 'true' || github.event_name == 'workflow_dispatch'
@@ -73,6 +67,3 @@ jobs:
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CHSXUANLOC }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-
-
-
