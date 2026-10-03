@@ -247,7 +247,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   const scholarshipsTbody = document.getElementById('scholarships-tbody');
 
   // Danh sách Email Admin được ủy quyền từ biến môi trường (hỗ trợ nhiều email cách nhau bằng dấu phẩy)
-  const allowedAdminEmailsStr = import.meta.env.PUBLIC_ADMIN_EMAILS || 'chsxuanloc@gmail.com';
+  const allowedAdminEmailsStr = import.meta.env.PUBLIC_ADMIN_EMAILS || 'chsxuanloc@gmail.com,thepottershousevn@gmail.com';
   const allowedAdminEmails = allowedAdminEmailsStr
     .split(',')
     .map((e: string) => e.trim().toLowerCase())
