@@ -2,6 +2,9 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CrossLinkingNav from '../../components/CrossLinkingNav.astro';
 import { GRADUATION_YEARS_SUMMARY, TOTAL_OFFICIAL_ALUMNI } from '../../data/officialAlumniSummary';
+import { getCollection } from 'astro:content';
+
+const batches = (await getCollection('batches')).sort((a, b) => b.data.startYear - a.data.startYear);
 ---
 
 <BaseLayout
@@ -198,6 +201,86 @@ import { GRADUATION_YEARS_SUMMARY, TOTAL_OFFICIAL_ALUMNI } from '../../data/offi
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- SECTION: Khám Phá Kỷ Yếu 25 Niên Khóa -->
+  <section class="py-14 bg-slate-100/70 border-t border-slate-200" id="ky-yeu-nien-khoa">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-4">
+        <div>
+          <div class="inline-flex items-center space-x-1.5 text-warmOrange-600 text-xs font-bold uppercase tracking-wider mb-1">
+            <span>🎓 Không Gian Lưu Niệm & Kỷ Yếu</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-navy-950">
+            Kỷ Yếu Các Niên Khóa (1986 – 2011)
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl">
+            Bấm vào từng niên khóa để xem chi tiết danh sách các lớp học, lưu bút kỷ niệm và hình ảnh thời áo trắng của từng thế hệ học sinh THPT Xuân Lộc.
+          </p>
+        </div>
+
+        <a
+          href="/tam-su"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-white border border-slate-200 text-navy-900 hover:text-warmOrange-600 font-bold text-xs shadow-xs hover:shadow-md transition shrink-0"
+        >
+          <span>✍️ Gửi Tâm Sự & Kỷ Niệm</span>
+          <span>&rarr;</span>
+        </a>
+      </div>
+
+      <!-- Batches Grid in Tim Ban -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {batches.map((batch) => (
+          <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-xl hover:border-warmOrange-300 transition-all duration-300 flex flex-col group justify-between overflow-hidden">
+            <div>
+              <div class="p-5 bg-gradient-to-br from-navy-900 to-navy-950 text-white relative">
+                <span class="inline-block px-3 py-1 rounded-full bg-warmOrange-500 text-white text-[11px] font-bold uppercase tracking-wider mb-2">
+                  Khóa {batch.data.startYear} - {batch.data.endYear}
+                </span>
+                <h3 class="text-lg font-bold text-white group-hover:text-warmOrange-400 transition-colors">
+                  <a href={`/nien-khoa/${batch.slug}`}>{batch.data.title}</a>
+                </h3>
+              </div>
+
+              <div class="p-5 space-y-3">
+                <p class="text-xs text-slate-600 leading-relaxed line-clamp-2">
+                  {batch.data.description}
+                </p>
+
+                {batch.data.classes && batch.data.classes.length > 0 && (
+                  <div>
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Các lớp:</span>
+                    <div class="flex flex-wrap gap-1">
+                      {batch.data.classes.slice(0, 7).map((cls) => (
+                        <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[11px] font-semibold">
+                          {cls}
+                        </span>
+                      ))}
+                      {batch.data.classes.length > 7 && (
+                        <span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 text-[11px] font-bold">
+                          +{batch.data.classes.length - 7} lớp
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs">
+              <span class="text-slate-400 text-[11px]">THPT Xuân Lộc</span>
+              <a
+                href={`/nien-khoa/${batch.slug}`}
+                class="font-bold text-warmOrange-600 hover:text-warmOrange-700 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+              >
+                <span>Xem kỷ yếu khóa</span>
+                <span>&rarr;</span>
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 

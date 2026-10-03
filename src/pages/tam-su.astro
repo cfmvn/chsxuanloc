@@ -69,7 +69,7 @@ const batchOptions = [
       <!-- Top Bar: Filter & Status -->
       <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
         <!-- Topic Filters -->
-        <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none" id="story-topic-filters">
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none w-full" id="story-topic-filters">
           {storyTopics.map((topic, idx) => (
             <button
               data-topic={topic.id}
@@ -83,11 +83,6 @@ const batchOptions = [
               <span>{topic.label}</span>
             </button>
           ))}
-        </div>
-
-        <div class="text-xs font-semibold text-slate-500 flex items-center gap-2 shrink-0">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>Các bài viết đều được Ban Quản trị chọn lọc & duyệt trước khi đăng tải</span>
         </div>
       </div>
 
