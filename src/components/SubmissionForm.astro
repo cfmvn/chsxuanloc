@@ -198,6 +198,15 @@ const batches = (await getCollection('batches')).sort((a, b) => b.data.startYear
 
   let compressedFile: File | null = null;
 
+  function fileToDataUrl(file: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
   async function processImageFile(file: File, sourceName = 'Tệp đã chọn') {
     if (!previewContainer || !previewImg || !compressionStatus) return;
 
@@ -207,12 +216,12 @@ const batches = (await getCollection('batches')).sort((a, b) => b.data.startYear
 
     try {
       const options = {
-        maxSizeMB: 0.8, // Nén xuống dưới 800KB để siêu tiết kiệm băng thông và Storage Firebase
-        maxWidthOrHeight: 1600,
+        maxSizeMB: 0.35, // Nén tối ưu xuống dưới 350KB
+        maxWidthOrHeight: 1280,
         useWebWorker: true,
       };
       compressedFile = await imageCompression(file, options);
-      compressionStatus.textContent = `✓ Đã nén tối ưu: ${(compressedFile.size / 1024).toFixed(0)} KB (Sẵn sàng tải lên)`;
+      compressionStatus.textContent = `✓ Đã nén tối ưu: ${(compressedFile.size / 1024).toFixed(0)} KB (Sẵn sàng)`;
     } catch (err) {
       console.error('Nén ảnh lỗi:', err);
       compressedFile = file; // Fallback
@@ -305,12 +314,17 @@ const batches = (await getCollection('batches')).sort((a, b) => b.data.startYear
       // 1. Upload ảnh nếu có
       if (compressedFile) {
         btnText.textContent = 'Đang lưu trữ ảnh kỷ niệm...';
-        const fileExt = compressedFile.name.split('.').pop() || 'jpg';
-        const uniqueFileName = `${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${fileExt}`;
-        const storageRef = ref(storage, `submissions/${batch}/${uniqueFileName}`);
-        
-        const uploadResult = await uploadBytes(storageRef, compressedFile);
-        imageUrl = await getDownloadURL(uploadResult.ref);
+        try {
+          const fileExt = compressedFile.name.split('.').pop() || 'jpg';
+          const uniqueFileName = `${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${fileExt}`;
+          const storageRef = ref(storage, `submissions/${batch}/${uniqueFileName}`);
+          
+          const uploadResult = await uploadBytes(storageRef, compressedFile);
+          imageUrl = await getDownloadURL(uploadResult.ref);
+        } catch (storageErr) {
+          console.warn('Storage upload fallback to Data URL:', storageErr);
+          imageUrl = await fileToDataUrl(compressedFile);
+        }
       }
 
       // 2. Lưu thông tin vào Firestore

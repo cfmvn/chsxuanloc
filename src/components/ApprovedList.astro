@@ -6,7 +6,7 @@ export interface Props {
 const { batchSlug } = Astro.props;
 ---
 
-<div class="mt-12 bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8" id="approved-contributions-section">
+<div class="mt-12 bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8" id="approved-contributions-section" data-batch-slug={batchSlug || ''}>
   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-slate-100 pb-5 mb-6 gap-4">
     <div>
       <div class="inline-flex items-center space-x-2 text-xs font-semibold uppercase tracking-wider text-warmOrange-600 mb-1">
@@ -41,11 +41,13 @@ const { batchSlug } = Astro.props;
   <div id="approved-list" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6"></div>
 </div>
 
-<script define:vars={{ batchSlug }}>
+<script>
   import { db } from '../lib/firebase';
   import { collection, query, where, getDocs } from 'firebase/firestore';
 
   async function loadApprovedSubmissions() {
+    const sectionEl = document.getElementById('approved-contributions-section');
+    const batchSlug = sectionEl?.getAttribute('data-batch-slug') || '';
     const loadingEl = document.getElementById('approved-loading');
     const emptyEl = document.getElementById('approved-empty');
     const listEl = document.getElementById('approved-list');
