@@ -1,0 +1,544 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CrossLinkingNav from '../components/CrossLinkingNav.astro';
+
+// Các chủ đề tâm sự gợi ý
+const storyTopics = [
+  { id: 'tat-ca', label: 'Tất cả kỷ niệm', icon: '📖' },
+  { id: 'ao-trang', label: 'Thời áo trắng & Bạn cũ', icon: '🌸' },
+  { id: 'thay-co', label: 'Kỷ niệm bên bục giảng', icon: '💐' },
+  { id: 'lap-nghiep', label: 'Hành trình lập nghiệp', icon: '💼' },
+  { id: 'tam-tinh', label: 'Lời chưa kịp nói', icon: '💌' },
+];
+
+const batchOptions = [
+  "Khóa 1983 - 1986", "Khóa 1984 - 1987", "Khóa 1985 - 1988", "Khóa 1986 - 1989",
+  "Khóa 1987 - 1990", "Khóa 1988 - 1991", "Khóa 1989 - 1992", "Khóa 1990 - 1993",
+  "Khóa 1991 - 1994", "Khóa 1992 - 1995", "Khóa 1993 - 1996", "Khóa 1994 - 1997",
+  "Khóa 1995 - 1998", "Khóa 1996 - 1999", "Khóa 1997 - 2000", "Khóa 1998 - 2001",
+  "Khóa 1999 - 2002", "Khóa 2000 - 2003", "Khóa 2001 - 2004", "Khóa 2002 - 2005",
+  "Khóa 2003 - 2006", "Khóa 2004 - 2007", "Khóa 2005 - 2008", "Khóa 2006 - 2009",
+  "Khóa 2007 - 2010", "Khóa 2008 - 2011", "Khóa 2009 - 2012", "Khóa 2010 - 2013",
+  "Khóa 2011 - 2014", "Khóa 2012 - 2015", "Khóa 2013 - 2016", "Khóa 2014 - 2017",
+  "Khóa 2015 - 2018", "Khóa 2016 - 2019", "Khóa 2017 - 2020", "Khóa 2018 - 2021",
+  "Khóa 2019 - 2022", "Khóa 2020 - 2023", "Khóa 2021 - 2024", "Khóa 2022 - 2025",
+  "Khóa 2023 - 2026"
+];
+---
+
+<BaseLayout
+  title="Góc Ký Ức & Tâm Tình Cựu Học Sinh - THPT Xuân Lộc"
+  description="Không gian lắng đọng chia sẻ kỷ niệm tuổi học trò, những lá thư gửi bạn cũ, chuyện nẻo đường lập nghiệp và tình cảm tri ân mái trường THPT Xuân Lộc."
+>
+  <!-- Hero Section -->
+  <section class="bg-navy-950 text-white py-14 sm:py-18 border-b border-navy-800 relative overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(#f59e0b_1px,transparent_1px)] [background-size:24px_24px] opacity-15 pointer-events-none"></div>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-warmOrange-500/20 text-warmOrange-300 border border-warmOrange-500/30 text-xs font-semibold uppercase tracking-wider">
+        <span>💌 Góc Ký Ức & Lưu Bút Thời Áo Trắng</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+        Tâm Tình Cựu Học Sinh
+      </h1>
+      <p class="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+        Nơi cất giữ những kỷ niệm chưa phai, những lời tri ân muộn màng và câu chuyện trưởng thành của bao thế hệ học sinh dưới mái trường THPT Xuân Lộc.
+      </p>
+
+      <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
+        <a
+          href="#form-gui-tam-su"
+          class="px-6 py-3 rounded-2xl font-bold text-white bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-lg shadow-warmOrange-500/20 transition transform hover:-translate-y-0.5 text-xs sm:text-sm flex items-center gap-2"
+        >
+          <span>✍️</span>
+          <span>Gửi Tâm Sự Của Bạn</span>
+        </a>
+        <a
+          href="#danh-sach-tam-su"
+          class="px-6 py-3 rounded-2xl font-semibold text-slate-200 bg-navy-900 border border-navy-700 hover:bg-navy-800 hover:text-white transition text-xs sm:text-sm"
+        >
+          Đọc Những Dòng Ký Ức
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Story Section -->
+  <section class="py-12 bg-slate-50 min-h-[70vh]" id="danh-sach-tam-su">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <!-- Top Bar: Filter & Status -->
+      <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <!-- Topic Filters -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none" id="story-topic-filters">
+          {storyTopics.map((topic, idx) => (
+            <button
+              data-topic={topic.id}
+              class={`story-topic-btn px-4 py-2 rounded-2xl text-xs font-bold transition flex items-center gap-1.5 shrink-0 ${
+                idx === 0
+                  ? 'bg-navy-950 text-white shadow-sm'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+              }`}
+            >
+              <span>{topic.icon}</span>
+              <span>{topic.label}</span>
+            </button>
+          ))}
+        </div>
+
+        <div class="text-xs font-semibold text-slate-500 flex items-center gap-2 shrink-0">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Các bài viết đều được Ban Quản trị chọn lọc & duyệt trước khi đăng tải</span>
+        </div>
+      </div>
+
+      <!-- Stories Grid Container -->
+      <div id="stories-loading" class="py-16 text-center text-slate-400 space-y-3">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-warmOrange-500 border-t-transparent"></div>
+        <p class="text-sm font-medium">Đang tải những dòng ký ức thân thương...</p>
+      </div>
+
+      <div id="stories-empty" class="hidden py-16 text-center text-slate-500 bg-white rounded-3xl border border-dashed border-slate-300 p-8 shadow-xs">
+        <span class="text-4xl block mb-3">📜</span>
+        <h3 class="text-base font-bold text-navy-900 mb-1">Chưa có bài tâm sự nào được hiển thị</h3>
+        <p class="text-xs text-slate-500 max-w-md mx-auto mb-4">
+          Hãy là người đầu tiên mở trang lưu bút, chia sẻ những kỷ niệm quý báu thời đi học dưới mái trường Xuân Lộc.
+        </p>
+        <a
+          href="#form-gui-tam-su"
+          class="inline-block px-5 py-2.5 rounded-xl bg-warmOrange-600 text-white text-xs font-bold hover:bg-warmOrange-700 transition shadow-sm"
+        >
+          Viết bài tâm sự ngay
+        </a>
+      </div>
+
+      <div id="stories-grid" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <!-- Render dynamically by JS from approved submissions -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Form Gửi Tâm Sự -->
+  <section class="py-16 bg-white border-t border-slate-200" id="form-gui-tam-su">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center space-y-2 mb-8">
+        <div class="inline-flex items-center space-x-1 text-warmOrange-600 text-xs font-bold uppercase tracking-wider">
+          <span>Trang Sổ Tay Lưu Niệm</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-navy-950">Gửi Gắm Kỷ Niệm & Tâm Sự</h2>
+        <p class="text-slate-500 text-xs sm:text-sm max-w-lg mx-auto">
+          Mỗi mẩu chuyện, mỗi kỷ niệm của bạn là một mảnh ghép quý giá làm nên lịch sử 40 năm vẻ vang của THPT Xuân Lộc.
+        </p>
+      </div>
+
+      <form id="tam-su-form" class="bg-slate-50 p-6 sm:p-10 rounded-3xl border border-slate-200/90 shadow-sm space-y-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">
+              Họ và tên (hoặc Bút danh) <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              name="fullName"
+              required
+              placeholder="VD: Cựu học sinh K98, Nguyễn Văn A..."
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">
+              Niên khóa của bạn <span class="text-red-500">*</span>
+            </label>
+            <select
+              name="batch"
+              required
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            >
+              <option value="">-- Chọn niên khóa --</option>
+              {batchOptions.map((b) => (
+                <option value={b}>{b}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">
+              Lớp / Thầy cô chủ nhiệm
+            </label>
+            <input
+              type="text"
+              name="className"
+              placeholder="VD: 12A1 - Thầy Nguyễn Văn..."
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">
+              Chủ đề tâm sự <span class="text-red-500">*</span>
+            </label>
+            <select
+              name="topic"
+              required
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+            >
+              <option value="ao-trang">Thời áo trắng & Bạn cũ</option>
+              <option value="thay-co">Kỷ niệm bên bục giảng & Tri ân</option>
+              <option value="lap-nghiep">Hành trình lập nghiệp & Kinh nghiệm</option>
+              <option value="tam-tinh">Lời chưa kịp nói & Lời muốn gửi</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">
+            Tiêu đề bài tâm sự <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            name="title"
+            required
+            placeholder="VD: Nhớ mãi bóng hình cây phượng già và người bạn cùng bàn năm ấy..."
+            class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">
+            Nội dung câu chuyện / Tâm sự <span class="text-red-500">*</span>
+          </label>
+          <textarea
+            name="message"
+            rows="6"
+            required
+            placeholder="Hãy viết lại những cảm xúc, kỷ niệm đáng nhớ hoặc đôi dòng gửi gắm đến thầy cô và bạn bè xưa..."
+            class="w-full px-4 py-3 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white leading-relaxed"
+          ></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">
+            Ảnh kỷ niệm đính kèm (nếu có - ảnh lớp xưa, kỷ yếu, họp khóa)
+          </label>
+          <input
+            type="file"
+            id="tam-su-photo"
+            accept="image/*"
+            class="w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-navy-950 file:text-white hover:file:bg-warmOrange-600 file:cursor-pointer"
+          />
+          <span id="tam-su-compress-status" class="text-[11px] text-slate-500 mt-1 block"></span>
+        </div>
+
+        <!-- Alert bảo mật duyệt bài -->
+        <div class="p-4 bg-amber-50 rounded-2xl border border-amber-200 text-xs text-amber-800 flex items-start gap-2.5">
+          <span class="text-base shrink-0">🛡️</span>
+          <span>
+            <strong>Quy định bảo mật & kiểm duyệt:</strong> Nhằm xây dựng không gian văn hóa học đường văn minh và an toàn, tất cả bài gửi sẽ được Ban Quản trị kiểm duyệt trước khi hiển thị công khai trên website.
+          </span>
+        </div>
+
+        <div id="tam-su-feedback" class="hidden"></div>
+
+        <button
+          type="submit"
+          id="tam-su-submit-btn"
+          class="w-full py-3.5 px-6 rounded-2xl font-bold text-white bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-md shadow-warmOrange-500/20 transition transform active:scale-98 text-sm flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <span id="tam-su-btn-spinner" class="hidden inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></span>
+          <span id="tam-su-btn-text">Gửi Bài Tâm Sự Lên Ban Quản Trị</span>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <CrossLinkingNav currentModule="nien-khoa" />
+</BaseLayout>
+
+<script>
+  import imageCompression from 'browser-image-compression';
+  import { db, storage } from '../lib/firebase';
+  import { collection, addDoc, getDocs, query, where, orderBy, serverTimestamp } from 'firebase/firestore';
+  import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+  import { notifyAdminNewSubmission } from '../lib/notifications';
+
+  // Topic Icons & Labels
+  const topicMap: Record<string, { label: string; icon: string }> = {
+    'ao-trang': { label: 'Thời áo trắng', icon: '🌸' },
+    'thay-co': { label: 'Tri ân Thầy Cô', icon: '💐' },
+    'lap-nghiep': { label: 'Nẻo đường lập nghiệp', icon: '💼' },
+    'tam-tinh': { label: 'Lời muốn nói', icon: '💌' },
+  };
+
+  const storiesLoading = document.getElementById('stories-loading');
+  const storiesEmpty = document.getElementById('stories-empty');
+  const storiesGrid = document.getElementById('stories-grid');
+  const topicButtons = document.querySelectorAll<HTMLButtonElement>('.story-topic-btn');
+
+  let allStories: any[] = [];
+  let currentTopic = 'tat-ca';
+
+  // Load approved submissions
+  async function loadApprovedStories() {
+    if (!storiesLoading || !storiesEmpty || !storiesGrid) return;
+    storiesLoading.classList.remove('hidden');
+    storiesEmpty.classList.add('hidden');
+    storiesGrid.classList.add('hidden');
+
+    try {
+      const q = query(
+        collection(db, 'submissions'),
+        where('status', '==', 'approved')
+      );
+      const snapshot = await getDocs(q);
+
+      storiesLoading.classList.add('hidden');
+
+      if (snapshot.empty) {
+        storiesEmpty.classList.remove('hidden');
+        return;
+      }
+
+      allStories = [];
+      snapshot.forEach((doc) => {
+        allStories.push({ id: doc.id, ...doc.data() });
+      });
+
+      // Sắp xếp bài mới nhất lên đầu
+      allStories.sort((a, b) => {
+        const timeA = a.createdAt?.seconds || 0;
+        const timeB = b.createdAt?.seconds || 0;
+        return timeB - timeA;
+      });
+
+      renderStories();
+
+    } catch (err) {
+      console.warn('Lỗi khi tải danh sách tâm sự:', err);
+      if (storiesLoading) storiesLoading.classList.add('hidden');
+      if (storiesEmpty) storiesEmpty.classList.remove('hidden');
+    }
+  }
+
+  function renderStories() {
+    if (!storiesGrid || !storiesEmpty) return;
+
+    const filtered = currentTopic === 'tat-ca'
+      ? allStories
+      : allStories.filter(s => s.topic === currentTopic);
+
+    if (filtered.length === 0) {
+      storiesGrid.classList.add('hidden');
+      storiesEmpty.classList.remove('hidden');
+      return;
+    }
+
+    storiesEmpty.classList.add('hidden');
+    storiesGrid.classList.remove('hidden');
+    storiesGrid.innerHTML = '';
+
+    filtered.forEach((story) => {
+      const topicInfo = topicMap[story.topic] || { label: 'Kỷ niệm', icon: '📜' };
+      const dateStr = story.createdAt ? new Date(story.createdAt.seconds * 1000).toLocaleDateString('vi-VN') : '';
+
+      const card = document.createElement('article');
+      card.className = 'bg-white rounded-3xl border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-xl hover:border-warmOrange-300 transition-all duration-300 flex flex-col justify-between group';
+
+      let imageHtml = '';
+      if (story.imageUrl) {
+        imageHtml = `
+          <div class="h-48 overflow-hidden bg-slate-100 relative">
+            <img src="${story.imageUrl}" alt="${story.fullName}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer" onclick="window.open('${story.imageUrl}', '_blank')" />
+            <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-bold bg-navy-950/85 text-warmOrange-300 backdrop-blur-sm border border-navy-700 flex items-center gap-1">
+              <span>${topicInfo.icon}</span>
+              <span>${topicInfo.label}</span>
+            </span>
+          </div>
+        `;
+      }
+
+      card.innerHTML = `
+        <div>
+          ${imageHtml}
+          <div class="p-6">
+            ${!story.imageUrl ? `
+              <div class="mb-3">
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200/80 inline-flex items-center gap-1">
+                  <span>${topicInfo.icon}</span>
+                  <span>${topicInfo.label}</span>
+                </span>
+              </div>
+            ` : ''}
+
+            <div class="flex items-center space-x-2 text-[11px] text-slate-400 mb-2">
+              <span class="font-semibold text-warmOrange-600">${escapeHtml(story.batch || '')}</span>
+              ${story.className ? `<span>• Lớp ${escapeHtml(story.className)}</span>` : ''}
+              ${dateStr ? `<span>• ${dateStr}</span>` : ''}
+            </div>
+
+            ${story.title ? `
+              <h3 class="text-base sm:text-lg font-bold text-navy-950 group-hover:text-warmOrange-600 transition leading-snug mb-3">
+                ${escapeHtml(story.title)}
+              </h3>
+            ` : ''}
+
+            <p class="text-xs sm:text-sm text-slate-700 whitespace-pre-line leading-relaxed italic bg-slate-50/70 p-4 rounded-2xl border border-slate-100">
+              "${escapeHtml(story.message)}"
+            </p>
+          </div>
+        </div>
+
+        <div class="px-6 py-4 bg-slate-50/60 border-t border-slate-100 flex items-center justify-between text-xs">
+          <div class="flex items-center space-x-2">
+            <span class="w-7 h-7 rounded-full bg-navy-900 text-warmOrange-300 font-bold flex items-center justify-center text-[11px]">
+              ${(story.fullName || 'A').charAt(0).toUpperCase()}
+            </span>
+            <span class="font-bold text-navy-900">${escapeHtml(story.fullName)}</span>
+          </div>
+          <span class="text-[11px] text-slate-400">CHS Xuân Lộc</span>
+        </div>
+      `;
+
+      storiesGrid.appendChild(card);
+    });
+  }
+
+  // Topic filter click
+  topicButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      currentTopic = btn.getAttribute('data-topic') || 'tat-ca';
+
+      topicButtons.forEach((b) => {
+        b.classList.remove('bg-navy-950', 'text-white', 'shadow-sm');
+        b.classList.add('bg-slate-100', 'text-slate-700');
+      });
+
+      btn.classList.remove('bg-slate-100', 'text-slate-700');
+      btn.classList.add('bg-navy-950', 'text-white', 'shadow-sm');
+
+      renderStories();
+    });
+  });
+
+  // Handle Tam Su Form Submit
+  const form = document.getElementById('tam-su-form') as HTMLFormElement;
+  const photoInput = document.getElementById('tam-su-photo') as HTMLInputElement;
+  const compressStatus = document.getElementById('tam-su-compress-status');
+  const submitBtn = document.getElementById('tam-su-submit-btn') as HTMLButtonElement;
+  const btnText = document.getElementById('tam-su-btn-text');
+  const btnSpinner = document.getElementById('tam-su-btn-spinner');
+  const feedback = document.getElementById('tam-su-feedback');
+
+  let compressedPhoto: File | null = null;
+
+  photoInput?.addEventListener('change', async (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file || !compressStatus) return;
+
+    compressStatus.textContent = `Đang nén ảnh (${(file.size / 1024 / 1024).toFixed(2)} MB)...`;
+
+    try {
+      compressedPhoto = await imageCompression(file, {
+        maxSizeMB: 0.8,
+        maxWidthOrHeight: 1600,
+        useWebWorker: true,
+      });
+      compressStatus.textContent = `Đã nén tối ưu: ${(compressedPhoto.size / 1024).toFixed(0)} KB (Sẵn sàng tải lên)`;
+    } catch {
+      compressedPhoto = file;
+      compressStatus.textContent = `Sẵn sàng tải lên (${(file.size / 1024).toFixed(0)} KB)`;
+    }
+  });
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!submitBtn || !btnText || !btnSpinner || !feedback) return;
+
+    submitBtn.disabled = true;
+    btnSpinner.classList.remove('hidden');
+    btnText.textContent = 'Đang gửi bài viết...';
+    feedback.classList.add('hidden');
+
+    try {
+      const formData = new FormData(form);
+      const fullName = (formData.get('fullName') as string).trim();
+      const batch = (formData.get('batch') as string).trim();
+      const className = (formData.get('className') as string || '').trim();
+      const topic = (formData.get('topic') as string).trim();
+      const title = (formData.get('title') as string).trim();
+      const message = (formData.get('message') as string).trim();
+
+      let imageUrl = '';
+      if (compressedPhoto) {
+        btnText.textContent = 'Đang tải ảnh lên máy chủ...';
+        const ext = compressedPhoto.name.split('.').pop() || 'jpg';
+        const fileRef = ref(storage, `tam_su/${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${ext}`);
+        const uploadRes = await uploadBytes(fileRef, compressedPhoto);
+        imageUrl = await getDownloadURL(uploadRes.ref);
+      }
+
+      btnText.textContent = 'Đang lưu trữ dữ liệu...';
+      await addDoc(collection(db, 'submissions'), {
+        fullName,
+        batch,
+        className,
+        topic,
+        title,
+        message,
+        imageUrl,
+        status: 'pending', // Chờ Admin duyệt
+        createdAt: serverTimestamp(),
+      });
+
+      // Gửi thông báo đến Admin
+      await notifyAdminNewSubmission({
+        title: title || 'Tâm sự cựu học sinh',
+        author: fullName,
+        batch: batch,
+        summary: message,
+        type: 'tam_su'
+      });
+
+      // Thông báo thành công
+      feedback.className = 'p-5 rounded-2xl text-xs sm:text-sm bg-emerald-50 text-emerald-900 border border-emerald-200 leading-relaxed';
+      feedback.innerHTML = `
+        <div class="flex items-start gap-3">
+          <span class="text-xl">✅</span>
+          <div>
+            <h4 class="font-bold text-emerald-950 mb-1">Gửi tâm sự thành công!</h4>
+            <p>Bài viết của bạn đã được chuyển đến Ban Quản Trị để kiểm duyệt. Bài viết sẽ xuất hiện trên trang sau khi được phê duyệt. Xin trân trọng cảm ơn tình cảm của bạn dành cho mái trường Xuân Lộc!</p>
+          </div>
+        </div>
+      `;
+      feedback.classList.remove('hidden');
+
+      form.reset();
+      compressedPhoto = null;
+      if (compressStatus) compressStatus.textContent = '';
+
+    } catch (err: any) {
+      console.error(err);
+      feedback.className = 'p-4 rounded-2xl text-xs sm:text-sm bg-rose-50 text-rose-800 border border-rose-200';
+      feedback.textContent = 'Có lỗi xảy ra trong quá trình gửi bài. Vui lòng thử lại sau ít phút.';
+      feedback.classList.remove('hidden');
+    } finally {
+      submitBtn.disabled = false;
+      btnSpinner.classList.add('hidden');
+      btnText.textContent = 'Gửi Bài Tâm Sự Lên Ban Quản Trị';
+    }
+  });
+
+  function escapeHtml(str: string) {
+    if (!str) return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  document.addEventListener('DOMContentLoaded', loadApprovedStories);
+</script>

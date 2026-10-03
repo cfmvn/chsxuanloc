@@ -243,6 +243,20 @@ const { batchSlug, batchTitle } = Astro.props;
         createdAt: serverTimestamp(),
       });
 
+      // 3. Thông báo cho Admin
+      try {
+        const { notifyAdminNewSubmission } = await import('../lib/notifications');
+        await notifyAdminNewSubmission({
+          title: `Lưu bút kỷ yếu: ${batch}`,
+          author: fullName,
+          batch: batch,
+          summary: message,
+          type: 'ky_yeu'
+        });
+      } catch (notifyErr) {
+        console.warn('Lỗi gửi thông báo admin:', notifyErr);
+      }
+
       // Thành công
       formFeedback.className = 'p-4 rounded-xl text-sm font-medium bg-emerald-50 text-emerald-800 border border-emerald-200';
       formFeedback.innerHTML = `
