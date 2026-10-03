@@ -57,10 +57,14 @@ jobs:
 
       - name: Deploy Live lên Firebase Hosting
         if: steps.auto_commit.outputs.changes_detected == 'true' || github.event_name == 'workflow_dispatch'
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CHSXUANLOC }}'
-          channelId: live
-          projectId: ${{ secrets.PUBLIC_FIREBASE_PROJECT_ID }}
+        run: |
+          if [ -n "$FIREBASE_SERVICE_ACCOUNT" ]; then
+            echo "$FIREBASE_SERVICE_ACCOUNT" > /tmp/service-account.json
+            export GOOGLE_APPLICATION_CREDENTIALS=/tmp/service-account.json
+          fi
+          npx -y firebase-tools deploy --only hosting --project xuanlocchs --non-interactive
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CHSXUANLOC }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
 
