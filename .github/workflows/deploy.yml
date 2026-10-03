@@ -40,11 +40,17 @@ jobs:
           if [ -n "$FIREBASE_SERVICE_ACCOUNT" ]; then
             echo "$FIREBASE_SERVICE_ACCOUNT" > /tmp/service-account.json
             export GOOGLE_APPLICATION_CREDENTIALS=/tmp/service-account.json
+            npx -y firebase-tools deploy --only hosting --project xuanlocchs --non-interactive
+          elif [ -n "$FIREBASE_TOKEN" ]; then
+            npx -y firebase-tools deploy --only hosting --project xuanlocchs --token "$FIREBASE_TOKEN" --non-interactive
+          else
+            echo "⚠️ Không tìm thấy FIREBASE_SERVICE_ACCOUNT hoặc FIREBASE_TOKEN trong GitHub Secrets"
+            exit 1
           fi
-          npx -y firebase-tools deploy --only hosting --project xuanlocchs --non-interactive
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CHSXUANLOC }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
 
 
 
