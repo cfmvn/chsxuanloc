@@ -543,7 +543,7 @@ const batchOptions = [
       }
 
       btnText.textContent = 'Đang lưu trữ dữ liệu...';
-      await addDoc(collection(db, 'submissions'), {
+      const writePromise = addDoc(collection(db, 'submissions'), {
         fullName,
         batch,
         className,
@@ -554,6 +554,12 @@ const batchOptions = [
         status: 'pending', // Chờ Admin duyệt
         createdAt: serverTimestamp(),
       });
+
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Hết thời gian chờ phản hồi từ máy chủ Firestore (Timeout 10s).')), 10000)
+      );
+
+      await Promise.race([writePromise, timeoutPromise]);
 
       // Gửi thông báo đến Admin
       await notifyAdminNewSubmission({
