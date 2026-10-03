@@ -1,69 +1,288 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import CrossLinkingNav from '../../components/CrossLinkingNav.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('posts')).sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+// Danh sách các chuyên mục thực tế có trong bài viết
+const rawCategories = Array.from(new Set(posts.map(p => p.data.category))).filter(Boolean);
+const categories = ['Tất cả', ...rawCategories];
+
+// Icon minh họa cho từng chuyên mục
+const categoryIcons: Record<string, string> = {
+  'Tất cả': '📰',
+  'Tin tức': '📢',
+  'Sự kiện': '🎪',
+  'Gương sáng': '🌟',
+  'Bảng vàng': '🏆',
+  'Cựu học sinh': '🎓',
+  'Họp khóa': '🤝',
+  'Học bổng': '🎁',
+  'Tri ân': '💐',
+  'Lịch sử': '🏛️'
+};
 ---
 
 <BaseLayout
   title="Tin Tức & Hoạt Động Cựu Học Sinh THPT Xuân Lộc"
   description="Cập nhật các thông tin mới nhất về họp khóa, sự kiện kỷ niệm, các hoạt động tri ân thầy cô và chương trình học bổng tiếp sức của Cựu học sinh THPT Xuân Lộc."
 >
-  <section class="bg-navy-950 text-white py-14 border-b border-navy-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-3">
-        Tin Tức & Sự Kiện Cựu Học Sinh
+  <!-- Hero Section -->
+  <section class="bg-navy-950 text-white py-14 border-b border-navy-800 relative overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(#f59e0b_1px,transparent_1px)] [background-size:20px_20px] opacity-10 pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-warmOrange-500/20 text-warmOrange-300 border border-warmOrange-500/30 text-xs font-semibold uppercase tracking-wider mb-3">
+        <span>Bản Tin Cựu Học Sinh • Kết Nối & Lan Tỏa</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-3 tracking-tight">
+        Tin Tức & Hoạt Động Cựu Học Sinh
       </h1>
-      <p class="text-slate-300 max-w-2xl mx-auto text-base">
-        Kế hoạch họp khóa, chương trình tri ân thầy cô, gương cựu học sinh tiêu biểu và các hoạt động cộng đồng.
+      <p class="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+        Không gian cập nhật những câu chuyện truyền cảm hứng, phong trào học đường, thông tin sự kiện và các nhịp cầu nghĩa tình của thầy trò THPT Xuân Lộc.
       </p>
     </div>
   </section>
 
-  <section class="py-12 bg-slate-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {posts.map((post) => (
-          <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col group">
-            <div class="h-48 overflow-hidden bg-slate-100 relative">
-              <img
-                src={post.data.featuredImage}
-                alt={post.data.title}
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-navy-950/80 text-warmOrange-300 backdrop-blur-sm border border-navy-800">
-                {post.data.category}
-              </span>
-            </div>
+  <!-- News Content Section with Modern Filter -->
+  <section class="py-12 bg-slate-50 min-h-[70vh]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <!-- BỘ LỌC HIỆN ĐẠI (Search & Categories & Count) -->
+      <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-sm space-y-5">
+        
+        <!-- Hàng 1: Ô tìm kiếm và Bộ chọn sắp xếp -->
+        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+          <!-- Ô tìm kiếm -->
+          <div class="relative flex-1">
+            <input
+              type="text"
+              id="news-search-input"
+              placeholder="Tìm kiếm bài viết theo tiêu đề, tác giả hoặc từ khóa..."
+              class="w-full pl-10 pr-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-navy-950 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-warmOrange-500 focus:ring-2 focus:ring-warmOrange-200 transition"
+            />
+            <span class="absolute left-3.5 top-3.5 text-slate-400 text-sm">🔍</span>
+          </div>
 
-            <div class="p-6 flex-1 flex flex-col justify-between">
-              <div>
-                <time datetime={post.data.pubDate.toISOString()} class="text-xs text-slate-400 block mb-2">
-                  {post.data.pubDate.toLocaleDateString('vi-VN')}
-                </time>
+          <!-- Trạng thái kết quả & Sắp xếp -->
+          <div class="flex items-center justify-between sm:justify-end gap-3 text-xs font-semibold text-slate-600">
+            <span id="news-counter" class="bg-navy-50 text-navy-900 px-3 py-2 rounded-xl border border-navy-100/80 font-bold whitespace-nowrap">
+              Đang hiển thị {posts.length} bài viết
+            </span>
+          </div>
+        </div>
+
+        <!-- Hàng 2: Bộ lọc Chuyên mục dạng Chips / Tabs Hiện Đại -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none" id="news-category-filters">
+          {categories.map((cat) => {
+            const isAll = cat === 'Tất cả';
+            const count = isAll ? posts.length : posts.filter(p => p.data.category === cat).length;
+            const icon = categoryIcons[cat] || '🏷️';
+            
+            return (
+              <button
+                class={`category-chip-btn px-4 py-2 rounded-2xl text-xs font-bold transition flex items-center gap-2 shrink-0 ${
+                  isAll 
+                    ? 'bg-navy-950 text-white shadow-sm border border-navy-900' 
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-transparent'
+                }`}
+                data-category={cat}
+              >
+                <span>{icon}</span>
+                <span>{cat}</span>
+                <span class={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                  isAll ? 'bg-navy-800 text-warmOrange-300' : 'bg-white text-slate-600 border border-slate-200'
+                }`}>
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <!-- Danh sách bài viết (Grid) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" id="news-grid">
+        {posts.map((post) => (
+          <article
+            class="news-post-card bg-white rounded-3xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-xl hover:border-warmOrange-300 transition-all duration-300 flex flex-col group justify-between"
+            data-category={post.data.category}
+            data-title={post.data.title.toLowerCase()}
+            data-desc={post.data.description.toLowerCase()}
+            data-author={post.data.author.toLowerCase()}
+          >
+            <div>
+              <!-- Hình ảnh bài viết -->
+              <div class="h-52 overflow-hidden bg-slate-100 relative">
+                <img
+                  src={post.data.featuredImage}
+                  alt={post.data.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                  onerror="this.onerror=null; this.src='/assets/images/default-post.jpg';"
+                />
                 
-                <h2 class="text-lg font-bold text-navy-900 group-hover:text-warmOrange-600 transition mb-2">
-                  <a href={`/tin-tuc/${post.slug}`}>{post.data.title}</a>
+                <!-- Category Badge -->
+                <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-[11px] font-bold bg-navy-950/85 text-warmOrange-300 backdrop-blur-md border border-navy-700 shadow-sm flex items-center gap-1.5">
+                  <span>{categoryIcons[post.data.category] || '🏷️'}</span>
+                  <span>{post.data.category}</span>
+                </span>
+
+                {post.data.featured && (
+                  <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500 text-navy-950 shadow-sm">
+                    ⭐ Tiêu điểm
+                  </span>
+                )}
+              </div>
+
+              <!-- Nội dung tóm tắt -->
+              <div class="p-6">
+                <div class="flex items-center space-x-2 text-xs text-slate-400 mb-2.5 font-medium">
+                  <span class="inline-flex items-center gap-1">
+                    <span>📅</span>
+                    <time datetime={post.data.pubDate.toISOString()}>
+                      {post.data.pubDate.toLocaleDateString('vi-VN')}
+                    </time>
+                  </span>
+                  <span>•</span>
+                  <span class="truncate">{post.data.author}</span>
+                </div>
+                
+                <h2 class="text-base sm:text-lg font-bold text-navy-900 group-hover:text-warmOrange-600 transition leading-snug mb-2.5 line-clamp-2">
+                  <a href={`/tin-tuc/${post.slug}`} class="focus:outline-none">
+                    {post.data.title}
+                  </a>
                 </h2>
 
-                <p class="text-sm text-slate-600 leading-relaxed line-clamp-3 mb-4">
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3">
                   {post.data.description}
                 </p>
               </div>
+            </div>
 
-              <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                <span class="font-medium text-slate-700">{post.data.author}</span>
-                <a
-                  href={`/tin-tuc/${post.slug}`}
-                  class="font-bold text-warmOrange-600 hover:text-warmOrange-700 inline-flex items-center"
-                >
-                  Chi tiết &rarr;
-                </a>
-              </div>
+            <!-- Footer Card -->
+            <div class="px-6 py-4 bg-slate-50/60 border-t border-slate-100 flex items-center justify-between text-xs">
+              <span class="text-slate-400 font-medium">THPT Xuân Lộc</span>
+              <a
+                href={`/tin-tuc/${post.slug}`}
+                class="font-bold text-warmOrange-600 hover:text-warmOrange-700 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+              >
+                <span>Đọc bài viết</span>
+                <span>&rarr;</span>
+              </a>
             </div>
           </article>
         ))}
       </div>
+
+      <!-- Khung thông báo khi không tìm thấy bài viết -->
+      <div id="no-news-found" class="hidden text-center py-16 bg-white rounded-3xl border border-dashed border-slate-300 p-8 shadow-xs">
+        <span class="text-4xl block mb-3">🔍</span>
+        <h3 class="text-base font-bold text-navy-900 mb-1">Không tìm thấy bài viết phù hợp</h3>
+        <p class="text-xs text-slate-500 max-w-md mx-auto mb-4">
+          Thử thay đổi từ khóa tìm kiếm hoặc chọn chuyên mục "Tất cả" để xem danh sách bài viết.
+        </p>
+        <button
+          id="reset-filter-btn"
+          class="px-4 py-2 rounded-xl bg-navy-950 text-white text-xs font-bold hover:bg-warmOrange-600 transition shadow-sm"
+        >
+          Đặt lại bộ lọc
+        </button>
+      </div>
+
     </div>
   </section>
+
+  <!-- Cross Linking Navigation Footer -->
+  <CrossLinkingNav currentModule="tin-tuc" />
 </BaseLayout>
+
+<script>
+  function setupNewsFilter() {
+    const categoryButtons = document.querySelectorAll<HTMLButtonElement>('.category-chip-btn');
+    const cards = document.querySelectorAll<HTMLDivElement>('.news-post-card');
+    const searchInput = document.getElementById('news-search-input') as HTMLInputElement | null;
+    const counterEl = document.getElementById('news-counter');
+    const noNewsEl = document.getElementById('no-news-found');
+    const resetBtn = document.getElementById('reset-filter-btn');
+
+    let currentCategory = 'Tất cả';
+    let searchQuery = '';
+
+    function filterPosts() {
+      let visibleCount = 0;
+
+      cards.forEach((card) => {
+        const itemCategory = card.getAttribute('data-category') || '';
+        const itemTitle = card.getAttribute('data-title') || '';
+        const itemDesc = card.getAttribute('data-desc') || '';
+        const itemAuthor = card.getAttribute('data-author') || '';
+
+        const matchesCat = currentCategory === 'Tất cả' || itemCategory === currentCategory;
+        const matchesSearch = !searchQuery || 
+                              itemTitle.includes(searchQuery) || 
+                              itemDesc.includes(searchQuery) || 
+                              itemAuthor.includes(searchQuery);
+
+        const isVisible = matchesCat && matchesSearch;
+        card.style.display = isVisible ? '' : 'none';
+        if (isVisible) visibleCount++;
+      });
+
+      // Update counter
+      if (counterEl) {
+        counterEl.textContent = `Đang hiển thị ${visibleCount}/${cards.length} bài viết`;
+      }
+
+      // No results box
+      if (noNewsEl) {
+        noNewsEl.style.display = visibleCount === 0 ? 'block' : 'none';
+      }
+    }
+
+    // Category click handler
+    categoryButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        currentCategory = btn.getAttribute('data-category') || 'Tất cả';
+
+        categoryButtons.forEach((b) => {
+          b.classList.remove('bg-navy-950', 'text-white', 'shadow-sm', 'border-navy-900');
+          b.classList.add('bg-slate-100', 'text-slate-700', 'border-transparent');
+          const badge = b.querySelector('span:last-child');
+          if (badge) {
+            badge.className = 'text-[10px] px-2 py-0.5 rounded-full font-bold bg-white text-slate-600 border border-slate-200';
+          }
+        });
+
+        btn.classList.remove('bg-slate-100', 'text-slate-700', 'border-transparent');
+        btn.classList.add('bg-navy-950', 'text-white', 'shadow-sm', 'border-navy-900');
+        const activeBadge = btn.querySelector('span:last-child');
+        if (activeBadge) {
+          activeBadge.className = 'text-[10px] px-2 py-0.5 rounded-full font-bold bg-navy-800 text-warmOrange-300';
+        }
+
+        filterPosts();
+      });
+    });
+
+    // Search input handler
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = (e.target as HTMLInputElement).value.trim().toLowerCase();
+        filterPosts();
+      });
+    }
+
+    // Reset button
+    if (resetBtn && categoryButtons.length > 0) {
+      resetBtn.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        searchQuery = '';
+        categoryButtons[0].click();
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', setupNewsFilter);
+</script>
+
