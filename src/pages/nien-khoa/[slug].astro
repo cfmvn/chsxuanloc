@@ -63,17 +63,23 @@ const { Content } = await batch.render();
             <span>🏫</span>
             <span>Danh Sách Lớp ({batch.data.classes?.length || 0})</span>
           </div>
-          <div class="flex flex-wrap gap-2">
-            {batch.data.classes?.map((cls) => (
-              <a
-                href={`/tim-ban?year=${batch.data.endYear}&class=${cls}`}
-                class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-warmOrange-100 hover:text-warmOrange-900 text-slate-800 text-xs font-semibold transition"
-                title={`Xem danh sách lớp ${cls}`}
-              >
-                Lớp {cls}
-              </a>
-            ))}
-          </div>
+          {batch.data.classes && batch.data.classes.length > 0 ? (
+            <div class="flex flex-wrap gap-2">
+              {batch.data.classes.map((cls) => (
+                <a
+                  href={`/tim-ban?year=${batch.data.endYear}&class=${cls}`}
+                  class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-warmOrange-100 hover:text-warmOrange-900 text-slate-800 text-xs font-semibold transition"
+                  title={`Xem danh sách lớp ${cls}`}
+                >
+                  Lớp {cls}
+                </a>
+              ))}
+            </div>
+          ) : (
+            <p class="text-xs text-slate-500 italic">
+              Đang tiếp nhận bổ sung danh sách phân lớp từ cựu học sinh của khóa.
+            </p>
+          )}
         </div>
 
         <!-- Student count & status -->
@@ -85,7 +91,9 @@ const { Content } = await batch.render();
           <div class="space-y-2 text-xs text-slate-700">
             <div class="flex items-center justify-between border-b border-slate-100 pb-1.5">
               <span class="text-slate-500">Tổng cựu học sinh:</span>
-              <strong class="text-warmOrange-600 font-extrabold text-sm">{batch.data.studentCount} bạn</strong>
+              <strong class="text-warmOrange-600 font-extrabold text-sm">
+                {batch.data.studentCount > 0 ? `${batch.data.studentCount} bạn` : 'Đang cập nhật'}
+              </strong>
             </div>
             <div class="flex items-center justify-between border-b border-slate-100 pb-1.5">
               <span class="text-slate-500">Năm tốt nghiệp:</span>
@@ -93,27 +101,32 @@ const { Content } = await batch.render();
             </div>
             <div class="flex items-center justify-between">
               <span class="text-slate-500">Trạng thái hồ sơ:</span>
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">100% Hồ sơ gốc</span>
+              <span class={`px-2 py-0.5 rounded-full text-[10px] font-bold ${batch.data.studentCount > 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}`}>
+                {batch.data.studentCount > 0 ? '100% Hồ sơ gốc' : 'Đang tiếp nhận & Số hóa'}
+              </span>
             </div>
           </div>
         </div>
 
-        <!-- Direct Alumni Search Action -->
+        <!-- Direct Alumni Search / Registration Action -->
         <div class="bg-gradient-to-br from-navy-900 to-navy-950 p-6 rounded-2xl text-white shadow-sm flex flex-col justify-between">
           <div>
             <div class="flex items-center space-x-2 text-warmOrange-400 font-bold text-sm mb-2">
-              <span>🔍</span>
-              <span>Tra Cứu Bạn Cùng Khóa</span>
+              <span>{batch.data.studentCount > 0 ? '🔍' : '✍️'}</span>
+              <span>{batch.data.studentCount > 0 ? 'Tra Cứu Bạn Cùng Khóa' : 'Đăng Ký & Kết Nối Khóa'}</span>
             </div>
             <p class="text-xs text-slate-300 leading-relaxed mb-4">
-              Xem toàn bộ danh sách {batch.data.studentCount} bạn học của {batch.data.batchName} có ngày sinh, nơi sinh và lớp học.
+              {batch.data.studentCount > 0 
+                ? `Xem toàn bộ danh sách ${batch.data.studentCount} bạn học của ${batch.data.batchName} có ngày sinh, nơi sinh và lớp học.`
+                : `Tham gia kết nối, cập nhật thông tin và danh sách cựu học sinh của ${batch.data.batchName} vào hệ thống.`
+              }
             </p>
           </div>
           <a
-            href={`/tim-ban?year=${batch.data.endYear}`}
+            href={batch.data.studentCount > 0 ? `/tim-ban?year=${batch.data.endYear}` : `/tim-ban#dang-ky-thong-tin`}
             class="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-center text-white bg-gradient-to-r from-warmOrange-500 to-amber-500 hover:from-warmOrange-600 hover:to-amber-600 transition shadow-md shadow-warmOrange-500/20 block"
           >
-            Mở Danh Bạ Khóa {batch.data.endYear} &rarr;
+            {batch.data.studentCount > 0 ? `Mở Danh Bạ Khóa ${batch.data.endYear} →` : `Đăng Ký Thông Tin CHS →`}
           </a>
         </div>
       </div>
