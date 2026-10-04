@@ -1,6 +1,6 @@
 ---
 title: "Hướng tới một mùa Trung thu ấm áp, trọn vẹn yêu thương cho thiếu nhi đồng bào dân tộc thiểu số"
-pubDate: 2026-10-04
+pubDate: 2026-09-16
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Hướng tới một mùa Trung thu ấm áp, trọn vẹn yêu thương cho thiếu nhi đồng bào dân tộc thiểu số"
 category: "Sự kiện"

@@ -1,6 +1,6 @@
 ---
 title: "Cô và trò Trường Mầm non Xuân Lộc rộn ràng trước ngày khai giảng năm học mới 2026 - 2027"
-pubDate: 2026-10-04
+pubDate: 2026-09-04
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Cô và trò Trường Mầm non Xuân Lộc rộn ràng trước ngày khai giảng năm học mới 2026 - 2027"
 category: "Sự kiện"

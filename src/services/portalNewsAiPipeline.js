@@ -184,11 +184,19 @@ export async function fetchPortalNewsFeed() {
     const descMatch = itemXml.match(/<description>([\s\S]*?)<\/description>/);
     const guidMatch = itemXml.match(/<guid[^>]*>([\s\S]*?)<\/guid>/);
 
-    const title = titleMatch ? decodeEntities(titleMatch[1].trim()) : '';
+    let title = titleMatch ? decodeEntities(titleMatch[1].trim()) : '';
     const link = linkMatch ? linkMatch[1].trim() : '';
-    const pubDate = pubDateMatch ? pubDateMatch[1].trim() : '';
+    let pubDate = pubDateMatch ? pubDateMatch[1].trim() : '';
     const descRaw = descMatch ? descMatch[1].replace(/<!\[CDATA\[|\]\]>/g, '').trim() : '';
     const guid = guidMatch ? guidMatch[1].replace(/<!\[CDATA\[|\]\]>/g, '').trim() : '';
+
+    // Trích xuất ngày từ tiêu đề nếu có định dạng (DD/MM/YYYY)
+    const titleDateMatch = title.match(/\((\d{1,2})\/(\d{1,2})\/(\d{4})\)$/);
+    if (titleDateMatch) {
+      pubDate = `${titleDateMatch[3]}-${titleDateMatch[2].padStart(2, '0')}-${titleDateMatch[1].padStart(2, '0')}`;
+      // Loại bỏ đuôi ngày khỏi tiêu đề để tránh trùng lặp slug
+      title = title.replace(/\s*\(\d{1,2}\/\d{1,2}\/\d{4}\)$/, '').trim();
+    }
 
     const imgMatch = descRaw.match(/<img[^>]+src=["']([^"']+)["']/i);
     let imageUrl = imgMatch ? imgMatch[1].trim() : '';

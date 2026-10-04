@@ -1,6 +1,6 @@
 ---
 title: "Xuân Lộc sẵn sàng cho Ngày khai giảng: Hơn 18.000 học sinh háo hức bước vào năm học mới"
-pubDate: 2026-10-04
+pubDate: 2026-09-04
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Xuân Lộc sẵn sàng cho Ngày khai giảng: Hơn 18.000 học sinh háo hức bước vào năm học mới"
 category: "Sự kiện"

@@ -1,6 +1,6 @@
 ---
 title: "Rèn kỹ năng, nâng cao khả năng ứng phó qua hội thao nghiệp vụ PCCC và CNCH"
-pubDate: 2026-10-04
+pubDate: 2026-09-14
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Rèn kỹ năng, nâng cao khả năng ứng phó qua hội thao nghiệp vụ PCCC và CNCH"
 category: "Sự kiện"

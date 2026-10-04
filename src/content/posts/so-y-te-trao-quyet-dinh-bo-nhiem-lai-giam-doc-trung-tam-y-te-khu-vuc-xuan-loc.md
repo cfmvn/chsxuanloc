@@ -1,6 +1,6 @@
 ---
 title: "Sở Y tế trao quyết định bổ nhiệm lại Giám đốc Trung tâm Y tế Khu vực Xuân Lộc"
-pubDate: 2026-10-04
+pubDate: 2026-08-27
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Sở Y tế trao quyết định bổ nhiệm lại Giám đốc Trung tâm Y tế Khu vực Xuân Lộc"
 category: "Tin tức"

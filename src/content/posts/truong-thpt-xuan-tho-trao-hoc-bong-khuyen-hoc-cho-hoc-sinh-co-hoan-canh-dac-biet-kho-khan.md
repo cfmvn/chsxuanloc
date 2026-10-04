@@ -1,6 +1,6 @@
 ---
 title: "Trường THPT Xuân Thọ trao học bổng khuyến học cho học sinh có hoàn cảnh đặc biệt khó khăn"
-pubDate: 2026-10-04
+pubDate: 2026-09-16
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Trường THPT Xuân Thọ trao học bổng khuyến học cho học sinh có hoàn cảnh đặc biệt khó khăn"
 category: "Học bổng"

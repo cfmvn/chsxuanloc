@@ -1,6 +1,6 @@
 ---
 title: "Tiếp tục giám sát công tác quản lý trật tự xây dựng tại các khu phố Gia Ray 1, Gia Ray 2 và Gia Ray 3"
-pubDate: 2026-10-04
+pubDate: 2026-08-27
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Tiếp tục giám sát công tác quản lý trật tự xây dựng tại các khu phố Gia Ray 1, Gia Ray 2 và Gia Ray 3"
 category: "Tin tức"

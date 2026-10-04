@@ -1,6 +1,6 @@
 ---
 title: "Lượng nước hồ Núi Le sắp vượt ngưỡng thiết kế"
-pubDate: 2026-10-04
+pubDate: 2026-09-10
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Lượng nước hồ Núi Le sắp vượt ngưỡng thiết kế"
 category: "Tin tức"

@@ -1,6 +1,6 @@
 ---
 title: "Phường Xuân Lộc phát động Cuộc thi “Mô hình xanh - sạch - đẹp” năm 2026"
-pubDate: 2026-10-04
+pubDate: 2026-08-28
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Phường Xuân Lộc phát động Cuộc thi “Mô hình xanh - sạch - đẹp” năm 2026"
 category: "Tin tức"

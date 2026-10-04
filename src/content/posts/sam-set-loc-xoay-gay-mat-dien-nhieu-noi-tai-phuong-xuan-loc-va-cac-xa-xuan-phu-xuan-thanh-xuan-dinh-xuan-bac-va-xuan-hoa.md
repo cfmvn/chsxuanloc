@@ -1,6 +1,6 @@
 ---
 title: "Sấm sét, lốc xoáy gây mất điện nhiều nơi tại phường Xuân Lộc và các xã: Xuân Phú, Xuân Thành, Xuân Định, Xuân Bắc và Xuân Hòa"
-pubDate: 2026-10-04
+pubDate: 2026-09-10
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Sấm sét, lốc xoáy gây mất điện nhiều nơi tại phường Xuân Lộc và các xã: Xuân Phú, Xuân Thành, Xuân Định, Xuân Bắc và Xuân Hòa"
 category: "Tin tức"

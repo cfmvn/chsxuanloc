@@ -1,6 +1,6 @@
 ---
 title: "Ý nghĩa từ Cuộc thi tìm hiểu văn hóa, lịch sử Đồng Nai trên nền tảng số, ứng dụng trí tuệ nhân tạo (AI)"
-pubDate: 2026-10-04
+pubDate: 2026-09-10
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Ý nghĩa từ Cuộc thi tìm hiểu văn hóa, lịch sử Đồng Nai trên nền tảng số, ứng dụng trí tuệ nhân tạo (AI)"
 category: "Lịch sử"

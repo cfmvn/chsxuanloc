@@ -1,6 +1,6 @@
 ---
 title: "Học sinh Trường THPT Xuân Lộc giành giải Nhất hội thi hùng biện tiếng Anh"
-pubDate: 2026-10-04
+pubDate: 2026-09-14
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Học sinh Trường THPT Xuân Lộc giành giải Nhất hội thi hùng biện tiếng Anh"
 category: "Tin tức"

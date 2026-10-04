@@ -1,6 +1,6 @@
 ---
 title: "Chương trình khám, tư vấn mắt miễn phí góp phần chăm sóc sức khỏe cộng đồng tại phường Xuân Lộc"
-pubDate: 2026-10-04
+pubDate: 2026-09-19
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Chương trình khám, tư vấn mắt miễn phí góp phần chăm sóc sức khỏe cộng đồng tại phường Xuân Lộc"
 category: "Tin tức"

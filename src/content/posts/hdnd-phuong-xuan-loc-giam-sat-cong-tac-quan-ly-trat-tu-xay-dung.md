@@ -1,6 +1,6 @@
 ---
 title: "HĐND phường Xuân Lộc giám sát công tác quản lý trật tự xây dựng"
-pubDate: 2026-10-04
+pubDate: 2026-08-26
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "HĐND phường Xuân Lộc giám sát công tác quản lý trật tự xây dựng"
 category: "Tin tức"

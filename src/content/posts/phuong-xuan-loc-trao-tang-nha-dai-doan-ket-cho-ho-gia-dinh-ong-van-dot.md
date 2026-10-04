@@ -1,6 +1,6 @@
 ---
 title: "Phường Xuân Lộc trao tặng “Nhà Đại đoàn kết” cho hộ gia đình ông Văn Đốt"
-pubDate: 2026-10-04
+pubDate: 2026-08-28
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Phường Xuân Lộc trao tặng “Nhà Đại đoàn kết” cho hộ gia đình ông Văn Đốt"
 category: "Tin tức"

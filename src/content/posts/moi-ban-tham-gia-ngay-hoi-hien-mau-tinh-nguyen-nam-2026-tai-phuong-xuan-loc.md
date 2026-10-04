@@ -1,6 +1,6 @@
 ---
 title: "Mời bạn tham gia Ngày hội Hiến máu tình nguyện năm 2026 tại phường Xuân Lộc"
-pubDate: 2026-10-04
+pubDate: 2026-09-11
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Mời bạn tham gia Ngày hội Hiến máu tình nguyện năm 2026 tại phường Xuân Lộc"
 category: "Tin tức"

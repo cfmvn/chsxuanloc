@@ -1,6 +1,6 @@
 ---
 title: "Xuân Lộc triển khai nhiệm vụ trọng tâm trên lĩnh vực văn hóa - xã hội"
-pubDate: 2026-10-04
+pubDate: 2026-09-10
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Xuân Lộc triển khai nhiệm vụ trọng tâm trên lĩnh vực văn hóa - xã hội"
 category: "Tin tức"

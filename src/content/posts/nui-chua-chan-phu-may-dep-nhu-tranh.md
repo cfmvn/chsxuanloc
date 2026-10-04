@@ -1,6 +1,6 @@
 ---
 title: "Núi Chứa Chan phủ mây đẹp như tranh."
-pubDate: 2026-10-04
+pubDate: 2026-09-22
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Núi Chứa Chan phủ mây đẹp như tranh."
 category: "Lịch sử"

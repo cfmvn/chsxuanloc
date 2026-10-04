@@ -1,6 +1,6 @@
 ---
 title: "Xuân Lộc chăm lo hơn 1.100 người cao tuổi - lan tỏa nghĩa tình “Kính lão, trọng thọ”"
-pubDate: 2026-10-04
+pubDate: 2026-09-02
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Xuân Lộc chăm lo hơn 1.100 người cao tuổi - lan tỏa nghĩa tình “Kính lão, trọng thọ”"
 category: "Tin tức"

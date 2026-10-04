@@ -1,6 +1,6 @@
 ---
 title: "Trao tổng số tiền 53 triệu 600 nghìn đồng học bổng cho học sinh mùa tựu trường"
-pubDate: 2026-10-04
+pubDate: 2026-09-07
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Trao tổng số tiền 53 triệu 600 nghìn đồng học bổng cho học sinh mùa tựu trường"
 category: "Học bổng"

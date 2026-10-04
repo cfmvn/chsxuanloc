@@ -1,6 +1,6 @@
 ---
 title: "Xuân Lộc phối hợp rà soát, xử lý đường điện dân sinh trên lâm phận rừng phòng hộ"
-pubDate: 2026-10-04
+pubDate: 2026-09-10
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Xuân Lộc phối hợp rà soát, xử lý đường điện dân sinh trên lâm phận rừng phòng hộ"
 category: "Tin tức"

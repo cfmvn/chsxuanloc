@@ -1,6 +1,6 @@
 ---
 title: "Xuân Lộc xuất sắc giành giải Ba toàn đoàn môn điền kinh"
-pubDate: 2026-10-04
+pubDate: 2026-09-09
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Xuân Lộc xuất sắc giành giải Ba toàn đoàn môn điền kinh"
 category: "Tin tức"

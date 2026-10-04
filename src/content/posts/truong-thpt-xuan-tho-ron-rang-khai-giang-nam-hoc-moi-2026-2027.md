@@ -1,6 +1,6 @@
 ---
 title: "Trường THPT Xuân Thọ rộn ràng khai giảng năm học mới 2026 - 2027"
-pubDate: 2026-10-04
+pubDate: 2026-09-05
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Trường THPT Xuân Thọ rộn ràng khai giảng năm học mới 2026 - 2027"
 category: "Sự kiện"

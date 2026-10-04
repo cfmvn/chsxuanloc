@@ -1,6 +1,6 @@
 ---
 title: "Phường Xuân Lộc vinh dự có 14 cá nhân đạt danh hiệu Học sinh 3 tốt cấp thành phố"
-pubDate: 2026-10-04
+pubDate: 2026-09-14
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Phường Xuân Lộc vinh dự có 14 cá nhân đạt danh hiệu Học sinh 3 tốt cấp thành phố"
 category: "Gương sáng"

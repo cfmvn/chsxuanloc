@@ -1,6 +1,6 @@
 ---
 title: "Lãnh đạo thành phố Đồng Nai dự lễ khai giảng tại trường THPT Xuân Lộc"
-pubDate: 2026-10-04
+pubDate: 2026-09-05
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Lãnh đạo thành phố Đồng Nai dự lễ khai giảng tại trường THPT Xuân Lộc"
 category: "Sự kiện"

@@ -1,6 +1,6 @@
 ---
 title: "Niềm vui từ những ánh đèn năng lượng mặt trời"
-pubDate: 2026-10-04
+pubDate: 2026-09-03
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Niềm vui từ những ánh đèn năng lượng mặt trời"
 category: "Tin tức"

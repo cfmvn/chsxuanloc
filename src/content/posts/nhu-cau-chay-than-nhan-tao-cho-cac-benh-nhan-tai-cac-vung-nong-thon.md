@@ -1,6 +1,6 @@
 ---
 title: "Nhu cầu chạy thận nhân tạo cho các bệnh nhân tại các vùng nông thôn."
-pubDate: 2026-10-04
+pubDate: 2026-09-10
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Nhu cầu chạy thận nhân tạo cho các bệnh nhân tại các vùng nông thôn."
 category: "Tin tức"

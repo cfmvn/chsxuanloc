@@ -1,6 +1,6 @@
 ---
 title: "Xuân Lộc: Ấm áp đêm Trung thu - trao yêu thương, gửi niềm vui đến thiếu nhi đồng bào dân tộc thiểu số"
-pubDate: 2026-10-04
+pubDate: 2026-09-22
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Xuân Lộc: Ấm áp đêm Trung thu - trao yêu thương, gửi niềm vui đến thiếu nhi đồng bào dân tộc thiểu số"
 category: "Sự kiện"

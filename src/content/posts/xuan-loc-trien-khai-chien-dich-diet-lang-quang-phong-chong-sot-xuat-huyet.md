@@ -1,6 +1,6 @@
 ---
 title: "Xuân Lộc triển khai Chiến dịch diệt lăng quăng phòng, chống sốt xuất huyết"
-pubDate: 2026-10-04
+pubDate: 2026-09-07
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Xuân Lộc triển khai Chiến dịch diệt lăng quăng phòng, chống sốt xuất huyết"
 category: "Tin tức"

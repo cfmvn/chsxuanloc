@@ -1,6 +1,6 @@
 ---
 title: "Giám đốc sở Y tế Đồng Nai làm việc với các địa phương về tiến độ khám và sàng lọc sức khỏe toàn dân"
-pubDate: 2026-10-04
+pubDate: 2026-09-08
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Giám đốc sở Y tế Đồng Nai làm việc với các địa phương về tiến độ khám và sàng lọc sức khỏe toàn dân"
 category: "Tin tức"

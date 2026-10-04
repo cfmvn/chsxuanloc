@@ -1,6 +1,6 @@
 ---
 title: "Xuân Lộc sẵn sàng hưởng ứng Chương trình đi bộ “Cùng Việt Nam tiến bước”"
-pubDate: 2026-10-04
+pubDate: 2026-08-28
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Xuân Lộc sẵn sàng hưởng ứng Chương trình đi bộ “Cùng Việt Nam tiến bước”"
 category: "Tin tức"

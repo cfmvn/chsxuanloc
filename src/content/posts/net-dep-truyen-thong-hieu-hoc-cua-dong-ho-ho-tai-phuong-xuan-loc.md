@@ -1,6 +1,6 @@
 ---
 title: "Nét đẹp truyền thống hiếu học của dòng họ Hồ tại phường Xuân Lộc"
-pubDate: 2026-10-04
+pubDate: 2026-09-22
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Nét đẹp truyền thống hiếu học của dòng họ Hồ tại phường Xuân Lộc"
 category: "Lịch sử"

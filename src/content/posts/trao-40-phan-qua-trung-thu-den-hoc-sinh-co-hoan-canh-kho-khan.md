@@ -1,6 +1,6 @@
 ---
 title: "Trao 40 phần quà Trung thu đến học sinh có hoàn cảnh khó khăn"
-pubDate: 2026-10-04
+pubDate: 2026-09-22
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Trao 40 phần quà Trung thu đến học sinh có hoàn cảnh khó khăn"
 category: "Sự kiện"

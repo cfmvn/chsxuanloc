@@ -1,6 +1,6 @@
 ---
 title: "Xuân Lộc tăng cường phòng, chống tai nạn, thương tích trẻ em"
-pubDate: 2026-10-04
+pubDate: 2026-09-07
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Xuân Lộc tăng cường phòng, chống tai nạn, thương tích trẻ em"
 category: "Tin tức"

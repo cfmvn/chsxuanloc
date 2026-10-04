@@ -1,6 +1,6 @@
 ---
 title: "Cụm thi số 8 tổ chức Hội thao kiểm tra nghiệp vụ chữa cháy và cứu nạn, cứu hộ năm 2026."
-pubDate: 2026-10-04
+pubDate: 2026-09-11
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Cụm thi số 8 tổ chức Hội thao kiểm tra nghiệp vụ chữa cháy và cứu nạn, cứu hộ năm 2026."
 category: "Sự kiện"

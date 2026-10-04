@@ -1,6 +1,6 @@
 ---
 title: "Trao quyết định chỉ định chức danh Bí thư Đảng bộ Trung tâm y tế Khu vực Xuân Lộc"
-pubDate: 2026-10-04
+pubDate: 2026-09-09
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Trao quyết định chỉ định chức danh Bí thư Đảng bộ Trung tâm y tế Khu vực Xuân Lộc"
 category: "Tin tức"

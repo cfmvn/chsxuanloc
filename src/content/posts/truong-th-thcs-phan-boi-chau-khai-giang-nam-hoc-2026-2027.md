@@ -1,6 +1,6 @@
 ---
 title: "Trường TH – THCS Phan Bội Châu khai giảng năm học 2026 - 2027"
-pubDate: 2026-10-04
+pubDate: 2026-09-05
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Trường TH – THCS Phan Bội Châu khai giảng năm học 2026 - 2027"
 category: "Sự kiện"

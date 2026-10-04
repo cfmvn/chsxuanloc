@@ -1,6 +1,6 @@
 ---
 title: "Khu phố Suối Cát thăm, tặng quà các hộ dân bị ảnh hưởng do mưa bão, ngập lụt"
-pubDate: 2026-10-04
+pubDate: 2026-09-11
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Khu phố Suối Cát thăm, tặng quà các hộ dân bị ảnh hưởng do mưa bão, ngập lụt"
 category: "Tin tức"
