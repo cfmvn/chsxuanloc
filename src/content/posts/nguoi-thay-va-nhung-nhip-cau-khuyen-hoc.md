@@ -2,21 +2,11 @@
 title: "Người thầy và những nhịp cầu khuyến học"
 pubDate: 2026-10-02
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
-description: "Thầy Khanh, người thầy tận tâm, đã xây dựng chương trình \"San sẻ yêu thương\" giúp hơn 100 học sinh khó khăn tại Xuân Lộc, mang lại hy vọng và niềm tin cho thế hệ trẻ."
+description: "Thầy Khanh, người thầy tận tâm, đã xây dựng chương trình \"San sẻ yêu thương\" giúp hơn 100 học sinh khó khăn tại Xuân Lộc."
 category: "Gương sáng"
 featuredImage: "/assets/posts/nguoi-thay-va-nhung-nhip-cau-khuyen-hoc/anh-1.png"
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội"]
 ---
 
-# Người thầy và những nhịp cầu khuyến học
-
-Mỗi tháng, chiếc xe máy của thầy Khanh lướt qua những con đường quê Xuân Lộc, mang theo tình thương và sự quan tâm đến những ngôi nhà có học sinh nghèo, mồ côi hoặc gia đình khó khăn. Thầy không chỉ trao 500 ngàn đồng hỗ trợ học phí mà còn lắng nghe, động viên và khích lệ các em cố gắng học tập, tạo nên những nhịp cầu nối kết giữa tình yêu thương và kiến thức.
-
-Một trong những học sinh được thầy quan tâm là Lê Thị Thêm, học sinh lớp 11C5, sinh sống cùng dì bị tật bẩm sinh và phụ thuộc vào việc bán vé số. Nhờ chương trình "San sẻ yêu thương", Thêm đã nhận được nguồn tài trợ thiết thực, giúp cô tiếp tục học hành mà không phải lo lắng về chi phí. Cô hứa sẽ học thật tốt để không phụ lòng thầy và những người mạnh thường quân.
-
-Thầy Khanh đã khởi xướng chương trình này từ những cuộc trò chuyện với cựu học sinh trên mạng xã hội. Nhận thấy nhiều học trò cũ đã trưởng thành, thành đạt và mong muốn giúp đỡ, thầy đã kết nối những tấm lòng ấy. Qua 3 năm, "San sẻ yêu thương" đã hỗ trợ hơn 100 học sinh khó khăn, với tổng kinh phí trên 900 triệu đồng, trong đó tháng 8 và 9/2026 đã trao 53,6 triệu đồng cho các em.
-
-Những hành động của thầy Khanh không chỉ là sự giúp đỡ tài chính mà còn là nguồn động viên tinh thần, khơi dậy niềm tin và hy vọng cho thế hệ trẻ Xuân Lộc. Đó là minh chứng cho tinh thần gương sáng của cộng đồng, là niềm tự hào của quê hương.
-
-*Nguồn: Cổng thông tin điện tử phường Xuân Lộc (https://xuanloc.dongnai.gov.vn/vi/news/van-hoa-xa-hoi/nguoi-thay-va-nhung-nhip-cau-khuyen-hoc-1808.html)*
+Người thầy và những nhịp cầu khuyến học\n\nMỗi tháng, chiếc xe máy của thầy Khanh lướt qua những con đường quê Xuân Lộc, mang theo tình thương tới những ngôi nhà có học sinh nghèo, mồ côi hoặc gia đình khó khăn. Thầy không chỉ trao 500 000 đồng hỗ trợ mỗi tháng mà còn lắng nghe, động viên, khích lệ các em học sinh cố gắng vượt qua khó khăn.\n\nMột trong những học sinh được thầy quan tâm là Lê Thị Thêm, học sinh lớp 11C5, ngụ xã Xuân Thành. Cô sống cùng dì bị tật bẩm sinh và phải bán vé số để sinh tồn. Nhờ chương trình “San sẻ yêu thương”, Thêm nhận được khoản hỗ trợ thiết thực, giúp cô tiếp tục học tập và hy vọng vào tương lai.\n\nChương trình “San sẻ yêu thương” bắt đầu từ những cuộc trò chuyện của thầy Khanh với các cựu học sinh trên mạng xã hội. Qua 3 năm, hơn 100 học sinh có hoàn cảnh khó khăn đã được hỗ trợ, với tổng kinh phí trên 900 triệu đồng. Trong tháng 8 và 9 năm 2026, các cựu học sinh đã đóng góp 53,6 triệu đồng, tiếp tục là nguồn động viên cho những ngôi nhà cần giúp đỡ.\n\nSự tận tâm của thầy Khanh và những tấm lòng nhiệt huyết đã tạo nên những nhịp cầu khuyến học, gắn kết tình cảm với quê hương Xuân Lộc. Chúng ta cùng nhau tiếp tục lan tỏa yêu thương, xây dựng tương lai tươi sáng cho thế hệ học sinh.\n\n*Nguồn: Cổng thông tin điện tử phường Xuân Lộc (https://xuanloc.dongnai.gov.vn/vi/news/van-hoa-xa-hoi/nguoi-thay-va-nhung-nhip-cau-khuyen-hoc-1808.html)*
