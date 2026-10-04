@@ -17,30 +17,48 @@ function getGroqKey() {
 const GROQ_API_KEY = getGroqKey();
 
 /**
- * Tải ảnh từ URL Facebook về lưu cục bộ trong public/assets/posts/[slug]/
+ * Tải ảnh từ URL về lưu cục bộ trong public/assets/posts/[slug]/
  */
 export function downloadImage(url, destPath) {
   return new Promise((resolve, reject) => {
+    let cleanUrl = url.trim();
+    if (cleanUrl.startsWith('//')) cleanUrl = 'https:' + cleanUrl;
+    
     const dir = path.dirname(destPath);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
-    const mod = url.startsWith('https') ? https : http;
-    mod.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
+    const mod = cleanUrl.startsWith('https') ? https : http;
+    const req = mod.get(cleanUrl, { 
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' },
+      timeout: 20000
+    }, (res) => {
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-        return downloadImage(res.headers.location, destPath).then(resolve).catch(reject);
+        let redirectUrl = res.headers.location;
+        if (redirectUrl.startsWith('//')) redirectUrl = 'https:' + redirectUrl;
+        return downloadImage(redirectUrl, destPath).then(resolve).catch(reject);
       }
       if (res.statusCode !== 200) {
-        return reject(new Error(`Failed with status ${res.statusCode}`));
+        return reject(new Error(`Failed with status ${res.statusCode} for ${cleanUrl}`));
       }
       const file = fs.createWriteStream(destPath);
       res.pipe(file);
       file.on('finish', () => file.close(() => resolve(true)));
-    }).on('error', reject);
+      file.on('error', (err) => {
+        fs.unlink(destPath, () => {});
+        reject(err);
+      });
+    });
+
+    req.on('error', reject);
+    req.on('timeout', () => {
+      req.destroy();
+      reject(new Error(`Timeout downloading ${cleanUrl}`));
+    });
   });
 }
 
 /**
- * Xử lý tải toàn bộ ảnh từ bài đăng Facebook và lưu cục bộ
+ * Xử lý tải toàn bộ ảnh từ bài đăng và lưu cục bộ với chất lượng gốc
  */
 export async function processPostMedia(slug, imageUrls = []) {
   if (!imageUrls || imageUrls.length === 0) {
@@ -49,17 +67,25 @@ export async function processPostMedia(slug, imageUrls = []) {
 
   const localUrls = [];
   for (let i = 0; i < imageUrls.length; i++) {
-    const remoteUrl = imageUrls[i];
-    const ext = path.extname(remoteUrl.split('?')[0]) || '.jpg';
+    const rawUrl = imageUrls[i];
+    if (!rawUrl) continue;
+
+    // Lấy extension chuẩn từ URL (loại bỏ query params)
+    const cleanUrlPath = rawUrl.split('?')[0].split('#')[0];
+    let ext = path.extname(cleanUrlPath).toLowerCase();
+    if (!ext || !['.jpg', '.jpeg', '.png', '.webp', '.gif'].includes(ext)) {
+      ext = '.jpg';
+    }
+
     const filename = `anh-${i + 1}${ext}`;
     const destPath = path.join(process.cwd(), 'public', 'assets', 'posts', slug, filename);
     const publicUrl = `/assets/posts/${slug}/${filename}`;
 
     try {
-      await downloadImage(remoteUrl, destPath);
+      await downloadImage(rawUrl, destPath);
       localUrls.push(publicUrl);
     } catch (err) {
-      console.error(`⚠️ Không thể tải ảnh ${remoteUrl}:`, err.message);
+      console.error(`⚠️ Không thể tải ảnh ${rawUrl}:`, err.message);
     }
   }
 
@@ -109,8 +135,8 @@ NHIỆM VỤ CỦA BẠN:
    - 'Lịch sử': Kỷ niệm thành lập trường (1985 - Nay), tư liệu truyền thống.
 
 3. BIÊN TẬP BÀI BÁO HOÀN CHỈNH:
-   - Viết lại nội dung theo văn phong báo chí học đường trang trọng, xúc tích, truyền cảm hứng.
-   - Trích xuất ngày giờ thực tế của sự kiện (nếu có) để đặt "pubDate".
+   - Giữ gìn đầy đủ chi tiết, thông tin sự kiện, tên tuổi, số liệu thực tế.
+   - Trích xuất ngày giờ thực tế của sự kiện (nếu có) để đặt "pubDate" (YYYY-MM-DD).
    - Nếu bài có ảnh (${mediaCount} ảnh), hãy chèn placeholder vào các đoạn văn phù hợp:
      ![Chú thích ảnh 1]({{IMAGE_1}})
      ![Chú thích ảnh 2]({{IMAGE_2}})
@@ -143,7 +169,7 @@ NHIỆM VỤ CỦA BẠN:
         { role: 'user', content: prompt }
       ],
       temperature: 0.2,
-      max_tokens: 2000
+      max_tokens: 2500
     })
   });
 
@@ -156,7 +182,6 @@ NHIỆM VỤ CỦA BẠN:
   const rawContent = resJson.choices[0].message.content.trim();
   const cleanJson = rawContent.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/i, '');
   const article = JSON.parse(cleanJson);
-
 
   // Nếu bài viết bị bộ lọc từ chối
   if (article.shouldPublish === false) {
@@ -187,10 +212,13 @@ NHIỆM VỤ CỦA BẠN:
 
 /**
  * Lưu bài báo thành file Markdown trong src/content/posts/
+ * Mặc định KHÔNG ghi đè bài viết cũ để bảo toàn dữ liệu
  */
-export function saveArticleToMarkdown(article) {
-  if (article.shouldPublish === false) {
-    console.log(`⚠️ Bỏ qua không xuất bản: ${article.rejectReason || 'Không đủ tiêu chuẩn tin tức'}`);
+export function saveArticleToMarkdown(article, options = { overwrite: false }) {
+  if (!article || article.shouldPublish === false) {
+    if (article && article.rejectReason) {
+      console.log(`⚠️ Bỏ qua không xuất bản: ${article.rejectReason}`);
+    }
     return null;
   }
 
@@ -200,6 +228,12 @@ export function saveArticleToMarkdown(article) {
   }
 
   const filePath = path.join(postsDir, `${article.slug}.md`);
+
+  // Kiểm tra chống ghi đè bài viết đã tồn tại
+  if (fs.existsSync(filePath) && !options.overwrite) {
+    console.log(`⏩ [ĐÃ TỒN TẠI] Giữ nguyên bài viết hiện có, không ghi đè: ${article.slug}.md`);
+    return filePath;
+  }
 
   const fileContent = `---
 title: ${JSON.stringify(article.title)}
