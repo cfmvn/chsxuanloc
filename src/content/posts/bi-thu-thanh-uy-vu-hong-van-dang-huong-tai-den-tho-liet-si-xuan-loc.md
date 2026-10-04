@@ -1,6 +1,6 @@
 ---
 title: "Bí thư Thành ủy Vũ Hồng Văn dâng hương tại Đền thờ Liệt sĩ Xuân Lộc"
-pubDate: 2026-08-31
+pubDate: 1945-09-02
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Bí thư Thành ủy Vũ Hồng Văn dâng hương tại Đền thờ Liệt sĩ Xuân Lộc"
 category: "Lịch sử"

@@ -1,6 +1,6 @@
 ---
 title: "Trường THPT Xuân Thọ tổ chức giao lưu thể thao và họp mặt cán bộ quản lý, giáo viên"
-pubDate: 2026-09-13
+pubDate: 2026-09-12
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Trường THPT Xuân Thọ tổ chức giao lưu thể thao và họp mặt cán bộ quản lý, giáo viên"
 category: "Cựu học sinh"

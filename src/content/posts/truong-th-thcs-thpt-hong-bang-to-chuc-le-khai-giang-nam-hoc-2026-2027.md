@@ -1,6 +1,6 @@
 ---
 title: "Trường TH-THCS-THPT Hồng Bàng tổ chức Lễ khai giảng năm học 2026 - 2027"
-pubDate: 2026-09-07
+pubDate: 2026-09-05
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Trường TH-THCS-THPT Hồng Bàng tổ chức Lễ khai giảng năm học 2026 - 2027"
 category: "Sự kiện"

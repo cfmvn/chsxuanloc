@@ -1,22 +1,35 @@
 ---
 title: "Trung tâm Dịch vụ tổng hợp và Bảo tồn thiên nhiên núi Chứa Chan ra quân chỉnh trang đền thờ Liệt sĩ"
-pubDate: 2026-10-02
+pubDate: 1930-10-15
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
-description: "Trung tâm Dịch vụ tổng hợp và Bảo tồn thiên nhiên núi Chứa Chan đã ra quân chỉnh trang đền thờ Liệt sĩ và hồ sen, thể hiện lòng tri ân và tinh thần đoàn kết của cán bộ, viên chức và người lao động tại Xuân Lộc."
-category: "Sự kiện"
+description: "Trung tâm Dịch vụ tổng hợp và Bảo tồn thiên nhiên núi Chứa Chan ra quân chỉnh trang đền thờ Liệt sĩ"
+category: "Lịch sử"
 featuredImage: "/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-1.png"
 featured: false
-tags: ["Xuân Lộc","Văn hóa xã hội"]
+tags: ["Xuân Lộc","Văn hóa xã hội","Di tích lịch sử"]
 ---
 
-## Trung tâm Dịch vụ tổng hợp và Bảo tồn thiên nhiên núi Chứa Chan ra quân chỉnh trang đền thờ Liệt sĩ
+Để góp phần tạo cảnh quan được xanh, sạch, đẹp và trang nghiêm. Trung tâm đã cùng nhau chỉnh trang diện mạo của đền thờ và hồ sen nơi ghi nhớ công ơn và tưởng niệm các anh hùng liệt sĩ.
 
-Vào sáng ngày 2 tháng 10 năm 2026, Trung tâm Dịch vụ tổng hợp và Bảo tồn thiên nhiên núi Chứa Chan đã ra quân chỉnh trang đền thờ Liệt sĩ và hồ sen, tạo nên một không gian trang nghiêm, xanh mát, tôn vinh những anh hùng đã hy sinh. 
+![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-1.png)
 
-Cán bộ, viên chức và người lao động đã cùng nhau trồng hoa, cắt cỏ, cải tạo hồ sen, mang lại vẻ đẹp mới cho khuôn viên. Hành động này thể hiện tinh thần đoàn kết và trách nhiệm trong đợt thi đua 500 ngày đêm, đồng thời là biểu tượng của lòng yêu quê hương và sự tri ân sâu sắc đối với những người đã bảo vệ Tổ quốc.
+![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-2.png)
 
-Việc làm này không chỉ là hành động tri ân mà còn là minh chứng cho vai trò của cộng đồng trong việc bảo tồn di tích lịch sử và thiên nhiên tại Xuân Lộc. Nó khơi dậy niềm tự hào dân tộc và tình yêu quê hương của mọi người.
+![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-3.png)
 
-Những nỗ lực này đã góp phần tạo nên cảnh quan xanh, sạch, đẹp, đồng thời khẳng định tinh thần gương mặt của những người lao động và cán bộ trong việc bảo vệ di sản văn hóa của vùng đất Xuân Lộc.
+![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-4.png)
 
-*Nguồn: Cổng thông tin điện tử phường Xuân Lộc (https://xuanloc.dongnai.gov.vn/vi/news/van-hoa-xa-hoi/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si-1805.html)*
+![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-5.png)
+
+Tại buổi ra quân, cán bộ, viên chức và người lao động của Trung tâm đã tập trung trồng hoa, cắt cỏ, chỉnh trang khuôn viên và cải tạo hồ sen. Việc làm trên thể hiện thể hiện sự tri ân đối với các anh hùng liệt sĩ đã hi sinh bảo vệ Tổ quốc.
+
+![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-6.png)
+
+![Hiện trạng hồ sen trước và sau khi hoàn tất công tác vệ sinh, chuẩn bị cải tạo và trồng sen mới](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-7.png)
+
+Đây cũng là việc làm thiết thực, thể hiện tinh thần đoàn kết, trách nhiệm của cán bộ, viên chức và người lao động trong đợt thi đua 500 ngày đêm, đồng thời đây là việc làm thiết thực tỏ lòng biết ơn của cán bộ, đảng viên và Nhân dân trên địa bàn phường đối với sự hy sinh của các anh hùng liệt sỹ.
+
+**Tác giả:** Việt Linh
+
+---
+*Nguồn: Cổng thông tin điện tử phường Xuân Lộc ([https://xuanloc.dongnai.gov.vn/vi/news/van-hoa-xa-hoi/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si-1805.html](https://xuanloc.dongnai.gov.vn/vi/news/van-hoa-xa-hoi/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si-1805.html))*

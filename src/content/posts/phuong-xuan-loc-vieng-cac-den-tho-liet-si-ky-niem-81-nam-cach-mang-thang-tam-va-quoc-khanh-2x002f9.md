@@ -1,6 +1,6 @@
 ---
 title: "Phường Xuân Lộc viếng các Đền thờ Liệt sĩ kỷ niệm 81 năm Cách mạng Tháng Tám và Quốc khánh 2&#x002F;9"
-pubDate: 2026-08-28
+pubDate: 1945-08-19
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Phường Xuân Lộc viếng các Đền thờ Liệt sĩ kỷ niệm 81 năm Cách mạng Tháng Tám và Quốc khánh 2&#x002F;9"
 category: "Lịch sử"

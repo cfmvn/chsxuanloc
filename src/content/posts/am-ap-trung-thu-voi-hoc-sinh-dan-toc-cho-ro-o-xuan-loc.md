@@ -2,7 +2,7 @@
 title: "Ấm áp Trung thu với học sinh dân tộc Chơ Ro ở Xuân Lộc"
 pubDate: 2026-09-24
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
-description: "Những chiếc lồng đèn đủ sắc màu, những hộp bánh Trung thu và tiếng cười trẻ thơ đã làm không khí tại Trường mầm non Xuân Thọ, phường Xuân Lộc thêm rộn ràng khi mùa Trung thu đang đ..."
+description: "Ấm áp Trung thu với học sinh dân tộc Chơ Ro ở Xuân Lộc"
 category: "Sự kiện"
 featuredImage: "/assets/posts/am-ap-trung-thu-voi-hoc-sinh-dan-toc-cho-ro-o-xuan-loc/anh-1.png"
 featured: false

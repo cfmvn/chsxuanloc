@@ -1,6 +1,6 @@
 ---
 title: "Xuân Lộc tổ chúc mừng thọ, chúc thọ 73 người cao tuổi tại Khu phố Gia Ray 1"
-pubDate: 2026-08-26
+pubDate: 2026-06-05
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Xuân Lộc tổ chúc mừng thọ, chúc thọ 73 người cao tuổi tại Khu phố Gia Ray 1"
 category: "Tin tức"

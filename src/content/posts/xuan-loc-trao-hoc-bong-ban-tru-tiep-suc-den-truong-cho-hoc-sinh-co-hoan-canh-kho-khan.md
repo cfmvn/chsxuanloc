@@ -1,6 +1,6 @@
 ---
 title: "Xuân Lộc: Trao học bổng bán trú - Tiếp sức đến trường cho học sinh có hoàn cảnh khó khăn"
-pubDate: 2026-09-15
+pubDate: 2026-09-14
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Xuân Lộc: Trao học bổng bán trú - Tiếp sức đến trường cho học sinh có hoàn cảnh khó khăn"
 category: "Học bổng"

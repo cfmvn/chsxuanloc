@@ -2,7 +2,7 @@
 title: "Phường Xuân Lộc lan tỏa phong trào hiến máu tình nguyện"
 pubDate: 2026-09-23
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
-description: "Hiến máu tình nguyện là nghĩa cử nhân văn, thể hiện tinh thần sẻ chia, tương thân tương ái trong cộng đồng. Tại phường Xuân Lộc, phong trào này ngày càng lan tỏa, thu hút đông đảo..."
+description: "Phường Xuân Lộc lan tỏa phong trào hiến máu tình nguyện"
 category: "Tin tức"
 featuredImage: "/assets/posts/phuong-xuan-loc-lan-toa-phong-trao-hien-mau-tinh-nguyen/anh-1.png"
 featured: false

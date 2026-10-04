@@ -1,6 +1,6 @@
 ---
 title: "Phường Xuân Lộc tổ chức lấy ý kiến về phương án bồi thường, hỗ trợ Dự án đường dây điện 220kV đấu nối"
-pubDate: 2026-09-10
+pubDate: 2026-09-09
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Phường Xuân Lộc tổ chức lấy ý kiến về phương án bồi thường, hỗ trợ Dự án đường dây điện 220kV đấu nối"
 category: "Tin tức"

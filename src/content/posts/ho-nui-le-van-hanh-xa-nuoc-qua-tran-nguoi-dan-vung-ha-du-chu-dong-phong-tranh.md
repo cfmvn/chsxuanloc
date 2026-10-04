@@ -2,7 +2,7 @@
 title: "Hồ Núi Le vận hành xả nước qua tràn, người dân vùng hạ du chủ động phòng tránh"
 pubDate: 2026-09-25
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
-description: "Trước tình hình mưa lớn kéo dài, mực nước hồ Núi Le tiếp tục dâng cao, Công ty TNHH Một thành viên Thủy lợi Đồng Nai vừa có thông báo về việc vận hành, điều tiết hồ nhằm bảo đảm an..."
+description: "Hồ Núi Le vận hành xả nước qua tràn, người dân vùng hạ du chủ động phòng tránh"
 category: "Tin tức"
 featuredImage: "/assets/posts/ho-nui-le-van-hanh-xa-nuoc-qua-tran-nguoi-dan-vung-ha-du-chu-dong-phong-tranh/anh-1.png"
 featured: false

@@ -2,7 +2,7 @@
 title: "Trung tâm Y tế khu vực Xuân Lộc được khen thưởng vì thành tích xuất sắc trong phong trào thi đua yêu nước năm 2025"
 pubDate: 2026-09-28
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
-description: "Thực hiện phong trào thi đua yêu nước năm 2025,  sáng ngày 28/9 Trung tâm Y tế khu vực Xuân Lộc tổ chức công bố quyết định và trao các danh hiệu thi đua, bằng khen cho các tập thể,..."
+description: "Trung tâm Y tế khu vực Xuân Lộc được khen thưởng vì thành tích xuất sắc trong phong trào thi đua yêu nước năm 2025"
 category: "Tin tức"
 featuredImage: "/assets/posts/trung-tam-y-te-khu-vuc-xuan-loc-duoc-khen-thuong-vi-thanh-tich-xuat-sac-trong-phong-trao-thi-dua-yeu-nuoc-nam-2025/anh-1.png"
 featured: false

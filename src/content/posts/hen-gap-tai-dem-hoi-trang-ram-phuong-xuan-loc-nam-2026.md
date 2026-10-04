@@ -2,7 +2,7 @@
 title: "Hẹn gặp tại “Đêm hội Trăng rằm” phường Xuân Lộc năm 2026"
 pubDate: 2026-09-23
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
-description: "Nhằm tạo sân chơi vui tươi, bổ ích và an toàn cho thiếu nhi nhân dịp Tết Trung thu năm 2026, UBND phường Xuân Lộc sẽ tổ chức chương trình “Đêm hội Trăng rằm” với nhiều hoạt động vă..."
+description: "Hẹn gặp tại “Đêm hội Trăng rằm” phường Xuân Lộc năm 2026"
 category: "Sự kiện"
 featuredImage: "/assets/posts/hen-gap-tai-dem-hoi-trang-ram-phuong-xuan-loc-nam-2026/anh-1.png"
 featured: false

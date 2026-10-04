@@ -1,6 +1,6 @@
 ---
 title: "Phường Xuân Lộc hưởng ứng Chương trình “Cùng Việt Nam tiến bước”"
-pubDate: 2026-08-30
+pubDate: 1945-08-19
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Phường Xuân Lộc hưởng ứng Chương trình “Cùng Việt Nam tiến bước”"
 category: "Tin tức"

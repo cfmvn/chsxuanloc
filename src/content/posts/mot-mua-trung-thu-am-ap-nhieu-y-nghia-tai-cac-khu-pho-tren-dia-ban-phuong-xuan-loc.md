@@ -2,7 +2,7 @@
 title: "Một mùa Trung thu ấm áp, nhiều ý nghĩa tại các khu phố trên địa bàn phường Xuân Lộc"
 pubDate: 2026-09-24
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
-description: "Những ngày này, không khí đón Tết Trung thu tại phường Xuân Lộc diễn ra sôi nổi, rộng khắp. Với mong muốn đem đến niềm vui và tiếng cười cho trẻ em, nhiều hoạt động đã được các khu..."
+description: "Một mùa Trung thu ấm áp, nhiều ý nghĩa tại các khu phố trên địa bàn phường Xuân Lộc"
 category: "Sự kiện"
 featuredImage: "/assets/posts/mot-mua-trung-thu-am-ap-nhieu-y-nghia-tai-cac-khu-pho-tren-dia-ban-phuong-xuan-loc/anh-1.png"
 featured: false
