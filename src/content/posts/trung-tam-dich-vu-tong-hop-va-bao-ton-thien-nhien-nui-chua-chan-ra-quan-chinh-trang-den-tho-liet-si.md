@@ -1,6 +1,6 @@
 ---
 title: "Trung tâm Dịch vụ tổng hợp và Bảo tồn thiên nhiên núi Chứa Chan ra quân chỉnh trang đền thờ Liệt sĩ"
-pubDate: 1930-10-15
+pubDate: 2026-10-02
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Trung tâm Dịch vụ tổng hợp và Bảo tồn thiên nhiên núi Chứa Chan ra quân chỉnh trang đền thờ Liệt sĩ"
 category: "Lịch sử"
@@ -8,6 +8,8 @@ featuredImage: "/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội","Di tích lịch sử"]
 ---
+
+**Hưởng ứng đợt thi đua đặc biệt 500 ngày đêm "Đoàn kết – Kỷ cương – Hiệu quả – Bứt phá, xây dựng Đồng Nai phát triển văn minh, hiện đại" và hướng tới kỷ niệm 96 năm Ngày truyền thống công tác Dân vận của Đảng (15/10/1930 – 15/10/2026), sáng ngày 01/10/2026, cán bộ, viên chức và người lao động Trung tâm Dịch vụ tổng hợp và Bảo tồn thiên nhiên núi Chứa Chan ra quân chỉnh trang đền thờ liệt sỹ và cải tạo hồ sen tại Đền thờ liệt sĩ Xuân Lộc.**
 
 Để góp phần tạo cảnh quan được xanh, sạch, đẹp và trang nghiêm. Trung tâm đã cùng nhau chỉnh trang diện mạo của đền thờ và hồ sen nơi ghi nhớ công ơn và tưởng niệm các anh hùng liệt sĩ.
 

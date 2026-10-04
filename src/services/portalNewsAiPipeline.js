@@ -227,24 +227,49 @@ export async function fetchPortalArticleDetail(articleUrl) {
   try {
     const html = await fetchHttp(articleUrl);
     
-    // Tìm khung chứa toàn bộ bài viết
+    // 1. Trích xuất phần tóm tắt đầu bài (hometext / sapo) nếu có
+    let sapoHtml = '';
+    const homeMatch = html.match(/<div[^>]+id=["']news-hometext["'][^>]*>([\s\S]*?)<\/div>/i) ||
+                      html.match(/<div[^>]+class=["'][^"']*hometext[^"']*["'][^>]*>([\s\S]*?)<\/div>/i);
+    if (homeMatch) {
+      sapoHtml = homeMatch[1].trim();
+    }
+
+    // 2. Tìm khung chứa toàn bộ bài viết (bodyhtml)
     const bodyMatch = html.match(/<div id="news-bodyhtml"[\s\S]*?>([\s\S]*?)<\/div>\s*<\/div>/i) ||
                       html.match(/<div id="news-bodyhtml"[\s\S]*?>([\s\S]*?)<\/div>/i) ||
                       html.match(/<div class="hnewsdetail"[\s\S]*?>([\s\S]*?)<\/div>/i) ||
                       html.match(/<div class="bodytext"[\s\S]*?>([\s\S]*?)<\/div>/i);
 
-    if (!bodyMatch) {
+    if (!bodyMatch && !sapoHtml) {
       return { fullMarkdown: '', rawImages: [] };
     }
 
-    const bodyHtml = bodyMatch[1];
-    const { markdown, images } = convertHtmlToMarkdown(bodyHtml);
+    // Ghép sapo và bodyHtml lại để không bỏ sót đoạn mở đầu bài báo
+    let combinedHtml = '';
+    if (sapoHtml) {
+      combinedHtml += `<p class="sapo"><strong>${sapoHtml}</strong></p>\n`;
+    }
+    if (bodyMatch) {
+      combinedHtml += bodyMatch[1];
+    }
 
-    // Trích xuất ngày đăng chính xác từ HTML chi tiết
+    const { markdown, images } = convertHtmlToMarkdown(combinedHtml);
+
+    // 3. Trích xuất ngày đăng chính xác từ meta tag, itemprop hoặc regex ngày tháng
     let pubDate = '';
-    const timeMatch = html.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-    if (timeMatch) {
-      pubDate = `${timeMatch[3]}-${timeMatch[2].padStart(2, '0')}-${timeMatch[1].padStart(2, '0')}`;
+    const metaDateMatch = html.match(/<meta[^>]+name=["']DC\.Date["'][^>]+content=["'](\d{4})-(\d{2})-(\d{2})/i) ||
+                          html.match(/itemprop=["']datePublished["']>(\d{4})-(\d{2})-(\d{2})/i) ||
+                          html.match(/property=["']article:published_time["'][^>]+content=["'](\d{4})-(\d{2})-(\d{2})/i);
+    
+    if (metaDateMatch) {
+      pubDate = `${metaDateMatch[1]}-${metaDateMatch[2]}-${metaDateMatch[3]}`;
+    } else {
+      const clockMatch = html.match(/<em class=["']fa fa-clock-o["']>\s*&nbsp;\s*<\/em>\s*(\d{1,2})\/(\d{1,2})\/(\d{4})/i) ||
+                         html.match(/(\d{1,2})\/(\d{1,2})\/(202[4-6])/);
+      if (clockMatch) {
+        pubDate = `${clockMatch[3]}-${clockMatch[2].padStart(2, '0')}-${clockMatch[1].padStart(2, '0')}`;
+      }
     }
 
     return {

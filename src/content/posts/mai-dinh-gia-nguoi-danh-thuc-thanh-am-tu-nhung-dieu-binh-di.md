@@ -9,6 +9,8 @@ featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội"]
 ---
 
+**Nghệ nhân Mai Đình Gia, sinh năm 1963, hiện sinh sống tại khu phố Xuân Hiệp, phường Xuân Lộc, là người nhiều năm gắn bó với các loại nhạc cụ dân tộc như sáo trúc, đàn nhị và nhiều nhạc cụ truyền thống khác. Với niềm đam mê âm nhạc, ông không chỉ gìn giữ những thanh âm dân tộc mà còn tìm tòi, sáng tạo để đưa âm nhạc đến gần hơn với đời sống.**
+
 ![Ảnh bài viết](/assets/posts/mai-dinh-gia-nguoi-danh-thuc-thanh-am-tu-nhung-dieu-binh-di/anh-1.png)
 
 Điều đặc biệt ở ông Gia là khả năng biến những vật dụng quen thuộc thành nhạc cụ. Từ ấm nước, ống nước, cây bắp, bóng đèn đã qua sử dụng đến những vật liệu tưởng chừng không còn giá trị, ông tìm cách cải tạo, kết hợp để tạo nên những âm thanh độc đáo. Đặc biệt, ông còn có biệt tài thổi sáo bằng mũi, tạo nên những âm thanh độc đáo và để lại ấn tượng cho người xem trong mỗi lần biểu diễn. Qua bàn tay và sự sáng tạo của ông, những vật dụng bình dị trong cuộc sống trở thành những nhạc cụ mang màu sắc riêng.
