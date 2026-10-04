@@ -232,13 +232,21 @@ export async function fetchPortalArticleDetail(articleUrl) {
     const bodyHtml = bodyMatch[1];
     const { markdown, images } = convertHtmlToMarkdown(bodyHtml);
 
+    // Trích xuất ngày đăng chính xác từ HTML chi tiết
+    let pubDate = '';
+    const timeMatch = html.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+    if (timeMatch) {
+      pubDate = `${timeMatch[3]}-${timeMatch[2].padStart(2, '0')}-${timeMatch[1].padStart(2, '0')}`;
+    }
+
     return {
       fullMarkdown: markdown,
-      rawImages: images
+      rawImages: images,
+      pubDate
     };
   } catch (e) {
     console.warn(`⚠️ Không thể lấy chi tiết bài viết ${articleUrl}:`, e.message);
-    return { fullMarkdown: '', rawImages: [] };
+    return { fullMarkdown: '', rawImages: [], pubDate: '' };
   }
 }
 
@@ -249,9 +257,13 @@ async function classifyArticleMetadata(title, summary, dateStr) {
   // Format pubDate: YYYY-MM-DD
   let pubDate = new Date().toISOString().split('T')[0];
   if (dateStr) {
-    const parsedDate = new Date(dateStr);
-    if (!isNaN(parsedDate.getTime())) {
-      pubDate = parsedDate.toISOString().split('T')[0];
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+      pubDate = dateStr;
+    } else {
+      const parsedDate = new Date(dateStr);
+      if (!isNaN(parsedDate.getTime())) {
+        pubDate = parsedDate.toISOString().split('T')[0];
+      }
     }
   }
 
@@ -346,7 +358,8 @@ export async function transformPortalPostToArticle(portalItem, detailData) {
     ? detailData.fullMarkdown
     : portalItem.textContent;
 
-  const metadata = await classifyArticleMetadata(portalItem.title, portalItem.textContent, portalItem.pubDate);
+  const itemDate = detailData.pubDate || portalItem.pubDate;
+  const metadata = await classifyArticleMetadata(portalItem.title, portalItem.textContent, itemDate);
 
   // Thu thập toàn bộ danh sách URL ảnh từ chi tiết bài viết
   const allImageUrls = [];
