@@ -1,4 +1,4 @@
-name: AI Sáng Tác Góc Tâm Tình & Hoài Niệm CHS
+name: AI Sáng Tác Góc Tâm Tình & Hoài Niệm CHS (Lưu Firestore)
 
 on:
   schedule:
@@ -9,13 +9,9 @@ on:
 jobs:
   generate-tam-su:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cài đặt Node.js
         uses: actions/setup-node@v4
@@ -26,39 +22,12 @@ jobs:
       - name: Cài đặt dependencies
         run: npm ci
 
-      - name: Chạy AI Tự động sáng tác bài Góc Tâm Tình Cựu Học Sinh
+      - name: Chạy AI Tự động sáng tác bài & Lưu trực tiếp vào Firebase Firestore
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          PUBLIC_FIREBASE_API_KEY: ${{ secrets.PUBLIC_FIREBASE_API_KEY || 'AIzaSyDqpHnIWyPAA1rlGimPHBeaW4SIZfUX9-w' }}
+          PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.PUBLIC_FIREBASE_PROJECT_ID || 'xuanlocchs' }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: node src/services/autoDailyTamSu.js
 
-      - name: Tự động Commit & Push bài tâm sự mới lên Git
-        id: auto_commit
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "auto(story): AI sang tac bai viet moi cho Goc Tam Tinh CHS"
-          branch: main
-
-      - name: Build & Xuất bản lên Firebase Hosting
-        if: steps.auto_commit.outputs.changes_detected == 'true' || github.event_name == 'workflow_dispatch'
-        run: npm run build
-        env:
-          PUBLIC_FIREBASE_API_KEY: ${{ secrets.PUBLIC_FIREBASE_API_KEY || 'AIzaSyDqpHnIWyPAA1rlGimPHBeaW4SIZfUX9-w' }}
-          PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.PUBLIC_FIREBASE_AUTH_DOMAIN || 'xuanlocchs.firebaseapp.com' }}
-          PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.PUBLIC_FIREBASE_PROJECT_ID || 'xuanlocchs' }}
-          PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ secrets.PUBLIC_FIREBASE_STORAGE_BUCKET || 'xuanlocchs.firebasestorage.app' }}
-          PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '173381053400' }}
-          PUBLIC_FIREBASE_APP_ID: ${{ secrets.PUBLIC_FIREBASE_APP_ID || '1:173381053400:web:1f59ec02ad7ad05ea620ad' }}
-
-      - name: Deploy Live lên Firebase Hosting
-        if: steps.auto_commit.outputs.changes_detected == 'true' || github.event_name == 'workflow_dispatch'
-        run: |
-          if [ -n "$FIREBASE_SERVICE_ACCOUNT" ]; then
-            echo "$FIREBASE_SERVICE_ACCOUNT" > /tmp/service-account.json
-            export GOOGLE_APPLICATION_CREDENTIALS=/tmp/service-account.json
-            npx -y firebase-tools deploy --only hosting --project xuanlocchs --non-interactive
-          elif [ -n "$FIREBASE_TOKEN" ]; then
-            npx -y firebase-tools deploy --only hosting --project xuanlocchs --token "$FIREBASE_TOKEN" --non-interactive
-          fi
-        env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CHSXUANLOC }}
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

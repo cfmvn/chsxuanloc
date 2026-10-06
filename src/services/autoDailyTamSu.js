@@ -84,7 +84,7 @@ Yêu cầu nội dung:
 }
 
 /**
- * Lưu bài viết vào kho dữ liệu JSON an toàn & gửi thông báo
+ * Lưu bài viết trực tiếp vào Firestore Collection 'submissions' & gửi thông báo Telegram
  */
 export async function createDailyTamSuPost() {
   console.log('🤖 Bắt đầu chạy tiến trình AI tạo bài tâm sự cựu học sinh...');
@@ -93,34 +93,44 @@ export async function createDailyTamSuPost() {
     const storyData = await generateStoryContent();
     console.log(`✨ AI đã sáng tác thành công: "${storyData.title}" (Chủ đề: ${storyData.topic})`);
 
-    const dataFilePath = path.join(process.cwd(), 'src', 'data', 'tamSuStore.json');
-    let stories = [];
-    if (fs.existsSync(dataFilePath)) {
-      try {
-        stories = JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
-      } catch (e) {
-        stories = [];
-      }
-    }
+    const projectId = getEnvVar('PUBLIC_FIREBASE_PROJECT_ID', 'xuanlocchs');
+    const apiKey = getEnvVar('PUBLIC_FIREBASE_API_KEY', 'AIzaSyDqpHnIWyPAA1rlGimPHBeaW4SIZfUX9-w');
+    const nowIso = new Date().toISOString();
 
-    const newId = `ts-${Date.now()}`;
-    const newEntry = {
-      id: newId,
-      fullName: 'CHS Xuân Lộc',
-      batch: 'Khóa 2004 - 2007',
-      className: 'Khóa 2007',
-      topic: storyData.topic || 'ao-trang',
-      title: storyData.title,
-      message: storyData.message,
-      imageUrl: '',
-      status: 'pending', // Luôn để pending để Admin duyệt trước
-      isAiGenerated: true,
-      createdAt: new Date().toISOString()
+    const firestoreUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/submissions?key=${apiKey}`;
+
+    const documentData = {
+      fields: {
+        fullName: { stringValue: 'CHS Xuân Lộc (AI)' },
+        batch: { stringValue: 'Khóa 2004 - 2007' },
+        className: { stringValue: 'Khóa 2007' },
+        topic: { stringValue: storyData.topic || 'ao-trang' },
+        title: { stringValue: storyData.title || '' },
+        message: { stringValue: storyData.message || '' },
+        imageUrl: { stringValue: '' },
+        status: { stringValue: 'pending' }, // Luôn ở trạng thái Chờ duyệt để Admin kiểm tra
+        isAiGenerated: { booleanValue: true },
+        createdAt: { timestampValue: nowIso }
+      }
     };
 
-    stories.unshift(newEntry);
-    fs.writeFileSync(dataFilePath, JSON.stringify(stories, null, 2), 'utf8');
-    console.log(`💾 Đã lưu bài viết vào ${dataFilePath} (ID: ${newId}) ở trạng thái 'pending' (Chờ duyệt).`);
+    console.log('📤 Đang lưu bài viết trực tiếp vào Cloud Firestore Database...');
+    const fsRes = await fetch(firestoreUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(documentData)
+    });
+
+    let docId = '';
+    if (fsRes.ok) {
+      const fsJson = await fsRes.json();
+      docId = fsJson.name ? fsJson.name.split('/').pop() : '';
+      console.log(`✅ Đã lưu bài viết thành công lên Firestore! (Doc ID: ${docId}) - Trạng thái: 'pending'`);
+    } else {
+      const errText = await fsRes.text();
+      console.warn(`⚠️ Cảnh báo khi lưu Firestore (${fsRes.status}): ${errText}`);
+      console.log('👉 Vui lòng đảm bảo Firestore Database đã được kích hoạt trong Firebase Console.');
+    }
 
     // Gửi thông báo Telegram cho Admin nếu có cấu hình
     const telegramBotToken = getEnvVar('TELEGRAM_BOT_TOKEN');
@@ -130,7 +140,7 @@ export async function createDailyTamSuPost() {
       try {
         const notifyText = `🔔 *[CHSXUANLOC.COM]* 📝 BÀI TÂM SỰ MỚI TỪ AI (CHỜ DUYỆT)
 
-👤 *Người đăng:* CHS Xuân Lộc
+👤 *Người đăng:* CHS Xuân Lộc (AI)
 🎓 *Niên khóa:* Khóa 2004 - 2007
 📌 *Tiêu đề:* ${storyData.title}
 💬 *Nội dung tóm tắt:*
@@ -153,7 +163,7 @@ _${storyData.message.substring(0, 250)}..._
       }
     }
 
-    return { success: true, id: newId, title: storyData.title };
+    return { success: true, docId, title: storyData.title };
   } catch (err) {
     console.error('❌ Lỗi khi tự động tạo bài tâm sự:', err);
     throw err;
@@ -164,3 +174,4 @@ _${storyData.message.substring(0, 250)}..._
 if (process.argv[1] && process.argv[1].includes('autoDailyTamSu.js')) {
   createDailyTamSuPost().then(() => process.exit(0)).catch(() => process.exit(1));
 }
+
