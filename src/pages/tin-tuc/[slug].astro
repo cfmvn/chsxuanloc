@@ -63,7 +63,7 @@ const categoryIcons: Record<string, string> = {
         <span class="text-xs text-slate-400">Cổng Thông Tin Cựu Học Sinh THPT Xuân Lộc</span>
       </div>
 
-      <div class="flex items-center space-x-3 mb-4 text-xs">
+      <div class="flex items-center space-x-3 mb-4 text-xs flex-wrap gap-y-2">
         <span class="px-3 py-1 rounded-full bg-warmOrange-500/20 text-warmOrange-300 border border-warmOrange-500/30 font-bold flex items-center gap-1.5">
           <span>{categoryIcons[post.data.category] || '🏷️'}</span>
           <span>{post.data.category}</span>
@@ -71,7 +71,11 @@ const categoryIcons: Record<string, string> = {
         <time datetime={post.data.pubDate.toISOString()} class="text-slate-300 font-medium">
           📅 {post.data.pubDate.toLocaleDateString('vi-VN')}
         </time>
-        <span class="text-slate-400 hidden sm:inline">• Đăng bởi {post.data.author}</span>
+        <span class="text-slate-400">• Đăng bởi {post.data.author}</span>
+        <span class="text-warmOrange-300 bg-navy-900/80 px-2.5 py-0.5 rounded-full border border-navy-700 inline-flex items-center gap-1">
+          <span>👁️</span>
+          <span id="detail-news-views">0</span> lượt xem
+        </span>
       </div>
 
       <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight">
@@ -102,15 +106,15 @@ const categoryIcons: Record<string, string> = {
           </button>
         </form>
 
-        <!-- Category list pills -->
-        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-          {categories.map((cat) => (
+        <!-- Nút bấm quay lại tin tức -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+          {categories.slice(0, 5).map((cat) => (
             <a
-              href={cat === 'Tất cả' ? '/tin-tuc' : `/tin-tuc?cat=${encodeURIComponent(cat)}`}
-              class={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition flex items-center gap-1 ${
+              href={`/tin-tuc?cat=${encodeURIComponent(cat)}`}
+              class={`px-3 py-1.5 rounded-xl text-xs font-bold transition shrink-0 ${
                 cat === post.data.category
-                  ? 'bg-warmOrange-50 text-warmOrange-700 border border-warmOrange-300 font-bold'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  ? 'bg-navy-950 text-white shadow-xs'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
               <span>{categoryIcons[cat] || '🏷️'}</span>
@@ -125,10 +129,10 @@ const categoryIcons: Record<string, string> = {
   <!-- Chi tiết bài viết -->
   <article class="py-10 sm:py-14 bg-slate-50">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden p-6 sm:p-10 md:p-12">
+      <div class="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden p-6 sm:p-10 md:p-12 space-y-6">
         
         {post.data.featuredImage && (
-          <div class="mb-8 rounded-2xl overflow-hidden shadow-md max-h-[460px] bg-slate-100">
+          <div class="rounded-2xl overflow-hidden shadow-md max-h-[460px] bg-slate-100">
             <img
               src={post.data.featuredImage}
               alt={post.data.title}
@@ -146,7 +150,7 @@ const categoryIcons: Record<string, string> = {
         </div>
 
         {post.data.tags && post.data.tags.length > 0 && (
-          <div class="mt-10 pt-6 border-t border-slate-200 flex flex-wrap items-center gap-2">
+          <div class="pt-6 border-t border-slate-200 flex flex-wrap items-center gap-2">
             <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Từ khóa:</span>
             {post.data.tags.map((tag) => (
               <a
@@ -158,6 +162,111 @@ const categoryIcons: Record<string, string> = {
             ))}
           </div>
         )}
+
+        <!-- Social Action Bar: Like & Share & Comments Count -->
+        <div class="pt-6 border-t border-slate-200 flex items-center justify-between gap-4 flex-wrap bg-slate-50/80 -mx-6 sm:-mx-10 md:-mx-12 -mb-6 sm:-mb-10 md:-mb-12 p-6 sm:p-8 rounded-b-3xl">
+          <div class="flex items-center gap-2.5">
+            <!-- Nút Thích -->
+            <button
+              id="btn-news-like"
+              class="px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold border transition flex items-center gap-2 cursor-pointer bg-white border-rose-200 text-rose-600 hover:bg-rose-50 shadow-xs"
+              data-slug={post.slug}
+            >
+              <span id="news-like-icon" class="text-base">❤️</span>
+              <span id="news-like-text">Yêu thích</span>
+              <span id="news-like-count" class="px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 text-xs font-extrabold">0</span>
+            </button>
+
+            <!-- Nút Chia sẻ -->
+            <button
+              id="btn-news-share"
+              class="px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold border transition flex items-center gap-2 cursor-pointer bg-white border-blue-200 text-blue-600 hover:bg-blue-50 shadow-xs"
+              data-title={post.data.title}
+            >
+              <span>🔗</span>
+              <span>Chia sẻ</span>
+            </button>
+          </div>
+
+          <div class="text-xs font-semibold text-slate-500">
+            💬 <span id="news-comments-badge">0 bình luận</span>
+          </div>
+        </div>
+
+        <!-- Share Toast Feedback -->
+        <div id="news-share-toast" class="hidden p-3 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-medium flex items-center gap-2">
+          <span>✅</span>
+          <span>Đã sao chép liên kết bài viết vào bộ nhớ tạm!</span>
+        </div>
+
+      </div>
+
+      <!-- Comments Section for News -->
+      <div class="mt-10 bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-10 space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+          <h3 class="text-lg sm:text-xl font-bold text-navy-950 flex items-center gap-2">
+            <span>💬</span>
+            <span>Bình Luận & Trao Đổi Bài Viết</span>
+          </h3>
+          <span class="text-xs text-slate-400 font-medium">Bản tin THPT Xuân Lộc</span>
+        </div>
+
+        <!-- Login Prompt if Not Logged In -->
+        <div id="news-comment-login-box" class="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center space-y-3">
+          <p class="text-xs sm:text-sm text-slate-700">
+            Đăng nhập bằng tài khoản <strong>Google</strong> để tham gia bình luận và thảo luận cùng cộng đồng cựu học sinh.
+          </p>
+          <button
+            id="btn-google-login-news"
+            class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-2xl bg-white border border-slate-300 text-slate-800 text-xs sm:text-sm font-bold hover:bg-slate-50 shadow-xs transition transform hover:-translate-y-0.5 cursor-pointer"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+              <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+              <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+              <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+            </svg>
+            <span>Đăng nhập với Google để bình luận</span>
+          </button>
+        </div>
+
+        <!-- Logged In User Comment Form -->
+        <div id="news-comment-form-box" class="hidden space-y-3 bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200">
+          <div class="flex items-center justify-between text-xs text-slate-600">
+            <div class="flex items-center gap-2 min-w-0">
+              <img id="news-user-avatar" src="#" alt="User" class="w-6 h-6 rounded-full border border-slate-200" />
+              <span class="font-bold text-navy-950 truncate" id="news-user-name"></span>
+            </div>
+            <button id="btn-logout-news" class="text-slate-400 hover:text-red-600 transition underline cursor-pointer">
+              Đăng xuất
+            </button>
+          </div>
+
+          <form id="news-comment-form" class="space-y-2.5">
+            <textarea
+              id="news-comment-input"
+              rows="3"
+              required
+              placeholder="Chia sẻ ý kiến, cảm xúc hoặc bổ sung thông tin cho bài viết..."
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white resize-none"
+            ></textarea>
+            <div class="flex justify-end">
+              <button
+                type="submit"
+                id="btn-submit-news-comment"
+                class="px-5 py-2 rounded-xl font-bold text-white bg-navy-950 hover:bg-warmOrange-600 transition text-xs shadow-xs flex items-center gap-1.5 cursor-pointer"
+              >
+                <span id="news-comment-spinner" class="hidden inline-block animate-spin rounded-full h-3.5 w-3.5 border-2 border-white border-t-transparent"></span>
+                <span id="news-comment-btn-text">Gửi bình luận ✍️</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Comments List -->
+        <div id="news-comments-list" class="space-y-3 pt-2">
+          <!-- Real-time Firestore Comments -->
+        </div>
       </div>
     </div>
   </article>
@@ -245,3 +354,297 @@ const categoryIcons: Record<string, string> = {
   <CrossLinkingNav currentModule="tin-tuc" />
 </BaseLayout>
 
+<script>
+  import { auth, googleProvider, db } from '../../lib/firebase';
+  import { signInWithPopup, signOut, onAuthStateChanged, type User } from 'firebase/auth';
+  import { 
+    doc, setDoc, getDoc, updateDoc, increment, collection, addDoc, 
+    query, orderBy, onSnapshot, serverTimestamp 
+  } from 'firebase/firestore';
+
+  const postSlug = window.location.pathname.replace('/tin-tuc/', '').replace(/\/$/, '');
+  const viewsEl = document.getElementById('detail-news-views');
+  const btnLike = document.getElementById('btn-news-like');
+  const likeText = document.getElementById('news-like-text');
+  const likeCountEl = document.getElementById('news-like-count');
+  const btnShare = document.getElementById('btn-news-share');
+  const shareToast = document.getElementById('news-share-toast');
+  const commentsBadge = document.getElementById('news-comments-badge');
+
+  // Comment Auth & Form elements
+  const loginBox = document.getElementById('news-comment-login-box');
+  const formBox = document.getElementById('news-comment-form-box');
+  const btnGoogleLogin = document.getElementById('btn-google-login-news');
+  const btnLogout = document.getElementById('btn-logout-news');
+  const userAvatar = document.getElementById('news-user-avatar') as HTMLImageElement | null;
+  const userName = document.getElementById('news-user-name');
+  const commentForm = document.getElementById('news-comment-form') as HTMLFormElement | null;
+  const commentInput = document.getElementById('news-comment-input') as HTMLTextAreaElement | null;
+  const btnSubmitComment = document.getElementById('btn-submit-news-comment') as HTMLButtonElement | null;
+  const commentSpinner = document.getElementById('news-comment-spinner');
+  const commentBtnText = document.getElementById('news-comment-btn-text');
+  const commentsList = document.getElementById('news-comments-list');
+
+  let currentUser: User | null = null;
+  let currentLikes = 0;
+
+  // Track Liked news in LocalStorage
+  function getLikedNews(): string[] {
+    try {
+      return JSON.parse(localStorage.getItem('chs_liked_news') || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function setLikedNews(slug: string) {
+    const liked = getLikedNews();
+    if (!liked.includes(slug)) {
+      liked.push(slug);
+      localStorage.setItem('chs_liked_news', JSON.stringify(liked));
+    }
+  }
+
+  // Auth Listener
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    if (currentUser) {
+      if (loginBox) loginBox.classList.add('hidden');
+      if (formBox) formBox.classList.remove('hidden');
+      if (userAvatar) userAvatar.src = currentUser.photoURL || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + currentUser.uid;
+      if (userName) userName.textContent = currentUser.displayName || currentUser.email || 'Thành viên';
+    } else {
+      if (loginBox) loginBox.classList.remove('hidden');
+      if (formBox) formBox.classList.add('hidden');
+    }
+  });
+
+  btnGoogleLogin?.addEventListener('click', async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (err: any) {
+      alert('Đăng nhập Google thất bại: ' + (err.message || 'Lỗi kết nối'));
+    }
+  });
+
+  btnLogout?.addEventListener('click', async () => {
+    try {
+      await signOut(auth);
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
+  // Initialize News Meta Stats (Views & Likes & Comments)
+  async function initNewsStats() {
+    if (!postSlug) return;
+    const statsRef = doc(db, 'news_stats', postSlug);
+
+    try {
+      // 1. Ghi nhận lượt xem (Views) một lần mỗi session
+      const viewedKey = 'chs_viewed_news';
+      const viewed: string[] = JSON.parse(sessionStorage.getItem(viewedKey) || '[]');
+      let isNewView = false;
+      if (!viewed.includes(postSlug)) {
+        viewed.push(postSlug);
+        sessionStorage.setItem(viewedKey, JSON.stringify(viewed));
+        isNewView = true;
+      }
+
+      const snap = await getDoc(statsRef);
+      if (!snap.exists()) {
+        const initialViews = isNewView ? 1 : 0;
+        await setDoc(statsRef, { viewsCount: initialViews, likesCount: 0, commentsCount: 0 });
+        if (viewsEl) viewsEl.textContent = String(initialViews);
+        currentLikes = 0;
+      } else {
+        const data = snap.data();
+        let views = data.viewsCount || 0;
+        if (isNewView) {
+          views++;
+          updateDoc(statsRef, { viewsCount: increment(1) }).catch(() => {});
+        }
+        if (viewsEl) viewsEl.textContent = String(views);
+        currentLikes = data.likesCount || 0;
+      }
+
+      // Update Like UI
+      const isLiked = getLikedNews().includes(postSlug);
+      updateLikeUI(currentLikes, isLiked);
+
+      // 2. Lắng nghe bình luận thời gian thực
+      loadNewsComments();
+
+    } catch (err) {
+      console.warn('Lỗi khởi tạo thống kê tin tức:', err);
+    }
+  }
+
+  function updateLikeUI(count: number, isLiked: boolean) {
+    if (likeCountEl) likeCountEl.textContent = String(count);
+    if (btnLike) {
+      if (isLiked) {
+        btnLike.classList.add('bg-rose-50', 'border-rose-400', 'text-rose-700');
+        if (likeText) likeText.textContent = 'Đã thích ❤️';
+      } else {
+        btnLike.classList.remove('bg-rose-50', 'border-rose-400', 'text-rose-700');
+        if (likeText) likeText.textContent = 'Yêu thích';
+      }
+    }
+  }
+
+  // Like Click
+  btnLike?.addEventListener('click', async () => {
+    if (!postSlug) return;
+    const liked = getLikedNews();
+    const isLiked = liked.includes(postSlug);
+    const statsRef = doc(db, 'news_stats', postSlug);
+
+    try {
+      if (!isLiked) {
+        setLikedNews(postSlug);
+        currentLikes++;
+        updateLikeUI(currentLikes, true);
+        await updateDoc(statsRef, { likesCount: increment(1) });
+      } else {
+        const filtered = liked.filter((id) => id !== postSlug);
+        localStorage.setItem('chs_liked_news', JSON.stringify(filtered));
+        currentLikes = Math.max(0, currentLikes - 1);
+        updateLikeUI(currentLikes, false);
+        await updateDoc(statsRef, { likesCount: increment(-1) });
+      }
+    } catch (err) {
+      console.error('Lỗi khi like tin tức:', err);
+    }
+  });
+
+  // Share Click
+  btnShare?.addEventListener('click', async () => {
+    const shareUrl = window.location.href;
+    const title = btnShare.getAttribute('data-title') || document.title;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: title,
+          text: `Đọc bài viết "${title}" trên Cổng thông tin THPT Xuân Lộc`,
+          url: shareUrl,
+        });
+        return;
+      } catch (err) {
+        // user cancelled
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      if (shareToast) {
+        shareToast.classList.remove('hidden');
+        setTimeout(() => shareToast.classList.add('hidden'), 4000);
+      }
+    } catch {
+      prompt('Sao chép liên kết bài viết:', shareUrl);
+    }
+  });
+
+  // Comments Listener
+  function loadNewsComments() {
+    if (!commentsList || !postSlug) return;
+    const commentsRef = collection(db, 'news_stats', postSlug, 'comments');
+    const q = query(commentsRef, orderBy('createdAt', 'asc'));
+
+    onSnapshot(q, (snapshot) => {
+      const comments: any[] = [];
+      snapshot.forEach((docSnap) => {
+        comments.push({ id: docSnap.id, ...docSnap.data() });
+      });
+
+      if (commentsBadge) {
+        commentsBadge.textContent = `${comments.length} bình luận`;
+      }
+
+      if (comments.length === 0) {
+        commentsList.innerHTML = `
+          <div class="py-8 text-center text-slate-400 bg-slate-50/60 rounded-2xl border border-dashed border-slate-200">
+            <span class="text-2xl block mb-1">💬</span>
+            <p class="text-xs">Chưa có bình luận nào. Hãy là người đầu tiên chia sẻ cảm nghĩ về bài viết này!</p>
+          </div>
+        `;
+        return;
+      }
+
+      commentsList.innerHTML = '';
+      comments.forEach((c) => {
+        let dateStr = 'Vừa xong';
+        if (c.createdAt?.toDate) {
+          dateStr = new Date(c.createdAt.toDate()).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' });
+        } else if (c.createdAt?.seconds) {
+          dateStr = new Date(c.createdAt.seconds * 1000).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' });
+        }
+
+        const commentEl = document.createElement('div');
+        commentEl.className = 'p-4 bg-slate-50/90 rounded-2xl border border-slate-200/80 space-y-2';
+        commentEl.innerHTML = `
+          <div class="flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2.5">
+              <img src="${c.userPhoto || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + c.userId}" alt="${escapeHtml(c.userName)}" class="w-6 h-6 rounded-full border border-slate-200" />
+              <strong class="text-navy-950 font-bold text-xs sm:text-sm">${escapeHtml(c.userName || 'Thành viên')}</strong>
+            </div>
+            <span class="text-[11px] text-slate-400">${dateStr}</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed pl-8 whitespace-pre-line">${escapeHtml(c.content || '')}</p>
+        `;
+        commentsList.appendChild(commentEl);
+      });
+    }, (err) => {
+      console.warn('Lỗi tải bình luận tin tức:', err);
+    });
+  }
+
+  // Submit Comment
+  commentForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!currentUser || !postSlug || !commentInput || !btnSubmitComment || !commentSpinner || !commentBtnText) return;
+
+    const content = commentInput.value.trim();
+    if (!content) return;
+
+    btnSubmitComment.disabled = true;
+    commentSpinner.classList.remove('hidden');
+    commentBtnText.textContent = 'Đang gửi...';
+
+    try {
+      const commentsRef = collection(db, 'news_stats', postSlug, 'comments');
+      await addDoc(commentsRef, {
+        userId: currentUser.uid,
+        userName: currentUser.displayName || currentUser.email || 'Thành viên',
+        userPhoto: currentUser.photoURL || '',
+        content: content,
+        createdAt: serverTimestamp(),
+      });
+
+      const statsRef = doc(db, 'news_stats', postSlug);
+      await updateDoc(statsRef, { commentsCount: increment(1) });
+
+      commentInput.value = '';
+    } catch (err: any) {
+      alert('Không thể gửi bình luận: ' + (err.message || 'Lỗi hệ thống'));
+    } finally {
+      btnSubmitComment.disabled = false;
+      commentSpinner.classList.add('hidden');
+      commentBtnText.textContent = 'Gửi bình luận ✍️';
+    }
+  });
+
+  function escapeHtml(str: string) {
+    if (!str) return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  document.addEventListener('DOMContentLoaded', initNewsStats);
+</script>

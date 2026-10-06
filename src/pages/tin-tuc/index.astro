@@ -106,6 +106,7 @@ const categoryIcons: Record<string, string> = {
         {posts.map((post) => (
           <article
             class="news-post-card bg-white rounded-3xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-xl hover:border-warmOrange-300 transition-all duration-300 flex flex-col group justify-between"
+            data-slug={post.slug}
             data-category={post.data.category}
             data-title={post.data.title.toLowerCase()}
             data-desc={post.data.description.toLowerCase()}
@@ -137,12 +138,17 @@ const categoryIcons: Record<string, string> = {
 
               <!-- Nội dung tóm tắt -->
               <div class="p-6">
-                <div class="flex items-center space-x-2 text-xs text-slate-400 mb-2.5 font-medium">
+                <div class="flex items-center space-x-2 text-xs text-slate-400 mb-2.5 font-medium flex-wrap gap-y-1">
                   <span class="inline-flex items-center gap-1">
                     <span>📅</span>
                     <time datetime={post.data.pubDate.toISOString()}>
                       {post.data.pubDate.toLocaleDateString('vi-VN')}
                     </time>
+                  </span>
+                  <span>•</span>
+                  <span class="inline-flex items-center gap-1 text-slate-400">
+                    <span>👁️</span>
+                    <span class="news-card-views" data-slug={post.slug}>0</span>
                   </span>
                 </div>
                 
@@ -158,19 +164,44 @@ const categoryIcons: Record<string, string> = {
               </div>
             </div>
 
-            <!-- Footer Card -->
-            <div class="px-6 py-4 bg-slate-50/60 border-t border-slate-100 flex items-center justify-between text-xs gap-3">
-              <span class="text-slate-500 font-medium truncate flex items-center gap-1.5" title={`Nguồn: ${post.data.author || 'THPT Xuân Lộc'}`}>
+            <!-- Footer Card with Like, Share, Read -->
+            <div class="px-5 py-3.5 bg-slate-50/70 border-t border-slate-100 flex items-center justify-between text-xs gap-2">
+              <span class="text-slate-500 font-medium truncate flex items-center gap-1 text-[11px]" title={`Nguồn: ${post.data.author || 'THPT Xuân Lộc'}`}>
                 <span class="text-slate-400">✍️</span>
                 <span class="truncate">{post.data.author || 'THPT Xuân Lộc'}</span>
               </span>
-              <a
-                href={`/tin-tuc/${post.slug}`}
-                class="text-warmOrange-600 font-bold hover:text-warmOrange-700 inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
-              >
-                <span>Đọc tiếp</span>
-                <span>&rarr;</span>
-              </a>
+
+              <div class="flex items-center gap-1.5 shrink-0">
+                <!-- Like Button on News Card -->
+                <button
+                  type="button"
+                  class="news-card-like-btn px-2 py-1 rounded-lg text-[11px] font-bold border transition flex items-center gap-1 bg-white border-slate-200 text-slate-600 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200"
+                  data-slug={post.slug}
+                  title="Yêu thích bài viết"
+                >
+                  <span>❤️</span>
+                  <span class="news-card-like-count" data-slug={post.slug}>0</span>
+                </button>
+
+                <!-- Share Button on News Card -->
+                <button
+                  type="button"
+                  class="news-card-share-btn p-1 px-1.5 rounded-lg text-[11px] font-bold bg-white text-slate-600 border border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition"
+                  data-slug={post.slug}
+                  data-title={post.data.title}
+                  title="Chia sẻ bài viết"
+                >
+                  <span>🔗</span>
+                </button>
+
+                <a
+                  href={`/tin-tuc/${post.slug}`}
+                  class="text-warmOrange-600 font-bold hover:text-warmOrange-700 inline-flex items-center gap-0.5 text-[11px] group-hover:translate-x-0.5 transition-transform"
+                >
+                  <span>Đọc</span>
+                  <span>&rarr;</span>
+                </a>
+              </div>
             </div>
           </article>
         ))}
@@ -213,6 +244,9 @@ const categoryIcons: Record<string, string> = {
 </BaseLayout>
 
 <script>
+  import { db } from '../../lib/firebase';
+  import { doc, getDoc, updateDoc, increment, collection, getDocs } from 'firebase/firestore';
+
   function setupNewsFilter() {
     const categoryButtons = document.querySelectorAll<HTMLButtonElement>('.category-chip-btn');
     const cards = Array.from(document.querySelectorAll<HTMLDivElement>('.news-post-card'));
@@ -375,6 +409,129 @@ const categoryIcons: Record<string, string> = {
     }
 
     renderVisibleCards();
+    loadAllNewsStats();
+    setupCardActions();
+  }
+
+  // LocalStorage Like state
+  function getLikedNews(): string[] {
+    try {
+      return JSON.parse(localStorage.getItem('chs_liked_news') || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function setLikedNews(slug: string) {
+    const liked = getLikedNews();
+    if (!liked.includes(slug)) {
+      liked.push(slug);
+      localStorage.setItem('chs_liked_news', JSON.stringify(liked));
+    }
+  }
+
+  // Load news stats for cards
+  async function loadAllNewsStats() {
+    try {
+      const snapshot = await getDocs(collection(db, 'news_stats'));
+      const likedList = getLikedNews();
+
+      snapshot.forEach((docSnap) => {
+        const slug = docSnap.id;
+        const data = docSnap.data();
+
+        // Update Views
+        const viewsSpans = document.querySelectorAll<HTMLSpanElement>(`.news-card-views[data-slug="${slug}"]`);
+        viewsSpans.forEach(s => s.textContent = String(data.viewsCount || 0));
+
+        // Update Likes
+        const likeSpans = document.querySelectorAll<HTMLSpanElement>(`.news-card-like-count[data-slug="${slug}"]`);
+        likeSpans.forEach(s => s.textContent = String(data.likesCount || 0));
+
+        // Update Like Button style if liked
+        if (likedList.includes(slug)) {
+          const likeBtns = document.querySelectorAll<HTMLButtonElement>(`.news-card-like-btn[data-slug="${slug}"]`);
+          likeBtns.forEach(btn => {
+            btn.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-200');
+            btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+          });
+        }
+      });
+    } catch (err) {
+      console.warn('Lỗi tải thống kê tin tức:', err);
+    }
+  }
+
+  // Setup Like & Share on News Cards
+  function setupCardActions() {
+    // Like button click
+    document.querySelectorAll<HTMLButtonElement>('.news-card-like-btn').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const slug = btn.getAttribute('data-slug');
+        if (!slug) return;
+
+        const liked = getLikedNews();
+        const isLiked = liked.includes(slug);
+        const statsRef = doc(db, 'news_stats', slug);
+
+        const countSpan = btn.querySelector('.news-card-like-count');
+        let currentCount = countSpan ? parseInt(countSpan.textContent || '0', 10) : 0;
+
+        try {
+          if (!isLiked) {
+            setLikedNews(slug);
+            currentCount++;
+            if (countSpan) countSpan.textContent = String(currentCount);
+            btn.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-200');
+            btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+            await updateDoc(statsRef, { likesCount: increment(1) });
+          } else {
+            const filtered = liked.filter(id => id !== slug);
+            localStorage.setItem('chs_liked_news', JSON.stringify(filtered));
+            currentCount = Math.max(0, currentCount - 1);
+            if (countSpan) countSpan.textContent = String(currentCount);
+            btn.classList.remove('bg-rose-50', 'text-rose-600', 'border-rose-200');
+            btn.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
+            await updateDoc(statsRef, { likesCount: increment(-1) });
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    });
+
+    // Share button click
+    document.querySelectorAll<HTMLButtonElement>('.news-card-share-btn').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const slug = btn.getAttribute('data-slug');
+        const title = btn.getAttribute('data-title') || 'Tin tức THPT Xuân Lộc';
+        const shareUrl = `${window.location.origin}/tin-tuc/${slug}`;
+
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: title,
+              text: `Đọc tin tức "${title}" trên Cổng thông tin THPT Xuân Lộc!`,
+              url: shareUrl,
+            });
+            return;
+          } catch {
+            // ignore
+          }
+        }
+
+        try {
+          await navigator.clipboard.writeText(shareUrl);
+          alert('Đã sao chép liên kết bài viết vào bộ nhớ tạm!');
+        } catch {
+          prompt('Sao chép liên kết bài viết:', shareUrl);
+        }
+      });
+    });
   }
 
   document.addEventListener('DOMContentLoaded', setupNewsFilter);
