@@ -221,16 +221,20 @@ const categoryIcons: Record<string, string> = {
                 </div>
               </div>
 
-              <div class="px-5 py-3 bg-white border-t border-slate-150 flex items-center justify-between text-xs">
-                <span class="text-slate-400 text-[11px]">THPT Xuân Lộc</span>
+              <div class="px-5 py-3 bg-white border-t border-slate-150 flex items-center justify-between text-xs gap-2">
+                <span class="text-slate-500 font-medium text-[11px] truncate flex items-center gap-1" title={`Nguồn: ${item.data.author || 'THPT Xuân Lộc'}`}>
+                  <span class="text-slate-400">✍️</span>
+                  <span class="truncate">{item.data.author || 'THPT Xuân Lộc'}</span>
+                </span>
                 <a
                   href={`/tin-tuc/${item.slug}`}
-                  class="font-bold text-warmOrange-600 hover:text-warmOrange-700 inline-flex items-center gap-1 text-[11px] group-hover:translate-x-0.5 transition-transform"
+                  class="font-bold text-warmOrange-600 hover:text-warmOrange-700 inline-flex items-center gap-1 text-[11px] group-hover:translate-x-0.5 transition-transform shrink-0"
                 >
                   <span>Đọc tiếp</span>
                   <span>&rarr;</span>
                 </a>
               </div>
+
             </article>
           ))}
         </div>
