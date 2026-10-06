@@ -1,8 +1,8 @@
 ---
-title: "Xuân Lộc rộn ràng chuẩn bị \\\"Đêm hội trăng rằm\\\" đón Tết Trung thu 2026"
+title: 'Xuân Lộc rộn ràng chuẩn bị "Đêm hội trăng rằm" đón Tết Trung thu 2026'
 pubDate: 2026-09-24
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
-description: "Xuân Lộc rộn ràng chuẩn bị \\\"Đêm hội trăng rằm\\\" đón Tết Trung thu 2026"
+description: 'Xuân Lộc rộn ràng chuẩn bị "Đêm hội trăng rằm" đón Tết Trung thu 2026'
 category: "Sự kiện"
 featuredImage: "https://cdn.chsxuanloc.com/posts/xuan-loc-ron-rang-chuan-bi-dem-hoi-trang-ram-don-tet-trung-thu-2026/anh-1.webp"
 featured: false

@@ -56,13 +56,17 @@ export function fetchHttp(url) {
  */
 export function decodeEntities(str = '') {
   return str
+    .replace(/\\"/g, '"')
+    .replace(/\\'/g, "'")
     .replace(/&nbsp;/g, ' ')
     .replace(/&#039;/g, "'")
     .replace(/&quot;/g, '"')
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
+    .replace(/&#x0*2F;/gi, '/')
     .replace(/&#x3A;/gi, ':')
+    .replace(/&#x([0-9a-fA-F]+);/g, (match, hex) => String.fromCharCode(parseInt(hex, 16)))
     .replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec));
 }
 
