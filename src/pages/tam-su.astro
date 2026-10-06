@@ -221,9 +221,9 @@ const batchOptions = [
     </div>
   </section>
 
-  <!-- Reading Story Detail Modal (Public Paper Modal) -->
-  <div id="modal-story-detail" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/75 backdrop-blur-xs hidden">
-    <div class="bg-[#fcfaf7] rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-amber-200 overflow-hidden animate-in fade-in zoom-in-95 duration-200 relative">
+  <!-- Reading Story Detail Modal (Public Paper Modal with Like, Share, Comments) -->
+  <div id="modal-story-detail" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-navy-950/75 backdrop-blur-xs hidden">
+    <div class="bg-[#fcfaf7] rounded-3xl max-w-2xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-amber-200 overflow-hidden animate-in fade-in zoom-in-95 duration-200 relative">
       <!-- Top Decorative Pin -->
       <div class="pin-head pin-red top-3 left-8 transform-none shadow-md"></div>
 
@@ -233,13 +233,14 @@ const batchOptions = [
           <span class="text-xl">📜</span>
           <span class="text-xs font-bold uppercase tracking-wider text-warmOrange-700">Lưu Bút Cựu Học Sinh</span>
         </div>
-        <button id="btn-close-story-modal" class="w-8 h-8 rounded-full bg-amber-200/60 hover:bg-amber-300 text-slate-700 flex items-center justify-center transition font-bold">
+        <button id="btn-close-story-modal" class="w-8 h-8 rounded-full bg-amber-200/60 hover:bg-amber-300 text-slate-700 flex items-center justify-center transition font-bold cursor-pointer">
           ✕
         </button>
       </div>
 
-      <!-- Content -->
+      <!-- Scrollable Modal Body -->
       <div class="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1">
+        <!-- Story Info -->
         <div class="space-y-2.5">
           <div class="flex items-center gap-2 flex-wrap text-xs text-slate-500">
             <span id="modal-story-batch" class="font-bold text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300"></span>
@@ -254,11 +255,115 @@ const batchOptions = [
           </div>
         </div>
 
+        <!-- Attached Photo -->
         <div id="modal-story-image-wrap" class="hidden rounded-2xl overflow-hidden border-4 border-white shadow-md max-h-80 bg-slate-100">
           <img id="modal-story-image" src="#" alt="Ảnh kỷ niệm" class="w-full h-full object-cover" />
         </div>
 
+        <!-- Story Message Content -->
         <div class="bg-white/80 p-6 sm:p-7 rounded-2xl border border-amber-200/70 text-slate-800 text-sm sm:text-base leading-relaxed whitespace-pre-line font-serif italic shadow-inner" id="modal-story-message">
+        </div>
+
+        <!-- Social Action Bar: Like & Share & Comment Count -->
+        <div class="pt-2 border-t border-amber-200/70 flex items-center justify-between gap-3 flex-wrap">
+          <div class="flex items-center gap-2">
+            <!-- Like Button -->
+            <button
+              id="btn-like-story"
+              class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold border transition flex items-center gap-2 cursor-pointer bg-white border-rose-200 text-rose-600 hover:bg-rose-50 shadow-2xs"
+            >
+              <span id="like-icon" class="text-base transition-transform">❤️</span>
+              <span id="like-text">Yêu thích</span>
+              <span id="like-count" class="px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 text-xs font-extrabold">0</span>
+            </button>
+
+            <!-- Share Button -->
+            <button
+              id="btn-share-story"
+              class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold border transition flex items-center gap-2 cursor-pointer bg-white border-blue-200 text-blue-600 hover:bg-blue-50 shadow-2xs"
+            >
+              <span>🔗</span>
+              <span>Chia sẻ</span>
+            </button>
+          </div>
+
+          <div class="text-xs text-slate-500 font-medium">
+            💬 <span id="comments-count-badge">0 bình luận</span>
+          </div>
+        </div>
+
+        <!-- Share Toast Feedback -->
+        <div id="share-toast" class="hidden p-3 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-medium flex items-center gap-2 animate-in fade-in">
+          <span>✅</span>
+          <span>Đã sao chép liên kết bài viết vào bộ nhớ tạm! Bạn có thể dán để chia sẻ cho bạn bè.</span>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="pt-4 border-t border-amber-200/70 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-navy-950 font-serif flex items-center gap-2">
+              <span>💬</span>
+              <span>Góc Bình Luận & Kỷ Niệm Bạn Bè</span>
+            </h3>
+            <span id="user-auth-status" class="text-xs text-slate-500"></span>
+          </div>
+
+          <!-- Login with Google Prompt if Not Logged In -->
+          <div id="comment-login-box" class="bg-amber-100/50 border border-amber-200 rounded-2xl p-5 text-center space-y-3">
+            <p class="text-xs sm:text-sm text-amber-950">
+              Đăng nhập bằng tài khoản <strong>Google</strong> để gửi lời chúc và bình luận cùng bạn bè.
+            </p>
+            <button
+              id="btn-google-login-comment"
+              class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-2xl bg-white border border-slate-300 text-slate-800 text-xs sm:text-sm font-bold hover:bg-slate-50 shadow-xs transition transform hover:-translate-y-0.5 cursor-pointer"
+            >
+              <svg class="w-4 h-4" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+              </svg>
+              <span>Đăng nhập với Google để bình luận</span>
+            </button>
+          </div>
+
+          <!-- Logged In User Comment Form -->
+          <div id="comment-form-box" class="hidden space-y-3 bg-white p-4 rounded-2xl border border-amber-200 shadow-2xs">
+            <div class="flex items-center justify-between text-xs text-slate-600">
+              <div class="flex items-center gap-2 min-w-0">
+                <img id="current-user-avatar" src="#" alt="User" class="w-6 h-6 rounded-full border border-slate-200" />
+                <span class="font-bold text-navy-950 truncate" id="current-user-name"></span>
+              </div>
+              <button id="btn-logout-comment" class="text-slate-400 hover:text-red-600 transition underline cursor-pointer">
+                Đăng xuất
+              </button>
+            </div>
+
+            <form id="story-comment-form" class="space-y-2.5">
+              <textarea
+                id="comment-input"
+                rows="2"
+                required
+                placeholder="Viết cảm nghĩ, lời chúc hoặc kỷ niệm của bạn về bài viết này..."
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-slate-50 focus:bg-white resize-none"
+              ></textarea>
+              <div class="flex justify-end">
+                <button
+                  type="submit"
+                  id="btn-submit-comment"
+                  class="px-5 py-2 rounded-xl font-bold text-white bg-navy-950 hover:bg-warmOrange-600 transition text-xs shadow-xs flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span id="comment-btn-spinner" class="hidden inline-block animate-spin rounded-full h-3.5 w-3.5 border-2 border-white border-t-transparent"></span>
+                  <span id="comment-btn-text">Gửi bình luận ✍️</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Comments List -->
+          <div id="story-comments-list" class="space-y-3 pt-2">
+            <!-- Rendered by JS -->
+          </div>
         </div>
       </div>
 
@@ -433,8 +538,12 @@ const batchOptions = [
 
 <script>
   import imageCompression from 'browser-image-compression';
-  import { db } from '../lib/firebase';
-  import { collection, addDoc, getDocs, query, where, serverTimestamp } from 'firebase/firestore';
+  import { auth, googleProvider, db } from '../lib/firebase';
+  import { signInWithPopup, signOut, onAuthStateChanged, type User } from 'firebase/auth';
+  import { 
+    collection, addDoc, getDocs, doc, updateDoc, increment, 
+    query, where, orderBy, onSnapshot, serverTimestamp 
+  } from 'firebase/firestore';
   import { notifyAdminNewSubmission } from '../lib/notifications';
 
   // Topic Icons & Labels
@@ -472,15 +581,92 @@ const batchOptions = [
   const modalStoryImage = document.getElementById('modal-story-image') as HTMLImageElement | null;
   const modalStoryMessage = document.getElementById('modal-story-message');
 
+  // Social elements
+  const btnLikeStory = document.getElementById('btn-like-story');
+  const likeIcon = document.getElementById('like-icon');
+  const likeText = document.getElementById('like-text');
+  const likeCountEl = document.getElementById('like-count');
+  const btnShareStory = document.getElementById('btn-share-story');
+  const shareToast = document.getElementById('share-toast');
+  const commentsCountBadge = document.getElementById('comments-count-badge');
+
+  // Comment Elements
+  const commentLoginBox = document.getElementById('comment-login-box');
+  const btnGoogleLoginComment = document.getElementById('btn-google-login-comment');
+  const commentFormBox = document.getElementById('comment-form-box');
+  const currentUserAvatar = document.getElementById('current-user-avatar') as HTMLImageElement | null;
+  const currentUserName = document.getElementById('current-user-name');
+  const btnLogoutComment = document.getElementById('btn-logout-comment');
+  const storyCommentForm = document.getElementById('story-comment-form') as HTMLFormElement | null;
+  const commentInput = document.getElementById('comment-input') as HTMLTextAreaElement | null;
+  const btnSubmitComment = document.getElementById('btn-submit-comment') as HTMLButtonElement | null;
+  const commentBtnSpinner = document.getElementById('comment-btn-spinner');
+  const commentBtnText = document.getElementById('comment-btn-text');
+  const storyCommentsList = document.getElementById('story-comments-list');
+
   let allStories: any[] = [];
   let currentTopic = 'tat-ca';
   let searchQuery = '';
-  
+  let currentUser: User | null = null;
+  let activeStory: any = null;
+  let unsubscribeComments: (() => void) | null = null;
+
   // Infinite scroll pagination state
   const INITIAL_LIMIT = 9;
   const LOAD_STEP = 6;
   let visibleLimit = INITIAL_LIMIT;
   let matchingStories: any[] = [];
+
+  // Track Liked stories in LocalStorage
+  function getLikedStories(): string[] {
+    try {
+      return JSON.parse(localStorage.getItem('chs_liked_stories') || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function setLikedStory(storyId: string) {
+    const liked = getLikedStories();
+    if (!liked.includes(storyId)) {
+      liked.push(storyId);
+      localStorage.setItem('chs_liked_stories', JSON.stringify(liked));
+    }
+  }
+
+  // Auth State Listener
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    updateCommentAuthUI();
+  });
+
+  function updateCommentAuthUI() {
+    if (currentUser) {
+      if (commentLoginBox) commentLoginBox.classList.add('hidden');
+      if (commentFormBox) commentFormBox.classList.remove('hidden');
+      if (currentUserAvatar) currentUserAvatar.src = currentUser.photoURL || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + currentUser.uid;
+      if (currentUserName) currentUserName.textContent = currentUser.displayName || currentUser.email || 'Thành viên';
+    } else {
+      if (commentLoginBox) commentLoginBox.classList.remove('hidden');
+      if (commentFormBox) commentFormBox.classList.add('hidden');
+    }
+  }
+
+  btnGoogleLoginComment?.addEventListener('click', async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (err: any) {
+      alert('Đăng nhập Google thất bại: ' + (err.message || 'Lỗi kết nối'));
+    }
+  });
+
+  btnLogoutComment?.addEventListener('click', async () => {
+    try {
+      await signOut(auth);
+    } catch (err) {
+      console.error(err);
+    }
+  });
 
   // Load approved submissions
   async function loadApprovedStories() {
@@ -518,6 +704,15 @@ const batchOptions = [
       });
 
       renderStories();
+
+      // Check deep link hash to open specific story modal (e.g. #story-xyz)
+      if (window.location.hash && window.location.hash.startsWith('#story-')) {
+        const targetId = window.location.hash.replace('#story-', '');
+        const targetStory = allStories.find(s => s.id === targetId);
+        if (targetStory) {
+          openStoryModal(targetStory);
+        }
+      }
 
     } catch (err) {
       console.warn('Lỗi khi tải danh sách tâm sự:', err);
@@ -576,6 +771,9 @@ const batchOptions = [
         dateStr = new Date(story.createdAt).toLocaleDateString('vi-VN');
       }
 
+      const likes = story.likesCount || 0;
+      const comments = story.commentsCount || 0;
+
       const card = document.createElement('article');
       card.className = `polaroid-frame relative ${topicInfo.cardBg} rounded-2xl p-5 sm:p-6 border border-amber-200/90 flex flex-col justify-between cursor-pointer group transform ${rotationClass}`;
 
@@ -618,7 +816,7 @@ const batchOptions = [
           </p>
         </div>
 
-        <!-- Footer / Signature & Read Button -->
+        <!-- Footer / Signature & Read Button & Social Counts -->
         <div class="pt-3 border-t border-amber-100/90 flex items-center justify-between text-xs gap-2">
           <div class="flex items-center space-x-2 min-w-0">
             <div class="w-6 h-6 rounded-full bg-navy-900 text-warmOrange-300 font-bold flex items-center justify-center text-[10px] shrink-0">
@@ -630,10 +828,16 @@ const batchOptions = [
             </div>
           </div>
 
-          <span class="text-[11px] font-bold text-warmOrange-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-0.5 shrink-0">
-            <span>Mở đọc</span>
-            <span>&rarr;</span>
-          </span>
+          <div class="flex items-center gap-2 shrink-0">
+            <span class="text-[10px] text-slate-400 flex items-center gap-1">
+              <span>❤️ ${likes}</span>
+              <span>💬 ${comments}</span>
+            </span>
+            <span class="text-[11px] font-bold text-warmOrange-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-0.5">
+              <span>Mở đọc</span>
+              <span>&rarr;</span>
+            </span>
+          </div>
         </div>
       `;
 
@@ -687,6 +891,7 @@ const batchOptions = [
   // Open Story Detail Modal
   function openStoryModal(story: any) {
     if (!modalStoryDetail) return;
+    activeStory = story;
 
     if (modalStoryTitle) modalStoryTitle.textContent = story.title || 'Kỷ niệm mái trường';
     if (modalStoryAuthor) modalStoryAuthor.textContent = story.fullName || 'CHS Xuân Lộc';
@@ -715,11 +920,195 @@ const batchOptions = [
       }
     }
 
+    // Like Status
+    const isLiked = getLikedStories().includes(story.id);
+    updateLikeUI(story.likesCount || 0, isLiked);
+
+    // Update URL hash without scroll
+    history.replaceState(null, '', `#story-${story.id}`);
+
+    // Load real-time Comments
+    loadStoryComments(story.id);
+
     modalStoryDetail.classList.remove('hidden');
   }
 
+  function updateLikeUI(count: number, isLiked: boolean) {
+    if (likeCountEl) likeCountEl.textContent = String(count);
+    if (btnLikeStory) {
+      if (isLiked) {
+        btnLikeStory.classList.add('bg-rose-50', 'border-rose-400', 'text-rose-700');
+        if (likeText) likeText.textContent = 'Đã thích ❤️';
+      } else {
+        btnLikeStory.classList.remove('bg-rose-50', 'border-rose-400', 'text-rose-700');
+        if (likeText) likeText.textContent = 'Yêu thích';
+      }
+    }
+  }
+
+  // Like Click Handler
+  btnLikeStory?.addEventListener('click', async () => {
+    if (!activeStory) return;
+    const liked = getLikedStories();
+    const isLiked = liked.includes(activeStory.id);
+
+    try {
+      const storyRef = doc(db, 'submissions', activeStory.id);
+      if (!isLiked) {
+        setLikedStory(activeStory.id);
+        activeStory.likesCount = (activeStory.likesCount || 0) + 1;
+        updateLikeUI(activeStory.likesCount, true);
+        await updateDoc(storyRef, { likesCount: increment(1) });
+      } else {
+        // Un-like
+        const filtered = liked.filter((id) => id !== activeStory.id);
+        localStorage.setItem('chs_liked_stories', JSON.stringify(filtered));
+        activeStory.likesCount = Math.max(0, (activeStory.likesCount || 1) - 1);
+        updateLikeUI(activeStory.likesCount, false);
+        await updateDoc(storyRef, { likesCount: increment(-1) });
+      }
+    } catch (err) {
+      console.error('Lỗi khi like bài viết:', err);
+    }
+  });
+
+  // Share Click Handler
+  btnShareStory?.addEventListener('click', async () => {
+    if (!activeStory) return;
+    const shareUrl = `${window.location.origin}/tam-su/#story-${activeStory.id}`;
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: activeStory.title || 'Kỷ niệm THPT Xuân Lộc',
+          text: `Đọc tâm sự "${activeStory.title || 'Kỷ niệm mái trường'}" của ${activeStory.fullName} trên Báo Tường THPT Xuân Lộc!`,
+          url: shareUrl,
+        });
+        return;
+      } catch (err) {
+        // User cancelled or share API error, fallback to clipboard
+      }
+    }
+
+    // Clipboard fallback
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      if (shareToast) {
+        shareToast.classList.remove('hidden');
+        setTimeout(() => shareToast.classList.add('hidden'), 4000);
+      }
+    } catch {
+      prompt('Sao chép liên kết chia sẻ bên dưới:', shareUrl);
+    }
+  });
+
+  // Real-time Comments Listener
+  function loadStoryComments(storyId: string) {
+    if (unsubscribeComments) {
+      unsubscribeComments();
+      unsubscribeComments = null;
+    }
+
+    if (!storyCommentsList) return;
+    storyCommentsList.innerHTML = '<p class="text-xs text-slate-400 py-3 text-center">Đang tải bình luận...</p>';
+
+    const commentsRef = collection(db, 'submissions', storyId, 'comments');
+    const q = query(commentsRef, orderBy('createdAt', 'asc'));
+
+    unsubscribeComments = onSnapshot(q, (snapshot) => {
+      const comments: any[] = [];
+      snapshot.forEach((docSnap) => {
+        comments.push({ id: docSnap.id, ...docSnap.data() });
+      });
+
+      if (commentsCountBadge) {
+        commentsCountBadge.textContent = `${comments.length} bình luận`;
+      }
+
+      if (comments.length === 0) {
+        storyCommentsList.innerHTML = `
+          <div class="py-6 text-center text-slate-400 bg-white/60 rounded-2xl border border-dashed border-amber-200">
+            <span class="text-2xl block mb-1">💬</span>
+            <p class="text-xs">Chưa có bình luận nào. Hãy là người đầu tiên để lại đôi dòng cảm xúc!</p>
+          </div>
+        `;
+        return;
+      }
+
+      storyCommentsList.innerHTML = '';
+      comments.forEach((c) => {
+        let dateStr = 'Vừa xong';
+        if (c.createdAt?.toDate) {
+          dateStr = new Date(c.createdAt.toDate()).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' });
+        } else if (c.createdAt?.seconds) {
+          dateStr = new Date(c.createdAt.seconds * 1000).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' });
+        }
+
+        const commentEl = document.createElement('div');
+        commentEl.className = 'p-3.5 bg-white rounded-2xl border border-amber-100/90 shadow-2xs space-y-1.5';
+        commentEl.innerHTML = `
+          <div class="flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2">
+              <img src="${c.userPhoto || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + c.userId}" alt="${escapeHtml(c.userName)}" class="w-5 h-5 rounded-full border border-slate-200" />
+              <strong class="text-navy-950 font-bold">${escapeHtml(c.userName || 'Thành viên')}</strong>
+            </div>
+            <span class="text-[10px] text-slate-400">${dateStr}</span>
+          </div>
+          <p class="text-xs text-slate-700 leading-relaxed pl-7 whitespace-pre-line">${escapeHtml(c.content || '')}</p>
+        `;
+        storyCommentsList.appendChild(commentEl);
+      });
+    }, (err) => {
+      console.warn('Lỗi lắng nghe bình luận:', err);
+      storyCommentsList.innerHTML = '<p class="text-xs text-slate-400 text-center py-2">Không thể tải danh sách bình luận.</p>';
+    });
+  }
+
+  // Handle Comment Submission
+  storyCommentForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!currentUser || !activeStory || !commentInput || !btnSubmitComment || !commentBtnSpinner || !commentBtnText) return;
+
+    const content = commentInput.value.trim();
+    if (!content) return;
+
+    btnSubmitComment.disabled = true;
+    commentBtnSpinner.classList.remove('hidden');
+    commentBtnText.textContent = 'Đang gửi...';
+
+    try {
+      const commentsRef = collection(db, 'submissions', activeStory.id, 'comments');
+      await addDoc(commentsRef, {
+        userId: currentUser.uid,
+        userName: currentUser.displayName || currentUser.email || 'Thành viên',
+        userPhoto: currentUser.photoURL || '',
+        content: content,
+        createdAt: serverTimestamp(),
+      });
+
+      // Increment comments count on submission doc
+      const storyRef = doc(db, 'submissions', activeStory.id);
+      await updateDoc(storyRef, { commentsCount: increment(1) });
+      if (activeStory.commentsCount !== undefined) activeStory.commentsCount++;
+
+      commentInput.value = '';
+    } catch (err: any) {
+      alert('Không thể gửi bình luận: ' + (err.message || 'Lỗi hệ thống'));
+    } finally {
+      btnSubmitComment.disabled = false;
+      commentBtnSpinner.classList.add('hidden');
+      commentBtnText.textContent = 'Gửi bình luận ✍️';
+    }
+  });
+
   function closeStoryModal() {
     if (modalStoryDetail) modalStoryDetail.classList.add('hidden');
+    if (unsubscribeComments) {
+      unsubscribeComments();
+      unsubscribeComments = null;
+    }
+    activeStory = null;
+    history.replaceState(null, '', window.location.pathname);
   }
 
   btnCloseStoryModal?.addEventListener('click', closeStoryModal);
@@ -868,6 +1257,8 @@ const batchOptions = [
         title,
         message,
         imageUrl,
+        likesCount: 0,
+        commentsCount: 0,
         status: 'pending', // Chờ Admin duyệt
         createdAt: serverTimestamp(),
       });
