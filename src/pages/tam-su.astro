@@ -828,20 +828,68 @@ const batchOptions = [
             </div>
           </div>
 
-          <div class="flex items-center gap-2 shrink-0">
-            <span class="text-[10px] text-slate-400 flex items-center gap-1">
-              <span>❤️ ${likes}</span>
-              <span>💬 ${comments}</span>
-            </span>
-            <span class="text-[11px] font-bold text-warmOrange-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-0.5">
+          <!-- Card Action Buttons: Like, Share, Read More -->
+          <div class="flex items-center gap-1.5 shrink-0">
+            <!-- Quick Like Button on Card -->
+            <button
+              type="button"
+              class="card-like-btn px-2 py-1 rounded-lg text-[11px] font-bold border transition flex items-center gap-1 ${
+                getLikedStories().includes(story.id)
+                  ? 'bg-rose-50 text-rose-600 border-rose-200'
+                  : 'bg-white/80 text-slate-600 border-amber-200/70 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200'
+              }"
+              data-story-id="${story.id}"
+              title="Thích bài viết này"
+            >
+              <span>❤️</span>
+              <span class="card-like-count">${likes}</span>
+            </button>
+
+            <!-- Quick Share Button on Card -->
+            <button
+              type="button"
+              class="card-share-btn p-1 px-1.5 rounded-lg text-[11px] font-bold bg-white/80 text-slate-600 border border-amber-200/70 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition flex items-center"
+              data-story-id="${story.id}"
+              title="Chia sẻ bài viết"
+            >
+              <span>🔗</span>
+            </button>
+
+            <!-- Read More Button -->
+            <button
+              type="button"
+              class="px-2 py-1 rounded-lg text-[11px] font-bold text-warmOrange-600 bg-warmOrange-50/80 hover:bg-warmOrange-600 hover:text-white transition flex items-center gap-0.5"
+            >
               <span>Mở đọc</span>
               <span>&rarr;</span>
-            </span>
+            </button>
           </div>
         </div>
       `;
 
-      card.addEventListener('click', () => openStoryModal(story));
+      // Event listener for Card click (Open modal)
+      card.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('.card-like-btn') || target.closest('.card-share-btn')) {
+          return; // Ignore if clicked on like or share
+        }
+        openStoryModal(story);
+      });
+
+      // Quick Like Button Event
+      const cardLikeBtn = card.querySelector('.card-like-btn') as HTMLButtonElement | null;
+      cardLikeBtn?.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        await toggleLikeStory(story, cardLikeBtn);
+      });
+
+      // Quick Share Button Event
+      const cardShareBtn = card.querySelector('.card-share-btn') as HTMLButtonElement | null;
+      cardShareBtn?.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        await shareStoryDirect(story);
+      });
+
       storiesWallGrid.appendChild(card);
     });
 
@@ -946,42 +994,59 @@ const batchOptions = [
     }
   }
 
-  // Like Click Handler
-  btnLikeStory?.addEventListener('click', async () => {
-    if (!activeStory) return;
+  // Toggle Like Story (Common for card & modal)
+  async function toggleLikeStory(story: any, triggerCardBtn?: HTMLButtonElement | null) {
     const liked = getLikedStories();
-    const isLiked = liked.includes(activeStory.id);
+    const isLiked = liked.includes(story.id);
 
     try {
-      const storyRef = doc(db, 'submissions', activeStory.id);
+      const storyRef = doc(db, 'submissions', story.id);
       if (!isLiked) {
-        setLikedStory(activeStory.id);
-        activeStory.likesCount = (activeStory.likesCount || 0) + 1;
-        updateLikeUI(activeStory.likesCount, true);
+        setLikedStory(story.id);
+        story.likesCount = (story.likesCount || 0) + 1;
+        if (activeStory && activeStory.id === story.id) {
+          updateLikeUI(story.likesCount, true);
+        }
         await updateDoc(storyRef, { likesCount: increment(1) });
       } else {
         // Un-like
-        const filtered = liked.filter((id) => id !== activeStory.id);
+        const filtered = liked.filter((id) => id !== story.id);
         localStorage.setItem('chs_liked_stories', JSON.stringify(filtered));
-        activeStory.likesCount = Math.max(0, (activeStory.likesCount || 1) - 1);
-        updateLikeUI(activeStory.likesCount, false);
+        story.likesCount = Math.max(0, (story.likesCount || 1) - 1);
+        if (activeStory && activeStory.id === story.id) {
+          updateLikeUI(story.likesCount, false);
+        }
         await updateDoc(storyRef, { likesCount: increment(-1) });
       }
+
+      // Update card UI if present
+      const allCardBtns = document.querySelectorAll<HTMLButtonElement>(`.card-like-btn[data-story-id="${story.id}"]`);
+      allCardBtns.forEach((btn) => {
+        const countSpan = btn.querySelector('.card-like-count');
+        if (countSpan) countSpan.textContent = String(story.likesCount || 0);
+        if (!isLiked) {
+          btn.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-200');
+          btn.classList.remove('bg-white/80', 'text-slate-600', 'border-amber-200/70');
+        } else {
+          btn.classList.remove('bg-rose-50', 'text-rose-600', 'border-rose-200');
+          btn.classList.add('bg-white/80', 'text-slate-600', 'border-amber-200/70');
+        }
+      });
+
     } catch (err) {
       console.error('Lỗi khi like bài viết:', err);
     }
-  });
+  }
 
-  // Share Click Handler
-  btnShareStory?.addEventListener('click', async () => {
-    if (!activeStory) return;
-    const shareUrl = `${window.location.origin}/tam-su/#story-${activeStory.id}`;
+  // Share Story Direct (Common for card & modal)
+  async function shareStoryDirect(story: any) {
+    const shareUrl = `${window.location.origin}/tam-su/#story-${story.id}`;
     
     if (navigator.share) {
       try {
         await navigator.share({
-          title: activeStory.title || 'Kỷ niệm THPT Xuân Lộc',
-          text: `Đọc tâm sự "${activeStory.title || 'Kỷ niệm mái trường'}" của ${activeStory.fullName} trên Báo Tường THPT Xuân Lộc!`,
+          title: story.title || 'Kỷ niệm THPT Xuân Lộc',
+          text: `Đọc tâm sự "${story.title || 'Kỷ niệm mái trường'}" của ${story.fullName} trên Báo Tường THPT Xuân Lộc!`,
           url: shareUrl,
         });
         return;
@@ -996,10 +1061,24 @@ const batchOptions = [
       if (shareToast) {
         shareToast.classList.remove('hidden');
         setTimeout(() => shareToast.classList.add('hidden'), 4000);
+      } else {
+        alert('Đã sao chép liên kết chia sẻ bài viết vào bộ nhớ tạm!');
       }
     } catch {
       prompt('Sao chép liên kết chia sẻ bên dưới:', shareUrl);
     }
+  }
+
+  // Like Click Handler in Modal
+  btnLikeStory?.addEventListener('click', async () => {
+    if (!activeStory) return;
+    await toggleLikeStory(activeStory);
+  });
+
+  // Share Click Handler in Modal
+  btnShareStory?.addEventListener('click', async () => {
+    if (!activeStory) return;
+    await shareStoryDirect(activeStory);
   });
 
   // Real-time Comments Listener
