@@ -4,22 +4,22 @@ pubDate: 2026-06-05
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Xuân Lộc tổ chúc mừng thọ, chúc thọ 73 người cao tuổi tại Khu phố Gia Ray 1"
 category: "Tin tức"
-featuredImage: "/assets/posts/xuan-loc-to-chuc-mung-tho-chuc-tho-73-nguoi-cao-tuoi-tai-khu-pho-gia-ray-1/anh-1.webp"
+featuredImage: "https://cdn.chsxuanloc.com/posts/xuan-loc-to-chuc-mung-tho-chuc-tho-73-nguoi-cao-tuoi-tai-khu-pho-gia-ray-1/anh-1.webp"
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội"]
 ---
 
-![Quang cảnh lễ mừng thọ, chúc thọ 73 người cao tuổi tại Khu phố Gia Ray 1](/assets/posts/xuan-loc-to-chuc-mung-tho-chuc-tho-73-nguoi-cao-tuoi-tai-khu-pho-gia-ray-1/anh-1.webp)
+![Quang cảnh lễ mừng thọ, chúc thọ 73 người cao tuổi tại Khu phố Gia Ray 1](https://cdn.chsxuanloc.com/posts/xuan-loc-to-chuc-mung-tho-chuc-tho-73-nguoi-cao-tuoi-tai-khu-pho-gia-ray-1/anh-1.webp)
 
 Dịp này, Khu phố Gia Ray 1 có 73 cụ được mừng thọ, chúc thọ. Trong đó, có 33 cụ tròn 70 tuổi, 18 cụ tròn 75 tuổi, 12 cụ tròn 80 tuổi, 6 cụ tròn 85 tuổi, 2 cụ tròn 95 tuổi và 2 cụ 101 tuổi.
 
-![Ảnh bài viết](/assets/posts/xuan-loc-to-chuc-mung-tho-chuc-tho-73-nguoi-cao-tuoi-tai-khu-pho-gia-ray-1/anh-2.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/xuan-loc-to-chuc-mung-tho-chuc-tho-73-nguoi-cao-tuoi-tai-khu-pho-gia-ray-1/anh-2.webp)
 
-![Ảnh bài viết](/assets/posts/xuan-loc-to-chuc-mung-tho-chuc-tho-73-nguoi-cao-tuoi-tai-khu-pho-gia-ray-1/anh-3.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/xuan-loc-to-chuc-mung-tho-chuc-tho-73-nguoi-cao-tuoi-tai-khu-pho-gia-ray-1/anh-3.webp)
 
-![Ảnh bài viết](/assets/posts/xuan-loc-to-chuc-mung-tho-chuc-tho-73-nguoi-cao-tuoi-tai-khu-pho-gia-ray-1/anh-4.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/xuan-loc-to-chuc-mung-tho-chuc-tho-73-nguoi-cao-tuoi-tai-khu-pho-gia-ray-1/anh-4.webp)
 
-![Chúc thọ, mừng thọ các cụ tròn 70 tuổi, 75 tuổi, 80 tuổi, 85 tuổi, 95 tuổi và trên 100 tuổi thuộc Khu phố Gia Ray 1](/assets/posts/xuan-loc-to-chuc-mung-tho-chuc-tho-73-nguoi-cao-tuoi-tai-khu-pho-gia-ray-1/anh-5.webp)
+![Chúc thọ, mừng thọ các cụ tròn 70 tuổi, 75 tuổi, 80 tuổi, 85 tuổi, 95 tuổi và trên 100 tuổi thuộc Khu phố Gia Ray 1](https://cdn.chsxuanloc.com/posts/xuan-loc-to-chuc-mung-tho-chuc-tho-73-nguoi-cao-tuoi-tai-khu-pho-gia-ray-1/anh-5.webp)
 
 Tại buổi lễ, Phó Chủ tịch Hội Người cao tuổi phường Xuân Lộc Vũ Thị Đượm gửi lời chúc các cụ luôn mạnh khỏe, trường thọ, sống vui, sống khỏe; tiếp tục là chỗ dựa tinh thần, là tấm gương sáng về đạo đức, lối sống để con cháu noi theo.
 

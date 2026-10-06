@@ -4,18 +4,18 @@ pubDate: 2026-09-07
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Xuân Lộc tăng cường phòng, chống tai nạn, thương tích trẻ em"
 category: "Tin tức"
-featuredImage: "/assets/posts/xuan-loc-tang-cuong-phong-chong-tai-nan-thuong-tich-tre-em/anh-1.webp"
+featuredImage: "https://cdn.chsxuanloc.com/posts/xuan-loc-tang-cuong-phong-chong-tai-nan-thuong-tich-tre-em/anh-1.webp"
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội"]
 ---
 
 Theo đó, phường phối hợp với các cơ quan, đơn vị liên quan rà soát, xác định những khu vực có nguy cơ xảy ra tai nạn đối với trẻ em như sông, suối, ao, hồ, hồ chứa, kênh, mương, công trình thủy lợi và các khu vực mặt nước, nhất là những nơi trẻ em thường vui chơi, sinh hoạt hoặc có khả năng tiếp cận.
 
-![Tổ chức các giải bơi lội nhằm tăng cường phòng chống đuối nước cho trẻ em](/assets/posts/xuan-loc-tang-cuong-phong-chong-tai-nan-thuong-tich-tre-em/anh-1.webp)
+![Tổ chức các giải bơi lội nhằm tăng cường phòng chống đuối nước cho trẻ em](https://cdn.chsxuanloc.com/posts/xuan-loc-tang-cuong-phong-chong-tai-nan-thuong-tich-tre-em/anh-1.webp)
 
 Đối với các khu vực có nguy cơ cao, phường tăng cường tuyên truyền, cảnh báo, vận động các tổ chức, cá nhân quản lý ao, hồ, khu vực mặt nước chủ động lắp đặt biển cảnh báo nguy hiểm, biển cấm, rào chắn và thực hiện các biện pháp bảo đảm an toàn phù hợp.
 
-![Hồ Núi Le phường Xuân Lộc](/assets/posts/xuan-loc-tang-cuong-phong-chong-tai-nan-thuong-tich-tre-em/anh-2.webp)
+![Hồ Núi Le phường Xuân Lộc](https://cdn.chsxuanloc.com/posts/xuan-loc-tang-cuong-phong-chong-tai-nan-thuong-tich-tre-em/anh-2.webp)
 
 Phường cũng phối hợp với các đơn vị quản lý, khai thác công trình thủy lợi thường xuyên kiểm tra, kịp thời phát hiện, xử lý hoặc kiến nghị xử lý những vị trí xuống cấp, hư hỏng, tiềm ẩn nguy cơ mất an toàn.
 

@@ -4,7 +4,7 @@ pubDate: 2026-09-07
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Xuân Lộc triển khai Chiến dịch diệt lăng quăng phòng, chống sốt xuất huyết"
 category: "Tin tức"
-featuredImage: "/assets/posts/xuan-loc-trien-khai-chien-dich-diet-lang-quang-phong-chong-sot-xuat-huyet/anh-1.webp"
+featuredImage: "https://cdn.chsxuanloc.com/posts/xuan-loc-trien-khai-chien-dich-diet-lang-quang-phong-chong-sot-xuat-huyet/anh-1.webp"
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội"]
 ---
@@ -13,9 +13,9 @@ Chiến dịch được triển khai từ ngày 5 đến 15-9-2026, đồng lo�
 
 Theo kế hoạch, phường đặt ra mục tiêu 100% khu phố tổ chức ra quân thực hiện chiến dịch; trên 90% hộ gia đình được tuyên truyền, hướng dẫn các biện pháp phòng, chống sốt xuất huyết và trên 80% hộ được kiểm tra, xử lý các vật chứa nước có lăng quăng, bọ gậy. Các trường học, cơ quan, đơn vị, cơ sở sản xuất, kinh doanh trên địa bàn cũng tổ chức tổng vệ sinh môi trường, loại bỏ những nơi có nguy cơ phát sinh lăng quăng, bọ gậy; 100% ổ dịch được phát hiện và xử lý kịp thời theo quy định chuyên môn.
 
-![Ảnh bài viết](/assets/posts/xuan-loc-trien-khai-chien-dich-diet-lang-quang-phong-chong-sot-xuat-huyet/anh-1.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/xuan-loc-trien-khai-chien-dich-diet-lang-quang-phong-chong-sot-xuat-huyet/anh-1.webp)
 
-![Ảnh bài viết](/assets/posts/xuan-loc-trien-khai-chien-dich-diet-lang-quang-phong-chong-sot-xuat-huyet/anh-2.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/xuan-loc-trien-khai-chien-dich-diet-lang-quang-phong-chong-sot-xuat-huyet/anh-2.webp)
 
 Trong thời gian thực hiện, công tác tuyên truyền được đẩy mạnh trên hệ thống truyền thanh, trang thông tin điện tử, mạng xã hội và các nhóm Zalo cộng đồng. Phường tổ chức tuyên truyền lưu động, treo băng rôn, khẩu hiệu, phát tờ rơi; đồng thời tuyên truyền trực tiếp đến từng hộ gia đình về việc loại bỏ các vật dụng có khả năng chứa nước đọng, thường xuyên kiểm tra và diệt lăng quăng. Lực lượng tham gia chiến dịch sẽ đến từng hộ gia đình kiểm tra các dụng cụ chứa nước, xử lý lăng quăng, bọ gậy và hướng dẫn người dân duy trì các biện pháp phòng bệnh. Tại các khu phố, hoạt động ra quân tổng vệ sinh môi trường tập trung vào thu gom rác thải, vật dụng phế thải có khả năng đọng nước, phát quang bụi rậm, khai thông cống rãnh và vệ sinh các khu vực công cộng.Trạm Y tế phường tăng cường giám sát tình hình dịch bệnh, phát hiện sớm ca bệnh, ổ dịch và những khu vực có nguy cơ cao để kịp thời triển khai biện pháp xử lý. Thực hiện điều tra dịch tễ, xử lý ổ dịch theo đúng quy định chuyên môn; phối hợp Trung tâm Y tế khu vực triển khai phun hóa chất xử lý ổ dịch khi cần thiết.
 

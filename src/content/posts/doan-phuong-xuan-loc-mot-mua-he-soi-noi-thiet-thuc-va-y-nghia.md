@@ -4,14 +4,14 @@ pubDate: 2026-09-29
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Đoàn phường Xuân Lộc: Một mùa hè sôi nổi, thiết thực và ý nghĩa"
 category: "Tin tức"
-featuredImage: "/assets/posts/doan-phuong-xuan-loc-mot-mua-he-soi-noi-thiet-thuc-va-y-nghia/anh-1.webp"
+featuredImage: "https://cdn.chsxuanloc.com/posts/doan-phuong-xuan-loc-mot-mua-he-soi-noi-thiet-thuc-va-y-nghia/anh-1.webp"
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội"]
 ---
 
 Đoàn Thanh niên phường giữ vai trò nòng cốt trong tham mưu, tổ chức, kết nối và triển khai nhiều hoạt động giáo dục truyền thống, tình nguyện, văn hóa, thể thao, kỹ năng và chăm lo cho thiếu nhi.
 
-![Ảnh bài viết](/assets/posts/doan-phuong-xuan-loc-mot-mua-he-soi-noi-thiet-thuc-va-y-nghia/anh-1.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/doan-phuong-xuan-loc-mot-mua-he-soi-noi-thiet-thuc-va-y-nghia/anh-1.webp)
 
 Ngay từ đầu hè, các nội dung được triển khai đồng bộ, tập trung vào chăm sóc, bảo vệ trẻ em; phòng, chống đuối nước, tai nạn thương tích, xâm hại trẻ em, bạo lực học đường; bảo đảm an toàn giao thông, phòng cháy, chữa cháy và sử dụng Internet an toàn. Cùng với đó là các hoạt động vui chơi, rèn luyện thể chất, đọc sách, phát triển năng khiếu, trải nghiệm kỹ năng và giáo dục truyền thống.
 
@@ -19,7 +19,7 @@ Lễ phát động Tháng hành động vì trẻ em có 300 trẻ em tham dự;
 
 Công tác tuyên truyền được triển khai xuyên suốt, gắn với những vấn đề gần gũi trong đời sống của trẻ em. Phòng Văn hóa - Xã hội phối hợp với các trường học, Đoàn Thanh niên và Hội Liên hiệp Phụ nữ tổ chức 12 buổi tuyên truyền, sinh hoạt chuyên đề, tư vấn và hướng dẫn kỹ năng bảo vệ trẻ em, thu hút khoảng 500 lượt trẻ em, phụ huynh, giáo viên và người dân tham gia.
 
-![Ảnh bài viết](/assets/posts/doan-phuong-xuan-loc-mot-mua-he-soi-noi-thiet-thuc-va-y-nghia/anh-2.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/doan-phuong-xuan-loc-mot-mua-he-soi-noi-thiet-thuc-va-y-nghia/anh-2.webp)
 
 Nội dung tập trung vào phòng, chống đuối nước, tai nạn thương tích, xâm hại trẻ em, bạo lực học đường; an toàn giao thông, phòng cháy, chữa cháy, phòng chống ma túy học đường và sử dụng Internet, mạng xã hội an toàn, có trách nhiệm. Hội nghị tập huấn kỹ năng phòng, chống xâm hại, tai nạn thương tích và các kỹ năng cần thiết cho thiếu nhi thu hút gần 300 học sinh. Chương trình tuyên truyền sử dụng Internet an toàn và phòng, chống ma túy học đường tại Trường THCS Trưng Vương có gần 600 học sinh tham gia.
 
@@ -29,13 +29,13 @@ Song song với tuyên truyền, các hoạt động giáo dục truyền thốn
 
 Riêng Đoàn Thanh niên phường tổ chức Lễ thắp nến tri ân tại 03 Đền thờ Liệt sĩ Xuân Lộc, Xuân Thọ và Xuân Trường với hơn 1.120 lượt cán bộ Đoàn, Hội, Đội và đoàn viên tham gia; đồng thời thăm hỏi, tặng quà 40 gia đình chính sách, người có công với cách mạng, với tổng trị giá quà tặng 28.5 triệu đồng.
 
-![Ảnh bài viết](/assets/posts/doan-phuong-xuan-loc-mot-mua-he-soi-noi-thiet-thuc-va-y-nghia/anh-3.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/doan-phuong-xuan-loc-mot-mua-he-soi-noi-thiet-thuc-va-y-nghia/anh-3.webp)
 
 Không chỉ dừng lại ở các hoạt động vui chơi, rèn luyện, thiếu nhi Xuân Lộc còn được tham gia những phần việc thiết thực vì môi trường và cộng đồng. Tại các trường học, các em cùng thầy cô thực hiện vệ sinh trường lớp, chăm sóc khuôn viên, trồng và chăm sóc cây xanh, giữ gìn cảnh quan sạch đẹp. Những hoạt động tưởng chừng giản dị nhưng đã giúp các em hình thành ý thức tự giác, tinh thần đoàn kết và trách nhiệm với môi trường sống.
 
 Thông qua các hoạt động hè, bảo vệ môi trường không chỉ được tuyên truyền bằng lời nói mà được chuyển thành những việc làm cụ thể, để mỗi thiếu nhi trực tiếp góp sức xây dựng trường học xanh, sạch, đẹp và lan tỏa ý thức giữ gìn môi trường đến gia đình, khu dân cư. Qua đó, góp phần hình thành lối sống tích cực, trách nhiệm và tinh thần chung tay vì cộng đồng ngay từ lứa tuổi học sinh.
 
-![Ảnh bài viết](/assets/posts/doan-phuong-xuan-loc-mot-mua-he-soi-noi-thiet-thuc-va-y-nghia/anh-4.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/doan-phuong-xuan-loc-mot-mua-he-soi-noi-thiet-thuc-va-y-nghia/anh-4.webp)
 
 Mùa hè cũng là khoảng thời gian để thiếu nhi rèn luyện sức khỏe, phát triển năng khiếu và tìm thấy niềm vui trong những sân chơi lành mạnh. Tại các trường học, nhiều câu lạc bộ được duy trì như bơi lội, bóng đá, cờ vua, mỹ thuật, Aerobic, võ thuật, trống Đội, nghi thức Đội và tiếng Anh.
 
@@ -43,7 +43,7 @@ Trung tâm Dịch vụ tổng hợp và Bảo tồn thiên nhiên Núi Chứa Ch
 
 Giải Bơi lội thiếu niên - nhi đồng có trên 150 vận động viên, học sinh đến từ 15 trường tham gia và thi đấu ở 16 nội dung. Giải Cầu lông khối Trung học cơ sở có gần 100 vận động viên, với 57 đội đăng ký và 15 giải được trao, gồm 05 giải Nhất, 05 giải Nhì và 05 giải Ba. Giải Aerobic thiếu nhi thu hút 14 đội với 154 vận động viên.
 
-![Ảnh bài viết](/assets/posts/doan-phuong-xuan-loc-mot-mua-he-soi-noi-thiet-thuc-va-y-nghia/anh-5.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/doan-phuong-xuan-loc-mot-mua-he-soi-noi-thiet-thuc-va-y-nghia/anh-5.webp)
 
 Phong trào văn nghệ, hoạt động Đội và phát triển năng khiếu cũng để lại nhiều dấu ấn. Các trường duy trì câu lạc bộ trống Đội, luyện tập nghi thức Đội với ít nhất 141 học sinh. Đội văn nghệ thiếu nhi tham gia Hội thi Giai điệu tuổi Hồng thành phố Đồng Nai năm 2026 với 03 tiết mục, đạt 02 giải Nhì và 01 giải Khuyến khích.
 
@@ -63,7 +63,7 @@ Bên cạnh sân chơi, các trường còn quan tâm hỗ trợ học tập. Tr
 
 Cùng với giáo dục, rèn luyện và vui chơi, công tác chăm lo cho trẻ em có hoàn cảnh khó khăn luôn được quan tâm. Qua vận động các tổ chức, cá nhân và nguồn lực hợp pháp, toàn phường đã hỗ trợ 07 xe đạp, 20 cặp học sinh và 500 quyển vở; riêng 500 quyển vở có giá trị khoảng 5 triệu đồng.
 
-![Ảnh bài viết](/assets/posts/doan-phuong-xuan-loc-mot-mua-he-soi-noi-thiet-thuc-va-y-nghia/anh-6.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/doan-phuong-xuan-loc-mot-mua-he-soi-noi-thiet-thuc-va-y-nghia/anh-6.webp)
 
 Trong Tháng hành động vì trẻ em, toàn phường tổ chức thăm, tặng 125 phần quà trị giá 55,5 triệu đồng và trao 16 học bổng trị giá 36 triệu đồng cho trẻ em. Tổng nguồn kinh phí vận động xã hội phục vụ các hoạt động chăm lo, tuyên truyền, vui chơi và bảo vệ, chăm sóc trẻ em được ghi nhận là 95,8 triệu đồng.
 
@@ -73,7 +73,7 @@ Tại địa bàn dân cư, hoạt động hè được triển khai tại 12 kh
 
 Để có được những kết quả trên là sự phối hợp của nhiều lực lượng. Đoàn Thanh niên phường phát huy vai trò nòng cốt trong tham mưu, kết nối và triển khai; Phòng Văn hóa - Xã hội phối hợp trong công tác chăm sóc, bảo vệ trẻ em; Trung tâm Dịch vụ tổng hợp và Bảo tồn thiên nhiên Núi Chứa Chan đồng hành tổ chức các sân chơi; các trường học trực tiếp tổ chức hoạt động và quản lý học sinh; Công an phường, Trạm Y tế, Mặt trận Tổ quốc, các tổ chức chính trị - xã hội và 12 khu phố cùng tham gia tuyên truyền, chăm lo và bảo đảm an toàn cho thiếu nhi.
 
-![Ảnh bài viết](/assets/posts/doan-phuong-xuan-loc-mot-mua-he-soi-noi-thiet-thuc-va-y-nghia/anh-7.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/doan-phuong-xuan-loc-mot-mua-he-soi-noi-thiet-thuc-va-y-nghia/anh-7.webp)
 
 Nhìn lại mùa hè năm 2026, các hoạt động trên địa bàn phường Xuân Lộc đã từng bước đa dạng về nội dung, thiết thực về hình thức và thu hút sự tham gia của đông đảo thiếu nhi, đoàn viên, giáo viên, phụ huynh và Nhân dân. Từ những sân chơi thể thao, câu lạc bộ năng khiếu, hoạt động đọc sách đến những chương trình giáo dục truyền thống, tình nguyện vì cộng đồng và chăm lo trẻ em có hoàn cảnh khó khăn, mỗi hoạt động đều góp phần tạo nên một mùa hè an toàn, bổ ích và ý nghĩa.
 

@@ -17,17 +17,15 @@ function getGroqKey() {
 const GROQ_API_KEY = getGroqKey();
 
 import sharp from 'sharp';
+import { uploadBufferToR2, getR2Client } from './r2Storage.js';
 
 /**
- * Tải ảnh từ URL, nén và chuyển đổi sang WebP chất lượng tối ưu
+ * Tải ảnh từ URL, nén WebP và trả về Buffer
  */
-export function downloadImage(url, destPath) {
+export function fetchAndOptimizeImageBuffer(url) {
   return new Promise((resolve, reject) => {
     let cleanUrl = url.trim();
     if (cleanUrl.startsWith('//')) cleanUrl = 'https:' + cleanUrl;
-    
-    const dir = path.dirname(destPath);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
     const mod = cleanUrl.startsWith('https') ? https : http;
     const req = mod.get(cleanUrl, { 
@@ -37,7 +35,7 @@ export function downloadImage(url, destPath) {
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
         let redirectUrl = res.headers.location;
         if (redirectUrl.startsWith('//')) redirectUrl = 'https:' + redirectUrl;
-        return downloadImage(redirectUrl, destPath).then(resolve).catch(reject);
+        return fetchAndOptimizeImageBuffer(redirectUrl).then(resolve).catch(reject);
       }
       if (res.statusCode !== 200) {
         return reject(new Error(`Failed with status ${res.statusCode} for ${cleanUrl}`));
@@ -47,28 +45,18 @@ export function downloadImage(url, destPath) {
       res.on('data', chunk => chunks.push(chunk));
       res.on('end', async () => {
         try {
-          const buffer = Buffer.concat(chunks);
-          // Tự động resize (max 1600px width/height) và nén sang WebP quality 80
-          await sharp(buffer)
-            .rotate() // Tự động xoay theo EXIF
+          const rawBuffer = Buffer.concat(chunks);
+          const webpBuffer = await sharp(rawBuffer)
+            .rotate()
             .resize({ width: 1600, height: 1600, fit: 'inside', withoutEnlargement: true })
             .webp({ quality: 80, effort: 4 })
-            .toFile(destPath);
-          resolve(true);
+            .toBuffer();
+          resolve(webpBuffer);
         } catch (err) {
-          // Fallback nếu ảnh không thể parse bằng sharp (ví dụ SVG hoặc lỗi định dạng)
-          try {
-            fs.writeFileSync(destPath, Buffer.concat(chunks));
-            resolve(true);
-          } catch (writeErr) {
-            reject(writeErr);
-          }
+          resolve(Buffer.concat(chunks));
         }
       });
-      res.on('error', (err) => {
-        fs.unlink(destPath, () => {});
-        reject(err);
-      });
+      res.on('error', reject);
     });
 
     req.on('error', reject);
@@ -80,31 +68,56 @@ export function downloadImage(url, destPath) {
 }
 
 /**
- * Xử lý tải toàn bộ ảnh từ bài đăng và tự động nén thành WebP
+ * Tải ảnh từ URL, nén và chuyển đổi sang WebP lưu cục bộ (fallback khi không có R2)
+ */
+export async function downloadImage(url, destPath) {
+  const dir = path.dirname(destPath);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+
+  const buffer = await fetchAndOptimizeImageBuffer(url);
+  fs.writeFileSync(destPath, buffer);
+  return true;
+}
+
+/**
+ * Xử lý tải toàn bộ ảnh từ bài đăng, tự động nén và upload lên Cloudflare R2 CDN
  */
 export async function processPostMedia(slug, imageUrls = []) {
   if (!imageUrls || imageUrls.length === 0) {
     return ['/assets/images/default-post.jpg'];
   }
 
-  const localUrls = [];
+  const isR2Enabled = !!getR2Client();
+  const mediaUrls = [];
+
   for (let i = 0; i < imageUrls.length; i++) {
     const rawUrl = imageUrls[i];
     if (!rawUrl) continue;
 
     const filename = `anh-${i + 1}.webp`;
-    const destPath = path.join(process.cwd(), 'public', 'assets', 'posts', slug, filename);
-    const publicUrl = `/assets/posts/${slug}/${filename}`;
+    const r2Key = `posts/${slug}/${filename}`;
+    const localDestPath = path.join(process.cwd(), 'public', 'assets', 'posts', slug, filename);
+    const localPublicUrl = `/assets/posts/${slug}/${filename}`;
 
     try {
-      await downloadImage(rawUrl, destPath);
-      localUrls.push(publicUrl);
+      const optimizedBuffer = await fetchAndOptimizeImageBuffer(rawUrl);
+
+      if (isR2Enabled) {
+        const cdnUrl = await uploadBufferToR2(optimizedBuffer, r2Key, 'image/webp');
+        mediaUrls.push(cdnUrl);
+        console.log(`☁️ Đã upload ảnh lên Cloudflare R2: ${cdnUrl}`);
+      } else {
+        const dir = path.dirname(localDestPath);
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+        fs.writeFileSync(localDestPath, optimizedBuffer);
+        mediaUrls.push(localPublicUrl);
+      }
     } catch (err) {
-      console.error(`⚠️ Không thể tải ảnh ${rawUrl}:`, err.message);
+      console.error(`⚠️ Không thể xử lý ảnh ${rawUrl}:`, err.message);
     }
   }
 
-  return localUrls.length > 0 ? localUrls : ['/assets/images/default-post.jpg'];
+  return mediaUrls.length > 0 ? mediaUrls : ['/assets/images/default-post.jpg'];
 }
 
 /**

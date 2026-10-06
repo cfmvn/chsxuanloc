@@ -4,7 +4,7 @@ pubDate: 1945-08-19
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Phường Xuân Lộc viếng các Đền thờ Liệt sĩ kỷ niệm 81 năm Cách mạng Tháng Tám và Quốc khánh 2&#x002F;9"
 category: "Lịch sử"
-featuredImage: "/assets/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-1.webp"
+featuredImage: "https://cdn.chsxuanloc.com/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-1.webp"
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội","Di tích lịch sử"]
 ---
@@ -13,25 +13,25 @@ Tham dự lễ viếng có các đồng chí: Ngô Thị An, Phó Bí thư Thư�
 
 Vòng hoa viếng các Đền thờ Liệt sĩ mang dòng chữ: “Đảng ủy, HĐND, UBND, Ủy ban MTTQ Việt Nam phường Xuân Lộc đời đời nhớ ơn các Anh hùng liệt sĩ”. Tại những nơi đến viếng, trong không khí trang nghiêm và thành kính, các đồng chí lãnh đạo Đảng, chính quyền cùng đại biểu đã dành phút mặc niệm tưởng nhớ Chủ tịch Hồ Chí Minh vĩ đại và các Anh hùng liệt sĩ đã anh dũng hy sinh vì sự nghiệp đấu tranh giải phóng dân tộc, thống nhất đất nước, vì hòa bình và phát triển hôm nay.
 
-![Đoàn đại biểu dành phút mặc niệm trước anh linh của Chủ tịch Hồ Chí Minh và các anh hùng liệt sĩ](/assets/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-1.webp)
+![Đoàn đại biểu dành phút mặc niệm trước anh linh của Chủ tịch Hồ Chí Minh và các anh hùng liệt sĩ](https://cdn.chsxuanloc.com/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-1.webp)
 
-![Đồng chí Ngô Thị An, Phó Bí thư Thường trực Đảng ủy dâng hương viếng Đền thờ liệt sĩ Xuân Lộc](/assets/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-2.webp)
+![Đồng chí Ngô Thị An, Phó Bí thư Thường trực Đảng ủy dâng hương viếng Đền thờ liệt sĩ Xuân Lộc](https://cdn.chsxuanloc.com/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-2.webp)
 
-![Đồng chí Lê Khắc Sơn, Phó Bí thư Đảng ủy, Chủ tịch UBND phường dâng hương tại Đền thờ Liệt sĩ Xuân Lộc](/assets/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-3.webp)
+![Đồng chí Lê Khắc Sơn, Phó Bí thư Đảng ủy, Chủ tịch UBND phường dâng hương tại Đền thờ Liệt sĩ Xuân Lộc](https://cdn.chsxuanloc.com/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-3.webp)
 
-![Lãnh đạo phường Xuân Lộc viếng Đền thờ liệt sĩ Xuân Trường](/assets/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-4.webp)
+![Lãnh đạo phường Xuân Lộc viếng Đền thờ liệt sĩ Xuân Trường](https://cdn.chsxuanloc.com/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-4.webp)
 
-![Ảnh bài viết](/assets/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-5.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-5.webp)
 
-![Ảnh bài viết](/assets/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-6.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-6.webp)
 
-![Ảnh bài viết](/assets/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-7.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-7.webp)
 
-![Ảnh bài viết](/assets/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-8.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-8.webp)
 
-![Ảnh bài viết](/assets/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-9.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-9.webp)
 
-![Ảnh bài viết](/assets/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-10.webp)
+![Ảnh bài viết](https://cdn.chsxuanloc.com/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-10.webp)
 
 Trước anh linh của Chủ tịch Hồ Chí Minh, các anh hùng liệt sĩ, Đảng bộ, chính quyền và Nhân dân phường Xuân Lộc nguyện tiếp tục đoàn kết, nỗ lực phấn đấu, thực hiện thắng lợi các mục tiêu đề ra, xây dựng phường Xuân Lộc ngày càng giàu đẹp, văn minh, nghĩa tình và phát triển.
 

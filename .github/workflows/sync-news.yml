@@ -29,11 +29,23 @@ jobs:
       - name: Chạy AI Quét & Biên tập tin tức Fanpage THPT Xuân Lộc
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID || '2ca2a645843b898780499ea61ff7ab7d' }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID || '7f4b11c4f13ac341f22669043c35720f' }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY || '5d380476711282b8a6c2dd56f730a9a47eae21e9b9a363eab493454f7ff125b2' }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME || 'chsxuanloc' }}
+          R2_PUBLIC_DOMAIN: ${{ secrets.R2_PUBLIC_DOMAIN || 'https://cdn.chsxuanloc.com' }}
+          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT || 'https://2ca2a645843b898780499ea61ff7ab7d.r2.cloudflarestorage.com' }}
         run: node src/services/syncFacebookCron.js
 
       - name: Chạy AI Quét & Đồng bộ tin tức Cổng TTĐT Xuân Lộc
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID || '2ca2a645843b898780499ea61ff7ab7d' }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID || '7f4b11c4f13ac341f22669043c35720f' }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY || '5d380476711282b8a6c2dd56f730a9a47eae21e9b9a363eab493454f7ff125b2' }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME || 'chsxuanloc' }}
+          R2_PUBLIC_DOMAIN: ${{ secrets.R2_PUBLIC_DOMAIN || 'https://cdn.chsxuanloc.com' }}
+          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT || 'https://2ca2a645843b898780499ea61ff7ab7d.r2.cloudflarestorage.com' }}
         run: node -e "import('./src/services/portalNewsAiPipeline.js').then(m => m.syncPortalNews())"
 
       - name: Tự động Commit & Push bài báo mới lên Git
