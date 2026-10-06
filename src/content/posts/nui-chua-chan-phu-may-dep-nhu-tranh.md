@@ -3,7 +3,7 @@ title: "Núi Chứa Chan phủ mây đẹp như tranh."
 pubDate: 2026-09-22
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Núi Chứa Chan phủ mây đẹp như tranh."
-category: "Lịch sử"
+category: "Văn hoá"
 featuredImage: "https://cdn.chsxuanloc.com/posts/nui-chua-chan-phu-may-dep-nhu-tranh/anh-1.webp"
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội","Di tích lịch sử"]

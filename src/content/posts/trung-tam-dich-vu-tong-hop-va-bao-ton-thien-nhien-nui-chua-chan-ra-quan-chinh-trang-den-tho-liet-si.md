@@ -3,7 +3,7 @@ title: "Trung tâm Dịch vụ tổng hợp và Bảo tồn thiên nhiên núi C
 pubDate: 2026-10-02
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Trung tâm Dịch vụ tổng hợp và Bảo tồn thiên nhiên núi Chứa Chan ra quân chỉnh trang đền thờ Liệt sĩ"
-category: "Lịch sử"
+category: "Văn hoá"
 featuredImage: "https://cdn.chsxuanloc.com/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-1.webp"
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội","Di tích lịch sử"]

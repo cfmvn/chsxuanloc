@@ -3,7 +3,7 @@ title: "Phường Xuân Lộc viếng các Đền thờ Liệt sĩ kỷ niệm 8
 pubDate: 1945-08-19
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Phường Xuân Lộc viếng các Đền thờ Liệt sĩ kỷ niệm 81 năm Cách mạng Tháng Tám và Quốc khánh 2&#x002F;9"
-category: "Lịch sử"
+category: "Văn hoá"
 featuredImage: "https://cdn.chsxuanloc.com/posts/phuong-xuan-loc-vieng-cac-den-tho-liet-si-ky-niem-81-nam-cach-mang-thang-tam-va-quoc-khanh-2x002f9/anh-1.webp"
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội","Di tích lịch sử"]

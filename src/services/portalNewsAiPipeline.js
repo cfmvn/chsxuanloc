@@ -316,9 +316,9 @@ async function classifyArticleMetadata(title, summary, dateStr) {
   } else if (lower.includes('học sinh giỏi') || lower.includes('học sinh 3 tốt') || lower.includes('nghệ nhân') || lower.includes('thầy giáo') || lower.includes('gương')) {
     category = 'Gương sáng';
     tags.push('Gương sáng');
-  } else if (lower.includes('di tích') || lower.includes('núi chứa chan') || lower.includes('đền thờ liệt sĩ') || lower.includes('lịch sử') || lower.includes('truyền thống')) {
-    category = 'Lịch sử';
-    tags.push('Di tích lịch sử');
+  } else if (lower.includes('di tích') || lower.includes('núi chứa chan') || lower.includes('đền thờ liệt sĩ') || lower.includes('lịch sử') || lower.includes('truyền thống') || lower.includes('văn hóa')) {
+    category = 'Văn hoá';
+    tags.push('Văn hóa & Di tích');
   } else if (lower.includes('hội thao') || lower.includes('đêm hội') || lower.includes('khai giảng') || lower.includes('lễ') || lower.includes('trung thu')) {
     category = 'Sự kiện';
     tags.push('Sự kiện');
@@ -334,7 +334,7 @@ Nội dung tóm tắt: "${summary.substring(0, 600)}"
 
 Nhiệm vụ:
 1. Xác định chuyên mục phù hợp nhất trong các chuyên mục:
-   'Tin tức' / 'Sự kiện' / 'Gương sáng' / 'Học bổng' / 'Cựu học sinh' / 'Lịch sử' / 'Tri ân' / 'Bảng vàng'.
+   'Tin tức' / 'Sự kiện' / 'Gương sáng' / 'Học bổng' / 'Cựu học sinh' / 'Văn hoá' / 'Tri ân' / 'Bảng vàng'.
 2. Viết 1-2 câu tóm tắt trang trọng (description).
 3. Tạo 2-4 tags phù hợp (ví dụ: ["Xuân Lộc", "Khuyến học"]).
 

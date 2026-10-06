@@ -3,7 +3,7 @@ title: "Ý nghĩa từ Cuộc thi tìm hiểu văn hóa, lịch sử Đồng Nai
 pubDate: 2026-09-10
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Ý nghĩa từ Cuộc thi tìm hiểu văn hóa, lịch sử Đồng Nai trên nền tảng số, ứng dụng trí tuệ nhân tạo (AI)"
-category: "Lịch sử"
+category: "Văn hoá"
 featuredImage: "https://cdn.chsxuanloc.com/posts/y-nghia-tu-cuoc-thi-tim-hieu-van-hoa-lich-su-dong-nai-tren-nen-tang-so-ung-dung-tri-tue-nhan-tao-ai/anh-1.webp"
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội","Di tích lịch sử"]

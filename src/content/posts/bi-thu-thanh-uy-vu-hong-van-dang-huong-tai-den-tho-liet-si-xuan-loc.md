@@ -3,7 +3,7 @@ title: "Bí thư Thành ủy Vũ Hồng Văn dâng hương tại Đền thờ Li
 pubDate: 1945-09-02
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Bí thư Thành ủy Vũ Hồng Văn dâng hương tại Đền thờ Liệt sĩ Xuân Lộc"
-category: "Lịch sử"
+category: "Văn hoá"
 featuredImage: "https://cdn.chsxuanloc.com/posts/bi-thu-thanh-uy-vu-hong-van-dang-huong-tai-den-tho-liet-si-xuan-loc/anh-1.webp"
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội","Di tích lịch sử"]

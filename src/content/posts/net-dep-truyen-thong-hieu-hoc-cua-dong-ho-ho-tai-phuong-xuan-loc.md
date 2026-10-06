@@ -3,7 +3,7 @@ title: "Nét đẹp truyền thống hiếu học của dòng họ Hồ tại ph
 pubDate: 2026-09-22
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Nét đẹp truyền thống hiếu học của dòng họ Hồ tại phường Xuân Lộc"
-category: "Lịch sử"
+category: "Văn hoá"
 featuredImage: "https://cdn.chsxuanloc.com/posts/net-dep-truyen-thong-hieu-hoc-cua-dong-ho-ho-tai-phuong-xuan-loc/anh-1.webp"
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội","Di tích lịch sử"]
