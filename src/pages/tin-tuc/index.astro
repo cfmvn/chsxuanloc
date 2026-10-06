@@ -144,8 +144,6 @@ const categoryIcons: Record<string, string> = {
                       {post.data.pubDate.toLocaleDateString('vi-VN')}
                     </time>
                   </span>
-                  <span>•</span>
-                  <span class="truncate">{post.data.author}</span>
                 </div>
                 
                 <h2 class="text-base sm:text-lg font-bold text-navy-900 group-hover:text-warmOrange-600 transition leading-snug mb-2.5 line-clamp-2">
@@ -161,11 +159,14 @@ const categoryIcons: Record<string, string> = {
             </div>
 
             <!-- Footer Card -->
-            <div class="px-6 py-4 bg-slate-50/60 border-t border-slate-100 flex items-center justify-between text-xs">
-              <span class="text-slate-400 font-medium">THPT Xuân Lộc</span>
+            <div class="px-6 py-4 bg-slate-50/60 border-t border-slate-100 flex items-center justify-between text-xs gap-3">
+              <span class="text-slate-500 font-medium truncate flex items-center gap-1.5" title={`Nguồn: ${post.data.author || 'THPT Xuân Lộc'}`}>
+                <span class="text-slate-400">✍️</span>
+                <span class="truncate">{post.data.author || 'THPT Xuân Lộc'}</span>
+              </span>
               <a
                 href={`/tin-tuc/${post.slug}`}
-                class="font-bold text-warmOrange-600 hover:text-warmOrange-700 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                class="font-bold text-warmOrange-600 hover:text-warmOrange-700 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform shrink-0"
               >
                 <span>Đọc bài viết</span>
                 <span>&rarr;</span>
