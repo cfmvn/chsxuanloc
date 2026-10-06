@@ -4,7 +4,7 @@ pubDate: 2026-09-11
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Mời bạn tham gia Ngày hội Hiến máu tình nguyện năm 2026 tại phường Xuân Lộc"
 category: "Tin tức"
-featuredImage: "/assets/posts/moi-ban-tham-gia-ngay-hoi-hien-mau-tinh-nguyen-nam-2026-tai-phuong-xuan-loc/anh-1.png"
+featuredImage: "/assets/posts/moi-ban-tham-gia-ngay-hoi-hien-mau-tinh-nguyen-nam-2026-tai-phuong-xuan-loc/anh-1.webp"
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội"]
 ---
@@ -13,7 +13,7 @@ Ngày hội được tổ chức từ **07 giờ 30 phút đến 11 giờ 00 ph�
 
 Hiến máu tình nguyện là một nghĩa cử cao đẹp, thể hiện trách nhiệm và tình cảm của mỗi người đối với cộng đồng. Mỗi đơn vị máu được hiến tặng không chỉ là sự sẻ chia mà còn có thể mang đến cơ hội sống cho những bệnh nhân đang cần máu trong cấp cứu và điều trị. Vì vậy, sự tham gia của mỗi cá nhân tại Ngày hội sẽ góp phần bổ sung nguồn máu dự trữ, phục vụ công tác chăm sóc và bảo vệ sức khỏe Nhân dân.
 
-![Ảnh bài viết](/assets/posts/moi-ban-tham-gia-ngay-hoi-hien-mau-tinh-nguyen-nam-2026-tai-phuong-xuan-loc/anh-1.png)
+![Ảnh bài viết](/assets/posts/moi-ban-tham-gia-ngay-hoi-hien-mau-tinh-nguyen-nam-2026-tai-phuong-xuan-loc/anh-1.webp)
 
 UBND phường Xuân Lộc kêu gọi cán bộ, công chức, viên chức, đoàn viên, hội viên, lực lượng vũ trang, người lao động và Nhân dân trên địa bàn phường tích cực hưởng ứng, tham gia hiến máu tình nguyện, cùng lan tỏa tinh thần nhân ái và trách nhiệm với cộng đồng.
 

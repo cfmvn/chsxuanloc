@@ -4,7 +4,7 @@ pubDate: 2026-09-16
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Hướng tới một mùa Trung thu ấm áp, trọn vẹn yêu thương cho thiếu nhi đồng bào dân tộc thiểu số"
 category: "Sự kiện"
-featuredImage: "/assets/posts/huong-toi-mot-mua-trung-thu-am-ap-tron-ven-yeu-thuong-cho-thieu-nhi-dong-bao-dan-toc-thieu-so/anh-1.png"
+featuredImage: "/assets/posts/huong-toi-mot-mua-trung-thu-am-ap-tron-ven-yeu-thuong-cho-thieu-nhi-dong-bao-dan-toc-thieu-so/anh-1.webp"
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội","Sự kiện"]
 ---
@@ -13,7 +13,7 @@ Chương trình sẽ được tổ chức vào 18 giờ, ngày 20/9/2026 (Chủ 
 
 Với chủ đề “Lan tỏa yêu thương - Cùng nhau đón Tết Trung thu”, chương trình sẽ mang đến cho các em thiếu nhi nhiều hoạt động vui chơi, giải trí ý nghĩa như: Chiếu phim về Tết Trung thu, chương trình văn nghệ, tặng quà Trung thu, rước đèn, múa lân và rút thăm may mắn với các phần quà điện máy.
 
-![Thông tin chương trình](/assets/posts/huong-toi-mot-mua-trung-thu-am-ap-tron-ven-yeu-thuong-cho-thieu-nhi-dong-bao-dan-toc-thieu-so/anh-1.png)
+![Thông tin chương trình](/assets/posts/huong-toi-mot-mua-trung-thu-am-ap-tron-ven-yeu-thuong-cho-thieu-nhi-dong-bao-dan-toc-thieu-so/anh-1.webp)
 
 Bên cạnh các hoạt động dành cho thiếu nhi, chương trình còn có nội dung tặng quà cho các gia đình có hoàn cảnh khó khăn, qua đó thể hiện sự quan tâm, chia sẻ của các cơ quan, đơn vị và các nhà hảo tâm đối với những hoàn cảnh còn khó khăn trên địa bàn.
 

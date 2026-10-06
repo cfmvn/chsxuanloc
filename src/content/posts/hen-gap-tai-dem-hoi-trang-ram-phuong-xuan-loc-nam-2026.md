@@ -4,7 +4,7 @@ pubDate: 2026-09-23
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Hẹn gặp tại “Đêm hội Trăng rằm” phường Xuân Lộc năm 2026"
 category: "Sự kiện"
-featuredImage: "/assets/posts/hen-gap-tai-dem-hoi-trang-ram-phuong-xuan-loc-nam-2026/anh-1.png"
+featuredImage: "/assets/posts/hen-gap-tai-dem-hoi-trang-ram-phuong-xuan-loc-nam-2026/anh-1.webp"
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội","Sự kiện"]
 ---
@@ -17,7 +17,7 @@ Mở đầu chương trình, từ 16 giờ đến 18 giờ 30 phút, các em s�
 
 Từ 18 giờ 30 đến 21 giờ, chương trình biểu diễn nghệ thuật, văn nghệ và trao quà Trung thu sẽ diễn ra với nhiều tiết mục đặc sắc. Đặc biệt, các em sẽ được thưởng thức màn múa Lân - Sư - Rồng, cùng nhau phá cỗ Trung thu trong không khí vui tươi, rộn ràng của đêm hội.
 
-![Ảnh bài viết](/assets/posts/hen-gap-tai-dem-hoi-trang-ram-phuong-xuan-loc-nam-2026/anh-1.png)
+![Ảnh bài viết](/assets/posts/hen-gap-tai-dem-hoi-trang-ram-phuong-xuan-loc-nam-2026/anh-1.webp)
 
 Thông qua chương trình, phường Xuân Lộc mong muốn mang đến cho thiếu nhi một mùa Trung thu vui tươi, an toàn và ý nghĩa, đồng thời thể hiện sự quan tâm, chăm lo của cấp ủy, chính quyền và cộng đồng đối với thế hệ trẻ.
 

@@ -16,8 +16,10 @@ function getGroqKey() {
 
 const GROQ_API_KEY = getGroqKey();
 
+import sharp from 'sharp';
+
 /**
- * Tải ảnh từ URL về lưu cục bộ trong public/assets/posts/[slug]/
+ * Tải ảnh từ URL, nén và chuyển đổi sang WebP chất lượng tối ưu
  */
 export function downloadImage(url, destPath) {
   return new Promise((resolve, reject) => {
@@ -40,10 +42,30 @@ export function downloadImage(url, destPath) {
       if (res.statusCode !== 200) {
         return reject(new Error(`Failed with status ${res.statusCode} for ${cleanUrl}`));
       }
-      const file = fs.createWriteStream(destPath);
-      res.pipe(file);
-      file.on('finish', () => file.close(() => resolve(true)));
-      file.on('error', (err) => {
+
+      const chunks = [];
+      res.on('data', chunk => chunks.push(chunk));
+      res.on('end', async () => {
+        try {
+          const buffer = Buffer.concat(chunks);
+          // Tự động resize (max 1600px width/height) và nén sang WebP quality 80
+          await sharp(buffer)
+            .rotate() // Tự động xoay theo EXIF
+            .resize({ width: 1600, height: 1600, fit: 'inside', withoutEnlargement: true })
+            .webp({ quality: 80, effort: 4 })
+            .toFile(destPath);
+          resolve(true);
+        } catch (err) {
+          // Fallback nếu ảnh không thể parse bằng sharp (ví dụ SVG hoặc lỗi định dạng)
+          try {
+            fs.writeFileSync(destPath, Buffer.concat(chunks));
+            resolve(true);
+          } catch (writeErr) {
+            reject(writeErr);
+          }
+        }
+      });
+      res.on('error', (err) => {
         fs.unlink(destPath, () => {});
         reject(err);
       });
@@ -58,7 +80,7 @@ export function downloadImage(url, destPath) {
 }
 
 /**
- * Xử lý tải toàn bộ ảnh từ bài đăng và lưu cục bộ với chất lượng gốc
+ * Xử lý tải toàn bộ ảnh từ bài đăng và tự động nén thành WebP
  */
 export async function processPostMedia(slug, imageUrls = []) {
   if (!imageUrls || imageUrls.length === 0) {
@@ -70,14 +92,7 @@ export async function processPostMedia(slug, imageUrls = []) {
     const rawUrl = imageUrls[i];
     if (!rawUrl) continue;
 
-    // Lấy extension chuẩn từ URL (loại bỏ query params)
-    const cleanUrlPath = rawUrl.split('?')[0].split('#')[0];
-    let ext = path.extname(cleanUrlPath).toLowerCase();
-    if (!ext || !['.jpg', '.jpeg', '.png', '.webp', '.gif'].includes(ext)) {
-      ext = '.jpg';
-    }
-
-    const filename = `anh-${i + 1}${ext}`;
+    const filename = `anh-${i + 1}.webp`;
     const destPath = path.join(process.cwd(), 'public', 'assets', 'posts', slug, filename);
     const publicUrl = `/assets/posts/${slug}/${filename}`;
 

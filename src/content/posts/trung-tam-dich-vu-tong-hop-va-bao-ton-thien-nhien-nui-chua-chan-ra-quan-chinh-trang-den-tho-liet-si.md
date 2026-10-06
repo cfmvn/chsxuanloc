@@ -4,7 +4,7 @@ pubDate: 2026-10-02
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Trung tâm Dịch vụ tổng hợp và Bảo tồn thiên nhiên núi Chứa Chan ra quân chỉnh trang đền thờ Liệt sĩ"
 category: "Lịch sử"
-featuredImage: "/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-1.png"
+featuredImage: "/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-1.webp"
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội","Di tích lịch sử"]
 ---
@@ -13,21 +13,21 @@ tags: ["Xuân Lộc","Văn hóa xã hội","Di tích lịch sử"]
 
 Để góp phần tạo cảnh quan được xanh, sạch, đẹp và trang nghiêm. Trung tâm đã cùng nhau chỉnh trang diện mạo của đền thờ và hồ sen nơi ghi nhớ công ơn và tưởng niệm các anh hùng liệt sĩ.
 
-![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-1.png)
+![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-1.webp)
 
-![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-2.png)
+![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-2.webp)
 
-![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-3.png)
+![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-3.webp)
 
-![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-4.png)
+![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-4.webp)
 
-![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-5.png)
+![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-5.webp)
 
 Tại buổi ra quân, cán bộ, viên chức và người lao động của Trung tâm đã tập trung trồng hoa, cắt cỏ, chỉnh trang khuôn viên và cải tạo hồ sen. Việc làm trên thể hiện thể hiện sự tri ân đối với các anh hùng liệt sĩ đã hi sinh bảo vệ Tổ quốc.
 
-![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-6.png)
+![Ảnh bài viết](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-6.webp)
 
-![Hiện trạng hồ sen trước và sau khi hoàn tất công tác vệ sinh, chuẩn bị cải tạo và trồng sen mới](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-7.png)
+![Hiện trạng hồ sen trước và sau khi hoàn tất công tác vệ sinh, chuẩn bị cải tạo và trồng sen mới](/assets/posts/trung-tam-dich-vu-tong-hop-va-bao-ton-thien-nhien-nui-chua-chan-ra-quan-chinh-trang-den-tho-liet-si/anh-7.webp)
 
 Đây cũng là việc làm thiết thực, thể hiện tinh thần đoàn kết, trách nhiệm của cán bộ, viên chức và người lao động trong đợt thi đua 500 ngày đêm, đồng thời đây là việc làm thiết thực tỏ lòng biết ơn của cán bộ, đảng viên và Nhân dân trên địa bàn phường đối với sự hy sinh của các anh hùng liệt sỹ.
 

@@ -4,7 +4,7 @@ pubDate: 2026-09-25
 author: "Ban Biên Tập Kỷ Yếu"
 description: "Vinh danh em Lê Hoàng (12B11) - Thủ khoa Kỳ thi Tốt nghiệp THPT và đội thi Valkyries of Rhetoric xuất sắc đạt giải Nhất Hùng biện Tiếng Anh cấp tỉnh."
 category: "Bảng vàng"
-featuredImage: "/assets/images/le-trao-giai-thuong.jpg"
+featuredImage: "/assets/images/le-trao-giai-thuong.webp"
 featured: true
 tags: ["Bảng vàng", "Thủ khoa", "Giải Nhất", "Tiếng Anh", "Tốt nghiệp 2026"]
 ---

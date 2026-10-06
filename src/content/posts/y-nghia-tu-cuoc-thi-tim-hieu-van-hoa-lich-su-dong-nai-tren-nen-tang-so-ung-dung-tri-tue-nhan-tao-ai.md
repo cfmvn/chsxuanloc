@@ -4,12 +4,12 @@ pubDate: 2026-09-10
 author: "Cổng TTĐT Xuân Lộc (Tổng hợp)"
 description: "Ý nghĩa từ Cuộc thi tìm hiểu văn hóa, lịch sử Đồng Nai trên nền tảng số, ứng dụng trí tuệ nhân tạo (AI)"
 category: "Lịch sử"
-featuredImage: "/assets/posts/y-nghia-tu-cuoc-thi-tim-hieu-van-hoa-lich-su-dong-nai-tren-nen-tang-so-ung-dung-tri-tue-nhan-tao-ai/anh-1.png"
+featuredImage: "/assets/posts/y-nghia-tu-cuoc-thi-tim-hieu-van-hoa-lich-su-dong-nai-tren-nen-tang-so-ung-dung-tri-tue-nhan-tao-ai/anh-1.webp"
 featured: false
 tags: ["Xuân Lộc","Văn hóa xã hội","Di tích lịch sử"]
 ---
 
-![Các đoàn viên tích cực chuẩn bị nội dung và tạo dựng clip ngắn trên các ứng dụng AI](/assets/posts/y-nghia-tu-cuoc-thi-tim-hieu-van-hoa-lich-su-dong-nai-tren-nen-tang-so-ung-dung-tri-tue-nhan-tao-ai/anh-1.png)
+![Các đoàn viên tích cực chuẩn bị nội dung và tạo dựng clip ngắn trên các ứng dụng AI](/assets/posts/y-nghia-tu-cuoc-thi-tim-hieu-van-hoa-lich-su-dong-nai-tren-nen-tang-so-ung-dung-tri-tue-nhan-tao-ai/anh-1.webp)
 
 Theo đó, đối tượng tham dự cuộc thi là các đoàn viên, học sinh đang sinh sống, học tập, làm việc trên địa bàn phường Xuân Lộc. Thí sinh tạo dựng video, clip ngắn trên các ứng dụng AI. Nội dung tuyên truyền, tái hiện các sự kiện lịch sử tiêu biểu, các giai đoạn đấu tranh cách mạng vẻ vang của dân tộc Việt Nam; khai thác các giá trị lịch sử, truyền thống cách mạng, nét đẹp văn hóa, danh lam, di tích, địa danh tiêu biểu; giới thiệu hình ảnh con người Đồng Nai nói chung và Xuân Lộc nói riêng…
 
