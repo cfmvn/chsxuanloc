@@ -1,44 +1,105 @@
 import { transformFacebookPostToArticle, saveArticleToMarkdown } from './facebookAiPipeline.js';
+import { fetchHttp, decodeEntities } from './portalNewsAiPipeline.js';
+
+const FANPAGE_RSS_URL = 'https://fetchrss.com/feed/1xDule5Sb8x81xDukmAi88f4.rss';
 
 /**
- * Script quét và đồng bộ bài viết từ Fanpage Facebook
- * Chạy tự động qua GitHub Actions hoặc Node.js cron
+ * Cào và bóc tách các bài viết từ RSS Feed của Fanpage Facebook
  */
-async function fetchFanpagePosts() {
-  console.log('📡 Đang quét dữ liệu mới nhất từ Fanpage Đoàn Trường THPT Xuân Lộc...');
+export async function fetchFanpagePostsFromRss() {
+  console.log(`📡 Đang quét RSS Fanpage THPT Xuân Lộc từ: ${FANPAGE_RSS_URL}`);
 
-  // Ghi chú: Sử dụng API/Puppeteer/RSS-Bridge để lấy các bài đăng gần nhất
-  // Mô phỏng 2 bài đăng thực tế (1 bài sự kiện nhà trường + 1 bài spam cần lọc)
-  const postsFromFanpage = [
-    {
-      id: 'fb-post-889101',
-      postedAt: new Date().toISOString(),
-      mediaUrls: ['https://thptxuanloc.edu.vn/uploads/40namthptxuanloc.jpg'],
-      content: `[THÔNG BÁO: PHÁT ĐỘNG PHONG TRÀO THI ĐUA CHÀO MỪNG NGÀY NHÀ GIÁO VIỆT NAM 20/11]
-Nhằm phát huy truyền thống "Tôn sư trọng đạo" và tạo sân chơi học thuật bổ ích cho toàn thể đoàn viên thanh niên, Ban Chấp hành Đoàn trường THPT Xuân Lộc chính thức phát động đợt thi đua cao điểm:
-1. Hội thi Báo tường & Làm tập san tri ân thầy cô.
-2. Phong trào "Hoa điểm 10 dâng tặng thầy cô" giữa các chi đoàn khối 10, 11, 12.
-3. Giải bóng đá truyền thống Cựu học sinh - Giáo viên và Học sinh năm 2026.
-Thời gian diễn ra từ ngày 15/10/2026 đến hết ngày 20/11/2026. Rất mong nhận được sự hưởng ứng nhiệt tình từ quý thầy cô, các bạn học sinh và anh chị cựu học sinh các khóa!`
-    },
-    {
-      id: 'fb-post-spam-002',
-      postedAt: new Date().toISOString(),
-      mediaUrls: [],
-      content: `Chào buổi sáng cả nhà yêu! Chúc mọi người tuần mới vui vẻ nha ❤️❤️❤️`
+  const xmlData = await fetchHttp(FANPAGE_RSS_URL);
+  const items = [];
+  const itemMatches = xmlData.match(/<item>([\s\S]*?)<\/item>/g) || [];
+
+  for (const itemXml of itemMatches) {
+    const linkMatch = itemXml.match(/<link>(.*?)<\/link>/);
+    const pubDateMatch = itemXml.match(/<pubDate>(.*?)<\/pubDate>/);
+    const descMatch = itemXml.match(/<description>([\s\S]*?)<\/description>/);
+    const guidMatch = itemXml.match(/<guid[^>]*>(.*?)<\/guid>/);
+
+    const link = linkMatch ? linkMatch[1].trim() : '';
+    const pubDate = pubDateMatch ? pubDateMatch[1].trim() : '';
+    const descRaw = descMatch ? descMatch[1].replace(/<!\[CDATA\[|\]\]>/g, '').trim() : '';
+    const guid = guidMatch ? guidMatch[1].trim() : '';
+
+    if (!descRaw) continue;
+
+    // Trích xuất toàn bộ link ảnh trong thẻ description
+    const mediaUrls = [];
+    const imgRegex = /<img[^>]+src=["']([^"']+)["']/gi;
+    let match;
+    while ((match = imgRegex.exec(descRaw)) !== null) {
+      let src = decodeEntities(match[1].trim());
+      if (src && !src.includes('provider/facebook.png') && !src.includes('fetchrss')) {
+        mediaUrls.push(src);
+      }
     }
-  ];
 
-  for (const post of postsFromFanpage) {
-    console.log(`\n🔍 Đang phân tích bài viết: "${post.content.substring(0, 60)}..."`);
-    const article = await transformFacebookPostToArticle(post);
+    // Bóc tách text thuần từ description (loại bỏ thẻ HTML và chú thích FetchRSS)
+    let cleanText = descRaw
+      .replace(/<img[^>]*>/gi, '')
+      .replace(/<br\s*[\/]?>/gi, '\n')
+      .replace(/<[^>]+>/g, '')
+      .replace(/\(Feed generated with.*?\)/gi, '')
+      .trim();
 
-    if (article.shouldPublish === false) {
-      console.log(`⛔ [BỘ LỌC TỪ CHỐI]: ${article.rejectReason}`);
-    } else {
-      console.log(`✨ [BỘ LỌC CHẤP NHẬN]: Chuyên mục "${article.category}" -> Tiêu đề: "${article.title}"`);
+    cleanText = decodeEntities(cleanText);
+
+    if (cleanText.length > 15) {
+      items.push({
+        guid,
+        link,
+        postedAt: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
+        content: cleanText,
+        mediaUrls
+      });
     }
+  }
+
+  return items;
+}
+
+/**
+ * Hàm chạy đồng bộ Fanpage chính
+ */
+export async function syncFacebookFanpage() {
+  try {
+    const posts = await fetchFanpagePostsFromRss();
+    console.log(`📦 Tìm thấy ${posts.length} bài đăng mới từ Fanpage.`);
+
+    let createdCount = 0;
+    for (const post of posts) {
+      console.log(`\n======================================================`);
+      console.log(`🔍 [FANPAGE] Đang xử lý: "${post.content.substring(0, 60)}..."`);
+      console.log(`📸 Số lượng ảnh đính kèm: ${post.mediaUrls.length} ảnh`);
+
+      try {
+        const article = await transformFacebookPostToArticle(post);
+
+        if (article.shouldPublish === false) {
+          console.log(`⛔ [BỘ LỌC TỪ CHỐI]: ${article.rejectReason || 'Nội dung không đạt tiêu chuẩn tin tức'}`);
+          continue;
+        }
+
+        const savedPath = saveArticleToMarkdown(article, { overwrite: false });
+        if (savedPath) {
+          createdCount++;
+          console.log(`✅ [XUẤT BẢN THÀNH CÔNG]: ${article.title} -> ${article.slug}.md`);
+        }
+      } catch (err) {
+        console.error(`⚠️ Lỗi xử lý bài viết:`, err.message);
+      }
+    }
+
+    console.log(`\n🎉 Đồng bộ Fanpage hoàn tất! Đã thêm mới ${createdCount} bài báo.`);
+  } catch (err) {
+    console.error(`❌ Lỗi đồng bộ Fanpage Facebook:`, err.message);
   }
 }
 
-fetchFanpagePosts();
+// Chạy trực tiếp nếu execute qua CLI
+if (process.argv[1] && process.argv[1].endsWith('syncFacebookCron.js')) {
+  syncFacebookFanpage();
+}
