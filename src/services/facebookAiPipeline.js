@@ -230,9 +230,14 @@ NHIỆM VỤ CỦA BẠN:
     downloadedImages = await processPostMedia(article.slug, rawPost.mediaUrls);
   }
 
-  const featuredImage = downloadedImages[0] || rawPost.featuredImage || '/assets/images/default-post.jpg';
-
   let finalMarkdown = article.markdownBody || '';
+
+  // 1. Sửa lỗi AI trả về literal '\n' thay vì xuống dòng thực tế
+  if (finalMarkdown.includes('\\n')) {
+    finalMarkdown = finalMarkdown.replace(/\\n/g, '\n');
+  }
+
+  // 2. Chèn link ảnh thực tế từ R2 CDN vào placeholder
   if (downloadedImages.length > 0) {
     downloadedImages.forEach((imgUrl, idx) => {
       finalMarkdown = finalMarkdown.replace(new RegExp(`\\{\\{IMAGE_${idx + 1}\\}\\}`, 'g'), imgUrl);
@@ -240,8 +245,14 @@ NHIỆM VỤ CỦA BẠN:
   }
   finalMarkdown = finalMarkdown.replace(/\{\{IMAGE_\d+\}\}/g, featuredImage);
 
+  // 3. Tự động bổ sung thông tin nguồn bài viết từ Fanpage Đoàn Trường
+  const fbLink = rawPost.link || 'https://www.facebook.com/vpdoan.thptxl';
+  if (!finalMarkdown.includes('Nguồn: Đoàn Trường THPT Xuân Lộc') && !finalMarkdown.includes('Nguồn: Fanpage')) {
+    finalMarkdown += `\n\n---\n*Nguồn: Ban Chấp hành Đoàn Trường THPT Xuân Lộc ([Bài viết gốc trên Facebook](${fbLink}))*`;
+  }
+
   article.featuredImage = featuredImage;
-  article.markdownBody = finalMarkdown;
+  article.markdownBody = finalMarkdown.trim();
 
   return article;
 }

@@ -29,3 +29,6 @@ Hành trình chinh phục những dòng code khắt khe và các thuật toán p
 ---
 
 > *Đây là một bài viết ghi nhận thành tích xuất sắc của học sinh, thuộc chuyên mục “Gương sáng” và phù hợp với mục tiêu truyền cảm hứng, khích lệ học sinh và cộng đồng trường.*
+
+---
+*Nguồn: Ban Chấp hành Đoàn Trường THPT Xuân Lộc ([Bài viết gốc trên Fanpage Facebook](https://www.facebook.com/1439338274957017/posts/1432244248999753))*

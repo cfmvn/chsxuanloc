@@ -64,3 +64,6 @@ Nếu có bất kỳ thắc mắc nào về CLB Truyền thông Xuân Lộc ho�
 ![Chú thích ảnh 9](https://cdn.chsxuanloc.com/posts/mang-ghep-moi-da-dai-gia-dinh-clb-truyen-thong-xuan-loc-moi/anh-9.webp)
 ![Chú thích ảnh 10](https://cdn.chsxuanloc.com/posts/mang-ghep-moi-da-dai-gia-dinh-clb-truyen-thong-xuan-loc-moi/anh-10.webp)
 ![Chú thích ảnh 11](https://cdn.chsxuanloc.com/posts/mang-ghep-moi-da-dai-gia-dinh-clb-truyen-thong-xuan-loc-moi/anh-11.webp)
+
+---
+*Nguồn: Ban Chấp hành Đoàn Trường THPT Xuân Lộc ([Bài viết gốc trên Fanpage Facebook](https://www.facebook.com/1439338274957017/posts/1440495768174601))*

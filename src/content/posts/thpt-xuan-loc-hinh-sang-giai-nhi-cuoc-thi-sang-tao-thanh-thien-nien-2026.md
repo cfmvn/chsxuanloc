@@ -34,3 +34,6 @@ tags: ["Giải Nhì","Cuộc thi Sáng tạo","Học sinh xuất sắc","Đoàn 
 🌟 Chúc các bạn sẽ tiếp tục giữ vững ngọn lửa đam mê, mạnh dạn theo đuổi những ý tưởng mới và tạo nên thêm nhiều dấu ấn trên hành trình phía trước!
 
 👏 Một lần nữa, xin chúc mừng 03 “nhà sáng tạo trẻ” của THPT Xuân Lộc và cô Lê Thị Hiền đã đồng hành, hướng dẫn các bạn trong hành trình sáng tạo!
+
+---
+*Nguồn: Ban Chấp hành Đoàn Trường THPT Xuân Lộc ([Bài viết gốc trên Fanpage Facebook](https://www.facebook.com/1439338274957017/posts/1430932822464229))*

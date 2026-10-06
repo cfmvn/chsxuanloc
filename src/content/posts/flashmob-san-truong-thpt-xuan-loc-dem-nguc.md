@@ -41,3 +41,6 @@ Nếu có bất kỳ thắc mắc nào về CLB Truyền thông Xuân Lộc ho�
 ---
 
 > *Hãy chuẩn bị tinh thần, đội ngũ và năng lượng để cùng nhau tạo nên một buổi trình diễn đáng nhớ!*
+
+---
+*Nguồn: Ban Chấp hành Đoàn Trường THPT Xuân Lộc ([Bài viết gốc trên Fanpage Facebook](https://www.facebook.com/1439338274957017/posts/1438787011678810))*
