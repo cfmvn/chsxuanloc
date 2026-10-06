@@ -168,7 +168,7 @@ NHIỆM VỤ CỦA BẠN:
    - 'Học bổng': Chương trình San sẻ yêu thương, trao tặng quà, quỹ khuyến học.
    - 'Tri ân': Thư tri ân, kỷ niệm thầy trò, các hoạt động tri ân thầy cô hưu trí.
    - 'Bảng vàng': Thành tích các kỳ thi tốt nghiệp, đại học, thể thao, văn nghệ.
-   - 'Lịch sử': Kỷ niệm thành lập trường (1985 - Nay), tư liệu truyền thống.
+   - 'Văn hoá': Kỷ niệm thành lập trường, di tích lịch sử, danh lam thắng cảnh, văn hoá truyền thống địa phương.
 
 3. BIÊN TẬP BÀI BÁO HOÀN CHỈNH (Văn phong báo chí, trang trọng, mạch lạc):
    - Giữ gìn đầy đủ chi tiết, thông tin sự kiện, tên tuổi, số liệu thực tế.
@@ -186,7 +186,7 @@ NHIỆM VỤ CỦA BẠN:
   "pubDate": "YYYY-MM-DD",
   "author": "Đoàn Trường THPT Xuân Lộc",
   "description": "Tóm tắt ngắn gọn 1-2 câu",
-  "category": "Sự kiện / Tin tức / Gương sáng / Cựu học sinh / Học bổng / Tri ân / Bảng vàng / Lịch sử",
+  "category": "Sự kiện / Tin tức / Gương sáng / Cựu học sinh / Học bổng / Tri ân / Bảng vàng / Văn hoá",
   "tags": ["Tag1", "Tag2"],
   "markdownBody": "Toàn bộ bài viết định dạng Markdown hoàn chỉnh"
 }
