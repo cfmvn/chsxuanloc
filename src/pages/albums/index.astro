@@ -58,43 +58,83 @@ import albumsData from '../../data/albums.json';
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7" id="albums-grid">
         {albumsData.map((album) => (
           <article
-            class="album-card bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col group"
+            class="album-card bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col group justify-between"
+            data-slug={album.slug}
             data-title={album.title.toLowerCase()}
           >
-            <!-- Image Frame -->
-            <a href={`/albums/${album.slug}`} class="block h-52 overflow-hidden bg-slate-900 relative">
-              <img
-                src={album.coverImage}
-                alt={album.title}
-                loading="lazy"
-                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-              />
-              <div class="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
-              
-              <!-- Badge -->
-              <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg text-xs font-bold bg-navy-950/80 text-warmOrange-300 backdrop-blur-md border border-navy-700/80 flex items-center space-x-1.5 shadow-md">
-                <svg class="w-3.5 h-3.5 text-warmOrange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span>{album.photoCount} ảnh</span>
-              </span>
-            </a>
+            <!-- Top Part -->
+            <div>
+              <!-- Image Frame -->
+              <a href={`/albums/${album.slug}`} class="block h-52 overflow-hidden bg-slate-900 relative">
+                <img
+                  src={album.coverImage}
+                  alt={album.title}
+                  loading="lazy"
+                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                
+                <!-- Badge photo count -->
+                <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg text-xs font-bold bg-navy-950/80 text-warmOrange-300 backdrop-blur-md border border-navy-700/80 flex items-center space-x-1.5 shadow-md">
+                  <svg class="w-3.5 h-3.5 text-warmOrange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span>{album.photoCount} ảnh</span>
+                </span>
+              </a>
 
-            <!-- Card Content -->
-            <div class="p-5 flex-1 flex flex-col justify-between">
-              <div>
+              <!-- Card Content -->
+              <div class="p-5">
+                <div class="flex items-center space-x-2 text-xs text-slate-400 mb-2 font-medium">
+                  <span class="inline-flex items-center gap-1 text-slate-500">
+                    <span>👁️</span>
+                    <span class="album-card-views" data-slug={album.slug}>0</span> lượt xem
+                  </span>
+                  <span>•</span>
+                  <span class="inline-flex items-center gap-1 text-slate-500">
+                    <span>💬</span>
+                    <span class="album-card-comments" data-slug={album.slug}>0</span>
+                  </span>
+                </div>
+
                 <h2 class="text-base font-bold text-navy-900 group-hover:text-warmOrange-600 transition-colors line-clamp-2 leading-snug mb-2">
                   <a href={`/albums/${album.slug}`} set:html={album.title}></a>
                 </h2>
               </div>
+            </div>
 
-              <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span class="text-slate-400 font-medium">THPT Xuân Lộc</span>
+            <!-- Bottom Actions -->
+            <div class="px-5 py-3.5 bg-slate-50/70 border-t border-slate-100 flex items-center justify-between text-xs gap-2">
+              <span class="text-slate-400 font-medium">THPT Xuân Lộc</span>
+
+              <div class="flex items-center gap-1.5 shrink-0">
+                <!-- Like Button -->
+                <button
+                  type="button"
+                  class="album-card-like-btn px-2 py-1 rounded-lg text-[11px] font-bold border transition flex items-center gap-1 bg-white border-slate-200 text-slate-600 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 cursor-pointer"
+                  data-slug={album.slug}
+                  title="Yêu thích album"
+                >
+                  <span>❤️</span>
+                  <span class="album-card-like-count" data-slug={album.slug}>0</span>
+                </button>
+
+                <!-- Share Button -->
+                <button
+                  type="button"
+                  class="album-card-share-btn p-1 px-1.5 rounded-lg text-[11px] font-bold bg-white text-slate-600 border border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition cursor-pointer"
+                  data-slug={album.slug}
+                  data-title={album.title}
+                  title="Chia sẻ album"
+                >
+                  <span>🔗</span>
+                </button>
+
                 <a
                   href={`/albums/${album.slug}`}
-                  class="font-bold text-warmOrange-600 hover:text-warmOrange-700 inline-flex items-center space-x-1 group-hover:translate-x-1 transition-transform"
+                  class="font-bold text-warmOrange-600 hover:text-warmOrange-700 inline-flex items-center space-x-1 group-hover:translate-x-1 transition-transform ml-1"
                 >
-                  <span>Khám phá</span>
+                  <span>Xem</span>
                   <span>&rarr;</span>
                 </a>
               </div>
@@ -117,11 +157,15 @@ import albumsData from '../../data/albums.json';
 </BaseLayout>
 
 <script>
+  import { db } from '../../lib/firebase';
+  import { collection, getDocs, doc, updateDoc, increment } from 'firebase/firestore';
+
   const searchInput = document.getElementById('album-search') as HTMLInputElement;
   const cards = document.querySelectorAll('.album-card') as NodeListOf<HTMLElement>;
   const noResults = document.getElementById('no-results');
   const visibleCount = document.getElementById('visible-count');
 
+  // Filter functionality
   searchInput?.addEventListener('input', (e) => {
     const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
     let visible = 0;
@@ -143,5 +187,139 @@ import albumsData from '../../data/albums.json';
     } else if (noResults) {
       noResults.classList.add('hidden');
     }
+  });
+
+  // Local storage for liked albums
+  function getLikedAlbums(): string[] {
+    try {
+      return JSON.parse(localStorage.getItem('chs_liked_albums') || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function setLikedAlbum(slug: string) {
+    const liked = getLikedAlbums();
+    if (!liked.includes(slug)) {
+      liked.push(slug);
+      localStorage.setItem('chs_liked_albums', JSON.stringify(liked));
+    }
+  }
+
+  // Load Album Stats (Views, Likes, Comments)
+  async function loadAllAlbumStats() {
+    try {
+      const colRef = collection(db, 'album_stats');
+      const snap = await getDocs(colRef);
+      const statsMap: Record<string, { viewsCount?: number; likesCount?: number; commentsCount?: number }> = {};
+
+      snap.forEach((d) => {
+        statsMap[d.id] = d.data();
+      });
+
+      const likedList = getLikedAlbums();
+
+      cards.forEach((card) => {
+        const slug = card.getAttribute('data-slug');
+        if (!slug) return;
+
+        const data = statsMap[slug] || {};
+        const viewsEl = card.querySelector<HTMLElement>('.album-card-views');
+        const commentsEl = card.querySelector<HTMLElement>('.album-card-comments');
+        const likeCountEl = card.querySelector<HTMLElement>('.album-card-like-count');
+
+        if (viewsEl) viewsEl.textContent = String(data.viewsCount || 0);
+        if (commentsEl) commentsEl.textContent = String(data.commentsCount || 0);
+        if (likeCountEl) likeCountEl.textContent = String(data.likesCount || 0);
+
+        // Update Like Button style if liked
+        if (likedList.includes(slug)) {
+          const likeBtns = card.querySelectorAll<HTMLButtonElement>(`.album-card-like-btn[data-slug="${slug}"]`);
+          likeBtns.forEach(btn => {
+            btn.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-200');
+            btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+          });
+        }
+      });
+    } catch (err) {
+      console.warn('Lỗi tải thống kê album:', err);
+    }
+  }
+
+  // Setup Like & Share on Album Cards
+  function setupAlbumCardActions() {
+    // Like button click
+    document.querySelectorAll<HTMLButtonElement>('.album-card-like-btn').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const slug = btn.getAttribute('data-slug');
+        if (!slug) return;
+
+        const liked = getLikedAlbums();
+        const isLiked = liked.includes(slug);
+        const statsRef = doc(db, 'album_stats', slug);
+
+        const countSpan = btn.querySelector('.album-card-like-count');
+        let currentCount = countSpan ? parseInt(countSpan.textContent || '0', 10) : 0;
+
+        try {
+          if (!isLiked) {
+            setLikedAlbum(slug);
+            currentCount++;
+            if (countSpan) countSpan.textContent = String(currentCount);
+            btn.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-200');
+            btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+            await updateDoc(statsRef, { likesCount: increment(1) });
+          } else {
+            const filtered = liked.filter(id => id !== slug);
+            localStorage.setItem('chs_liked_albums', JSON.stringify(filtered));
+            currentCount = Math.max(0, currentCount - 1);
+            if (countSpan) countSpan.textContent = String(currentCount);
+            btn.classList.remove('bg-rose-50', 'text-rose-600', 'border-rose-200');
+            btn.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
+            await updateDoc(statsRef, { likesCount: increment(-1) });
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    });
+
+    // Share button click
+    document.querySelectorAll<HTMLButtonElement>('.album-card-share-btn').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const slug = btn.getAttribute('data-slug');
+        const title = btn.getAttribute('data-title') || 'Album kỷ niệm THPT Xuân Lộc';
+        const shareUrl = `${window.location.origin}/albums/${slug}`;
+
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: title,
+              text: `Xem album ảnh "${title}" trên Cổng thông tin THPT Xuân Lộc!`,
+              url: shareUrl,
+            });
+            return;
+          } catch {
+            // ignore
+          }
+        }
+
+        try {
+          await navigator.clipboard.writeText(shareUrl);
+          alert('Đã sao chép liên kết album ảnh vào bộ nhớ tạm!');
+        } catch {
+          prompt('Sao chép liên kết album:', shareUrl);
+        }
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadAllAlbumStats();
+    setupAlbumCardActions();
   });
 </script>

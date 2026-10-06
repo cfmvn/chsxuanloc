@@ -46,10 +46,15 @@ const { album, relatedAlbums } = Astro.props;
           </div>
           <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight" set:html={album.title}>
           </h1>
-          <p class="text-slate-300 text-sm sm:text-base mt-2 flex items-center space-x-3">
+          <p class="text-slate-300 text-sm sm:text-base mt-2 flex items-center space-x-3 flex-wrap gap-y-1">
             <span>Trường THPT Xuân Lộc</span>
             <span>•</span>
             <span class="font-semibold text-warmOrange-400">{album.photoCount} bức ảnh gốc độ nét cao</span>
+            <span>•</span>
+            <span class="inline-flex items-center gap-1 text-slate-300 bg-white/10 px-2.5 py-0.5 rounded-full text-xs font-semibold backdrop-blur-xs">
+              <span>👁️</span>
+              <span id="album-views-count">...</span> lượt xem
+            </span>
           </p>
         </div>
 
@@ -122,6 +127,119 @@ const { album, relatedAlbums } = Astro.props;
             </div>
           </div>
         ))}
+      </div>
+
+      <!-- Social Interaction Bar for Album (Like, Share, Comment Count) -->
+      <div class="mt-10 bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+          <!-- Nút Thích Album -->
+          <button
+            id="btn-album-like"
+            class="flex-1 sm:flex-initial px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold border transition flex items-center justify-center gap-2 cursor-pointer bg-white border-rose-200 text-rose-600 hover:bg-rose-50 shadow-xs"
+            data-slug={album.slug}
+          >
+            <span id="album-like-icon" class="text-base">❤️</span>
+            <span id="album-like-text">Yêu thích</span>
+            <span id="album-like-count" class="px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 text-xs font-extrabold">0</span>
+          </button>
+
+          <!-- Nút Chia sẻ Album -->
+          <button
+            id="btn-album-share"
+            class="flex-1 sm:flex-initial px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold border transition flex items-center justify-center gap-2 cursor-pointer bg-white border-blue-200 text-blue-600 hover:bg-blue-50 shadow-xs"
+            data-title={album.title}
+          >
+            <span>🔗</span>
+            <span>Chia sẻ album</span>
+          </button>
+        </div>
+
+        <div class="text-xs sm:text-sm font-semibold text-slate-600 flex items-center gap-3">
+          <span class="inline-flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
+            <span>👁️</span>
+            <span id="album-footer-views">... lượt xem</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
+            <span>💬</span>
+            <span id="album-comments-badge">0 bình luận</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Share Toast Feedback -->
+      <div id="album-share-toast" class="hidden mt-3 p-3 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-medium flex items-center gap-2">
+        <span>✅</span>
+        <span>Đã sao chép liên kết album ảnh vào bộ nhớ tạm!</span>
+      </div>
+
+      <!-- Real-time Comments Section for Album -->
+      <div class="mt-8 bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-10 space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+          <h3 class="text-lg sm:text-xl font-bold text-navy-950 flex items-center gap-2">
+            <span>💬</span>
+            <span>Bình Luận & Kỷ Niệm Về Album</span>
+          </h3>
+          <span class="text-xs text-slate-400 font-medium">Kho Kỷ Niệm THPT Xuân Lộc</span>
+        </div>
+
+        <!-- Login Prompt if Not Logged In -->
+        <div id="album-comment-login-box" class="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center space-y-3">
+          <p class="text-xs sm:text-sm text-slate-700">
+            Đăng nhập bằng tài khoản <strong>Google</strong> để để lại lời nhắn, cảm xúc và kỷ niệm cho album ảnh này.
+          </p>
+          <button
+            id="btn-google-login-album"
+            class="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-2xl bg-white border border-slate-300 text-slate-800 text-xs sm:text-sm font-bold hover:bg-slate-50 shadow-xs transition transform hover:-translate-y-0.5 cursor-pointer"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+              <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+              <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+              <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+            </svg>
+            <span>Đăng nhập với Google để bình luận</span>
+          </button>
+        </div>
+
+        <!-- Logged In User Comment Form -->
+        <div id="album-comment-form-box" class="hidden space-y-3 bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200">
+          <div class="flex items-center justify-between text-xs text-slate-600">
+            <div class="flex items-center gap-2 min-w-0">
+              <img id="album-user-avatar" src="#" alt="User" class="w-6 h-6 rounded-full border border-slate-200" />
+              <span class="font-bold text-navy-950 truncate" id="album-user-name"></span>
+            </div>
+            <button id="btn-logout-album" class="text-slate-400 hover:text-red-600 transition underline cursor-pointer">
+              Đăng xuất
+            </button>
+          </div>
+
+          <form id="album-comment-form" class="space-y-2.5">
+            <textarea
+              id="album-comment-input"
+              rows="3"
+              required
+              placeholder="Chia sẻ cảm xúc, kỷ niệm gắn liền với các bức ảnh trong album này..."
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white resize-none"
+            ></textarea>
+            <div class="flex justify-end">
+              <button
+                type="submit"
+                id="btn-submit-album-comment"
+                class="px-5 py-2 rounded-xl font-bold text-white bg-navy-950 hover:bg-warmOrange-600 transition text-xs shadow-xs flex items-center gap-1.5 cursor-pointer"
+              >
+                <span id="album-comment-spinner" class="hidden inline-block animate-spin rounded-full h-3.5 w-3.5 border-2 border-white border-t-transparent"></span>
+                <span id="album-comment-btn-text">Gửi bình luận ✍️</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Comments Stream List -->
+        <div class="space-y-4 pt-2" id="album-comments-list">
+          <div class="text-center py-6 text-slate-400 text-xs italic" id="album-no-comments-msg">
+            Chưa có bình luận nào. Hãy là người đầu tiên chia sẻ cảm xúc về album này!
+          </div>
+        </div>
       </div>
 
     </div>
@@ -536,4 +654,316 @@ const { album, relatedAlbums } = Astro.props;
       toggleSlideshow();
     }
   });
+
+  // --- SOCIAL INTERACTION & REAL-TIME COMMENTS LOGIC (Firebase) ---
+  import { auth, googleProvider, db } from '../../lib/firebase';
+  import { signInWithPopup, signOut, onAuthStateChanged, type User } from 'firebase/auth';
+  import { 
+    doc, 
+    getDoc, 
+    setDoc, 
+    updateDoc, 
+    increment, 
+    collection, 
+    addDoc, 
+    query, 
+    orderBy, 
+    onSnapshot, 
+    serverTimestamp 
+  } from 'firebase/firestore';
+
+  const btnLike = document.getElementById('btn-album-like') as HTMLButtonElement | null;
+  const albumSlug = btnLike?.getAttribute('data-slug') || window.location.pathname.split('/').filter(Boolean).pop() || '';
+  const viewsHeader = document.getElementById('album-views-count');
+  const viewsFooter = document.getElementById('album-footer-views');
+  const likeIcon = document.getElementById('album-like-icon');
+  const likeText = document.getElementById('album-like-text');
+  const likeCount = document.getElementById('album-like-count');
+  const btnShare = document.getElementById('btn-album-share');
+  const shareToast = document.getElementById('album-share-toast');
+  const commentsBadge = document.getElementById('album-comments-badge');
+
+  const loginBox = document.getElementById('album-comment-login-box');
+  const formBox = document.getElementById('album-comment-form-box');
+  const btnGoogleLogin = document.getElementById('btn-google-login-album');
+  const btnLogout = document.getElementById('btn-logout-album');
+  const userAvatar = document.getElementById('album-user-avatar') as HTMLImageElement | null;
+  const userName = document.getElementById('album-user-name');
+  const commentForm = document.getElementById('album-comment-form') as HTMLFormElement | null;
+  const commentInput = document.getElementById('album-comment-input') as HTMLTextAreaElement | null;
+  const btnSubmitComment = document.getElementById('btn-submit-album-comment') as HTMLButtonElement | null;
+  const commentSpinner = document.getElementById('album-comment-spinner');
+  const commentBtnText = document.getElementById('album-comment-btn-text');
+  const commentsList = document.getElementById('album-comments-list');
+
+  let currentUser: User | null = null;
+  let currentLikes = 0;
+
+  // Track Liked albums in LocalStorage
+  function getLikedAlbums(): string[] {
+    try {
+      return JSON.parse(localStorage.getItem('chs_liked_albums') || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function setLikedAlbum(slug: string) {
+    const liked = getLikedAlbums();
+    if (!liked.includes(slug)) {
+      liked.push(slug);
+      localStorage.setItem('chs_liked_albums', JSON.stringify(liked));
+    }
+  }
+
+  // Auth Listener
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    if (currentUser) {
+      if (loginBox) loginBox.classList.add('hidden');
+      if (formBox) formBox.classList.remove('hidden');
+      if (userAvatar) userAvatar.src = currentUser.photoURL || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + currentUser.uid;
+      if (userName) userName.textContent = currentUser.displayName || currentUser.email || 'Thành viên';
+    } else {
+      if (loginBox) loginBox.classList.remove('hidden');
+      if (formBox) formBox.classList.add('hidden');
+    }
+  });
+
+  btnGoogleLogin?.addEventListener('click', async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (err: any) {
+      alert('Đăng nhập Google thất bại: ' + (err.message || 'Lỗi kết nối'));
+    }
+  });
+
+  btnLogout?.addEventListener('click', async () => {
+    try {
+      await signOut(auth);
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
+  // Initialize Album Meta Stats (Views, Likes & Comments)
+  async function initAlbumStats() {
+    if (!albumSlug) return;
+    const statsRef = doc(db, 'album_stats', albumSlug);
+
+    try {
+      // 1. Ghi nhận lượt xem (Views) một lần mỗi session
+      const viewedKey = 'chs_viewed_albums';
+      const viewed: string[] = JSON.parse(sessionStorage.getItem(viewedKey) || '[]');
+      let isNewView = false;
+      if (!viewed.includes(albumSlug)) {
+        viewed.push(albumSlug);
+        sessionStorage.setItem(viewedKey, JSON.stringify(viewed));
+        isNewView = true;
+      }
+
+      const snap = await getDoc(statsRef);
+      if (!snap.exists()) {
+        const initialViews = isNewView ? 1 : 0;
+        await setDoc(statsRef, { viewsCount: initialViews, likesCount: 0, commentsCount: 0 });
+        if (viewsHeader) viewsHeader.textContent = String(initialViews);
+        if (viewsFooter) viewsFooter.textContent = `${initialViews} lượt xem`;
+        currentLikes = 0;
+      } else {
+        const data = snap.data();
+        let views = data.viewsCount || 0;
+        if (isNewView) {
+          views++;
+          updateDoc(statsRef, { viewsCount: increment(1) }).catch(() => {});
+        }
+        if (viewsHeader) viewsHeader.textContent = String(views);
+        if (viewsFooter) viewsFooter.textContent = `${views} lượt xem`;
+        currentLikes = data.likesCount || 0;
+      }
+
+      // Update Like UI
+      const isLiked = getLikedAlbums().includes(albumSlug);
+      updateLikeUI(currentLikes, isLiked);
+
+      // 2. Lắng nghe bình luận thời gian thực
+      loadAlbumComments();
+
+    } catch (err) {
+      console.warn('Lỗi khởi tạo thống kê album:', err);
+    }
+  }
+
+  function updateLikeUI(count: number, isLiked: boolean) {
+    if (likeCount) likeCount.textContent = String(count);
+    if (btnLike) {
+      if (isLiked) {
+        btnLike.className = 'flex-1 sm:flex-initial px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold border transition flex items-center justify-center gap-2 cursor-pointer bg-rose-600 border-rose-600 text-white shadow-md active:scale-95';
+        if (likeIcon) likeIcon.textContent = '❤️';
+        if (likeText) likeText.textContent = 'Đã thích';
+        if (likeCount) likeCount.className = 'px-2 py-0.5 rounded-full bg-rose-700 text-white text-xs font-extrabold';
+      } else {
+        btnLike.className = 'flex-1 sm:flex-initial px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold border transition flex items-center justify-center gap-2 cursor-pointer bg-white border-rose-200 text-rose-600 hover:bg-rose-50 shadow-xs active:scale-95';
+        if (likeIcon) likeIcon.textContent = '🤍';
+        if (likeText) likeText.textContent = 'Yêu thích';
+        if (likeCount) likeCount.className = 'px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 text-xs font-extrabold';
+      }
+    }
+  }
+
+  btnLike?.addEventListener('click', async () => {
+    const statsRef = doc(db, 'album_stats', albumSlug);
+    const liked = getLikedAlbums();
+    const isLiked = liked.includes(albumSlug);
+
+    try {
+      if (!isLiked) {
+        setLikedAlbum(albumSlug);
+        currentLikes++;
+        updateLikeUI(currentLikes, true);
+        await updateDoc(statsRef, { likesCount: increment(1) });
+      } else {
+        const filtered = liked.filter(id => id !== albumSlug);
+        localStorage.setItem('chs_liked_albums', JSON.stringify(filtered));
+        currentLikes = Math.max(0, currentLikes - 1);
+        updateLikeUI(currentLikes, false);
+        await updateDoc(statsRef, { likesCount: increment(-1) });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
+  // Share Album handler
+  btnShare?.addEventListener('click', async () => {
+    const title = btnShare.getAttribute('data-title') || document.title;
+    const shareUrl = window.location.href;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: title,
+          text: `Xem album ảnh "${title}" trên Cổng thông tin THPT Xuân Lộc!`,
+          url: shareUrl,
+        });
+        return;
+      } catch {
+        // Fallback to clipboard
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      if (shareToast) {
+        shareToast.classList.remove('hidden');
+        setTimeout(() => shareToast.classList.add('hidden'), 3500);
+      } else {
+        alert('Đã sao chép liên kết album ảnh vào bộ nhớ tạm!');
+      }
+    } catch {
+      prompt('Sao chép liên kết album ảnh:', shareUrl);
+    }
+  });
+
+  // Comments Real-time Listener
+  function loadAlbumComments() {
+    if (!commentsList || !albumSlug) return;
+    const commentsRef = collection(db, 'album_stats', albumSlug, 'comments');
+    const q = query(commentsRef, orderBy('createdAt', 'desc'));
+
+    onSnapshot(q, (snapshot) => {
+      const count = snapshot.size;
+      if (commentsBadge) commentsBadge.textContent = `${count} bình luận`;
+
+      // Cập nhật commentsCount vào stats doc
+      const statsRef = doc(db, 'album_stats', albumSlug);
+      updateDoc(statsRef, { commentsCount: count }).catch(() => {});
+
+      if (snapshot.empty) {
+        commentsList.innerHTML = `
+          <div class="text-center py-6 text-slate-400 text-xs italic" id="album-no-comments-msg">
+            Chưa có bình luận nào. Hãy là người đầu tiên chia sẻ cảm xúc về album này!
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        let timeStr = 'Vừa xong';
+        if (data.createdAt && data.createdAt.toDate) {
+          const date = data.createdAt.toDate();
+          timeStr = date.toLocaleDateString('vi-VN', {
+            hour: '2-digit',
+            minute: '2-digit',
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+          });
+        }
+
+        const safeContent = (data.content || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/\n/g, '<br/>');
+
+        const userImg = data.userPhoto || `https://api.dicebear.com/7.x/bottts/svg?seed=${data.userId || 'chs'}`;
+
+        html += `
+          <div class="flex items-start gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 transition hover:bg-slate-100/50">
+            <img src="${userImg}" alt="${data.userName || 'Cựu học sinh'}" class="w-8 h-8 rounded-full border border-slate-300 shrink-0 mt-0.5 object-cover" />
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between gap-2 mb-1 flex-wrap">
+                <span class="font-bold text-navy-950 text-xs sm:text-sm truncate">${data.userName || 'Cựu học sinh'}</span>
+                <span class="text-[11px] text-slate-400 font-medium">${timeStr}</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed break-words">${safeContent}</p>
+            </div>
+          </div>
+        `;
+      });
+
+      commentsList.innerHTML = html;
+    });
+  }
+
+  // Submit Comment Form
+  commentForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!currentUser) {
+      alert('Vui lòng đăng nhập Google để gửi bình luận!');
+      return;
+    }
+
+    const text = commentInput?.value.trim();
+    if (!text || !albumSlug) return;
+
+    if (btnSubmitComment) btnSubmitComment.disabled = true;
+    if (commentSpinner) commentSpinner.classList.remove('hidden');
+    if (commentBtnText) commentBtnText.textContent = 'Đang gửi...';
+
+    try {
+      const commentsRef = collection(db, 'album_stats', albumSlug, 'comments');
+      await addDoc(commentsRef, {
+        userId: currentUser.uid,
+        userName: currentUser.displayName || 'Cựu học sinh',
+        userPhoto: currentUser.photoURL || '',
+        content: text,
+        createdAt: serverTimestamp()
+      });
+
+      if (commentInput) commentInput.value = '';
+    } catch (err: any) {
+      console.error(err);
+      alert('Gửi bình luận thất bại: ' + (err.message || 'Lỗi kết nối Firestore'));
+    } finally {
+      if (btnSubmitComment) btnSubmitComment.disabled = false;
+      if (commentSpinner) commentSpinner.classList.add('hidden');
+      if (commentBtnText) commentBtnText.textContent = 'Gửi bình luận ✍️';
+    }
+  });
+
+  // Khởi động load thống kê
+  initAlbumStats();
 </script>
