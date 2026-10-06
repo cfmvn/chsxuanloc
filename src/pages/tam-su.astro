@@ -67,10 +67,35 @@ const batchOptions = [
   <section class="py-12 bg-slate-50 min-h-[70vh]" id="danh-sach-tam-su">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
       
-      <!-- Top Bar: Filter & Status -->
-      <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <!-- Topic Filters -->
-        <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none w-full" id="story-topic-filters">
+      <!-- Top Bar: Search, Filter & View Controls -->
+      <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <!-- Search Box -->
+          <div class="relative flex-1 max-w-md">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </span>
+            <input
+              type="text"
+              id="story-search-input"
+              placeholder="Tìm theo tiêu đề, tác giả, nội dung kỷ niệm..."
+              class="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-warmOrange-500 transition"
+            />
+          </div>
+
+          <!-- Total Count Badge -->
+          <div class="text-xs text-slate-500 flex items-center gap-2">
+            <span>Tổng cộng:</span>
+            <span id="story-count-badge" class="px-2.5 py-1 rounded-full font-bold bg-amber-50 text-warmOrange-700 border border-amber-200">
+              0 bài kỷ niệm
+            </span>
+          </div>
+        </div>
+
+        <!-- Topic Filter Pills -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none w-full border-t border-slate-100 pt-3" id="story-topic-filters">
           {storyTopics.map((topic, idx) => (
             <button
               data-topic={topic.id}
@@ -87,17 +112,18 @@ const batchOptions = [
         </div>
       </div>
 
-      <!-- Stories Grid Container -->
+      <!-- Stories Loading State -->
       <div id="stories-loading" class="py-16 text-center text-slate-400 space-y-3">
         <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-warmOrange-500 border-t-transparent"></div>
         <p class="text-sm font-medium">Đang tải những dòng ký ức thân thương...</p>
       </div>
 
+      <!-- Empty State -->
       <div id="stories-empty" class="hidden py-16 text-center text-slate-500 bg-white rounded-3xl border border-dashed border-slate-300 p-8 shadow-xs">
         <span class="text-4xl block mb-3">📜</span>
-        <h3 class="text-base font-bold text-navy-900 mb-1">Chưa có bài tâm sự nào được hiển thị</h3>
+        <h3 class="text-base font-bold text-navy-900 mb-1">Chưa có bài tâm sự nào phù hợp</h3>
         <p class="text-xs text-slate-500 max-w-md mx-auto mb-4">
-          Hãy là người đầu tiên mở trang lưu bút, chia sẻ những kỷ niệm quý báu thời đi học dưới mái trường Xuân Lộc.
+          Hãy thử tìm kiếm từ khóa khác hoặc là người đầu tiên gửi bài lưu bút kỷ niệm!
         </p>
         <a
           href="#form-gui-tam-su"
@@ -107,9 +133,75 @@ const batchOptions = [
         </a>
       </div>
 
-      <div id="stories-grid" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-        <!-- Render dynamically by JS from approved submissions -->
+      <!-- Compact & Elegant Stories List Container -->
+      <div id="stories-list-container" class="hidden space-y-4">
+        <!-- Render dynamically by JS -->
       </div>
+
+      <!-- Pagination Controls -->
+      <div id="stories-pagination" class="hidden flex items-center justify-center gap-2 pt-4">
+        <button id="btn-prev-page" class="px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 text-xs font-semibold hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition">
+          &larr; Trang trước
+        </button>
+        <span id="pagination-info" class="text-xs text-slate-500 font-medium px-3">
+          Trang 1 / 1
+        </span>
+        <button id="btn-next-page" class="px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 text-xs font-semibold hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition">
+          Trang sau &rarr;
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Reading Story Detail Modal (Public) -->
+  <div id="modal-story-detail" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/70 backdrop-blur-xs hidden">
+    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <!-- Header -->
+      <div class="px-6 py-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">💌</span>
+          <span class="text-xs font-bold uppercase tracking-wider text-warmOrange-600">Lưu Bút Cựu Học Sinh</span>
+        </div>
+        <button id="btn-close-story-modal" class="w-8 h-8 rounded-full bg-slate-200/70 hover:bg-slate-300 text-slate-600 flex items-center justify-center transition">
+          ✕
+        </button>
+      </div>
+
+      <!-- Content -->
+      <div class="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1">
+        <div class="space-y-2">
+          <div class="flex items-center gap-2 flex-wrap text-xs text-slate-500">
+            <span id="modal-story-batch" class="font-bold text-warmOrange-600 bg-warmOrange-50 px-2.5 py-0.5 rounded-full border border-warmOrange-200"></span>
+            <span id="modal-story-class"></span>
+            <span>•</span>
+            <span id="modal-story-date"></span>
+          </div>
+          <h2 id="modal-story-title" class="text-xl sm:text-2xl font-extrabold text-navy-950 leading-snug"></h2>
+          <div class="flex items-center space-x-2 text-xs text-slate-600 pt-1">
+            <span class="w-6 h-6 rounded-full bg-navy-900 text-warmOrange-300 font-bold flex items-center justify-center text-[10px]" id="modal-story-avatar"></span>
+            <span class="font-bold text-navy-900" id="modal-story-author"></span>
+          </div>
+        </div>
+
+        <div id="modal-story-image-wrap" class="hidden rounded-2xl overflow-hidden border border-slate-200 shadow-sm max-h-72">
+          <img id="modal-story-image" src="#" alt="Ảnh kỷ niệm" class="w-full h-full object-cover" />
+        </div>
+
+        <div class="bg-slate-50/80 p-6 rounded-2xl border border-slate-100 text-slate-800 text-sm sm:text-base leading-relaxed whitespace-pre-line font-serif italic" id="modal-story-message">
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+        <span class="text-xs text-slate-400">Trường THPT Xuân Lộc thân thương</span>
+        <button id="btn-close-story-modal-bottom" class="px-5 py-2 rounded-xl bg-navy-950 text-white text-xs font-semibold hover:bg-warmOrange-600 transition">
+          Đóng
+        </button>
+      </div>
+    </div>
+  </div>
+
 
     </div>
   </section>
@@ -289,18 +381,42 @@ const batchOptions = [
 
   const storiesLoading = document.getElementById('stories-loading');
   const storiesEmpty = document.getElementById('stories-empty');
-  const storiesGrid = document.getElementById('stories-grid');
+  const storiesListContainer = document.getElementById('stories-list-container');
+  const storySearchInput = document.getElementById('story-search-input') as HTMLInputElement | null;
+  const storyCountBadge = document.getElementById('story-count-badge');
+  const storiesPagination = document.getElementById('stories-pagination');
+  const btnPrevPage = document.getElementById('btn-prev-page') as HTMLButtonElement | null;
+  const btnNextPage = document.getElementById('btn-next-page') as HTMLButtonElement | null;
+  const paginationInfo = document.getElementById('pagination-info');
   const topicButtons = document.querySelectorAll<HTMLButtonElement>('.story-topic-btn');
+
+  // Modal Detail Elements
+  const modalStoryDetail = document.getElementById('modal-story-detail');
+  const btnCloseStoryModal = document.getElementById('btn-close-story-modal');
+  const btnCloseStoryModalBottom = document.getElementById('btn-close-story-modal-bottom');
+  const modalStoryBatch = document.getElementById('modal-story-batch');
+  const modalStoryClass = document.getElementById('modal-story-class');
+  const modalStoryDate = document.getElementById('modal-story-date');
+  const modalStoryTitle = document.getElementById('modal-story-title');
+  const modalStoryAvatar = document.getElementById('modal-story-avatar');
+  const modalStoryAuthor = document.getElementById('modal-story-author');
+  const modalStoryImageWrap = document.getElementById('modal-story-image-wrap');
+  const modalStoryImage = document.getElementById('modal-story-image') as HTMLImageElement | null;
+  const modalStoryMessage = document.getElementById('modal-story-message');
 
   let allStories: any[] = [];
   let currentTopic = 'tat-ca';
+  let searchQuery = '';
+  let currentPage = 1;
+  const PAGE_SIZE = 10;
 
   // Load approved submissions
   async function loadApprovedStories() {
-    if (!storiesLoading || !storiesEmpty || !storiesGrid) return;
+    if (!storiesLoading || !storiesEmpty || !storiesListContainer) return;
     storiesLoading.classList.remove('hidden');
     storiesEmpty.classList.add('hidden');
-    storiesGrid.classList.add('hidden');
+    storiesListContainer.classList.add('hidden');
+    if (storiesPagination) storiesPagination.classList.add('hidden');
 
     try {
       const q = query(
@@ -313,18 +429,19 @@ const batchOptions = [
 
       if (snapshot.empty) {
         storiesEmpty.classList.remove('hidden');
+        if (storyCountBadge) storyCountBadge.textContent = '0 bài kỷ niệm';
         return;
       }
 
       allStories = [];
-      snapshot.forEach((doc) => {
-        allStories.push({ id: doc.id, ...doc.data() });
+      snapshot.forEach((docSnap) => {
+        allStories.push({ id: docSnap.id, ...docSnap.data() });
       });
 
       // Sắp xếp bài mới nhất lên đầu
       allStories.sort((a, b) => {
-        const timeA = a.createdAt?.seconds || 0;
-        const timeB = b.createdAt?.seconds || 0;
+        const timeA = a.createdAt?.seconds || (a.createdAt ? new Date(a.createdAt).getTime() / 1000 : 0);
+        const timeB = b.createdAt?.seconds || (b.createdAt ? new Date(b.createdAt).getTime() / 1000 : 0);
         return timeB - timeA;
       });
 
@@ -337,93 +454,197 @@ const batchOptions = [
     }
   }
 
+  function getFilteredStories() {
+    return allStories.filter((s) => {
+      const matchTopic = currentTopic === 'tat-ca' || s.topic === currentTopic;
+      const q = searchQuery.toLowerCase().trim();
+      const matchSearch = !q || 
+        (s.title && s.title.toLowerCase().includes(q)) ||
+        (s.message && s.message.toLowerCase().includes(q)) ||
+        (s.fullName && s.fullName.toLowerCase().includes(q)) ||
+        (s.batch && s.batch.toLowerCase().includes(q));
+      return matchTopic && matchSearch;
+    });
+  }
+
   function renderStories() {
-    if (!storiesGrid || !storiesEmpty) return;
+    if (!storiesListContainer || !storiesEmpty) return;
 
-    const filtered = currentTopic === 'tat-ca'
-      ? allStories
-      : allStories.filter(s => s.topic === currentTopic);
+    const filtered = getFilteredStories();
+    const total = filtered.length;
 
-    if (filtered.length === 0) {
-      storiesGrid.classList.add('hidden');
+    if (storyCountBadge) {
+      storyCountBadge.textContent = `${total} bài kỷ niệm`;
+    }
+
+    if (total === 0) {
+      storiesListContainer.classList.add('hidden');
       storiesEmpty.classList.remove('hidden');
+      if (storiesPagination) storiesPagination.classList.add('hidden');
       return;
     }
 
     storiesEmpty.classList.add('hidden');
-    storiesGrid.classList.remove('hidden');
-    storiesGrid.innerHTML = '';
+    storiesListContainer.classList.remove('hidden');
+    storiesListContainer.innerHTML = '';
 
-    filtered.forEach((story) => {
+    // Pagination slice
+    const totalPages = Math.ceil(total / PAGE_SIZE) || 1;
+    if (currentPage > totalPages) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+
+    const startIdx = (currentPage - 1) * PAGE_SIZE;
+    const paginatedItems = filtered.slice(startIdx, startIdx + PAGE_SIZE);
+
+    paginatedItems.forEach((story) => {
       const topicInfo = topicMap[story.topic] || { label: 'Kỷ niệm', icon: '📜' };
-      const dateStr = story.createdAt ? new Date(story.createdAt.seconds * 1000).toLocaleDateString('vi-VN') : '';
-
-      const card = document.createElement('article');
-      card.className = 'bg-white rounded-3xl border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-xl hover:border-warmOrange-300 transition-all duration-300 flex flex-col justify-between group';
-
-      let imageHtml = '';
-      if (story.imageUrl) {
-        imageHtml = `
-          <div class="h-48 overflow-hidden bg-slate-100 relative">
-            <img src="${story.imageUrl}" alt="${story.fullName}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer" onclick="window.open('${story.imageUrl}', '_blank')" />
-            <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-[10px] font-bold bg-navy-950/85 text-warmOrange-300 backdrop-blur-sm border border-navy-700 flex items-center gap-1">
-              <span>${topicInfo.icon}</span>
-              <span>${topicInfo.label}</span>
-            </span>
-          </div>
-        `;
+      let dateStr = '';
+      if (story.createdAt?.toDate) {
+        dateStr = new Date(story.createdAt.toDate()).toLocaleDateString('vi-VN');
+      } else if (story.createdAt?.seconds) {
+        dateStr = new Date(story.createdAt.seconds * 1000).toLocaleDateString('vi-VN');
+      } else if (typeof story.createdAt === 'string') {
+        dateStr = new Date(story.createdAt).toLocaleDateString('vi-VN');
       }
 
-      card.innerHTML = `
-        <div>
-          ${imageHtml}
-          <div class="p-6">
-            ${!story.imageUrl ? `
-              <div class="mb-3">
-                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200/80 inline-flex items-center gap-1">
-                  <span>${topicInfo.icon}</span>
-                  <span>${topicInfo.label}</span>
-                </span>
-              </div>
-            ` : ''}
+      const itemEl = document.createElement('div');
+      itemEl.className = 'bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 hover:border-warmOrange-400 hover:shadow-md transition duration-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 cursor-pointer group';
+      
+      const snippet = story.message ? (story.message.replace(/\n+/g, ' ').substring(0, 110) + '...') : '';
 
-            <div class="flex items-center space-x-2 text-[11px] text-slate-400 mb-2">
-              <span class="font-semibold text-warmOrange-600">${escapeHtml(story.batch || '')}</span>
-              ${story.className ? `<span>• Lớp ${escapeHtml(story.className)}</span>` : ''}
-              ${dateStr ? `<span>• ${dateStr}</span>` : ''}
+      itemEl.innerHTML = `
+        <div class="flex items-start space-x-3.5 flex-1 min-w-0">
+          ${story.imageUrl ? `
+            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
+              <img src="${story.imageUrl}" alt="${escapeHtml(story.fullName)}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+            </div>
+          ` : `
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-navy-900 to-navy-950 text-warmOrange-400 flex items-center justify-center font-bold text-lg sm:text-xl shrink-0 shadow-xs border border-navy-800">
+              ${(story.fullName || 'A').charAt(0).toUpperCase()}
+            </div>
+          `}
+
+          <div class="min-w-0 space-y-1">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 inline-flex items-center gap-1">
+                <span>${topicInfo.icon}</span>
+                <span>${topicInfo.label}</span>
+              </span>
+              <span class="text-[11px] font-semibold text-warmOrange-600">${escapeHtml(story.batch || '')}</span>
+              ${story.className ? `<span class="text-[11px] text-slate-400">• ${escapeHtml(story.className)}</span>` : ''}
+              ${dateStr ? `<span class="text-[11px] text-slate-400 hidden sm:inline">• ${dateStr}</span>` : ''}
             </div>
 
-            ${story.title ? `
-              <h3 class="text-base sm:text-lg font-bold text-navy-950 group-hover:text-warmOrange-600 transition leading-snug mb-3">
-                ${escapeHtml(story.title)}
-              </h3>
-            ` : ''}
+            <h3 class="text-sm sm:text-base font-bold text-navy-950 group-hover:text-warmOrange-600 transition truncate leading-snug">
+              ${escapeHtml(story.title || snippet)}
+            </h3>
 
-            <p class="text-xs sm:text-sm text-slate-700 whitespace-pre-line leading-relaxed italic bg-slate-50/70 p-4 rounded-2xl border border-slate-100">
-              "${escapeHtml(story.message)}"
+            <p class="text-xs text-slate-600 line-clamp-1 italic font-serif">
+              "${escapeHtml(snippet)}"
             </p>
           </div>
         </div>
 
-        <div class="px-6 py-4 bg-slate-50/60 border-t border-slate-100 flex items-center justify-between text-xs">
-          <div class="flex items-center space-x-2">
-            <span class="w-7 h-7 rounded-full bg-navy-900 text-warmOrange-300 font-bold flex items-center justify-center text-[11px]">
-              ${(story.fullName || 'A').charAt(0).toUpperCase()}
-            </span>
-            <span class="font-bold text-navy-900">${escapeHtml(story.fullName)}</span>
-          </div>
-          <span class="text-[11px] text-slate-400">CHS Xuân Lộc</span>
+        <div class="flex items-center space-x-3 self-end sm:self-center shrink-0">
+          <span class="text-xs text-slate-500 font-medium hidden md:inline">bởi <strong>${escapeHtml(story.fullName)}</strong></span>
+          <button class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-warmOrange-600 bg-warmOrange-50 group-hover:bg-warmOrange-600 group-hover:text-white transition flex items-center gap-1">
+            <span>Đọc tiếp</span>
+            <span>&rarr;</span>
+          </button>
         </div>
       `;
 
-      storiesGrid.appendChild(card);
+      itemEl.addEventListener('click', () => openStoryModal(story));
+      storiesListContainer.appendChild(itemEl);
     });
+
+    // Update Pagination UI
+    if (storiesPagination && paginationInfo && btnPrevPage && btnNextPage) {
+      if (totalPages > 1) {
+        storiesPagination.classList.remove('hidden');
+        paginationInfo.textContent = `Trang ${currentPage} / ${totalPages}`;
+        btnPrevPage.disabled = currentPage <= 1;
+        btnNextPage.disabled = currentPage >= totalPages;
+      } else {
+        storiesPagination.classList.add('hidden');
+      }
+    }
   }
+
+  // Open Story Detail Modal
+  function openStoryModal(story: any) {
+    if (!modalStoryDetail) return;
+
+    if (modalStoryTitle) modalStoryTitle.textContent = story.title || 'Kỷ niệm mái trường';
+    if (modalStoryAuthor) modalStoryAuthor.textContent = story.fullName || 'CHS Xuân Lộc';
+    if (modalStoryAvatar) modalStoryAvatar.textContent = (story.fullName || 'A').charAt(0).toUpperCase();
+    if (modalStoryBatch) modalStoryBatch.textContent = story.batch || '';
+    if (modalStoryClass) modalStoryClass.textContent = story.className ? `Lớp ${story.className}` : '';
+    
+    let dateStr = '';
+    if (story.createdAt?.toDate) {
+      dateStr = new Date(story.createdAt.toDate()).toLocaleDateString('vi-VN');
+    } else if (story.createdAt?.seconds) {
+      dateStr = new Date(story.createdAt.seconds * 1000).toLocaleDateString('vi-VN');
+    } else if (typeof story.createdAt === 'string') {
+      dateStr = new Date(story.createdAt).toLocaleDateString('vi-VN');
+    }
+    if (modalStoryDate) modalStoryDate.textContent = dateStr;
+
+    if (modalStoryMessage) modalStoryMessage.textContent = story.message || '';
+
+    if (modalStoryImageWrap && modalStoryImage) {
+      if (story.imageUrl) {
+        modalStoryImage.src = story.imageUrl;
+        modalStoryImageWrap.classList.remove('hidden');
+      } else {
+        modalStoryImageWrap.classList.add('hidden');
+      }
+    }
+
+    modalStoryDetail.classList.remove('hidden');
+  }
+
+  function closeStoryModal() {
+    if (modalStoryDetail) modalStoryDetail.classList.add('hidden');
+  }
+
+  btnCloseStoryModal?.addEventListener('click', closeStoryModal);
+  btnCloseStoryModalBottom?.addEventListener('click', closeStoryModal);
+  modalStoryDetail?.addEventListener('click', (e) => {
+    if (e.target === modalStoryDetail) closeStoryModal();
+  });
+
+  // Search input event
+  storySearchInput?.addEventListener('input', (e) => {
+    searchQuery = (e.target as HTMLInputElement).value;
+    currentPage = 1;
+    renderStories();
+  });
+
+  // Pagination click events
+  btnPrevPage?.addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      renderStories();
+      document.getElementById('danh-sach-tam-su')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
+  btnNextPage?.addEventListener('click', () => {
+    const totalPages = Math.ceil(getFilteredStories().length / PAGE_SIZE);
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderStories();
+      document.getElementById('danh-sach-tam-su')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
 
   // Topic filter click
   topicButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
       currentTopic = btn.getAttribute('data-topic') || 'tat-ca';
+      currentPage = 1;
 
       topicButtons.forEach((b) => {
         b.classList.remove('bg-navy-950', 'text-white', 'shadow-sm');
@@ -436,6 +657,7 @@ const batchOptions = [
       renderStories();
     });
   });
+
 
   // Handle Tam Su Form Submit
   const form = document.getElementById('tam-su-form') as HTMLFormElement;
