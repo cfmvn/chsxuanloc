@@ -146,10 +146,18 @@ ${rawPost.content}
 --- HẾT NỘI DUNG GỐC ---
 
 NHIỆM VỤ CỦA BẠN:
-1. BỘ LỌC THÔNG MINH (QUAN TRỌNG):
-   - Đánh giá xem bài viết có giá trị thông tin tin tức với nhà trường / cựu học sinh / học sinh hay không.
-   - Nếu là bài chào hỏi ngắn, bài spam, chia sẻ cá nhân vu vơ, hoặc bài viết dưới 15 từ không mang thông tin sự kiện -> Đặt "shouldPublish": false và "rejectReason": "Lý do từ chối".
-   - Nếu là thông tin hữu ích (hoạt động đoàn trường, phong trào thi đua, học bổng, thông báo nhà trường, gương học sinh, tri ân thầy cô, hoạt động cựu học sinh...) -> Đặt "shouldPublish": true.
+1. BỘ LỌC CHẤT LƯỢNG TIN TỨC & BÀI BÁO (CỰC KỲ QUAN TRỌNG):
+   Hãy đánh giá khắt khe xem bài viết có đủ chiều sâu thông tin để trở thành một "BÀI BÁO / BÀI VIẾT CHÍNH THỨC" trên website hay không:
+
+   ❌ ĐẶT "shouldPublish": false và nêu rõ "rejectReason" nếu thuộc các trường hợp sau:
+   - Thông báo ngắn nội bộ, nhắc nhở giờ giấc, hẹn giờ tập trung ngắn dưới vài câu (Ví dụ: "Chiều nay 14h các bạn tập trung sân cờ", "Nhớ mang theo áo đoàn nhé các bạn"...).
+   - Bài đăng "thả thính", bài đếm ngược (countdown / teaser) chỉ có vài câu khích lệ tinh thần mà không có diễn biến sự kiện cụ thể.
+   - Bài chào hỏi, status cá nhân, tâm trạng vu vơ, chúc ngày mới.
+   - Bài viết quá ngắn (dưới 40 từ) hoặc chỉ gồm emoji, hashtag mà không mang giá trị tin tức tư liệu cho nhà trường / cựu học sinh.
+
+   ✅ ĐẶT "shouldPublish": true KHI VÀ CHỈ KHI:
+   - Bài viết có đầy đủ thông tin sự kiện, chương trình (Chủ đề, diễn biến, ý nghĩa, hoạt động cụ thể, giải thưởng, danh sách tuyên dương, thông điệp...).
+   - Các hoạt động chuyên môn, phong trào thi đua, học bổng, sự kiện khai giảng/bế giảng, thành tích học sinh giỏi, văn nghệ - thể thao, hoạt động kết nối cựu học sinh, tri ân thầy cô.
 
 2. PHÂN LOẠI CHUYÊN MỤC CHÍNH XÁC:
    Chọn đúng 1 trong các chuyên mục sau:
@@ -162,7 +170,7 @@ NHIỆM VỤ CỦA BẠN:
    - 'Bảng vàng': Thành tích các kỳ thi tốt nghiệp, đại học, thể thao, văn nghệ.
    - 'Lịch sử': Kỷ niệm thành lập trường (1985 - Nay), tư liệu truyền thống.
 
-3. BIÊN TẬP BÀI BÁO HOÀN CHỈNH:
+3. BIÊN TẬP BÀI BÁO HOÀN CHỈNH (Văn phong báo chí, trang trọng, mạch lạc):
    - Giữ gìn đầy đủ chi tiết, thông tin sự kiện, tên tuổi, số liệu thực tế.
    - Trích xuất ngày giờ thực tế của sự kiện (nếu có) để đặt "pubDate" (YYYY-MM-DD).
    - Nếu bài có ảnh (${mediaCount} ảnh), hãy chèn placeholder vào các đoạn văn phù hợp:
@@ -172,7 +180,7 @@ NHIỆM VỤ CỦA BẠN:
 4. TRẢ VỀ JSON THUẦN TÚY (không bọc trong markdown block):
 {
   "shouldPublish": true / false,
-  "rejectReason": "",
+  "rejectReason": "Giải thích lý do nếu từ chối (vd: Thông báo ngắn nội bộ / Bài đếm ngược ngắn không có nội dung sự kiện)",
   "title": "Tiêu đề bài báo hấp dẫn, trang trọng",
   "slug": "tieu-de-khong-dau-ngan-gon",
   "pubDate": "YYYY-MM-DD",
