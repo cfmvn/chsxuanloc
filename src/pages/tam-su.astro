@@ -247,6 +247,11 @@ const batchOptions = [
             <span id="modal-story-class" class="font-medium text-slate-600"></span>
             <span>•</span>
             <span id="modal-story-date" class="text-slate-400"></span>
+            <span>•</span>
+            <span class="inline-flex items-center gap-1 text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md font-medium text-[11px]">
+              <span>👁️</span>
+              <span id="modal-story-views">0</span> lượt xem
+            </span>
           </div>
           <h2 id="modal-story-title" class="text-xl sm:text-2xl font-extrabold text-navy-950 leading-snug font-serif"></h2>
           <div class="flex items-center space-x-2 text-xs text-slate-600 pt-1">
@@ -580,6 +585,7 @@ const batchOptions = [
   const modalStoryImageWrap = document.getElementById('modal-story-image-wrap');
   const modalStoryImage = document.getElementById('modal-story-image') as HTMLImageElement | null;
   const modalStoryMessage = document.getElementById('modal-story-message');
+  const modalStoryViews = document.getElementById('modal-story-views');
 
   // Social elements
   const btnLikeStory = document.getElementById('btn-like-story');
@@ -773,6 +779,7 @@ const batchOptions = [
 
       const likes = story.likesCount || 0;
       const comments = story.commentsCount || 0;
+      const views = story.viewsCount || 0;
 
       const card = document.createElement('article');
       card.className = `polaroid-frame relative ${topicInfo.cardBg} rounded-2xl p-5 sm:p-6 border border-amber-200/90 flex flex-col justify-between cursor-pointer group transform ${rotationClass}`;
@@ -824,7 +831,10 @@ const batchOptions = [
             </div>
             <div class="truncate">
               <span class="font-bold text-navy-900 block truncate">${escapeHtml(story.fullName)}</span>
-              ${story.className ? `<span class="text-[10px] text-slate-400 block truncate">${escapeHtml(story.className)}</span>` : ''}
+              <div class="flex items-center gap-1.5 text-[10px] text-slate-400">
+                ${story.className ? `<span class="truncate">${escapeHtml(story.className)}</span>` : ''}
+                <span>👁️ <span class="card-views-count-${story.id}">${views}</span></span>
+              </div>
             </div>
           </div>
 
@@ -968,6 +978,12 @@ const batchOptions = [
       }
     }
 
+    // Views Count Handling
+    if (modalStoryViews) {
+      modalStoryViews.textContent = String(story.viewsCount || 0);
+    }
+    trackStoryView(story);
+
     // Like Status
     const isLiked = getLikedStories().includes(story.id);
     updateLikeUI(story.likesCount || 0, isLiked);
@@ -979,6 +995,34 @@ const batchOptions = [
     loadStoryComments(story.id);
 
     modalStoryDetail.classList.remove('hidden');
+  }
+
+  // Track and increment view count once per session
+  function trackStoryView(story: any) {
+    try {
+      const viewedKey = 'chs_viewed_stories';
+      const viewed: string[] = JSON.parse(sessionStorage.getItem(viewedKey) || '[]');
+      if (!viewed.includes(story.id)) {
+        viewed.push(story.id);
+        sessionStorage.setItem(viewedKey, JSON.stringify(viewed));
+
+        // Increment in Firestore
+        const storyRef = doc(db, 'submissions', story.id);
+        updateDoc(storyRef, { viewsCount: increment(1) }).catch(() => {});
+
+        // Update local object and UI
+        story.viewsCount = (story.viewsCount || 0) + 1;
+        if (modalStoryViews) modalStoryViews.textContent = String(story.viewsCount);
+        
+        // Update all card elements
+        const cardViewsSpans = document.querySelectorAll<HTMLSpanElement>(`.card-views-count-${story.id}`);
+        cardViewsSpans.forEach((span) => {
+          span.textContent = String(story.viewsCount);
+        });
+      }
+    } catch (err) {
+      console.warn('Lỗi ghi nhận lượt xem:', err);
+    }
   }
 
   function updateLikeUI(count: number, isLiked: boolean) {
