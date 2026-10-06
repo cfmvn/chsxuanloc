@@ -75,25 +75,189 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
         <!-- Section 1: Submissions Management -->
-        <div id="panel-submissions" class="space-y-4">
-          <div class="flex items-center justify-between">
-            <h2 class="text-base sm:text-lg font-bold text-navy-900">Bài gửi kỷ yếu & lưu bút cần phê duyệt</h2>
-            <button id="btn-refresh-submissions" class="text-xs text-warmOrange-600 font-semibold hover:underline flex items-center space-x-1">
+        <div id="panel-submissions" class="space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h2 class="text-lg sm:text-xl font-bold text-navy-900">Quản Lý Kỷ Yếu & Lưu Bút Cựu Học Sinh</h2>
+              <p class="text-xs text-slate-500">Xem danh sách, chỉnh sửa nội dung, duyệt hoặc từ chối bài viết</p>
+            </div>
+            <button id="btn-refresh-submissions" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-navy-950 transition shadow-xs flex items-center space-x-1.5 self-start sm:self-auto">
+              <svg class="w-4 h-4 text-warmOrange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
               <span>Làm mới danh sách</span>
             </button>
           </div>
 
-          <div id="submissions-table-loading" class="py-12 text-center text-slate-400">
-            <div class="inline-block animate-spin rounded-full h-6 w-6 border-2 border-warmOrange-500 border-t-transparent mb-2"></div>
-            <p class="text-xs">Đang đồng bộ dữ liệu từ Cloud Firestore...</p>
+          <!-- Status Filter Pills -->
+          <div class="flex items-center gap-2 p-1.5 bg-slate-200/70 rounded-2xl w-fit overflow-x-auto">
+            <button
+              class="sub-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-white text-navy-950 shadow-xs flex items-center space-x-1.5"
+              data-status="pending"
+            >
+              <span>⏳ Chờ Duyệt</span>
+              <span id="badge-pending" class="px-2 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-800 font-extrabold">0</span>
+            </button>
+            <button
+              class="sub-filter-btn px-4 py-2 rounded-xl text-xs font-medium text-slate-600 hover:text-navy-950 transition flex items-center space-x-1.5"
+              data-status="approved"
+            >
+              <span>✓ Đang Publish</span>
+              <span id="badge-approved" class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-800 font-extrabold">0</span>
+            </button>
+            <button
+              class="sub-filter-btn px-4 py-2 rounded-xl text-xs font-medium text-slate-600 hover:text-navy-950 transition flex items-center space-x-1.5"
+              data-status="rejected"
+            >
+              <span>✕ Đã Từ Chối</span>
+              <span id="badge-rejected" class="px-2 py-0.5 rounded-full text-[10px] bg-rose-100 text-rose-800 font-extrabold">0</span>
+            </button>
+            <button
+              class="sub-filter-btn px-4 py-2 rounded-xl text-xs font-medium text-slate-600 hover:text-navy-950 transition flex items-center space-x-1.5"
+              data-status="all"
+            >
+              <span>Tất Cả</span>
+              <span id="badge-all" class="px-2 py-0.5 rounded-full text-[10px] bg-slate-200 text-slate-700 font-extrabold">0</span>
+            </button>
           </div>
 
-          <div id="submissions-table-empty" class="hidden py-8 text-center text-slate-500 bg-white rounded-xl border border-slate-200">
-            <p class="text-sm font-medium">Hiện không có bài viết nào đang chờ duyệt</p>
+          <!-- Loading State -->
+          <div id="submissions-table-loading" class="py-16 text-center text-slate-400 space-y-2">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-3 border-warmOrange-500 border-t-transparent"></div>
+            <p class="text-xs font-medium">Đang tải dữ liệu từ Cloud Firestore...</p>
           </div>
 
-          <div id="submissions-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 hidden"></div>
+          <!-- Empty State -->
+          <div id="submissions-table-empty" class="hidden py-12 text-center text-slate-500 bg-white rounded-2xl border border-dashed border-slate-300 p-6 space-y-2">
+            <span class="text-3xl block">📭</span>
+            <p class="text-sm font-bold text-navy-900">Không tìm thấy bài viết nào trong mục này</p>
+            <p class="text-xs text-slate-400">Bạn có thể chọn tab lọc khác hoặc kích hoạt AI viết bài mới trong tab Tự Động Hóa.</p>
+          </div>
+
+          <!-- Submissions Table List -->
+          <div id="submissions-table-wrap" class="hidden bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-700">
+                <thead class="bg-slate-50 text-navy-900 uppercase font-bold text-[11px] border-b border-slate-200 tracking-wider">
+                  <tr>
+                    <th class="py-3.5 px-4">Bài Viết & Tiêu Đề</th>
+                    <th class="py-3.5 px-4">Tác Giả / Niên Khóa</th>
+                    <th class="py-3.5 px-4">Chủ Đề</th>
+                    <th class="py-3.5 px-4 text-center">Trạng Thái</th>
+                    <th class="py-3.5 px-4">Thời Gian</th>
+                    <th class="py-3.5 px-4 text-right">Thao Tác</th>
+                  </tr>
+                </thead>
+                <tbody id="submissions-tbody" class="divide-y divide-slate-100">
+                  <!-- Render dynamically via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
+
+        <!-- Submission Detail & Edit Modal -->
+        <div id="modal-edit-submission" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/60 backdrop-blur-xs hidden">
+          <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <!-- Modal Header -->
+            <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <span class="text-xl">📝</span>
+                <div>
+                  <h3 class="text-base font-bold text-navy-900" id="modal-header-title">Chi Tiết & Biên Tập Bài Viết</h3>
+                  <p class="text-[11px] text-slate-500" id="modal-header-meta">Mã: <span id="modal-doc-id" class="font-mono text-warmOrange-600"></span></p>
+                </div>
+              </div>
+              <button id="btn-close-modal" class="w-8 h-8 rounded-full bg-slate-200/70 hover:bg-slate-300 text-slate-600 flex items-center justify-center transition">
+                ✕
+              </button>
+            </div>
+
+            <!-- Modal Body (Edit Form) -->
+            <div class="p-6 overflow-y-auto space-y-4 text-xs flex-1">
+              <input type="hidden" id="edit-doc-id" />
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-bold text-slate-700 mb-1">Họ tên / Tác giả</label>
+                  <input type="text" id="edit-fullName" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 bg-white" />
+                </div>
+                <div>
+                  <label class="block font-bold text-slate-700 mb-1">Niên khóa</label>
+                  <input type="text" id="edit-batch" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 bg-white" placeholder="VD: Khóa 2004 - 2007" />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-bold text-slate-700 mb-1">Lớp / Thông tin phụ</label>
+                  <input type="text" id="edit-className" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 bg-white" placeholder="VD: 12A1" />
+                </div>
+                <div>
+                  <label class="block font-bold text-slate-700 mb-1">Chủ đề bài viết</label>
+                  <select id="edit-topic" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 bg-white">
+                    <option value="ao-trang">🌸 Thời áo trắng & Bạn cũ</option>
+                    <option value="thay-co">💐 Kỷ niệm bên bục giảng</option>
+                    <option value="lap-nghiep">💼 Hành trình lập nghiệp</option>
+                    <option value="tam-tinh">💌 Lời chưa kịp nói</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Tiêu đề bài viết</label>
+                <input type="text" id="edit-title" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-semibold focus:ring-2 focus:ring-warmOrange-500 bg-white" placeholder="Tiêu đề gợi cảm xúc..." />
+              </div>
+
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Nội dung bài viết / Thơ / Tản văn</label>
+                <textarea id="edit-message" rows="8" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs leading-relaxed focus:ring-2 focus:ring-warmOrange-500 bg-white font-serif"></textarea>
+              </div>
+
+              <div id="modal-image-preview-wrap" class="hidden">
+                <label class="block font-bold text-slate-700 mb-1">Ảnh kỷ niệm đính kèm</label>
+                <div class="relative inline-block rounded-xl overflow-hidden border border-slate-200 max-h-48">
+                  <img id="modal-image-preview" src="#" class="max-h-48 object-cover cursor-pointer" onclick="window.open(this.src, '_blank')" />
+                </div>
+              </div>
+
+              <div class="pt-2">
+                <label class="block font-bold text-slate-700 mb-1">Trạng thái phê duyệt</label>
+                <div class="flex flex-wrap gap-3">
+                  <label class="flex items-center space-x-2 p-2.5 rounded-xl border border-amber-200 bg-amber-50 cursor-pointer">
+                    <input type="radio" name="edit-status" value="pending" class="text-warmOrange-600 focus:ring-warmOrange-500" />
+                    <span class="font-bold text-amber-800">⏳ Chờ duyệt (Pending)</span>
+                  </label>
+                  <label class="flex items-center space-x-2 p-2.5 rounded-xl border border-emerald-200 bg-emerald-50 cursor-pointer">
+                    <input type="radio" name="edit-status" value="approved" class="text-emerald-600 focus:ring-emerald-500" />
+                    <span class="font-bold text-emerald-800">✓ Phê duyệt xuất bản (Approved)</span>
+                  </label>
+                  <label class="flex items-center space-x-2 p-2.5 rounded-xl border border-rose-200 bg-rose-50 cursor-pointer">
+                    <input type="radio" name="edit-status" value="rejected" class="text-rose-600 focus:ring-rose-500" />
+                    <span class="font-bold text-rose-800">✕ Từ chối bài (Rejected)</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+              <button type="button" id="btn-modal-delete" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 transition">
+                🗑️ Xóa Bài Viết
+              </button>
+
+              <div class="flex items-center space-x-2">
+                <button type="button" id="btn-modal-cancel" class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-200 transition">
+                  Đóng
+                </button>
+                <button type="button" id="btn-modal-save" class="px-6 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 text-white transition shadow-sm flex items-center space-x-1.5">
+                  <span>💾 Lưu & Áp Dụng</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
 
         <!-- Section 2: Scholarships List -->
         <div id="panel-scholarships" class="hidden space-y-4">
@@ -357,11 +521,39 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   const btnRefreshSubmissions = document.getElementById('btn-refresh-submissions');
   const btnRefreshScholarships = document.getElementById('btn-refresh-scholarships');
 
-  const submissionsContainer = document.getElementById('submissions-container');
+  const submissionsTableWrap = document.getElementById('submissions-table-wrap');
+  const submissionsTbody = document.getElementById('submissions-tbody');
   const submissionsLoading = document.getElementById('submissions-table-loading');
   const submissionsEmpty = document.getElementById('submissions-table-empty');
   const countPending = document.getElementById('count-pending');
+  const badgePending = document.getElementById('badge-pending');
+  const badgeApproved = document.getElementById('badge-approved');
+  const badgeRejected = document.getElementById('badge-rejected');
+  const badgeAll = document.getElementById('badge-all');
+  const subFilterBtns = document.querySelectorAll<HTMLButtonElement>('.sub-filter-btn');
+
+  // Modal elements
+  const modalEditSubmission = document.getElementById('modal-edit-submission');
+  const btnCloseModal = document.getElementById('btn-close-modal');
+  const btnModalCancel = document.getElementById('btn-modal-cancel');
+  const btnModalSave = document.getElementById('btn-modal-save');
+  const btnModalDelete = document.getElementById('btn-modal-delete');
+  const modalDocId = document.getElementById('modal-doc-id');
+  const editDocId = document.getElementById('edit-doc-id') as HTMLInputElement | null;
+  const editFullName = document.getElementById('edit-fullName') as HTMLInputElement | null;
+  const editBatch = document.getElementById('edit-batch') as HTMLInputElement | null;
+  const editClassName = document.getElementById('edit-className') as HTMLInputElement | null;
+  const editTopic = document.getElementById('edit-topic') as HTMLSelectElement | null;
+  const editTitle = document.getElementById('edit-title') as HTMLInputElement | null;
+  const editMessage = document.getElementById('edit-message') as HTMLTextAreaElement | null;
+  const modalImagePreviewWrap = document.getElementById('modal-image-preview-wrap');
+  const modalImagePreview = document.getElementById('modal-image-preview') as HTMLImageElement | null;
+
   const scholarshipsTbody = document.getElementById('scholarships-tbody');
+
+  // State
+  let loadedSubmissions: any[] = [];
+  let currentSubFilter = 'pending';
 
   // Danh sách Email Admin được ủy quyền
   const allowedAdminEmailsStr = import.meta.env.PUBLIC_ADMIN_EMAILS || 'chsxuanloc@gmail.com,thepottershousevn@gmail.com';
@@ -374,6 +566,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   let activePat = '';
 
   // Tab Manager with URL Hash sync
+
   function switchTab(tabName: string, pushHash = true) {
     const validTabs = ['submissions', 'scholarships', 'automation', 'settings'];
     const activeTab = validTabs.includes(tabName) ? tabName : 'submissions';
@@ -677,12 +870,34 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   btnRefreshSubmissions?.addEventListener('click', () => loadAdminSubmissions());
   btnRefreshScholarships?.addEventListener('click', () => loadAdminScholarships());
 
-  // Load submissions for Admin review
+  // Status Filter switching
+  subFilterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      currentSubFilter = btn.getAttribute('data-status') || 'pending';
+      subFilterBtns.forEach((b) => {
+        b.classList.remove('bg-white', 'text-navy-950', 'shadow-xs', 'font-bold');
+        b.classList.add('text-slate-600', 'font-medium');
+      });
+      btn.classList.remove('text-slate-600', 'font-medium');
+      btn.classList.add('bg-white', 'text-navy-950', 'shadow-xs', 'font-bold');
+      renderFilteredSubmissions();
+    });
+  });
+
+  // Topic Map
+  const topicMap: Record<string, { label: string; icon: string }> = {
+    'ao-trang': { label: 'Áo trắng & Bạn cũ', icon: '🌸' },
+    'thay-co': { label: 'Bên bục giảng', icon: '💐' },
+    'lap-nghiep': { label: 'Lập nghiệp', icon: '💼' },
+    'tam-tinh': { label: 'Tâm tình', icon: '💌' },
+  };
+
+  // Load submissions from Firestore
   async function loadAdminSubmissions() {
-    if (!submissionsContainer || !submissionsLoading || !submissionsEmpty) return;
+    if (!submissionsTableWrap || !submissionsLoading || !submissionsEmpty) return;
     submissionsLoading.classList.remove('hidden');
     submissionsEmpty.classList.add('hidden');
-    submissionsContainer.classList.add('hidden');
+    submissionsTableWrap.classList.add('hidden');
 
     try {
       const q = query(collection(db, 'submissions'), orderBy('createdAt', 'desc'));
@@ -690,113 +905,293 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
       submissionsLoading.classList.add('hidden');
 
-      if (snapshot.empty) {
-        submissionsEmpty.classList.remove('hidden');
-        if (countPending) countPending.textContent = '0';
-        return;
-      }
-
-      let pendingCount = 0;
-      submissionsContainer.innerHTML = '';
-      submissionsContainer.classList.remove('hidden');
+      loadedSubmissions = [];
+      let countP = 0;
+      let countA = 0;
+      let countR = 0;
 
       snapshot.forEach((docSnap) => {
         const item = docSnap.data();
         const id = docSnap.id;
-        if (item.status === 'pending') pendingCount++;
+        const entry = { id, ...item };
+        loadedSubmissions.push(entry);
 
-        const card = document.createElement('div');
-        card.className = `bg-white rounded-2xl border ${item.status === 'approved' ? 'border-emerald-200' : 'border-amber-300 ring-2 ring-amber-100'} p-5 shadow-sm space-y-4`;
-        
-        let imagePart = '';
-        if (item.imageUrl) {
-          imagePart = `
-            <div class="h-48 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 flex items-center justify-center">
-              <img src="${item.imageUrl}" class="w-full h-full object-cover cursor-pointer hover:scale-105 transition duration-200" onclick="window.open('${item.imageUrl}', '_blank')" />
-            </div>
-          `;
-        }
-
-        const statusBadge = item.status === 'approved' 
-          ? '<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">✓ Đã Phê Duyệt</span>' 
-          : '<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800">⏳ Chờ Duyệt</span>';
-
-        card.innerHTML = `
-          <div class="flex items-center justify-between">
-            ${statusBadge}
-            <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded">${item.batch ? item.batch.replace('khoa-', 'Khóa ') : ''}</span>
-          </div>
-
-          ${imagePart}
-
-          <div>
-            <div class="flex items-center space-x-2">
-              <h3 class="font-bold text-navy-900 text-base">${escapeHtml(item.fullName)} ${item.className ? `(${escapeHtml(item.className)})` : ''}</h3>
-              ${item.isAiGenerated ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 border border-purple-200">✨ AI Tự Động</span>' : ''}
-            </div>
-            ${item.title ? `<h4 class="text-sm font-bold text-warmOrange-600 mt-1">${escapeHtml(item.title)}</h4>` : ''}
-            ${item.contactInfo ? `<p class="text-xs text-slate-500 font-medium mt-0.5">LH: ${escapeHtml(item.contactInfo)}</p>` : ''}
-            <p class="text-xs text-slate-700 mt-2 bg-slate-50 p-3.5 rounded-xl border border-slate-100 whitespace-pre-line leading-relaxed italic">"${escapeHtml(item.message)}"</p>
-          </div>
-
-
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-end space-x-2">
-            ${item.status !== 'approved' ? `
-              <button class="btn-approve px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-sm" data-id="${id}">
-                ✓ Phê Duyệt Ngay
-              </button>
-            ` : `
-              <button class="btn-unapprove px-3.5 py-2 rounded-xl text-xs font-semibold bg-amber-600 hover:bg-amber-700 text-white transition" data-id="${id}">
-                Ẩn Khỏi Web
-              </button>
-            `}
-            <button class="btn-delete px-3 py-2 rounded-xl text-xs font-semibold bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition" data-id="${id}">
-              Xóa
-            </button>
-          </div>
-        `;
-
-        submissionsContainer.appendChild(card);
+        if (item.status === 'pending' || !item.status) countP++;
+        else if (item.status === 'approved') countA++;
+        else if (item.status === 'rejected') countR++;
       });
 
-      if (countPending) countPending.textContent = pendingCount.toString();
+      if (badgePending) badgePending.textContent = countP.toString();
+      if (badgeApproved) badgeApproved.textContent = countA.toString();
+      if (badgeRejected) badgeRejected.textContent = countR.toString();
+      if (badgeAll) badgeAll.textContent = loadedSubmissions.length.toString();
+      if (countPending) countPending.textContent = countP.toString();
 
-      // Attach actions
-      document.querySelectorAll('.btn-approve').forEach((btn) => {
-        btn.addEventListener('click', async (e) => {
-          const docId = (e.target as HTMLElement).getAttribute('data-id');
-          if (docId) {
-            await updateDoc(doc(db, 'submissions', docId), { status: 'approved' });
-            loadAdminSubmissions();
-          }
-        });
-      });
-
-      document.querySelectorAll('.btn-unapprove').forEach((btn) => {
-        btn.addEventListener('click', async (e) => {
-          const docId = (e.target as HTMLElement).getAttribute('data-id');
-          if (docId) {
-            await updateDoc(doc(db, 'submissions', docId), { status: 'pending' });
-            loadAdminSubmissions();
-          }
-        });
-      });
-
-      document.querySelectorAll('.btn-delete').forEach((btn) => {
-        btn.addEventListener('click', async (e) => {
-          if (!confirm('Bạn có chắc chắn muốn xóa bài viết này không?')) return;
-          const docId = (e.target as HTMLElement).getAttribute('data-id');
-          if (docId) {
-            await deleteDoc(doc(db, 'submissions', docId));
-            loadAdminSubmissions();
-          }
-        });
-      });
-
+      renderFilteredSubmissions();
     } catch (err) {
       console.error('Lỗi khi fetch Admin submissions:', err);
+      if (submissionsLoading) submissionsLoading.classList.add('hidden');
+      if (submissionsEmpty) submissionsEmpty.classList.remove('hidden');
     }
   }
+
+  // Render submissions table according to selected filter
+  function renderFilteredSubmissions() {
+    if (!submissionsTbody || !submissionsTableWrap || !submissionsEmpty) return;
+
+    let filtered = loadedSubmissions;
+    if (currentSubFilter === 'pending') {
+      filtered = loadedSubmissions.filter((s) => s.status === 'pending' || !s.status);
+    } else if (currentSubFilter === 'approved') {
+      filtered = loadedSubmissions.filter((s) => s.status === 'approved');
+    } else if (currentSubFilter === 'rejected') {
+      filtered = loadedSubmissions.filter((s) => s.status === 'rejected');
+    }
+
+    if (filtered.length === 0) {
+      submissionsTableWrap.classList.add('hidden');
+      submissionsEmpty.classList.remove('hidden');
+      return;
+    }
+
+    submissionsEmpty.classList.add('hidden');
+    submissionsTableWrap.classList.remove('hidden');
+    submissionsTbody.innerHTML = '';
+
+    filtered.forEach((item) => {
+      const id = item.id;
+      const topicInfo = topicMap[item.topic] || { label: item.topic || 'Kỷ niệm', icon: '📜' };
+      
+      let dateStr = '';
+      if (item.createdAt?.toDate) {
+        dateStr = new Date(item.createdAt.toDate()).toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' });
+      } else if (item.createdAt?.seconds) {
+        dateStr = new Date(item.createdAt.seconds * 1000).toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' });
+      } else if (typeof item.createdAt === 'string') {
+        dateStr = new Date(item.createdAt).toLocaleDateString('vi-VN');
+      }
+
+      let statusBadge = '';
+      if (item.status === 'approved') {
+        statusBadge = '<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 inline-flex items-center gap-1"><span>✓</span><span>Publish</span></span>';
+      } else if (item.status === 'rejected') {
+        statusBadge = '<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-100 text-rose-800 inline-flex items-center gap-1"><span>✕</span><span>Từ chối</span></span>';
+      } else {
+        statusBadge = '<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 inline-flex items-center gap-1"><span>⏳</span><span>Chờ duyệt</span></span>';
+      }
+
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-slate-50/80 transition group cursor-pointer';
+      tr.setAttribute('data-id', id);
+
+      tr.innerHTML = `
+        <td class="py-3.5 px-4 max-w-sm">
+          <div class="flex items-start space-x-2">
+            ${item.imageUrl ? `<img src="${item.imageUrl}" class="w-10 h-10 rounded-lg object-cover border border-slate-200 shrink-0" />` : ''}
+            <div class="min-w-0">
+              <div class="flex items-center space-x-1.5 flex-wrap">
+                <span class="font-bold text-navy-950 group-hover:text-warmOrange-600 transition truncate text-xs sm:text-sm">
+                  ${escapeHtml(item.title || (item.message ? item.message.substring(0, 45) + '...' : 'Bài viết kỷ yếu'))}
+                </span>
+                ${item.isAiGenerated ? '<span class="text-[9px] px-1.5 py-0.2 rounded bg-purple-100 text-purple-700 font-extrabold shrink-0">✨ AI</span>' : ''}
+              </div>
+              <p class="text-[11px] text-slate-500 line-clamp-1 italic mt-0.5">"${escapeHtml(item.message || '')}"</p>
+            </div>
+          </div>
+        </td>
+        <td class="py-3.5 px-4 whitespace-nowrap">
+          <div class="font-bold text-navy-900">${escapeHtml(item.fullName || 'Ẩn danh')}</div>
+          <div class="text-[11px] text-slate-500">${escapeHtml(item.batch || '')} ${item.className ? `• ${escapeHtml(item.className)}` : ''}</div>
+        </td>
+        <td class="py-3.5 px-4 whitespace-nowrap">
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-slate-100 text-slate-700 text-[11px] font-semibold">
+            <span>${topicInfo.icon}</span>
+            <span>${topicInfo.label}</span>
+          </span>
+        </td>
+        <td class="py-3.5 px-4 text-center whitespace-nowrap">
+          ${statusBadge}
+        </td>
+        <td class="py-3.5 px-4 text-[11px] text-slate-400 whitespace-nowrap">
+          ${dateStr}
+        </td>
+        <td class="py-3.5 px-4 text-right whitespace-nowrap" onclick="event.stopPropagation()">
+          <div class="flex items-center justify-end space-x-1.5">
+            <button class="btn-quick-edit px-2.5 py-1.5 rounded-lg text-xs font-bold bg-navy-950 hover:bg-warmOrange-600 text-white transition shadow-xs flex items-center space-x-1" data-id="${id}">
+              <span>✏️ Sửa / Duyệt</span>
+            </button>
+            ${item.status !== 'approved' ? `
+              <button class="btn-quick-approve px-2.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-xs" data-id="${id}" title="Duyệt nhanh">
+                ✓
+              </button>
+            ` : `
+              <button class="btn-quick-reject px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-600 hover:bg-amber-700 text-white transition shadow-xs" data-id="${id}" title="Hạ bài">
+                Ẩn
+              </button>
+            `}
+            <button class="btn-quick-delete p-1.5 rounded-lg text-xs text-rose-600 hover:bg-rose-50 hover:text-rose-700 transition" data-id="${id}" title="Xóa">
+              🗑️
+            </button>
+          </div>
+        </td>
+      `;
+
+      // Click row opens edit modal
+      tr.addEventListener('click', () => openEditModal(id));
+      submissionsTbody.appendChild(tr);
+    });
+
+    // Attach quick actions
+    document.querySelectorAll('.btn-quick-edit').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = (btn as HTMLElement).getAttribute('data-id');
+        if (id) openEditModal(id);
+      });
+    });
+
+    document.querySelectorAll('.btn-quick-approve').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const id = (btn as HTMLElement).getAttribute('data-id');
+        if (id) {
+          await updateDoc(doc(db, 'submissions', id), { status: 'approved' });
+          loadAdminSubmissions();
+        }
+      });
+    });
+
+    document.querySelectorAll('.btn-quick-reject').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const id = (btn as HTMLElement).getAttribute('data-id');
+        if (id) {
+          await updateDoc(doc(db, 'submissions', id), { status: 'rejected' });
+          loadAdminSubmissions();
+        }
+      });
+    });
+
+    document.querySelectorAll('.btn-quick-delete').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const id = (btn as HTMLElement).getAttribute('data-id');
+        if (id && confirm('Bạn có chắc chắn muốn xóa bài viết này không?')) {
+          await deleteDoc(doc(db, 'submissions', id));
+          loadAdminSubmissions();
+        }
+      });
+    });
+  }
+
+  // Open Edit Modal
+  function openEditModal(id: string) {
+    const item = loadedSubmissions.find((s) => s.id === id);
+    if (!item || !modalEditSubmission) return;
+
+    if (modalDocId) modalDocId.textContent = id;
+    if (editDocId) editDocId.value = id;
+    if (editFullName) editFullName.value = item.fullName || '';
+    if (editBatch) editBatch.value = item.batch || '';
+    if (editClassName) editClassName.value = item.className || '';
+    if (editTopic) editTopic.value = item.topic || 'ao-trang';
+    if (editTitle) editTitle.value = item.title || '';
+    if (editMessage) editMessage.value = item.message || '';
+
+    // Set status radio
+    const statusVal = item.status || 'pending';
+    const statusRadio = document.querySelector<HTMLInputElement>(`input[name="edit-status"][value="${statusVal}"]`);
+    if (statusRadio) statusRadio.checked = true;
+
+    // Image preview
+    if (modalImagePreviewWrap && modalImagePreview) {
+      if (item.imageUrl) {
+        modalImagePreview.src = item.imageUrl;
+        modalImagePreviewWrap.classList.remove('hidden');
+      } else {
+        modalImagePreviewWrap.classList.add('hidden');
+      }
+    }
+
+    modalEditSubmission.classList.remove('hidden');
+  }
+
+  function closeModal() {
+    if (modalEditSubmission) modalEditSubmission.classList.add('hidden');
+  }
+
+  btnCloseModal?.addEventListener('click', closeModal);
+  btnModalCancel?.addEventListener('click', closeModal);
+
+  // Close modal when clicking outside
+  modalEditSubmission?.addEventListener('click', (e) => {
+    if (e.target === modalEditSubmission) closeModal();
+  });
+
+  // Save changes from Modal
+  btnModalSave?.addEventListener('click', async () => {
+    const id = editDocId?.value;
+    if (!id) return;
+
+    const fullName = editFullName?.value.trim() || '';
+    const batch = editBatch?.value.trim() || '';
+    const className = editClassName?.value.trim() || '';
+    const topic = editTopic?.value || 'ao-trang';
+    const title = editTitle?.value.trim() || '';
+    const message = editMessage?.value.trim() || '';
+    const selectedStatus = document.querySelector<HTMLInputElement>('input[name="edit-status"]:checked')?.value || 'pending';
+
+    if (!message) {
+      alert('Vui lòng nhập nội dung bài viết!');
+      editMessage?.focus();
+      return;
+    }
+
+    if (btnModalSave) {
+      btnModalSave.innerHTML = `<span class="inline-block animate-spin">⏳</span> <span>Đang lưu...</span>`;
+      (btnModalSave as HTMLButtonElement).disabled = true;
+    }
+
+    try {
+      await updateDoc(doc(db, 'submissions', id), {
+        fullName,
+        batch,
+        className,
+        topic,
+        title,
+        message,
+        status: selectedStatus,
+        updatedAt: serverTimestamp(),
+      });
+
+      alert('🎉 Đã cập nhật thành công bài viết!');
+      closeModal();
+      loadAdminSubmissions();
+    } catch (err: any) {
+      alert('❌ Lỗi khi cập nhật bài viết: ' + (err.message || err));
+    } finally {
+      if (btnModalSave) {
+        btnModalSave.innerHTML = `<span>💾 Lưu & Áp Dụng</span>`;
+        (btnModalSave as HTMLButtonElement).disabled = false;
+      }
+    }
+  });
+
+  // Delete from Modal
+  btnModalDelete?.addEventListener('click', async () => {
+    const id = editDocId?.value;
+    if (!id || !confirm('Bạn có chắc chắn muốn xóa bài viết này vĩnh viễn khỏi hệ thống không?')) return;
+
+    try {
+      await deleteDoc(doc(db, 'submissions', id));
+      alert('Đã xóa bài viết thành công!');
+      closeModal();
+      loadAdminSubmissions();
+    } catch (err: any) {
+      alert('❌ Lỗi khi xóa bài viết: ' + (err.message || err));
+    }
+  });
+
 
   // Load scholarships for Admin review
   async function loadAdminScholarships() {
