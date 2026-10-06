@@ -3,7 +3,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CrossLinkingNav from '../components/CrossLinkingNav.astro';
 
 // Các chủ đề tâm sự gợi ý
-
 const storyTopics = [
   { id: 'tat-ca', label: 'Tất cả kỷ niệm', icon: '📖' },
   { id: 'ao-trang', label: 'Thời áo trắng & Bạn cũ', icon: '🌸' },
@@ -28,21 +27,88 @@ const batchOptions = [
 ---
 
 <BaseLayout
-  title="Góc Ký Ức & Tâm Tình Cựu Học Sinh - THPT Xuân Lộc"
-  description="Không gian lắng đọng chia sẻ kỷ niệm tuổi học trò, những lá thư gửi bạn cũ, chuyện nẻo đường lập nghiệp và tình cảm tri ân mái trường THPT Xuân Lộc."
+  title="Báo Tường Ký Ức & Tâm Tình Cựu Học Sinh - THPT Xuân Lộc"
+  description="Báo tường lưu bút tuổi học trò, những lá thư gửi bạn cũ, chuyện nẻo đường lập nghiệp và tình cảm tri ân mái trường THPT Xuân Lộc."
 >
+  <!-- Custom Wall Newspaper Styles -->
+  <style is:inline>
+    /* Báo tường corkboard background */
+    .corkboard-bg {
+      background-color: #f7f3ec;
+      background-image: 
+        radial-gradient(#d5cbb8 1.2px, transparent 1.2px),
+        radial-gradient(#e4dac9 1.2px, #f7f3ec 1.2px);
+      background-size: 28px 28px;
+      background-position: 0 0, 14px 14px;
+    }
+
+    /* Ghim bấm (Thumbtack) */
+    .pin-head {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.25), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+    }
+    .pin-head::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 6px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+    }
+
+    .pin-red { background: radial-gradient(circle at 35% 35%, #f87171, #dc2626); }
+    .pin-amber { background: radial-gradient(circle at 35% 35%, #fbbf24, #d97706); }
+    .pin-blue { background: radial-gradient(circle at 35% 35%, #60a5fa, #2563eb); }
+    .pin-emerald { background: radial-gradient(circle at 35% 35%, #34d399, #059669); }
+    .pin-purple { background: radial-gradient(circle at 35% 35%, #c084fc, #9333ea); }
+
+    /* Hiệu ứng băng dính Washi Tape */
+    .washi-tape {
+      position: absolute;
+      top: -10px;
+      right: 18px;
+      width: 70px;
+      height: 20px;
+      background-color: rgba(251, 191, 36, 0.45);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      transform: rotate(3deg);
+      backdrop-filter: blur(1px);
+      z-index: 10;
+    }
+
+    /* Kẹp giấy Polaroid */
+    .polaroid-frame {
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    }
+    .polaroid-frame:hover {
+      transform: translateY(-6px) scale(1.015) !important;
+      box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.06);
+      z-index: 20;
+    }
+  </style>
+
   <!-- Hero Section -->
   <section class="bg-navy-950 text-white py-14 sm:py-18 border-b border-navy-800 relative overflow-hidden">
     <div class="absolute inset-0 bg-[radial-gradient(#f59e0b_1px,transparent_1px)] [background-size:24px_24px] opacity-15 pointer-events-none"></div>
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4">
       <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-warmOrange-500/20 text-warmOrange-300 border border-warmOrange-500/30 text-xs font-semibold uppercase tracking-wider">
-        <span>💌 Góc Ký Ức & Lưu Bút Thời Áo Trắng</span>
+        <span>📌 Báo Tường Ký Ức & Lưu Bút Thời Áo Trắng</span>
       </div>
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
-        Tâm Tình Cựu Học Sinh
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight font-serif">
+        Báo Tường Kỷ Niệm Xuân Lộc
       </h1>
       <p class="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-        Nơi cất giữ những kỷ niệm chưa phai, những lời tri ân muộn màng và câu chuyện trưởng thành của bao thế hệ học sinh dưới mái trường THPT Xuân Lộc.
+        Từng mẩu giấy nhớ, từng bức ảnh cũ và những dòng lưu bút thân thương được ghim lại trên bảng tin chung của bao thế hệ học sinh THPT Xuân Lộc.
       </p>
 
       <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
@@ -50,25 +116,25 @@ const batchOptions = [
           href="#form-gui-tam-su"
           class="px-6 py-3 rounded-2xl font-bold text-white bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-lg shadow-warmOrange-500/20 transition transform hover:-translate-y-0.5 text-xs sm:text-sm flex items-center gap-2"
         >
-          <span>✍️</span>
-          <span>Gửi Tâm Sự Của Bạn</span>
+          <span>📌</span>
+          <span>Ghim Kỷ Niệm Lên Báo Tường</span>
         </a>
         <a
           href="#danh-sach-tam-su"
           class="px-6 py-3 rounded-2xl font-semibold text-slate-200 bg-navy-900 border border-navy-700 hover:bg-navy-800 hover:text-white transition text-xs sm:text-sm"
         >
-          Đọc Những Dòng Ký Ức
+          Xem Bảng Báo Tường &darr;
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Main Story Section -->
-  <section class="py-12 bg-slate-50 min-h-[70vh]" id="danh-sach-tam-su">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+  <!-- Main Wall Section -->
+  <section class="py-12 corkboard-bg min-h-[85vh] border-b border-amber-200/70" id="danh-sach-tam-su">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
       
       <!-- Top Bar: Search, Filter & View Controls -->
-      <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+      <div class="bg-white/95 backdrop-blur-sm p-5 sm:p-6 rounded-3xl border border-amber-200 shadow-sm space-y-4">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <!-- Search Box -->
           <div class="relative flex-1 max-w-md">
@@ -80,16 +146,16 @@ const batchOptions = [
             <input
               type="text"
               id="story-search-input"
-              placeholder="Tìm theo tiêu đề, tác giả, nội dung kỷ niệm..."
+              placeholder="Tìm kỷ niệm theo tiêu đề, tác giả, niên khóa, nội dung..."
               class="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 bg-slate-50 focus:bg-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-warmOrange-500 transition"
             />
           </div>
 
           <!-- Total Count Badge -->
-          <div class="text-xs text-slate-500 flex items-center gap-2">
-            <span>Tổng cộng:</span>
-            <span id="story-count-badge" class="px-2.5 py-1 rounded-full font-bold bg-amber-50 text-warmOrange-700 border border-amber-200">
-              0 bài kỷ niệm
+          <div class="text-xs text-slate-600 flex items-center gap-2 font-medium">
+            <span>Báo tường hiện có:</span>
+            <span id="story-count-badge" class="px-3 py-1 rounded-full font-bold bg-amber-100 text-amber-900 border border-amber-300">
+              0 mẩu chuyện
             </span>
           </div>
         </div>
@@ -113,113 +179,113 @@ const batchOptions = [
       </div>
 
       <!-- Stories Loading State -->
-      <div id="stories-loading" class="py-16 text-center text-slate-400 space-y-3">
+      <div id="stories-loading" class="py-20 text-center text-slate-500 space-y-3">
         <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-warmOrange-500 border-t-transparent"></div>
-        <p class="text-sm font-medium">Đang tải những dòng ký ức thân thương...</p>
+        <p class="text-sm font-medium">Đang ghim các mẩu chuyện ký ức lên báo tường...</p>
       </div>
 
       <!-- Empty State -->
-      <div id="stories-empty" class="hidden py-16 text-center text-slate-500 bg-white rounded-3xl border border-dashed border-slate-300 p-8 shadow-xs">
-        <span class="text-4xl block mb-3">📜</span>
-        <h3 class="text-base font-bold text-navy-900 mb-1">Chưa có bài tâm sự nào phù hợp</h3>
+      <div id="stories-empty" class="hidden py-16 text-center text-slate-500 bg-white/90 rounded-3xl border-2 border-dashed border-amber-300 p-8 shadow-xs">
+        <span class="text-4xl block mb-3">📌</span>
+        <h3 class="text-base font-bold text-navy-900 mb-1">Chưa có bài lưu bút nào phù hợp</h3>
         <p class="text-xs text-slate-500 max-w-md mx-auto mb-4">
-          Hãy thử tìm kiếm từ khóa khác hoặc là người đầu tiên gửi bài lưu bút kỷ niệm!
+          Hãy thử đổi từ khóa tìm kiếm hoặc là người đầu tiên ghim một bài thơ, lá thư kỷ niệm lên báo tường!
         </p>
         <a
           href="#form-gui-tam-su"
           class="inline-block px-5 py-2.5 rounded-xl bg-warmOrange-600 text-white text-xs font-bold hover:bg-warmOrange-700 transition shadow-sm"
         >
-          Viết bài tâm sự ngay
+          Ghim bài viết ngay
         </a>
       </div>
 
-      <!-- Compact & Elegant Stories List Container -->
-      <div id="stories-list-container" class="hidden space-y-4">
-        <!-- Render dynamically by JS -->
+      <!-- Masonry-like Wall Grid Container -->
+      <div id="stories-wall-grid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-start">
+        <!-- Render dynamically by JS as Sticky Notes & Polaroid Cards -->
       </div>
 
-      <!-- Pagination Controls -->
-      <div id="stories-pagination" class="hidden flex items-center justify-center gap-2 pt-4">
-        <button id="btn-prev-page" class="px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 text-xs font-semibold hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition">
-          &larr; Trang trước
-        </button>
-        <span id="pagination-info" class="text-xs text-slate-500 font-medium px-3">
-          Trang 1 / 1
-        </span>
-        <button id="btn-next-page" class="px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 text-xs font-semibold hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition">
-          Trang sau &rarr;
+      <!-- Infinite Scroll Sentinel & Load More Indicator -->
+      <div id="stories-sentinel" class="py-8 text-center space-y-3">
+        <div id="stories-spinner" class="hidden inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-amber-200 text-xs font-semibold text-slate-700 shadow-sm">
+          <div class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-warmOrange-500 border-t-transparent"></div>
+          <span>Đang ghim thêm bài viết lên báo tường...</span>
+        </div>
+        <button
+          id="btn-load-more-stories"
+          class="hidden px-6 py-2.5 rounded-2xl bg-white border border-amber-300 hover:border-warmOrange-500 hover:text-warmOrange-600 text-slate-700 text-xs sm:text-sm font-bold shadow-xs transition"
+        >
+          <span>Xem thêm bài viết trên báo tường &darr;</span>
         </button>
       </div>
 
     </div>
   </section>
 
-  <!-- Reading Story Detail Modal (Public) -->
-  <div id="modal-story-detail" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/70 backdrop-blur-xs hidden">
-    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+  <!-- Reading Story Detail Modal (Public Paper Modal) -->
+  <div id="modal-story-detail" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/75 backdrop-blur-xs hidden">
+    <div class="bg-[#fcfaf7] rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-amber-200 overflow-hidden animate-in fade-in zoom-in-95 duration-200 relative">
+      <!-- Top Decorative Pin -->
+      <div class="pin-head pin-red top-3 left-8 transform-none shadow-md"></div>
+
       <!-- Header -->
-      <div class="px-6 py-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+      <div class="px-6 py-4 bg-[#f4eee4] border-b border-amber-200/80 flex items-center justify-between pl-16">
         <div class="flex items-center space-x-2">
-          <span class="text-xl">💌</span>
-          <span class="text-xs font-bold uppercase tracking-wider text-warmOrange-600">Lưu Bút Cựu Học Sinh</span>
+          <span class="text-xl">📜</span>
+          <span class="text-xs font-bold uppercase tracking-wider text-warmOrange-700">Lưu Bút Cựu Học Sinh</span>
         </div>
-        <button id="btn-close-story-modal" class="w-8 h-8 rounded-full bg-slate-200/70 hover:bg-slate-300 text-slate-600 flex items-center justify-center transition">
+        <button id="btn-close-story-modal" class="w-8 h-8 rounded-full bg-amber-200/60 hover:bg-amber-300 text-slate-700 flex items-center justify-center transition font-bold">
           ✕
         </button>
       </div>
 
       <!-- Content -->
       <div class="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1">
-        <div class="space-y-2">
+        <div class="space-y-2.5">
           <div class="flex items-center gap-2 flex-wrap text-xs text-slate-500">
-            <span id="modal-story-batch" class="font-bold text-warmOrange-600 bg-warmOrange-50 px-2.5 py-0.5 rounded-full border border-warmOrange-200"></span>
-            <span id="modal-story-class"></span>
+            <span id="modal-story-batch" class="font-bold text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300"></span>
+            <span id="modal-story-class" class="font-medium text-slate-600"></span>
             <span>•</span>
-            <span id="modal-story-date"></span>
+            <span id="modal-story-date" class="text-slate-400"></span>
           </div>
-          <h2 id="modal-story-title" class="text-xl sm:text-2xl font-extrabold text-navy-950 leading-snug"></h2>
+          <h2 id="modal-story-title" class="text-xl sm:text-2xl font-extrabold text-navy-950 leading-snug font-serif"></h2>
           <div class="flex items-center space-x-2 text-xs text-slate-600 pt-1">
-            <span class="w-6 h-6 rounded-full bg-navy-900 text-warmOrange-300 font-bold flex items-center justify-center text-[10px]" id="modal-story-avatar"></span>
-            <span class="font-bold text-navy-900" id="modal-story-author"></span>
+            <span class="w-7 h-7 rounded-full bg-navy-900 text-warmOrange-300 font-bold flex items-center justify-center text-xs shadow-xs" id="modal-story-avatar"></span>
+            <span class="font-bold text-navy-900 text-sm" id="modal-story-author"></span>
           </div>
         </div>
 
-        <div id="modal-story-image-wrap" class="hidden rounded-2xl overflow-hidden border border-slate-200 shadow-sm max-h-72">
+        <div id="modal-story-image-wrap" class="hidden rounded-2xl overflow-hidden border-4 border-white shadow-md max-h-80 bg-slate-100">
           <img id="modal-story-image" src="#" alt="Ảnh kỷ niệm" class="w-full h-full object-cover" />
         </div>
 
-        <div class="bg-slate-50/80 p-6 rounded-2xl border border-slate-100 text-slate-800 text-sm sm:text-base leading-relaxed whitespace-pre-line font-serif italic" id="modal-story-message">
+        <div class="bg-white/80 p-6 sm:p-7 rounded-2xl border border-amber-200/70 text-slate-800 text-sm sm:text-base leading-relaxed whitespace-pre-line font-serif italic shadow-inner" id="modal-story-message">
         </div>
       </div>
 
       <!-- Footer -->
-      <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
-        <span class="text-xs text-slate-400">Trường THPT Xuân Lộc thân thương</span>
-        <button id="btn-close-story-modal-bottom" class="px-5 py-2 rounded-xl bg-navy-950 text-white text-xs font-semibold hover:bg-warmOrange-600 transition">
-          Đóng
+      <div class="px-6 py-4 bg-[#f4eee4] border-t border-amber-200/80 flex items-center justify-between">
+        <span class="text-xs text-amber-800/80 font-medium">Báo tường THPT Xuân Lộc thân thương</span>
+        <button id="btn-close-story-modal-bottom" class="px-5 py-2 rounded-xl bg-navy-950 text-white text-xs font-semibold hover:bg-warmOrange-600 transition cursor-pointer">
+          Đóng lại
         </button>
       </div>
     </div>
   </div>
-
-
-    </div>
-  </section>
 
   <!-- Form Gửi Tâm Sự -->
   <section class="py-16 bg-white border-t border-slate-200" id="form-gui-tam-su">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center space-y-2 mb-8">
         <div class="inline-flex items-center space-x-1 text-warmOrange-600 text-xs font-bold uppercase tracking-wider">
-          <span>Trang Sổ Tay Lưu Niệm</span>
+          <span>📌 Ghim Bài Lên Báo Tường</span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-navy-950">Gửi Gắm Kỷ Niệm & Tâm Sự</h2>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-navy-950 font-serif">Gửi Gắm Kỷ Niệm & Tâm Sự</h2>
         <p class="text-slate-500 text-xs sm:text-sm max-w-lg mx-auto">
           Mỗi mẩu chuyện, mỗi kỷ niệm của bạn là một mảnh ghép quý giá làm nên lịch sử 40 năm vẻ vang của THPT Xuân Lộc.
         </p>
       </div>
 
-      <form id="tam-su-form" class="bg-slate-50 p-6 sm:p-10 rounded-3xl border border-slate-200/90 shadow-sm space-y-5">
+      <form id="tam-su-form" class="bg-amber-50/40 p-6 sm:p-10 rounded-3xl border border-amber-200 shadow-sm space-y-5">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1.5">
@@ -329,7 +395,7 @@ const batchOptions = [
                 type="button"
                 id="tam-su-remove-img"
                 title="Gỡ ảnh"
-                class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full p-1 shadow hover:bg-red-700 transition"
+                class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full p-1 shadow hover:bg-red-700 transition cursor-pointer"
               >
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -341,10 +407,10 @@ const batchOptions = [
         </div>
 
         <!-- Alert bảo mật duyệt bài -->
-        <div class="p-4 bg-amber-50 rounded-2xl border border-amber-200 text-xs text-amber-800 flex items-start gap-2.5">
+        <div class="p-4 bg-amber-100/60 rounded-2xl border border-amber-200 text-xs text-amber-900 flex items-start gap-2.5">
           <span class="text-base shrink-0">🛡️</span>
           <span>
-            <strong>Quy định bảo mật & kiểm duyệt:</strong> Nhằm xây dựng không gian văn hóa học đường văn minh và an toàn, tất cả bài gửi sẽ được Ban Quản trị kiểm duyệt trước khi hiển thị công khai trên website.
+            <strong>Quy định bảo mật & kiểm duyệt:</strong> Nhằm xây dựng không gian văn hóa học đường văn minh và an toàn, tất cả bài gửi sẽ được Ban Quản trị kiểm duyệt trước khi ghim công khai trên báo tường.
           </span>
         </div>
 
@@ -356,7 +422,7 @@ const batchOptions = [
           class="w-full py-3.5 px-6 rounded-2xl font-bold text-white bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-md shadow-warmOrange-500/20 transition transform active:scale-98 text-sm flex items-center justify-center gap-2 cursor-pointer"
         >
           <span id="tam-su-btn-spinner" class="hidden inline-block animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></span>
-          <span id="tam-su-btn-text">Gửi Bài Tâm Sự Lên Ban Quản Trị</span>
+          <span id="tam-su-btn-text">Gửi Bài Lên Ban Quản Trị</span>
         </button>
       </form>
     </div>
@@ -368,26 +434,28 @@ const batchOptions = [
 <script>
   import imageCompression from 'browser-image-compression';
   import { db } from '../lib/firebase';
-  import { collection, addDoc, getDocs, query, where, orderBy, serverTimestamp } from 'firebase/firestore';
+  import { collection, addDoc, getDocs, query, where, serverTimestamp } from 'firebase/firestore';
   import { notifyAdminNewSubmission } from '../lib/notifications';
 
   // Topic Icons & Labels
-  const topicMap: Record<string, { label: string; icon: string }> = {
-    'ao-trang': { label: 'Thời áo trắng', icon: '🌸' },
-    'thay-co': { label: 'Tri ân Thầy Cô', icon: '💐' },
-    'lap-nghiep': { label: 'Nẻo đường lập nghiệp', icon: '💼' },
-    'tam-tinh': { label: 'Lời muốn nói', icon: '💌' },
+  const topicMap: Record<string, { label: string; icon: string; pinClass: string; cardBg: string }> = {
+    'ao-trang': { label: 'Thời áo trắng', icon: '🌸', pinClass: 'pin-red', cardBg: 'bg-[#fffdfa]' },
+    'thay-co': { label: 'Tri ân Thầy Cô', icon: '💐', pinClass: 'pin-blue', cardBg: 'bg-[#faf9f5]' },
+    'lap-nghiep': { label: 'Nẻo đường lập nghiệp', icon: '💼', pinClass: 'pin-emerald', cardBg: 'bg-[#f7faf8]' },
+    'tam-tinh': { label: 'Lời muốn nói', icon: '💌', pinClass: 'pin-purple', cardBg: 'bg-[#fdf8fa]' },
   };
+
+  const pinColors = ['pin-red', 'pin-amber', 'pin-blue', 'pin-emerald', 'pin-purple'];
+  const rotations = ['-rotate-1', 'rotate-1', '-rotate-2', 'rotate-2', 'rotate-0', '-rotate-1.5', 'rotate-1.5'];
 
   const storiesLoading = document.getElementById('stories-loading');
   const storiesEmpty = document.getElementById('stories-empty');
-  const storiesListContainer = document.getElementById('stories-list-container');
+  const storiesWallGrid = document.getElementById('stories-wall-grid');
   const storySearchInput = document.getElementById('story-search-input') as HTMLInputElement | null;
   const storyCountBadge = document.getElementById('story-count-badge');
-  const storiesPagination = document.getElementById('stories-pagination');
-  const btnPrevPage = document.getElementById('btn-prev-page') as HTMLButtonElement | null;
-  const btnNextPage = document.getElementById('btn-next-page') as HTMLButtonElement | null;
-  const paginationInfo = document.getElementById('pagination-info');
+  const storiesSentinel = document.getElementById('stories-sentinel');
+  const storiesSpinner = document.getElementById('stories-spinner');
+  const btnLoadMoreStories = document.getElementById('btn-load-more-stories');
   const topicButtons = document.querySelectorAll<HTMLButtonElement>('.story-topic-btn');
 
   // Modal Detail Elements
@@ -407,16 +475,20 @@ const batchOptions = [
   let allStories: any[] = [];
   let currentTopic = 'tat-ca';
   let searchQuery = '';
-  let currentPage = 1;
-  const PAGE_SIZE = 10;
+  
+  // Infinite scroll pagination state
+  const INITIAL_LIMIT = 9;
+  const LOAD_STEP = 6;
+  let visibleLimit = INITIAL_LIMIT;
+  let matchingStories: any[] = [];
 
   // Load approved submissions
   async function loadApprovedStories() {
-    if (!storiesLoading || !storiesEmpty || !storiesListContainer) return;
+    if (!storiesLoading || !storiesEmpty || !storiesWallGrid) return;
     storiesLoading.classList.remove('hidden');
     storiesEmpty.classList.add('hidden');
-    storiesListContainer.classList.add('hidden');
-    if (storiesPagination) storiesPagination.classList.add('hidden');
+    storiesWallGrid.classList.add('hidden');
+    if (storiesSentinel) storiesSentinel.style.display = 'none';
 
     try {
       const q = query(
@@ -429,7 +501,7 @@ const batchOptions = [
 
       if (snapshot.empty) {
         storiesEmpty.classList.remove('hidden');
-        if (storyCountBadge) storyCountBadge.textContent = '0 bài kỷ niệm';
+        if (storyCountBadge) storyCountBadge.textContent = '0 mẩu chuyện';
         return;
       }
 
@@ -468,36 +540,33 @@ const batchOptions = [
   }
 
   function renderStories() {
-    if (!storiesListContainer || !storiesEmpty) return;
+    if (!storiesWallGrid || !storiesEmpty) return;
 
-    const filtered = getFilteredStories();
-    const total = filtered.length;
+    matchingStories = getFilteredStories();
+    const total = matchingStories.length;
 
     if (storyCountBadge) {
-      storyCountBadge.textContent = `${total} bài kỷ niệm`;
+      storyCountBadge.textContent = `${total} mẩu chuyện`;
     }
 
     if (total === 0) {
-      storiesListContainer.classList.add('hidden');
+      storiesWallGrid.classList.add('hidden');
       storiesEmpty.classList.remove('hidden');
-      if (storiesPagination) storiesPagination.classList.add('hidden');
+      if (storiesSentinel) storiesSentinel.style.display = 'none';
       return;
     }
 
     storiesEmpty.classList.add('hidden');
-    storiesListContainer.classList.remove('hidden');
-    storiesListContainer.innerHTML = '';
+    storiesWallGrid.classList.remove('hidden');
+    storiesWallGrid.innerHTML = '';
 
-    // Pagination slice
-    const totalPages = Math.ceil(total / PAGE_SIZE) || 1;
-    if (currentPage > totalPages) currentPage = totalPages;
-    if (currentPage < 1) currentPage = 1;
+    const displayed = matchingStories.slice(0, visibleLimit);
 
-    const startIdx = (currentPage - 1) * PAGE_SIZE;
-    const paginatedItems = filtered.slice(startIdx, startIdx + PAGE_SIZE);
+    displayed.forEach((story, index) => {
+      const topicInfo = topicMap[story.topic] || { label: 'Kỷ niệm', icon: '📜', pinClass: 'pin-amber', cardBg: 'bg-[#fffdfa]' };
+      const pinClass = pinColors[index % pinColors.length];
+      const rotationClass = rotations[index % rotations.length];
 
-    paginatedItems.forEach((story) => {
-      const topicInfo = topicMap[story.topic] || { label: 'Kỷ niệm', icon: '📜' };
       let dateStr = '';
       if (story.createdAt?.toDate) {
         dateStr = new Date(story.createdAt.toDate()).toLocaleDateString('vi-VN');
@@ -507,68 +576,112 @@ const batchOptions = [
         dateStr = new Date(story.createdAt).toLocaleDateString('vi-VN');
       }
 
-      const itemEl = document.createElement('div');
-      itemEl.className = 'bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 hover:border-warmOrange-400 hover:shadow-md transition duration-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 cursor-pointer group';
-      
-      const snippet = story.message ? (story.message.replace(/\n+/g, ' ').substring(0, 110) + '...') : '';
+      const card = document.createElement('article');
+      card.className = `polaroid-frame relative ${topicInfo.cardBg} rounded-2xl p-5 sm:p-6 border border-amber-200/90 flex flex-col justify-between cursor-pointer group transform ${rotationClass}`;
 
-      itemEl.innerHTML = `
-        <div class="flex items-start space-x-3.5 flex-1 min-w-0">
+      const snippet = story.message ? (story.message.replace(/\n+/g, ' ').substring(0, 160) + '...') : '';
+
+      card.innerHTML = `
+        <!-- Thumbtack / Pin -->
+        <div class="pin-head ${pinClass}"></div>
+
+        <!-- Washi Tape -->
+        <div class="washi-tape"></div>
+
+        <div>
+          <!-- Polaroid Photo if Available -->
           ${story.imageUrl ? `
-            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
-              <img src="${story.imageUrl}" alt="${escapeHtml(story.fullName)}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+            <div class="mb-4 rounded-xl overflow-hidden bg-slate-100 border-4 border-white shadow-sm aspect-video sm:aspect-4/3">
+              <img src="${story.imageUrl}" alt="${escapeHtml(story.fullName)}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" loading="lazy" />
             </div>
-          ` : `
-            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-navy-900 to-navy-950 text-warmOrange-400 flex items-center justify-center font-bold text-lg sm:text-xl shrink-0 shadow-xs border border-navy-800">
-              ${(story.fullName || 'A').charAt(0).toUpperCase()}
-            </div>
-          `}
+          ` : ''}
 
-          <div class="min-w-0 space-y-1">
-            <div class="flex items-center gap-2 flex-wrap">
-              <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 inline-flex items-center gap-1">
-                <span>${topicInfo.icon}</span>
-                <span>${topicInfo.label}</span>
-              </span>
-              <span class="text-[11px] font-semibold text-warmOrange-600">${escapeHtml(story.batch || '')}</span>
-              ${story.className ? `<span class="text-[11px] text-slate-400">• ${escapeHtml(story.className)}</span>` : ''}
-              ${dateStr ? `<span class="text-[11px] text-slate-400 hidden sm:inline">• ${dateStr}</span>` : ''}
-            </div>
-
-            <h3 class="text-sm sm:text-base font-bold text-navy-950 group-hover:text-warmOrange-600 transition truncate leading-snug">
-              ${escapeHtml(story.title || snippet)}
-            </h3>
-
-            <p class="text-xs text-slate-600 line-clamp-1 italic font-serif">
-              "${escapeHtml(snippet)}"
-            </p>
+          <!-- Header / Topic & Batch -->
+          <div class="flex items-center justify-between gap-2 mb-3 pt-1">
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100/80 text-amber-900 border border-amber-200 inline-flex items-center gap-1">
+              <span>${topicInfo.icon}</span>
+              <span>${topicInfo.label}</span>
+            </span>
+            <span class="text-[11px] font-bold text-warmOrange-600 bg-warmOrange-50 px-2.5 py-0.5 rounded-md border border-warmOrange-200/60">
+              ${escapeHtml(story.batch || '')}
+            </span>
           </div>
+
+          <!-- Story Title -->
+          <h3 class="text-base sm:text-lg font-bold text-navy-950 font-serif leading-snug mb-2.5 group-hover:text-warmOrange-600 transition line-clamp-2">
+            ${escapeHtml(story.title || snippet)}
+          </h3>
+
+          <!-- Story Message Snippet in Handwriting/Serif style -->
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-serif italic line-clamp-4 mb-4">
+            "${escapeHtml(snippet)}"
+          </p>
         </div>
 
-        <div class="flex items-center space-x-3 self-end sm:self-center shrink-0">
-          <span class="text-xs text-slate-500 font-medium hidden md:inline">bởi <strong>${escapeHtml(story.fullName)}</strong></span>
-          <button class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-warmOrange-600 bg-warmOrange-50 group-hover:bg-warmOrange-600 group-hover:text-white transition flex items-center gap-1">
-            <span>Đọc tiếp</span>
+        <!-- Footer / Signature & Read Button -->
+        <div class="pt-3 border-t border-amber-100/90 flex items-center justify-between text-xs gap-2">
+          <div class="flex items-center space-x-2 min-w-0">
+            <div class="w-6 h-6 rounded-full bg-navy-900 text-warmOrange-300 font-bold flex items-center justify-center text-[10px] shrink-0">
+              ${(story.fullName || 'A').charAt(0).toUpperCase()}
+            </div>
+            <div class="truncate">
+              <span class="font-bold text-navy-900 block truncate">${escapeHtml(story.fullName)}</span>
+              ${story.className ? `<span class="text-[10px] text-slate-400 block truncate">${escapeHtml(story.className)}</span>` : ''}
+            </div>
+          </div>
+
+          <span class="text-[11px] font-bold text-warmOrange-600 group-hover:translate-x-1 transition-transform inline-flex items-center gap-0.5 shrink-0">
+            <span>Mở đọc</span>
             <span>&rarr;</span>
-          </button>
+          </span>
         </div>
       `;
 
-      itemEl.addEventListener('click', () => openStoryModal(story));
-      storiesListContainer.appendChild(itemEl);
+      card.addEventListener('click', () => openStoryModal(story));
+      storiesWallGrid.appendChild(card);
     });
 
-    // Update Pagination UI
-    if (storiesPagination && paginationInfo && btnPrevPage && btnNextPage) {
-      if (totalPages > 1) {
-        storiesPagination.classList.remove('hidden');
-        paginationInfo.textContent = `Trang ${currentPage} / ${totalPages}`;
-        btnPrevPage.disabled = currentPage <= 1;
-        btnNextPage.disabled = currentPage >= totalPages;
+    // Update Sentinel / Load More Visibility
+    if (storiesSentinel) {
+      if (displayed.length < total) {
+        storiesSentinel.style.display = 'block';
+        if (btnLoadMoreStories) btnLoadMoreStories.classList.remove('hidden');
       } else {
-        storiesPagination.classList.add('hidden');
+        storiesSentinel.style.display = 'none';
+        if (btnLoadMoreStories) btnLoadMoreStories.classList.add('hidden');
+        if (storiesSpinner) storiesSpinner.classList.add('hidden');
       }
     }
+  }
+
+  function loadMoreStories() {
+    if (visibleLimit >= matchingStories.length) return;
+    if (storiesSpinner) storiesSpinner.classList.remove('hidden');
+    if (btnLoadMoreStories) btnLoadMoreStories.classList.add('hidden');
+
+    setTimeout(() => {
+      visibleLimit += LOAD_STEP;
+      renderStories();
+      if (storiesSpinner) storiesSpinner.classList.add('hidden');
+    }, 250);
+  }
+
+  btnLoadMoreStories?.addEventListener('click', loadMoreStories);
+
+  // Automatic Infinite Scroll using IntersectionObserver
+  if ('IntersectionObserver' in window && storiesSentinel) {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        if (visibleLimit < matchingStories.length) {
+          loadMoreStories();
+        }
+      }
+    }, {
+      rootMargin: '300px',
+      threshold: 0.1,
+    });
+
+    observer.observe(storiesSentinel);
   }
 
   // Open Story Detail Modal
@@ -618,33 +731,15 @@ const batchOptions = [
   // Search input event
   storySearchInput?.addEventListener('input', (e) => {
     searchQuery = (e.target as HTMLInputElement).value;
-    currentPage = 1;
+    visibleLimit = INITIAL_LIMIT;
     renderStories();
-  });
-
-  // Pagination click events
-  btnPrevPage?.addEventListener('click', () => {
-    if (currentPage > 1) {
-      currentPage--;
-      renderStories();
-      document.getElementById('danh-sach-tam-su')?.scrollIntoView({ behavior: 'smooth' });
-    }
-  });
-
-  btnNextPage?.addEventListener('click', () => {
-    const totalPages = Math.ceil(getFilteredStories().length / PAGE_SIZE);
-    if (currentPage < totalPages) {
-      currentPage++;
-      renderStories();
-      document.getElementById('danh-sach-tam-su')?.scrollIntoView({ behavior: 'smooth' });
-    }
   });
 
   // Topic filter click
   topicButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
       currentTopic = btn.getAttribute('data-topic') || 'tat-ca';
-      currentPage = 1;
+      visibleLimit = INITIAL_LIMIT;
 
       topicButtons.forEach((b) => {
         b.classList.remove('bg-navy-950', 'text-white', 'shadow-sm');
@@ -657,7 +752,6 @@ const batchOptions = [
       renderStories();
     });
   });
-
 
   // Handle Tam Su Form Submit
   const form = document.getElementById('tam-su-form') as HTMLFormElement;
@@ -800,7 +894,7 @@ const batchOptions = [
           <span class="text-xl">✅</span>
           <div>
             <h4 class="font-bold text-emerald-950 mb-1">Gửi tâm sự thành công!</h4>
-            <p>Bài viết của bạn đã được chuyển đến Ban Quản Trị để kiểm duyệt. Bài viết sẽ xuất hiện trên trang sau khi được phê duyệt. Xin trân trọng cảm ơn tình cảm của bạn dành cho mái trường Xuân Lộc!</p>
+            <p>Bài viết của bạn đã được chuyển đến Ban Quản Trị để kiểm duyệt. Bài viết sẽ xuất hiện trên báo tường sau khi được phê duyệt. Xin trân trọng cảm ơn tình cảm của bạn dành cho mái trường Xuân Lộc!</p>
           </div>
         </div>
       `;
@@ -818,7 +912,7 @@ const batchOptions = [
     } finally {
       submitBtn.disabled = false;
       btnSpinner.classList.add('hidden');
-      btnText.textContent = 'Gửi Bài Tâm Sự Lên Ban Quản Trị';
+      btnText.textContent = 'Gửi Bài Lên Ban Quản Trị';
     }
   });
 
