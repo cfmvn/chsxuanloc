@@ -438,35 +438,84 @@ import staticAlbumsData from '../data/albums.json';
                   </button>
                 </div>
 
-                <!-- Add Photos Box (Collapsible) -->
-                <div id="add-photo-box" class="hidden p-4 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-3">
-                  <h4 class="font-bold text-xs text-amber-900">Thêm hình ảnh mới (CDN R2 hoặc URL)</h4>
-                  <div>
-                    <label class="block text-[11px] font-semibold text-slate-700 mb-1">
-                      Nhập một hoặc nhiều đường dẫn ảnh (mỗi dòng 1 URL ảnh hoặc cách nhau bằng dấu phẩy):
-                    </label>
-                    <textarea
-                      id="input-new-photos-urls"
-                      rows="3"
-                      placeholder="https://cdn.chsxuanloc.com/albums/.../anh1.webp&#10;https://cdn.chsxuanloc.com/albums/.../anh2.webp"
-                      class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-mono bg-white focus:ring-2 focus:ring-warmOrange-500"
-                    ></textarea>
+                <!-- Add Photos Box (Upload, Paste & URL) -->
+                <div id="add-photo-box" class="hidden p-4 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-4 animate-in fade-in duration-200">
+                  <div class="flex items-center justify-between">
+                    <h4 class="font-bold text-xs text-amber-900 flex items-center gap-1.5">
+                      <span>✨</span>
+                      <span>Thêm hình ảnh vào Album (Chọn file, Paste ảnh hoặc URL)</span>
+                    </h4>
+                    <span class="text-[10px] text-slate-500">Tự động nén WebP & tối ưu</span>
                   </div>
-                  <div class="flex justify-end space-x-2">
-                    <button
-                      type="button"
-                      id="btn-cancel-add-photos"
-                      class="px-3 py-1.5 text-xs text-slate-600 font-semibold hover:bg-slate-200 rounded-lg transition cursor-pointer"
+
+                  <!-- Tab Option: Upload / Paste vs URL -->
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    
+                    <!-- Box 1: File Dropzone & Paste Area -->
+                    <div
+                      id="dropzone-paste-area"
+                      class="border-2 border-dashed border-warmOrange-300 hover:border-warmOrange-500 rounded-2xl p-4 text-center bg-white hover:bg-orange-50/40 transition flex flex-col items-center justify-center cursor-pointer space-y-2 group min-h-[130px]"
                     >
-                      Hủy
-                    </button>
-                    <button
-                      type="button"
-                      id="btn-confirm-add-photos"
-                      class="px-4 py-1.5 text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition shadow-xs cursor-pointer"
-                    >
-                      ✓ Xác Nhận Thêm Ảnh
-                    </button>
+                      <div class="w-10 h-10 rounded-full bg-warmOrange-100 group-hover:bg-warmOrange-200 text-warmOrange-600 flex items-center justify-center text-lg transition">
+                        📥
+                      </div>
+                      <div>
+                        <p class="font-bold text-xs text-navy-950">Kéo thả ảnh hoặc click để chọn file</p>
+                        <p class="text-[11px] text-slate-500 mt-0.5">
+                          Hoặc nhấn <kbd class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-300 font-mono text-[10px] font-bold">Ctrl + V</kbd> để paste ảnh từ clipboard
+                        </p>
+                      </div>
+                      <input
+                        type="file"
+                        id="input-file-photos"
+                        multiple
+                        accept="image/*"
+                        class="hidden"
+                      />
+                    </div>
+
+                    <!-- Box 2: Bulk URL Input -->
+                    <div class="flex flex-col justify-between space-y-2">
+                      <div>
+                        <label class="block text-[11px] font-bold text-slate-700 mb-1">
+                          Hoặc dán một / nhiều link ảnh (CDN Cloudflare R2 / Web):
+                        </label>
+                        <textarea
+                          id="input-new-photos-urls"
+                          rows="4"
+                          placeholder="https://cdn.chsxuanloc.com/albums/.../anh1.webp&#10;https://cdn.chsxuanloc.com/albums/.../anh2.webp"
+                          class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-mono bg-white focus:ring-2 focus:ring-warmOrange-500 resize-none"
+                        ></textarea>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <!-- Uploading indicator & preview mini queue -->
+                  <div id="upload-progress-info" class="hidden p-2 rounded-xl bg-blue-50 text-blue-800 text-[11px] font-semibold flex items-center gap-2">
+                    <span class="animate-spin inline-block">⏳</span>
+                    <span id="upload-progress-text">Đang xử lý hình ảnh...</span>
+                  </div>
+
+                  <!-- Footer Actions -->
+                  <div class="flex items-center justify-between pt-1 border-t border-amber-200/60">
+                    <span class="text-[11px] text-slate-500">Mẹo: Bạn có thể chọn nhiều ảnh cùng lúc</span>
+                    <div class="flex space-x-2">
+                      <button
+                        type="button"
+                        id="btn-cancel-add-photos"
+                        class="px-3.5 py-1.5 text-xs text-slate-600 font-semibold hover:bg-slate-200 rounded-xl transition cursor-pointer"
+                      >
+                        Đóng
+                      </button>
+                      <button
+                        type="button"
+                        id="btn-confirm-add-photos"
+                        class="px-4 py-1.5 text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition shadow-xs flex items-center gap-1 cursor-pointer"
+                      >
+                        <span>✓ Thêm Link Ảnh</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -1964,6 +2013,149 @@ import staticAlbumsData from '../data/albums.json';
 
     modalEditAlbum.classList.remove('hidden');
   }
+
+  // Elements for Upload & Paste
+  const dropzonePasteArea = document.getElementById('dropzone-paste-area');
+  const inputFilePhotos = document.getElementById('input-file-photos') as HTMLInputElement | null;
+  const uploadProgressInfo = document.getElementById('upload-progress-info');
+  const uploadProgressText = document.getElementById('upload-progress-text');
+
+  // Compress Image to WebP Data URL client-side (Max 1600px, 82% quality)
+  async function compressImageToWebP(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          const maxDim = 1600;
+
+          if (width > maxDim || height > maxDim) {
+            if (width > height) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            resolve(e.target?.result as string);
+            return;
+          }
+
+          ctx.drawImage(img, 0, 0, width, height);
+          const webpDataUrl = canvas.toDataURL('image/webp', 0.82);
+          resolve(webpDataUrl);
+        };
+        img.onerror = reject;
+        img.src = e.target?.result as string;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Handle batch file additions (from File Input, Drag Drop or Clipboard)
+  async function handleFilesAddition(files: FileList | File[]) {
+    const fileArray = Array.from(files).filter((f) => f.type.startsWith('image/'));
+    if (fileArray.length === 0) return;
+
+    if (uploadProgressInfo && uploadProgressText) {
+      uploadProgressInfo.classList.remove('hidden');
+      uploadProgressText.textContent = `Đang xử lý & nén ${fileArray.length} hình ảnh...`;
+    }
+
+    const albumTitle = editAlbumTitle?.value.trim() || 'Album kỷ niệm';
+
+    try {
+      for (let i = 0; i < fileArray.length; i++) {
+        const file = fileArray[i];
+        if (uploadProgressText) {
+          uploadProgressText.textContent = `Đang xử lý (${i + 1}/${fileArray.length}): ${file.name}...`;
+        }
+        const compressedWebp = await compressImageToWebP(file);
+        currentEditingPhotos.push({
+          src: compressedWebp,
+          caption: albumTitle,
+          originalUrl: file.name,
+        });
+      }
+
+      renderModalPhotoThumbnails();
+    } catch (err: any) {
+      alert('Lỗi xử lý file ảnh: ' + (err.message || err));
+    } finally {
+      if (uploadProgressInfo) uploadProgressInfo.classList.add('hidden');
+      if (inputFilePhotos) inputFilePhotos.value = '';
+    }
+  }
+
+  // Click on dropzone triggers file picker
+  dropzonePasteArea?.addEventListener('click', () => {
+    inputFilePhotos?.click();
+  });
+
+  inputFilePhotos?.addEventListener('change', (e) => {
+    const files = (e.target as HTMLInputElement).files;
+    if (files && files.length > 0) {
+      handleFilesAddition(files);
+    }
+  });
+
+  // Drag and Drop Events
+  dropzonePasteArea?.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropzonePasteArea.classList.add('border-warmOrange-500', 'bg-orange-50');
+  });
+
+  dropzonePasteArea?.addEventListener('dragleave', (e) => {
+    e.preventDefault();
+    dropzonePasteArea.classList.remove('border-warmOrange-500', 'bg-orange-50');
+  });
+
+  dropzonePasteArea?.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzonePasteArea.classList.remove('border-warmOrange-500', 'bg-orange-50');
+    if (e.dataTransfer?.files && e.dataTransfer.files.length > 0) {
+      handleFilesAddition(e.dataTransfer.files);
+    }
+  });
+
+  // Global Paste Event (Ctrl + V) when Modal is Open
+  document.addEventListener('paste', async (e: ClipboardEvent) => {
+    if (!modalEditAlbum || modalEditAlbum.classList.contains('hidden')) return;
+
+    // Don't intercept if user is typing in regular text inputs
+    const activeEl = document.activeElement;
+    if (activeEl && (activeEl.id === 'edit-album-title' || activeEl.id === 'edit-album-sender' || activeEl.id === 'edit-album-year' || activeEl.id === 'edit-album-driveUrl' || activeEl.id === 'edit-album-note' || activeEl.id === 'input-new-photos-urls')) {
+      return;
+    }
+
+    const items = e.clipboardData?.items;
+    if (!items) return;
+
+    const imageFiles: File[] = [];
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf('image') !== -1) {
+        const file = items[i].getAsFile();
+        if (file) imageFiles.push(file);
+      }
+    }
+
+    if (imageFiles.length > 0) {
+      e.preventDefault();
+      // Ensure add photo box is visible
+      if (addPhotoBox) addPhotoBox.classList.remove('hidden');
+      await handleFilesAddition(imageFiles);
+    }
+  });
 
   // Toggle Add Photo Box
   const btnToggleAddPhoto = document.getElementById('btn-toggle-add-photo');
