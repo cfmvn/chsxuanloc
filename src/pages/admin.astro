@@ -1,11 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import staticAlbumsData from '../data/albums.json';
 ---
 
 <BaseLayout
   title="Ban Quản Trị Cổng Thông Tin - CHSXUANLOC.COM"
   description="Khu vực quản trị dành cho Ban Liên Lạc duyệt bài viết kỷ yếu, danh sách đăng ký học bổng và cài đặt hệ thống."
 >
+  <script id="static-albums-json" type="application/json" set:html={JSON.stringify(staticAlbumsData)} />
   <section class="bg-navy-950 text-white py-10 border-b border-navy-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
@@ -345,31 +347,35 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </div>
         </div>
 
-        <!-- Album Submissions Detail & Edit Modal -->
-        <div id="modal-edit-album" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/60 backdrop-blur-xs hidden">
-          <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <!-- Album Submissions Detail & Comprehensive Photo Editor Modal -->
+        <div id="modal-edit-album" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-navy-950/70 backdrop-blur-xs hidden">
+          <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[94vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             <!-- Modal Header -->
             <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-              <div class="flex items-center space-x-2">
-                <span class="text-xl">📸</span>
+              <div class="flex items-center space-x-2.5">
+                <span class="text-2xl">📸</span>
                 <div>
-                  <h3 class="text-base font-bold text-navy-900">Kiểm Duyệt & Xử Lý Album Đóng Góp</h3>
-                  <p class="text-[11px] text-slate-500">Mã: <span id="modal-album-doc-id" class="font-mono text-warmOrange-600"></span></p>
+                  <h3 class="text-base font-bold text-navy-900" id="modal-album-main-title">Quản Lý & Biên Tập Album Ảnh</h3>
+                  <div class="flex items-center gap-2 mt-0.5">
+                    <span id="modal-album-type-badge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800">Album Mã Nguồn (Code)</span>
+                    <span class="text-[11px] text-slate-500">Mã/Slug: <span id="modal-album-doc-id" class="font-mono text-warmOrange-600 font-semibold"></span></span>
+                  </div>
                 </div>
               </div>
-              <button id="btn-close-modal-album" class="w-8 h-8 rounded-full bg-slate-200/70 hover:bg-slate-300 text-slate-600 flex items-center justify-center transition">
+              <button id="btn-close-modal-album" class="w-8 h-8 rounded-full bg-slate-200/70 hover:bg-slate-300 text-slate-600 flex items-center justify-center transition cursor-pointer">
                 ✕
               </button>
             </div>
 
             <!-- Modal Body -->
-            <div class="p-6 overflow-y-auto space-y-4 text-xs flex-1">
+            <div class="p-6 overflow-y-auto space-y-5 text-xs flex-1">
               <input type="hidden" id="edit-album-doc-id" />
+              <input type="hidden" id="edit-album-source" value="firestore" />
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="block font-bold text-slate-700 mb-1">Tên Album / Chủ Đề</label>
-                  <input type="text" id="edit-album-title" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-navy-900 focus:ring-2 focus:ring-warmOrange-500 bg-white" />
+                  <label class="block font-bold text-slate-700 mb-1">Tên Album / Chủ Đề <span class="text-rose-500">*</span></label>
+                  <input type="text" id="edit-album-title" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-navy-900 focus:ring-2 focus:ring-warmOrange-500 bg-white" placeholder="VD: Tham quan về nguồn..." />
                 </div>
                 <div>
                   <label class="block font-bold text-slate-700 mb-1">Danh Mục Phân Loại</label>
@@ -386,40 +392,96 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="block font-bold text-slate-700 mb-1">Người Đóng Góp</label>
+                  <label class="block font-bold text-slate-700 mb-1">Người Đóng Góp / Tác Giả</label>
                   <input type="text" id="edit-album-sender" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 bg-white" />
                 </div>
                 <div>
                   <label class="block font-bold text-slate-700 mb-1">Niên Khóa / Năm Chụp</label>
-                  <input type="text" id="edit-album-year" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 bg-white" />
+                  <input type="text" id="edit-album-year" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 bg-white" placeholder="VD: 2012" />
                 </div>
               </div>
 
-              <div>
-                <label class="block font-bold text-slate-700 mb-1">Link Google Drive / Lưu trữ nguồn</label>
-                <div class="flex items-center space-x-2">
-                  <input type="text" id="edit-album-driveUrl" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 bg-white font-mono" />
-                  <a id="btn-open-drive" href="#" target="_blank" class="px-4 py-2.5 bg-blue-50 text-blue-700 font-bold border border-blue-200 hover:bg-blue-100 rounded-xl whitespace-nowrap inline-flex items-center gap-1">
-                    <span>Mở Drive</span> ↗
-                  </a>
+              <!-- Drive & Notes (For Submissions) -->
+              <div id="modal-drive-section" class="space-y-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                <div>
+                  <label class="block font-bold text-slate-700 mb-1">Link Google Drive gốc của người gửi</label>
+                  <div class="flex items-center space-x-2">
+                    <input type="text" id="edit-album-driveUrl" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 bg-white font-mono" />
+                    <a id="btn-open-drive" href="#" target="_blank" class="px-3.5 py-2 bg-blue-50 text-blue-700 font-bold border border-blue-200 hover:bg-blue-100 rounded-xl whitespace-nowrap inline-flex items-center gap-1">
+                      <span>Mở Drive</span> ↗
+                    </a>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block font-bold text-slate-700 mb-1">Ghi chú / Lời nhắn</label>
+                  <textarea id="edit-album-note" rows="2" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-xs leading-relaxed focus:ring-2 focus:ring-warmOrange-500 bg-white"></textarea>
                 </div>
               </div>
 
-              <div>
-                <label class="block font-bold text-slate-700 mb-1">Lời Nhắn / Bối Cảnh Lịch Sử</label>
-                <textarea id="edit-album-note" rows="3" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs leading-relaxed focus:ring-2 focus:ring-warmOrange-500 bg-white"></textarea>
-              </div>
+              <!-- Photo Management Section -->
+              <div class="space-y-3 pt-2 border-t border-slate-200">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div>
+                    <label class="block font-bold text-sm text-navy-950">
+                      Danh Sách Hình Ảnh (<span id="modal-photo-count" class="text-warmOrange-600 font-extrabold">0</span> ảnh)
+                    </label>
+                    <p class="text-[11px] text-slate-500">Bấm nút 🗑️ trên từng ảnh để xóa khỏi album, hoặc chọn ảnh làm Cover</p>
+                  </div>
+                  
+                  <button
+                    type="button"
+                    id="btn-toggle-add-photo"
+                    class="px-3 py-1.5 rounded-xl bg-navy-900 hover:bg-warmOrange-600 text-white font-bold text-xs transition flex items-center gap-1.5 self-start cursor-pointer shadow-xs"
+                  >
+                    <span>➕ Thêm Ảnh Mới Vào Album</span>
+                  </button>
+                </div>
 
-              <!-- Preview Thumbnails -->
-              <div>
-                <label class="block font-bold text-slate-700 mb-1.5">Ảnh xem trước đính kèm</label>
-                <div id="modal-album-thumbnails" class="grid grid-cols-3 sm:grid-cols-5 gap-2 p-3 bg-slate-50 border border-slate-200 rounded-2xl min-h-[80px]">
-                  <!-- Thumbnails injected via JS -->
+                <!-- Add Photos Box (Collapsible) -->
+                <div id="add-photo-box" class="hidden p-4 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-3">
+                  <h4 class="font-bold text-xs text-amber-900">Thêm hình ảnh mới (CDN R2 hoặc URL)</h4>
+                  <div>
+                    <label class="block text-[11px] font-semibold text-slate-700 mb-1">
+                      Nhập một hoặc nhiều đường dẫn ảnh (mỗi dòng 1 URL ảnh hoặc cách nhau bằng dấu phẩy):
+                    </label>
+                    <textarea
+                      id="input-new-photos-urls"
+                      rows="3"
+                      placeholder="https://cdn.chsxuanloc.com/albums/.../anh1.webp&#10;https://cdn.chsxuanloc.com/albums/.../anh2.webp"
+                      class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-mono bg-white focus:ring-2 focus:ring-warmOrange-500"
+                    ></textarea>
+                  </div>
+                  <div class="flex justify-end space-x-2">
+                    <button
+                      type="button"
+                      id="btn-cancel-add-photos"
+                      class="px-3 py-1.5 text-xs text-slate-600 font-semibold hover:bg-slate-200 rounded-lg transition cursor-pointer"
+                    >
+                      Hủy
+                    </button>
+                    <button
+                      type="button"
+                      id="btn-confirm-add-photos"
+                      class="px-4 py-1.5 text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition shadow-xs cursor-pointer"
+                    >
+                      ✓ Xác Nhận Thêm Ảnh
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Photos Interactive Grid -->
+                <div
+                  id="modal-album-thumbnails"
+                  class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 p-3 bg-slate-50 border border-slate-200 rounded-2xl max-h-72 overflow-y-auto"
+                >
+                  <!-- Photo cards injected dynamically with Delete & Cover actions -->
                 </div>
               </div>
 
-              <div class="pt-2">
-                <label class="block font-bold text-slate-700 mb-1">Trạng thái phê duyệt</label>
+              <!-- Status Radio (For Submissions) -->
+              <div id="modal-status-section" class="pt-2 border-t border-slate-200">
+                <label class="block font-bold text-slate-700 mb-1.5">Trạng thái phê duyệt</label>
                 <div class="flex flex-wrap gap-3">
                   <label class="flex items-center space-x-2 p-2.5 rounded-xl border border-amber-200 bg-amber-50 cursor-pointer">
                     <input type="radio" name="edit-album-status" value="pending" class="text-warmOrange-600 focus:ring-warmOrange-500" />
@@ -427,7 +489,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                   </label>
                   <label class="flex items-center space-x-2 p-2.5 rounded-xl border border-emerald-200 bg-emerald-50 cursor-pointer">
                     <input type="radio" name="edit-album-status" value="approved" class="text-emerald-600 focus:ring-emerald-500" />
-                    <span class="font-bold text-emerald-800">✓ Duyệt đưa lên CDN / Thư viện</span>
+                    <span class="font-bold text-emerald-800">✓ Đã Phê Duyệt Xuất Bản</span>
                   </label>
                   <label class="flex items-center space-x-2 p-2.5 rounded-xl border border-rose-200 bg-rose-50 cursor-pointer">
                     <input type="radio" name="edit-album-status" value="rejected" class="text-rose-600 focus:ring-rose-500" />
@@ -439,16 +501,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
             <!-- Modal Footer -->
             <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
-              <button type="button" id="btn-modal-album-delete" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 transition">
-                🗑️ Xóa Bản Ghi
+              <button type="button" id="btn-modal-album-delete" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 transition cursor-pointer">
+                🗑️ Xóa Album
               </button>
 
               <div class="flex items-center space-x-2">
-                <button type="button" id="btn-modal-album-cancel" class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-200 transition">
+                <button type="button" id="btn-modal-album-cancel" class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-200 transition cursor-pointer">
                   Đóng
                 </button>
-                <button type="button" id="btn-modal-album-save" class="px-6 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 text-white transition shadow-sm flex items-center space-x-1.5">
-                  <span>💾 Lưu & Cập Nhật</span>
+                <button type="button" id="btn-modal-album-save" class="px-6 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 text-white transition shadow-sm flex items-center space-x-1.5 cursor-pointer">
+                  <span>💾 Lưu Thay Đổi & Cập Nhật Code</span>
                 </button>
               </div>
             </div>
@@ -1501,7 +1563,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     });
   });
 
-  // Load Album Submissions from Firestore
+  // Current editing photos state
+  let currentEditingPhotos: Array<{ src: string; caption?: string; originalUrl?: string }> = [];
+
+  // Parse static albums from injected payload
+  function getStaticAlbums(): any[] {
+    try {
+      const el = document.getElementById('static-albums-json');
+      if (el && el.textContent) {
+        return JSON.parse(el.textContent);
+      }
+    } catch (e) {
+      console.error('Error parsing static albums:', e);
+    }
+    return [];
+  }
+
+  let allStaticAlbums: any[] = getStaticAlbums();
+
+  // Load Album Submissions from Firestore & Merge with Code Albums
   async function loadAdminAlbums() {
     if (!albumsTableWrap || !albumsLoading || !albumsEmpty) return;
     albumsLoading.classList.remove('hidden');
@@ -1519,15 +1599,49 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       let countA = 0;
       let countR = 0;
 
+      // 1. Add Firestore submissions
       snapshot.forEach((docSnap) => {
         const item = docSnap.data();
         const id = docSnap.id;
-        const entry = { id, ...item };
+        const entry = { id, source: 'firestore', ...item };
         loadedAlbums.push(entry);
 
         if (item.status === 'pending' || !item.status) countP++;
         else if (item.status === 'approved') countA++;
         else if (item.status === 'rejected') countR++;
+      });
+
+      // 2. Add Code Albums from albums.json as 'approved'
+      allStaticAlbums.forEach((alb) => {
+        // Tag category based on title
+        const t = (alb.title || '').toLowerCase();
+        let cat = 'truong-xua';
+        if (t.includes('khai giảng') || t.includes('tổng kết') || t.includes('sơ kết') || t.includes('chuẩn quốc gia') || t.includes('nhà trường')) {
+          cat = 'nha-truong';
+        } else if (t.includes('20-11') || t.includes('20/11') || t.includes('nhà giáo') || t.includes('thầy cô') || t.includes('tri ân') || t.includes('giao ước')) {
+          cat = 'tri-an';
+        } else if (t.includes('nguồn') || t.includes('núi') || t.includes('chứa chan') || t.includes('dã ngoại') || t.includes('hội trại') || t.includes('tham quan') || t.includes('bóng đá') || t.includes('thể thao')) {
+          cat = 'hoat-dong';
+        } else if (t.includes('kỷ yếu') || t.includes('lưu bút') || t.includes('họp lớp') || t.includes('khóa') || t.includes('lớp')) {
+          cat = 'ky-yeu';
+        }
+
+        loadedAlbums.push({
+          id: alb.slug,
+          slug: alb.slug,
+          title: alb.title,
+          category: cat,
+          senderName: 'Mã nguồn Website',
+          year: alb.slug.match(/\d{4}/)?.[0] || '',
+          photoCount: alb.photoCount || alb.photos?.length || 0,
+          photos: alb.photos || [],
+          coverImage: alb.coverImage,
+          previews: (alb.photos || []).slice(0, 8).map((p: any) => p.src),
+          status: 'approved',
+          source: 'code',
+          createdAt: null,
+        });
+        countA++;
       });
 
       if (badgeAlbumsPending) badgeAlbumsPending.textContent = countP.toString();
@@ -1569,9 +1683,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     filtered.forEach((item) => {
       const id = item.id;
-      const catInfo = albumCategoryMap[item.category] || { label: item.category || 'Kỷ niệm', icon: '📸' };
+      const isCodeAlbum = item.source === 'code';
+      const catInfo = albumCategoryMap[item.category] || { label: item.category || 'Trường Xưa', icon: '📸' };
 
-      let dateStr = '';
+      let dateStr = isCodeAlbum ? '<span class="text-blue-600 font-semibold font-mono">Code Web</span>' : '';
       if (item.createdAt?.toDate) {
         dateStr = new Date(item.createdAt.toDate()).toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' });
       } else if (item.createdAt?.seconds) {
@@ -1581,7 +1696,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       }
 
       let statusBadge = '';
-      if (item.status === 'approved') {
+      if (isCodeAlbum) {
+        statusBadge = '<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-100 text-blue-800 inline-flex items-center gap-1"><span>🏛️</span><span>Album Gốc</span></span>';
+      } else if (item.status === 'approved') {
         statusBadge = '<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 inline-flex items-center gap-1"><span>✓</span><span>Đã Duyệt</span></span>';
       } else if (item.status === 'rejected') {
         statusBadge = '<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-100 text-rose-800 inline-flex items-center gap-1"><span>✕</span><span>Từ chối</span></span>';
@@ -1590,7 +1707,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       }
 
       const previews = Array.isArray(item.previews) ? item.previews : [];
-      const firstThumb = previews[0] || '';
+      const firstThumb = item.coverImage || previews[0] || '';
 
       const tr = document.createElement('tr');
       tr.className = 'hover:bg-slate-50/80 transition group cursor-pointer';
@@ -1604,18 +1721,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <span class="font-bold text-navy-950 group-hover:text-warmOrange-600 transition truncate text-xs sm:text-sm block">
                 ${escapeHtml(item.title || 'Album kỷ niệm')}
               </span>
-              <div class="flex items-center gap-1.5 mt-0.5">
+              <div class="flex items-center gap-1.5 mt-0.5 flex-wrap">
                 <span class="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-medium">
                   ${catInfo.icon} ${catInfo.label}
                 </span>
                 ${item.year ? `<span class="text-[10px] text-slate-400 font-semibold">• Năm ${escapeHtml(item.year)}</span>` : ''}
+                ${isCodeAlbum ? '<span class="text-[9px] px-1.5 py-0.2 rounded bg-indigo-50 text-indigo-700 font-bold">src/data/albums.json</span>' : ''}
               </div>
             </div>
           </div>
         </td>
         <td class="py-3.5 px-4 whitespace-nowrap">
           <div class="font-bold text-navy-900">${escapeHtml(item.senderName || 'Thành viên CHS')}</div>
-          <div class="text-[11px] text-slate-400 truncate max-w-[140px]">${escapeHtml(item.userEmail || '')}</div>
+          <div class="text-[11px] text-slate-400 truncate max-w-[140px]">${escapeHtml(item.userEmail || (isCodeAlbum ? 'Thư viện THPT Xuân Lộc' : ''))}</div>
         </td>
         <td class="py-3.5 px-4 whitespace-nowrap">
           ${item.driveUrl ? `
@@ -1623,9 +1741,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <span>📂 Mở Drive</span>
               <span>↗</span>
             </a>
-          ` : '<span class="text-slate-400 text-xs italic">Không có link Drive</span>'}
+          ` : (isCodeAlbum ? `
+            <a href="/albums/${item.slug}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition" onclick="event.stopPropagation()">
+              <span>🔗 Xem trang</span>
+              <span>↗</span>
+            </a>
+          ` : '<span class="text-slate-400 text-xs italic">Không có link</span>')}
           <div class="text-[11px] text-slate-500 font-medium mt-1">
-            ${item.photoCount ? `Đính kèm: <strong>${item.photoCount} ảnh</strong>` : (previews.length ? `${previews.length} ảnh xem trước` : '')}
+            Tổng cộng: <strong>${item.photoCount || previews.length} ảnh</strong>
           </div>
         </td>
         <td class="py-3.5 px-4 text-center whitespace-nowrap">
@@ -1637,17 +1760,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <td class="py-3.5 px-4 text-right whitespace-nowrap" onclick="event.stopPropagation()">
           <div class="flex items-center justify-end space-x-1.5">
             <button class="btn-quick-album-edit px-2.5 py-1.5 rounded-lg text-xs font-bold bg-navy-950 hover:bg-warmOrange-600 text-white transition shadow-xs flex items-center space-x-1" data-id="${id}">
-              <span>✏️ Xem / Duyệt</span>
+              <span>✏️ Sửa / Thêm Ảnh</span>
             </button>
-            ${item.status !== 'approved' ? `
+            ${!isCodeAlbum && item.status !== 'approved' ? `
               <button class="btn-quick-album-approve px-2.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-xs" data-id="${id}" title="Duyệt nhanh">
                 ✓
               </button>
-            ` : `
+            ` : ''}
+            ${!isCodeAlbum && item.status === 'approved' ? `
               <button class="btn-quick-album-reject px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-600 hover:bg-amber-700 text-white transition shadow-xs" data-id="${id}" title="Hạ bài">
                 Ẩn
               </button>
-            `}
+            ` : ''}
             <button class="btn-quick-album-delete p-1.5 rounded-lg text-xs text-rose-600 hover:bg-rose-50 hover:text-rose-700 transition" data-id="${id}" title="Xóa">
               🗑️
             </button>
@@ -1694,9 +1818,67 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       btn.addEventListener('click', async (e) => {
         e.stopPropagation();
         const id = (btn as HTMLElement).getAttribute('data-id');
-        if (id && confirm('Bạn có chắc chắn muốn xóa album này khỏi danh sách không?')) {
-          await deleteDoc(doc(db, 'album_submissions', id));
-          loadAdminAlbums();
+        if (!id) return;
+        
+        const item = loadedAlbums.find((a) => a.id === id);
+        if (item?.source === 'code') {
+          if (confirm(`Bạn có chắc chắn muốn xóa vĩnh viễn Album "${item.title}" khỏi file code src/data/albums.json không?\n(Hệ thống sẽ cập nhật trực tiếp lên GitHub)`)) {
+            await deleteCodeAlbum(id);
+          }
+        } else {
+          if (confirm('Bạn có chắc chắn muốn xóa album đóng góp này không?')) {
+            await deleteDoc(doc(db, 'album_submissions', id));
+            loadAdminAlbums();
+          }
+        }
+      });
+    });
+  }
+
+  // Render photo thumbnails with Delete action inside Modal
+  function renderModalPhotoThumbnails() {
+    if (!modalAlbumThumbnails) return;
+    const countEl = document.getElementById('modal-photo-count');
+    if (countEl) countEl.textContent = currentEditingPhotos.length.toString();
+
+    if (currentEditingPhotos.length === 0) {
+      modalAlbumThumbnails.innerHTML = '<p class="text-xs text-slate-400 col-span-full py-6 text-center italic">Album chưa có ảnh nào. Bấm nút "+ Thêm Ảnh Mới Vào Album" ở trên để bổ sung ảnh.</p>';
+      return;
+    }
+
+    modalAlbumThumbnails.innerHTML = currentEditingPhotos
+      .map((p, index) => {
+        const src = typeof p === 'string' ? p : p.src;
+        const caption = typeof p === 'object' && p.caption ? p.caption : '';
+        return `
+          <div class="relative group rounded-xl overflow-hidden border border-slate-200 aspect-square bg-slate-900 shadow-2xs">
+            <img src="${src}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer" onclick="window.open('${src}', '_blank')" />
+            
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5 p-1">
+              <button
+                type="button"
+                class="btn-delete-single-photo p-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-[10px] font-bold transition cursor-pointer shadow-sm"
+                data-index="${index}"
+                title="Xóa ảnh này khỏi album"
+              >
+                🗑️
+              </button>
+            </div>
+
+            <span class="absolute bottom-1 left-1 bg-black/70 text-white text-[9px] px-1.5 py-0.2 rounded font-mono">#${index + 1}</span>
+          </div>
+        `;
+      })
+      .join('');
+
+    // Attach delete single photo listeners
+    modalAlbumThumbnails.querySelectorAll('.btn-delete-single-photo').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const idx = parseInt((btn as HTMLElement).getAttribute('data-index') || '-1', 10);
+        if (idx >= 0 && idx < currentEditingPhotos.length) {
+          currentEditingPhotos.splice(idx, 1);
+          renderModalPhotoThumbnails();
         }
       });
     });
@@ -1707,11 +1889,44 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const item = loadedAlbums.find((a) => a.id === id);
     if (!item || !modalEditAlbum) return;
 
+    const isCode = item.source === 'code';
+    const typeBadge = document.getElementById('modal-album-type-badge');
+    const mainTitle = document.getElementById('modal-album-main-title');
+    const driveSection = document.getElementById('modal-drive-section');
+    const statusSection = document.getElementById('modal-status-section');
+    const sourceInput = document.getElementById('edit-album-source') as HTMLInputElement | null;
+
+    if (sourceInput) sourceInput.value = isCode ? 'code' : 'firestore';
+
+    if (typeBadge) {
+      if (isCode) {
+        typeBadge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800';
+        typeBadge.textContent = '🏛️ Album Mã Nguồn (Code Web)';
+      } else {
+        typeBadge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800';
+        typeBadge.textContent = '📥 Đóng Góp Người Dùng (Firestore)';
+      }
+    }
+
+    if (mainTitle) {
+      mainTitle.textContent = isCode ? `Biên Tập Album: ${item.title}` : 'Kiểm Duyệt & Xử Lý Album Đóng Góp';
+    }
+
+    if (driveSection) {
+      if (isCode) driveSection.classList.add('hidden');
+      else driveSection.classList.remove('hidden');
+    }
+
+    if (statusSection) {
+      if (isCode) statusSection.classList.add('hidden');
+      else statusSection.classList.remove('hidden');
+    }
+
     if (modalAlbumDocId) modalAlbumDocId.textContent = id;
     if (editAlbumDocId) editAlbumDocId.value = id;
     if (editAlbumTitle) editAlbumTitle.value = item.title || '';
-    if (editAlbumCategory) editAlbumCategory.value = item.category || 'khai-giang';
-    if (editAlbumSender) editAlbumSender.value = item.senderName || '';
+    if (editAlbumCategory) editAlbumCategory.value = item.category || 'truong-xua';
+    if (editAlbumSender) editAlbumSender.value = item.senderName || (isCode ? 'THPT Xuân Lộc' : '');
     if (editAlbumYear) editAlbumYear.value = item.year || '';
     if (editAlbumDriveUrl) editAlbumDriveUrl.value = item.driveUrl || '';
     if (editAlbumNote) editAlbumNote.value = item.note || '';
@@ -1725,23 +1940,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       }
     }
 
-    // Render Preview Thumbnails
-    if (modalAlbumThumbnails) {
-      const previews: string[] = Array.isArray(item.previews) ? item.previews : [];
-      if (previews.length > 0) {
-        modalAlbumThumbnails.innerHTML = previews
-          .map(
-            (url) => `
-          <div class="relative group rounded-xl overflow-hidden border border-slate-200 aspect-square bg-slate-100">
-            <img src="${url}" class="w-full h-full object-cover cursor-pointer hover:scale-105 transition" onclick="window.open('${url}', '_blank')" />
-          </div>
-        `
-          )
-          .join('');
-      } else {
-        modalAlbumThumbnails.innerHTML = '<p class="text-xs text-slate-400 col-span-full py-4 text-center">Không có ảnh đính kèm xem trước (hoặc chỉ gửi qua Link Drive)</p>';
-      }
+    // Load photos into state
+    if (isCode && Array.isArray(item.photos)) {
+      currentEditingPhotos = JSON.parse(JSON.stringify(item.photos));
+    } else if (Array.isArray(item.previews)) {
+      currentEditingPhotos = item.previews.map((src: string) => ({ src, caption: item.title }));
+    } else {
+      currentEditingPhotos = [];
     }
+
+    renderModalPhotoThumbnails();
+
+    // Close add photo box if open
+    const addBox = document.getElementById('add-photo-box');
+    if (addBox) addBox.classList.add('hidden');
 
     // Status Radio
     const statusVal = item.status || 'pending';
@@ -1750,6 +1962,59 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     modalEditAlbum.classList.remove('hidden');
   }
+
+  // Toggle Add Photo Box
+  const btnToggleAddPhoto = document.getElementById('btn-toggle-add-photo');
+  const addPhotoBox = document.getElementById('add-photo-box');
+  const btnCancelAddPhotos = document.getElementById('btn-cancel-add-photos');
+  const btnConfirmAddPhotos = document.getElementById('btn-confirm-add-photos');
+  const inputNewPhotosUrls = document.getElementById('input-new-photos-urls') as HTMLTextAreaElement | null;
+
+  btnToggleAddPhoto?.addEventListener('click', () => {
+    if (addPhotoBox) {
+      addPhotoBox.classList.toggle('hidden');
+      if (!addPhotoBox.classList.contains('hidden')) {
+        inputNewPhotosUrls?.focus();
+      }
+    }
+  });
+
+  btnCancelAddPhotos?.addEventListener('click', () => {
+    if (addPhotoBox) addPhotoBox.classList.add('hidden');
+    if (inputNewPhotosUrls) inputNewPhotosUrls.value = '';
+  });
+
+  btnConfirmAddPhotos?.addEventListener('click', () => {
+    const raw = inputNewPhotosUrls?.value.trim() || '';
+    if (!raw) {
+      alert('Vui lòng nhập ít nhất một đường dẫn ảnh!');
+      inputNewPhotosUrls?.focus();
+      return;
+    }
+
+    const urls = raw
+      .split(/[\n,]/)
+      .map((u) => u.trim())
+      .filter((u) => u.startsWith('http://') || u.startsWith('https://'));
+
+    if (urls.length === 0) {
+      alert('Không tìm thấy đường dẫn ảnh hợp lệ (bắt đầu bằng http:// hoặc https://)');
+      return;
+    }
+
+    const albumTitle = editAlbumTitle?.value.trim() || 'Album kỷ niệm';
+    urls.forEach((url) => {
+      currentEditingPhotos.push({
+        src: url,
+        caption: albumTitle,
+        originalUrl: url,
+      });
+    });
+
+    if (inputNewPhotosUrls) inputNewPhotosUrls.value = '';
+    if (addPhotoBox) addPhotoBox.classList.add('hidden');
+    renderModalPhotoThumbnails();
+  });
 
   function closeAlbumModal() {
     if (modalEditAlbum) modalEditAlbum.classList.add('hidden');
@@ -1762,13 +2027,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     if (e.target === modalEditAlbum) closeAlbumModal();
   });
 
-  // Save Album from Modal
+  // Save Album (handles both Code Album via GitHub API and Firestore submissions)
   btnModalAlbumSave?.addEventListener('click', async () => {
     const id = editAlbumDocId?.value;
     if (!id) return;
 
+    const source = (document.getElementById('edit-album-source') as HTMLInputElement)?.value || 'firestore';
     const title = editAlbumTitle?.value.trim() || '';
-    const category = editAlbumCategory?.value || 'khai-giang';
+    const category = editAlbumCategory?.value || 'truong-xua';
     const senderName = editAlbumSender?.value.trim() || '';
     const year = editAlbumYear?.value.trim() || '';
     const driveUrl = editAlbumDriveUrl?.value.trim() || '';
@@ -1782,47 +2048,209 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     }
 
     if (btnModalAlbumSave) {
-      btnModalAlbumSave.innerHTML = `<span class="inline-block animate-spin">⏳</span> <span>Đang lưu...</span>`;
+      btnModalAlbumSave.innerHTML = `<span class="inline-block animate-spin">⏳</span> <span>Đang lưu và đồng bộ...</span>`;
       (btnModalAlbumSave as HTMLButtonElement).disabled = true;
     }
 
     try {
-      await updateDoc(doc(db, 'album_submissions', id), {
-        title,
-        category,
-        senderName,
-        year,
-        driveUrl,
-        note,
-        status: selectedStatus,
-        updatedAt: serverTimestamp(),
-      });
+      if (source === 'code') {
+        // Update static album in memory & push to GitHub
+        await saveCodeAlbumToGitHub(id, {
+          title,
+          photos: currentEditingPhotos,
+          photoCount: currentEditingPhotos.length,
+          coverImage: currentEditingPhotos[0]?.src || '',
+        });
+      } else {
+        // Update Firestore album submission
+        const previews = currentEditingPhotos.map((p) => (typeof p === 'string' ? p : p.src));
+        await updateDoc(doc(db, 'album_submissions', id), {
+          title,
+          category,
+          senderName,
+          year,
+          driveUrl,
+          note,
+          previews,
+          photoCount: previews.length,
+          status: selectedStatus,
+          updatedAt: serverTimestamp(),
+        });
 
-      alert('🎉 Đã cập nhật thành công Album!');
-      closeAlbumModal();
-      loadAdminAlbums();
+        alert('🎉 Đã cập nhật thành công Album đóng góp!');
+        closeAlbumModal();
+        loadAdminAlbums();
+      }
     } catch (err: any) {
       alert('❌ Lỗi khi cập nhật Album: ' + (err.message || err));
     } finally {
       if (btnModalAlbumSave) {
-        btnModalAlbumSave.innerHTML = `<span>💾 Lưu & Cập Nhật</span>`;
+        btnModalAlbumSave.innerHTML = `<span>💾 Lưu Thay Đổi & Cập Nhật Code</span>`;
         (btnModalAlbumSave as HTMLButtonElement).disabled = false;
       }
     }
   });
 
-  // Delete Album from Modal
-  btnModalAlbumDelete?.addEventListener('click', async () => {
-    const id = editAlbumDocId?.value;
-    if (!id || !confirm('Bạn có chắc chắn muốn xóa album này khỏi danh sách không?')) return;
+  // Save Code Album directly to GitHub repo
+  async function saveCodeAlbumToGitHub(slug: string, updatedFields: any) {
+    if (!activePat) {
+      alert('⚠️ Bạn cần cấu hình GitHub PAT trong tab Cài Đặt để cập nhật file code albums.json!');
+      switchTab('settings');
+      return;
+    }
+
+    const repoOwner = 'cfmvn';
+    const repoName = 'chsxuanloc';
+    const filePath = 'src/data/albums.json';
+
+    // 1. Fetch current file sha & content from GitHub
+    const getRes = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
+      headers: {
+        'Accept': 'application/vnd.github+json',
+        'Authorization': `Bearer ${activePat}`,
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+    });
+
+    if (!getRes.ok) {
+      throw new Error(`Không thể đọc file từ GitHub (${getRes.status}). Vui lòng kiểm tra lại GitHub Token.`);
+    }
+
+    const getData = await getRes.json();
+    const currentSha = getData.sha;
+    // Decode base64 UTF-8
+    const rawContent = decodeURIComponent(escape(atob(getData.content.replace(/\n/g, ''))));
+    const albumsArray: any[] = JSON.parse(rawContent);
+
+    // 2. Find and update the album
+    const idx = albumsArray.findIndex((a) => a.slug === slug);
+    if (idx !== -1) {
+      albumsArray[idx] = {
+        ...albumsArray[idx],
+        ...updatedFields,
+      };
+    } else {
+      // Add new album to JSON
+      albumsArray.unshift({
+        slug,
+        ...updatedFields,
+      });
+    }
+
+    // 3. Encode back to UTF-8 Base64
+    const newJsonString = JSON.stringify(albumsArray, null, 2);
+    const encodedContent = btoa(unescape(encodeURIComponent(newJsonString)));
+
+    // 4. Commit to GitHub
+    const putRes = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/vnd.github+json',
+        'Authorization': `Bearer ${activePat}`,
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+      body: JSON.stringify({
+        message: `feat(albums): cap nhat album [${slug}] - ${updatedFields.title} qua Admin Dashboard`,
+        content: encodedContent,
+        sha: currentSha,
+        branch: 'main',
+      }),
+    });
+
+    if (!putRes.ok) {
+      const errData = await putRes.json().catch(() => ({}));
+      throw new Error(`Lỗi ghi vào GitHub (${putRes.status}): ${errData.message || 'Thất bại'}`);
+    }
+
+    // Update in-memory static data
+    allStaticAlbums = albumsArray;
+    const staticEl = document.getElementById('static-albums-json');
+    if (staticEl) staticEl.textContent = JSON.stringify(albumsArray);
+
+    alert(`🎉 ĐÃ ĐỒNG BỘ THÀNH CÔNG VÀO GITHUB!\n\nAlbum "${updatedFields.title}" đã được cập nhật trực tiếp vào file src/data/albums.json trên repo.\nCloudflare Pages sẽ tự động build lại trong 1 phút.`);
+    closeAlbumModal();
+    loadAdminAlbums();
+  }
+
+  // Delete Code Album directly from GitHub repo
+  async function deleteCodeAlbum(slug: string) {
+    if (!activePat) {
+      alert('⚠️ Bạn cần cấu hình GitHub PAT trong tab Cài Đặt để xóa album khỏi file code!');
+      switchTab('settings');
+      return;
+    }
 
     try {
-      await deleteDoc(doc(db, 'album_submissions', id));
-      alert('Đã xóa album thành công!');
-      closeAlbumModal();
+      const repoOwner = 'cfmvn';
+      const repoName = 'chsxuanloc';
+      const filePath = 'src/data/albums.json';
+
+      const getRes = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
+        headers: {
+          'Accept': 'application/vnd.github+json',
+          'Authorization': `Bearer ${activePat}`,
+          'X-GitHub-Api-Version': '2022-11-28',
+        },
+      });
+
+      if (!getRes.ok) throw new Error('Không thể đọc file từ GitHub');
+
+      const getData = await getRes.json();
+      const currentSha = getData.sha;
+      const rawContent = decodeURIComponent(escape(atob(getData.content.replace(/\n/g, ''))));
+      const albumsArray: any[] = JSON.parse(rawContent);
+
+      const filtered = albumsArray.filter((a) => a.slug !== slug);
+      const newJsonString = JSON.stringify(filtered, null, 2);
+      const encodedContent = btoa(unescape(encodeURIComponent(newJsonString)));
+
+      const putRes = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`, {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/vnd.github+json',
+          'Authorization': `Bearer ${activePat}`,
+          'X-GitHub-Api-Version': '2022-11-28',
+        },
+        body: JSON.stringify({
+          message: `chore(albums): xoa album [${slug}] qua Admin Dashboard`,
+          content: encodedContent,
+          sha: currentSha,
+          branch: 'main',
+        }),
+      });
+
+      if (!putRes.ok) throw new Error('Lỗi khi xóa album trên GitHub');
+
+      allStaticAlbums = filtered;
+      alert('🎉 Đã xóa thành công Album khỏi file code GitHub!');
       loadAdminAlbums();
     } catch (err: any) {
       alert('❌ Lỗi khi xóa album: ' + (err.message || err));
+    }
+  }
+
+  // Delete Album from Modal
+  btnModalAlbumDelete?.addEventListener('click', async () => {
+    const id = editAlbumDocId?.value;
+    if (!id) return;
+
+    const source = (document.getElementById('edit-album-source') as HTMLInputElement)?.value || 'firestore';
+    if (source === 'code') {
+      if (confirm('Bạn có chắc chắn muốn xóa album này vĩnh viễn khỏi file code GitHub không?')) {
+        closeAlbumModal();
+        await deleteCodeAlbum(id);
+      }
+    } else {
+      if (confirm('Bạn có chắc chắn muốn xóa album đóng góp này không?')) {
+        try {
+          await deleteDoc(doc(db, 'album_submissions', id));
+          alert('Đã xóa album thành công!');
+          closeAlbumModal();
+          loadAdminAlbums();
+        } catch (err: any) {
+          alert('❌ Lỗi khi xóa album: ' + (err.message || err));
+        }
+      }
     }
   });
 
