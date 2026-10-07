@@ -62,6 +62,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <button id="tab-submissions" data-tab="submissions" class="pb-3 px-2 sm:px-3 border-b-2 border-warmOrange-500 font-bold text-xs sm:text-sm text-navy-900 whitespace-nowrap transition-colors">
             Duyệt Kỷ Yếu & Lưu Bút (<span id="count-pending">0</span>)
           </button>
+          <button id="tab-albums" data-tab="albums" class="pb-3 px-2 sm:px-3 border-b-2 border-transparent font-medium text-xs sm:text-sm text-slate-500 hover:text-navy-900 whitespace-nowrap transition-colors flex items-center space-x-1.5">
+            <span>📸 Duyệt Album Ảnh</span>
+            <span id="count-pending-albums" class="px-1.5 py-0.2 rounded-full text-[10px] bg-amber-100 text-amber-800 font-bold">0</span>
+          </button>
           <button id="tab-scholarships" data-tab="scholarships" class="pb-3 px-2 sm:px-3 border-b-2 border-transparent font-medium text-xs sm:text-sm text-slate-500 hover:text-navy-900 whitespace-nowrap transition-colors">
             Danh Sách Học Bổng
           </button>
@@ -258,6 +262,197 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </div>
         </div>
 
+
+        <!-- Section: Album Submissions Management -->
+        <div id="panel-albums" class="hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h2 class="text-lg sm:text-xl font-bold text-navy-900">Quản Lý Album Ảnh Đóng Góp</h2>
+              <p class="text-xs text-slate-500">Xem xét link Google Drive, ảnh kỷ niệm cựu học sinh gửi về và phê duyệt lên Thư Viện</p>
+            </div>
+            <button id="btn-refresh-albums" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-navy-950 transition shadow-xs flex items-center space-x-1.5 self-start sm:self-auto">
+              <svg class="w-4 h-4 text-warmOrange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <span>Làm mới Album</span>
+            </button>
+          </div>
+
+          <!-- Album Status Filter Pills -->
+          <div class="flex items-center gap-2 p-1.5 bg-slate-200/70 rounded-2xl w-fit overflow-x-auto">
+            <button
+              class="album-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-white text-navy-950 shadow-xs flex items-center space-x-1.5"
+              data-status="pending"
+            >
+              <span>⏳ Chờ Duyệt</span>
+              <span id="badge-albums-pending" class="px-2 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-800 font-extrabold">0</span>
+            </button>
+            <button
+              class="album-filter-btn px-4 py-2 rounded-xl text-xs font-medium text-slate-600 hover:text-navy-950 transition flex items-center space-x-1.5"
+              data-status="approved"
+            >
+              <span>✓ Đã Duyệt</span>
+              <span id="badge-albums-approved" class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-800 font-extrabold">0</span>
+            </button>
+            <button
+              class="album-filter-btn px-4 py-2 rounded-xl text-xs font-medium text-slate-600 hover:text-navy-950 transition flex items-center space-x-1.5"
+              data-status="rejected"
+            >
+              <span>✕ Đã Từ Chối</span>
+              <span id="badge-albums-rejected" class="px-2 py-0.5 rounded-full text-[10px] bg-rose-100 text-rose-800 font-extrabold">0</span>
+            </button>
+            <button
+              class="album-filter-btn px-4 py-2 rounded-xl text-xs font-medium text-slate-600 hover:text-navy-950 transition flex items-center space-x-1.5"
+              data-status="all"
+            >
+              <span>Tất Cả</span>
+              <span id="badge-albums-all" class="px-2 py-0.5 rounded-full text-[10px] bg-slate-200 text-slate-700 font-extrabold">0</span>
+            </button>
+          </div>
+
+          <!-- Loading State -->
+          <div id="albums-table-loading" class="py-16 text-center text-slate-400 space-y-2">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-3 border-warmOrange-500 border-t-transparent"></div>
+            <p class="text-xs font-medium">Đang tải danh sách album gửi về...</p>
+          </div>
+
+          <!-- Empty State -->
+          <div id="albums-table-empty" class="hidden py-12 text-center text-slate-500 bg-white rounded-2xl border border-dashed border-slate-300 p-6 space-y-2">
+            <span class="text-3xl block">🖼️</span>
+            <p class="text-sm font-bold text-navy-900">Không có album ảnh nào trong mục này</p>
+            <p class="text-xs text-slate-400">Các album do cựu học sinh đóng góp từ trang Thư Viện Album sẽ xuất hiện tại đây.</p>
+          </div>
+
+          <!-- Albums Table List -->
+          <div id="albums-table-wrap" class="hidden bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-700">
+                <thead class="bg-slate-50 text-navy-900 uppercase font-bold text-[11px] border-b border-slate-200 tracking-wider">
+                  <tr>
+                    <th class="py-3.5 px-4">Album & Chủ Đề</th>
+                    <th class="py-3.5 px-4">Người Gửi / Niên Khóa</th>
+                    <th class="py-3.5 px-4">Google Drive / Số Lượng</th>
+                    <th class="py-3.5 px-4 text-center">Trạng Thái</th>
+                    <th class="py-3.5 px-4">Thời Gian</th>
+                    <th class="py-3.5 px-4 text-right">Thao Tác</th>
+                  </tr>
+                </thead>
+                <tbody id="albums-tbody" class="divide-y divide-slate-100">
+                  <!-- Render dynamically via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Album Submissions Detail & Edit Modal -->
+        <div id="modal-edit-album" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/60 backdrop-blur-xs hidden">
+          <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <!-- Modal Header -->
+            <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <span class="text-xl">📸</span>
+                <div>
+                  <h3 class="text-base font-bold text-navy-900">Kiểm Duyệt & Xử Lý Album Đóng Góp</h3>
+                  <p class="text-[11px] text-slate-500">Mã: <span id="modal-album-doc-id" class="font-mono text-warmOrange-600"></span></p>
+                </div>
+              </div>
+              <button id="btn-close-modal-album" class="w-8 h-8 rounded-full bg-slate-200/70 hover:bg-slate-300 text-slate-600 flex items-center justify-center transition">
+                ✕
+              </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 overflow-y-auto space-y-4 text-xs flex-1">
+              <input type="hidden" id="edit-album-doc-id" />
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-bold text-slate-700 mb-1">Tên Album / Chủ Đề</label>
+                  <input type="text" id="edit-album-title" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-navy-900 focus:ring-2 focus:ring-warmOrange-500 bg-white" />
+                </div>
+                <div>
+                  <label class="block font-bold text-slate-700 mb-1">Danh Mục Phân Loại</label>
+                  <select id="edit-album-category" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 bg-white">
+                    <option value="khai-giang">🎈 Khai Giảng & Bế Giảng</option>
+                    <option value="thay-co">💐 Tri Ân Thầy Cô (20/11)</option>
+                    <option value="hoi-trai">⛺ Hội Trại & Ngoại Khóa</option>
+                    <option value="the-thao">🏆 Thể Thao & Hội Khỏe</option>
+                    <option value="truong-xua">🏛️ Kỷ Niệm Trường Xưa</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-bold text-slate-700 mb-1">Người Đóng Góp</label>
+                  <input type="text" id="edit-album-sender" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 bg-white" />
+                </div>
+                <div>
+                  <label class="block font-bold text-slate-700 mb-1">Niên Khóa / Năm Chụp</label>
+                  <input type="text" id="edit-album-year" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 bg-white" />
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Link Google Drive / Lưu trữ nguồn</label>
+                <div class="flex items-center space-x-2">
+                  <input type="text" id="edit-album-driveUrl" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 bg-white font-mono" />
+                  <a id="btn-open-drive" href="#" target="_blank" class="px-4 py-2.5 bg-blue-50 text-blue-700 font-bold border border-blue-200 hover:bg-blue-100 rounded-xl whitespace-nowrap inline-flex items-center gap-1">
+                    <span>Mở Drive</span> ↗
+                  </a>
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Lời Nhắn / Bối Cảnh Lịch Sử</label>
+                <textarea id="edit-album-note" rows="3" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs leading-relaxed focus:ring-2 focus:ring-warmOrange-500 bg-white"></textarea>
+              </div>
+
+              <!-- Preview Thumbnails -->
+              <div>
+                <label class="block font-bold text-slate-700 mb-1.5">Ảnh xem trước đính kèm</label>
+                <div id="modal-album-thumbnails" class="grid grid-cols-3 sm:grid-cols-5 gap-2 p-3 bg-slate-50 border border-slate-200 rounded-2xl min-h-[80px]">
+                  <!-- Thumbnails injected via JS -->
+                </div>
+              </div>
+
+              <div class="pt-2">
+                <label class="block font-bold text-slate-700 mb-1">Trạng thái phê duyệt</label>
+                <div class="flex flex-wrap gap-3">
+                  <label class="flex items-center space-x-2 p-2.5 rounded-xl border border-amber-200 bg-amber-50 cursor-pointer">
+                    <input type="radio" name="edit-album-status" value="pending" class="text-warmOrange-600 focus:ring-warmOrange-500" />
+                    <span class="font-bold text-amber-800">⏳ Chờ duyệt (Pending)</span>
+                  </label>
+                  <label class="flex items-center space-x-2 p-2.5 rounded-xl border border-emerald-200 bg-emerald-50 cursor-pointer">
+                    <input type="radio" name="edit-album-status" value="approved" class="text-emerald-600 focus:ring-emerald-500" />
+                    <span class="font-bold text-emerald-800">✓ Duyệt đưa lên CDN / Thư viện</span>
+                  </label>
+                  <label class="flex items-center space-x-2 p-2.5 rounded-xl border border-rose-200 bg-rose-50 cursor-pointer">
+                    <input type="radio" name="edit-album-status" value="rejected" class="text-rose-600 focus:ring-rose-500" />
+                    <span class="font-bold text-rose-800">✕ Từ chối</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+              <button type="button" id="btn-modal-album-delete" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 transition">
+                🗑️ Xóa Bản Ghi
+              </button>
+
+              <div class="flex items-center space-x-2">
+                <button type="button" id="btn-modal-album-cancel" class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-200 transition">
+                  Đóng
+                </button>
+                <button type="button" id="btn-modal-album-save" class="px-6 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 text-white transition shadow-sm flex items-center space-x-1.5">
+                  <span>💾 Lưu & Cập Nhật</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- Section 2: Scholarships List -->
         <div id="panel-scholarships" class="hidden space-y-4">
@@ -497,12 +692,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   const googleBtn = document.getElementById('google-signin-btn');
   
   const tabSubmissions = document.getElementById('tab-submissions');
+  const tabAlbums = document.getElementById('tab-albums');
   const tabScholarships = document.getElementById('tab-scholarships');
   const tabAutomation = document.getElementById('tab-automation');
   const tabSettings = document.getElementById('tab-settings');
   const tabAutoBadge = document.getElementById('tab-auto-badge');
 
   const panelSubmissions = document.getElementById('panel-submissions');
+  const panelAlbums = document.getElementById('panel-albums');
   const panelScholarships = document.getElementById('panel-scholarships');
   const panelAutomation = document.getElementById('panel-automation');
   const panelSettings = document.getElementById('panel-settings');
@@ -519,6 +716,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   const btnTriggerGenerateStory = document.getElementById('btn-trigger-generate-story') as HTMLButtonElement | null;
   const btnTriggerDeploy = document.getElementById('btn-trigger-deploy') as HTMLButtonElement | null;
   const btnRefreshSubmissions = document.getElementById('btn-refresh-submissions');
+  const btnRefreshAlbums = document.getElementById('btn-refresh-albums');
   const btnRefreshScholarships = document.getElementById('btn-refresh-scholarships');
 
   const submissionsTableWrap = document.getElementById('submissions-table-wrap');
@@ -531,6 +729,35 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   const badgeRejected = document.getElementById('badge-rejected');
   const badgeAll = document.getElementById('badge-all');
   const subFilterBtns = document.querySelectorAll<HTMLButtonElement>('.sub-filter-btn');
+
+  // Album Submission Elements
+  const albumsTableWrap = document.getElementById('albums-table-wrap');
+  const albumsTbody = document.getElementById('albums-tbody');
+  const albumsLoading = document.getElementById('albums-table-loading');
+  const albumsEmpty = document.getElementById('albums-table-empty');
+  const countPendingAlbums = document.getElementById('count-pending-albums');
+  const badgeAlbumsPending = document.getElementById('badge-albums-pending');
+  const badgeAlbumsApproved = document.getElementById('badge-albums-approved');
+  const badgeAlbumsRejected = document.getElementById('badge-albums-rejected');
+  const badgeAlbumsAll = document.getElementById('badge-albums-all');
+  const albumFilterBtns = document.querySelectorAll<HTMLButtonElement>('.album-filter-btn');
+
+  // Album Modal elements
+  const modalEditAlbum = document.getElementById('modal-edit-album');
+  const btnCloseModalAlbum = document.getElementById('btn-close-modal-album');
+  const btnModalAlbumCancel = document.getElementById('btn-modal-album-cancel');
+  const btnModalAlbumSave = document.getElementById('btn-modal-album-save');
+  const btnModalAlbumDelete = document.getElementById('btn-modal-album-delete');
+  const modalAlbumDocId = document.getElementById('modal-album-doc-id');
+  const editAlbumDocId = document.getElementById('edit-album-doc-id') as HTMLInputElement | null;
+  const editAlbumTitle = document.getElementById('edit-album-title') as HTMLInputElement | null;
+  const editAlbumCategory = document.getElementById('edit-album-category') as HTMLSelectElement | null;
+  const editAlbumSender = document.getElementById('edit-album-sender') as HTMLInputElement | null;
+  const editAlbumYear = document.getElementById('edit-album-year') as HTMLInputElement | null;
+  const editAlbumDriveUrl = document.getElementById('edit-album-driveUrl') as HTMLInputElement | null;
+  const editAlbumNote = document.getElementById('edit-album-note') as HTMLTextAreaElement | null;
+  const btnOpenDrive = document.getElementById('btn-open-drive') as HTMLAnchorElement | null;
+  const modalAlbumThumbnails = document.getElementById('modal-album-thumbnails');
 
   // Modal elements
   const modalEditSubmission = document.getElementById('modal-edit-submission');
@@ -554,6 +781,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   // State
   let loadedSubmissions: any[] = [];
   let currentSubFilter = 'pending';
+  let loadedAlbums: any[] = [];
+  let currentAlbumFilter = 'pending';
+
+  // Danh mục Album mapping
+  const albumCategoryMap: Record<string, { label: string; icon: string }> = {
+    'khai-giang': { label: 'Khai Giảng & Bế Giảng', icon: '🎈' },
+    'thay-co': { label: 'Tri Ân Thầy Cô', icon: '💐' },
+    'hoi-trai': { label: 'Hội Trại & Ngoại Khóa', icon: '⛺' },
+    'the-thao': { label: 'Thể Thao & Hội Khỏe', icon: '🏆' },
+    'truong-xua': { label: 'Kỷ Niệm Trường Xưa', icon: '🏛️' },
+  };
 
   // Danh sách Email Admin được ủy quyền
   const allowedAdminEmailsStr = import.meta.env.PUBLIC_ADMIN_EMAILS || 'chsxuanloc@gmail.com,thepottershousevn@gmail.com';
@@ -569,7 +807,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   // Tab Manager with URL Hash sync
   function switchTab(tabName: string, pushHash = true) {
-    const validTabs = ['submissions', 'scholarships', 'automation', 'settings'];
+    const validTabs = ['submissions', 'albums', 'scholarships', 'automation', 'settings'];
     const activeTab = validTabs.includes(tabName) ? tabName : 'submissions';
 
     // If trying to open automation but token is missing, redirect with warning
@@ -581,6 +819,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     const tabsMap: Record<string, { tabEl: HTMLElement | null; panelEl: HTMLElement | null }> = {
       submissions: { tabEl: tabSubmissions, panelEl: panelSubmissions },
+      albums: { tabEl: tabAlbums, panelEl: panelAlbums },
       scholarships: { tabEl: tabScholarships, panelEl: panelScholarships },
       automation: { tabEl: tabAutomation, panelEl: panelAutomation },
       settings: { tabEl: tabSettings, panelEl: panelSettings },
@@ -606,6 +845,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   // Bind Tab Click Events
   tabSubmissions?.addEventListener('click', () => switchTab('submissions'));
+  tabAlbums?.addEventListener('click', () => switchTab('albums'));
   tabScholarships?.addEventListener('click', () => switchTab('scholarships'));
   tabAutomation?.addEventListener('click', () => {
     // Luôn kiểm tra activePat mới nhất (hoặc lấy từ localStorage nếu có)
@@ -866,6 +1106,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       switchTab(initialHash || 'submissions', false);
 
       loadAdminSubmissions();
+      loadAdminAlbums();
       loadAdminScholarships();
 
     } else {
@@ -884,6 +1125,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   });
 
   btnRefreshSubmissions?.addEventListener('click', () => loadAdminSubmissions());
+  btnRefreshAlbums?.addEventListener('click', () => loadAdminAlbums());
   btnRefreshScholarships?.addEventListener('click', () => loadAdminScholarships());
 
   // Status Filter switching
@@ -1242,6 +1484,345 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       console.error('Lỗi khi fetch scholarships:', err);
     }
   }
+
+  // Album Filter switching
+  albumFilterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      currentAlbumFilter = btn.getAttribute('data-status') || 'pending';
+      albumFilterBtns.forEach((b) => {
+        b.classList.remove('bg-white', 'text-navy-950', 'shadow-xs', 'font-bold');
+        b.classList.add('text-slate-600', 'font-medium');
+      });
+      btn.classList.remove('text-slate-600', 'font-medium');
+      btn.classList.add('bg-white', 'text-navy-950', 'shadow-xs', 'font-bold');
+      renderFilteredAlbums();
+    });
+  });
+
+  // Load Album Submissions from Firestore
+  async function loadAdminAlbums() {
+    if (!albumsTableWrap || !albumsLoading || !albumsEmpty) return;
+    albumsLoading.classList.remove('hidden');
+    albumsEmpty.classList.add('hidden');
+    albumsTableWrap.classList.add('hidden');
+
+    try {
+      const q = query(collection(db, 'album_submissions'), orderBy('createdAt', 'desc'));
+      const snapshot = await getDocs(q);
+
+      albumsLoading.classList.add('hidden');
+
+      loadedAlbums = [];
+      let countP = 0;
+      let countA = 0;
+      let countR = 0;
+
+      snapshot.forEach((docSnap) => {
+        const item = docSnap.data();
+        const id = docSnap.id;
+        const entry = { id, ...item };
+        loadedAlbums.push(entry);
+
+        if (item.status === 'pending' || !item.status) countP++;
+        else if (item.status === 'approved') countA++;
+        else if (item.status === 'rejected') countR++;
+      });
+
+      if (badgeAlbumsPending) badgeAlbumsPending.textContent = countP.toString();
+      if (badgeAlbumsApproved) badgeAlbumsApproved.textContent = countA.toString();
+      if (badgeAlbumsRejected) badgeAlbumsRejected.textContent = countR.toString();
+      if (badgeAlbumsAll) badgeAlbumsAll.textContent = loadedAlbums.length.toString();
+      if (countPendingAlbums) countPendingAlbums.textContent = countP.toString();
+
+      renderFilteredAlbums();
+    } catch (err: any) {
+      console.error('Lỗi khi fetch album_submissions:', err);
+      albumsLoading.classList.add('hidden');
+      if (albumsEmpty) albumsEmpty.classList.remove('hidden');
+    }
+  }
+
+  // Render filtered albums
+  function renderFilteredAlbums() {
+    if (!albumsTbody || !albumsTableWrap || !albumsEmpty) return;
+
+    let filtered = loadedAlbums;
+    if (currentAlbumFilter === 'pending') {
+      filtered = loadedAlbums.filter((a) => a.status === 'pending' || !a.status);
+    } else if (currentAlbumFilter === 'approved') {
+      filtered = loadedAlbums.filter((a) => a.status === 'approved');
+    } else if (currentAlbumFilter === 'rejected') {
+      filtered = loadedAlbums.filter((a) => a.status === 'rejected');
+    }
+
+    if (filtered.length === 0) {
+      albumsTableWrap.classList.add('hidden');
+      albumsEmpty.classList.remove('hidden');
+      return;
+    }
+
+    albumsEmpty.classList.add('hidden');
+    albumsTableWrap.classList.remove('hidden');
+    albumsTbody.innerHTML = '';
+
+    filtered.forEach((item) => {
+      const id = item.id;
+      const catInfo = albumCategoryMap[item.category] || { label: item.category || 'Kỷ niệm', icon: '📸' };
+
+      let dateStr = '';
+      if (item.createdAt?.toDate) {
+        dateStr = new Date(item.createdAt.toDate()).toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' });
+      } else if (item.createdAt?.seconds) {
+        dateStr = new Date(item.createdAt.seconds * 1000).toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' });
+      } else if (typeof item.createdAt === 'string') {
+        dateStr = new Date(item.createdAt).toLocaleDateString('vi-VN');
+      }
+
+      let statusBadge = '';
+      if (item.status === 'approved') {
+        statusBadge = '<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 inline-flex items-center gap-1"><span>✓</span><span>Đã Duyệt</span></span>';
+      } else if (item.status === 'rejected') {
+        statusBadge = '<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-100 text-rose-800 inline-flex items-center gap-1"><span>✕</span><span>Từ chối</span></span>';
+      } else {
+        statusBadge = '<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 inline-flex items-center gap-1"><span>⏳</span><span>Chờ duyệt</span></span>';
+      }
+
+      const previews = Array.isArray(item.previews) ? item.previews : [];
+      const firstThumb = previews[0] || '';
+
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-slate-50/80 transition group cursor-pointer';
+      tr.setAttribute('data-id', id);
+
+      tr.innerHTML = `
+        <td class="py-3.5 px-4 max-w-sm">
+          <div class="flex items-start space-x-2.5">
+            ${firstThumb ? `<img src="${firstThumb}" class="w-12 h-12 rounded-xl object-cover border border-slate-200 shrink-0 shadow-2xs" />` : '<div class="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 font-bold shrink-0">📷</div>'}
+            <div class="min-w-0">
+              <span class="font-bold text-navy-950 group-hover:text-warmOrange-600 transition truncate text-xs sm:text-sm block">
+                ${escapeHtml(item.title || 'Album kỷ niệm')}
+              </span>
+              <div class="flex items-center gap-1.5 mt-0.5">
+                <span class="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-medium">
+                  ${catInfo.icon} ${catInfo.label}
+                </span>
+                ${item.year ? `<span class="text-[10px] text-slate-400 font-semibold">• Năm ${escapeHtml(item.year)}</span>` : ''}
+              </div>
+            </div>
+          </div>
+        </td>
+        <td class="py-3.5 px-4 whitespace-nowrap">
+          <div class="font-bold text-navy-900">${escapeHtml(item.senderName || 'Thành viên CHS')}</div>
+          <div class="text-[11px] text-slate-400 truncate max-w-[140px]">${escapeHtml(item.userEmail || '')}</div>
+        </td>
+        <td class="py-3.5 px-4 whitespace-nowrap">
+          ${item.driveUrl ? `
+            <a href="${item.driveUrl}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 font-semibold text-xs border border-blue-200 transition" onclick="event.stopPropagation()">
+              <span>📂 Mở Drive</span>
+              <span>↗</span>
+            </a>
+          ` : '<span class="text-slate-400 text-xs italic">Không có link Drive</span>'}
+          <div class="text-[11px] text-slate-500 font-medium mt-1">
+            ${item.photoCount ? `Đính kèm: <strong>${item.photoCount} ảnh</strong>` : (previews.length ? `${previews.length} ảnh xem trước` : '')}
+          </div>
+        </td>
+        <td class="py-3.5 px-4 text-center whitespace-nowrap">
+          ${statusBadge}
+        </td>
+        <td class="py-3.5 px-4 text-[11px] text-slate-400 whitespace-nowrap">
+          ${dateStr}
+        </td>
+        <td class="py-3.5 px-4 text-right whitespace-nowrap" onclick="event.stopPropagation()">
+          <div class="flex items-center justify-end space-x-1.5">
+            <button class="btn-quick-album-edit px-2.5 py-1.5 rounded-lg text-xs font-bold bg-navy-950 hover:bg-warmOrange-600 text-white transition shadow-xs flex items-center space-x-1" data-id="${id}">
+              <span>✏️ Xem / Duyệt</span>
+            </button>
+            ${item.status !== 'approved' ? `
+              <button class="btn-quick-album-approve px-2.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-xs" data-id="${id}" title="Duyệt nhanh">
+                ✓
+              </button>
+            ` : `
+              <button class="btn-quick-album-reject px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-600 hover:bg-amber-700 text-white transition shadow-xs" data-id="${id}" title="Hạ bài">
+                Ẩn
+              </button>
+            `}
+            <button class="btn-quick-album-delete p-1.5 rounded-lg text-xs text-rose-600 hover:bg-rose-50 hover:text-rose-700 transition" data-id="${id}" title="Xóa">
+              🗑️
+            </button>
+          </div>
+        </td>
+      `;
+
+      tr.addEventListener('click', () => openEditAlbumModal(id));
+      albumsTbody.appendChild(tr);
+    });
+
+    // Attach album quick actions
+    document.querySelectorAll('.btn-quick-album-edit').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = (btn as HTMLElement).getAttribute('data-id');
+        if (id) openEditAlbumModal(id);
+      });
+    });
+
+    document.querySelectorAll('.btn-quick-album-approve').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const id = (btn as HTMLElement).getAttribute('data-id');
+        if (id) {
+          await updateDoc(doc(db, 'album_submissions', id), { status: 'approved' });
+          loadAdminAlbums();
+        }
+      });
+    });
+
+    document.querySelectorAll('.btn-quick-album-reject').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const id = (btn as HTMLElement).getAttribute('data-id');
+        if (id) {
+          await updateDoc(doc(db, 'album_submissions', id), { status: 'rejected' });
+          loadAdminAlbums();
+        }
+      });
+    });
+
+    document.querySelectorAll('.btn-quick-album-delete').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const id = (btn as HTMLElement).getAttribute('data-id');
+        if (id && confirm('Bạn có chắc chắn muốn xóa album này khỏi danh sách không?')) {
+          await deleteDoc(doc(db, 'album_submissions', id));
+          loadAdminAlbums();
+        }
+      });
+    });
+  }
+
+  // Open Album Modal
+  function openEditAlbumModal(id: string) {
+    const item = loadedAlbums.find((a) => a.id === id);
+    if (!item || !modalEditAlbum) return;
+
+    if (modalAlbumDocId) modalAlbumDocId.textContent = id;
+    if (editAlbumDocId) editAlbumDocId.value = id;
+    if (editAlbumTitle) editAlbumTitle.value = item.title || '';
+    if (editAlbumCategory) editAlbumCategory.value = item.category || 'khai-giang';
+    if (editAlbumSender) editAlbumSender.value = item.senderName || '';
+    if (editAlbumYear) editAlbumYear.value = item.year || '';
+    if (editAlbumDriveUrl) editAlbumDriveUrl.value = item.driveUrl || '';
+    if (editAlbumNote) editAlbumNote.value = item.note || '';
+
+    if (btnOpenDrive) {
+      if (item.driveUrl) {
+        btnOpenDrive.href = item.driveUrl;
+        btnOpenDrive.classList.remove('hidden');
+      } else {
+        btnOpenDrive.classList.add('hidden');
+      }
+    }
+
+    // Render Preview Thumbnails
+    if (modalAlbumThumbnails) {
+      const previews: string[] = Array.isArray(item.previews) ? item.previews : [];
+      if (previews.length > 0) {
+        modalAlbumThumbnails.innerHTML = previews
+          .map(
+            (url) => `
+          <div class="relative group rounded-xl overflow-hidden border border-slate-200 aspect-square bg-slate-100">
+            <img src="${url}" class="w-full h-full object-cover cursor-pointer hover:scale-105 transition" onclick="window.open('${url}', '_blank')" />
+          </div>
+        `
+          )
+          .join('');
+      } else {
+        modalAlbumThumbnails.innerHTML = '<p class="text-xs text-slate-400 col-span-full py-4 text-center">Không có ảnh đính kèm xem trước (hoặc chỉ gửi qua Link Drive)</p>';
+      }
+    }
+
+    // Status Radio
+    const statusVal = item.status || 'pending';
+    const statusRadio = document.querySelector<HTMLInputElement>(`input[name="edit-album-status"][value="${statusVal}"]`);
+    if (statusRadio) statusRadio.checked = true;
+
+    modalEditAlbum.classList.remove('hidden');
+  }
+
+  function closeAlbumModal() {
+    if (modalEditAlbum) modalEditAlbum.classList.add('hidden');
+  }
+
+  btnCloseModalAlbum?.addEventListener('click', closeAlbumModal);
+  btnModalAlbumCancel?.addEventListener('click', closeAlbumModal);
+
+  modalEditAlbum?.addEventListener('click', (e) => {
+    if (e.target === modalEditAlbum) closeAlbumModal();
+  });
+
+  // Save Album from Modal
+  btnModalAlbumSave?.addEventListener('click', async () => {
+    const id = editAlbumDocId?.value;
+    if (!id) return;
+
+    const title = editAlbumTitle?.value.trim() || '';
+    const category = editAlbumCategory?.value || 'khai-giang';
+    const senderName = editAlbumSender?.value.trim() || '';
+    const year = editAlbumYear?.value.trim() || '';
+    const driveUrl = editAlbumDriveUrl?.value.trim() || '';
+    const note = editAlbumNote?.value.trim() || '';
+    const selectedStatus = document.querySelector<HTMLInputElement>('input[name="edit-album-status"]:checked')?.value || 'pending';
+
+    if (!title) {
+      alert('Vui lòng nhập tên Album!');
+      editAlbumTitle?.focus();
+      return;
+    }
+
+    if (btnModalAlbumSave) {
+      btnModalAlbumSave.innerHTML = `<span class="inline-block animate-spin">⏳</span> <span>Đang lưu...</span>`;
+      (btnModalAlbumSave as HTMLButtonElement).disabled = true;
+    }
+
+    try {
+      await updateDoc(doc(db, 'album_submissions', id), {
+        title,
+        category,
+        senderName,
+        year,
+        driveUrl,
+        note,
+        status: selectedStatus,
+        updatedAt: serverTimestamp(),
+      });
+
+      alert('🎉 Đã cập nhật thành công Album!');
+      closeAlbumModal();
+      loadAdminAlbums();
+    } catch (err: any) {
+      alert('❌ Lỗi khi cập nhật Album: ' + (err.message || err));
+    } finally {
+      if (btnModalAlbumSave) {
+        btnModalAlbumSave.innerHTML = `<span>💾 Lưu & Cập Nhật</span>`;
+        (btnModalAlbumSave as HTMLButtonElement).disabled = false;
+      }
+    }
+  });
+
+  // Delete Album from Modal
+  btnModalAlbumDelete?.addEventListener('click', async () => {
+    const id = editAlbumDocId?.value;
+    if (!id || !confirm('Bạn có chắc chắn muốn xóa album này khỏi danh sách không?')) return;
+
+    try {
+      await deleteDoc(doc(db, 'album_submissions', id));
+      alert('Đã xóa album thành công!');
+      closeAlbumModal();
+      loadAdminAlbums();
+    } catch (err: any) {
+      alert('❌ Lỗi khi xóa album: ' + (err.message || err));
+    }
+  });
 
   function escapeHtml(str: string) {
     if (!str) return '';

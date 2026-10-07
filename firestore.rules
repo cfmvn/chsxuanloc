@@ -40,6 +40,17 @@ service cloud.firestore {
       allow read, update, delete: if isAdmin();
     }
 
+    // Bộ sưu tập đóng góp / gửi Album ảnh của cựu học sinh
+    match /album_submissions/{submissionId} {
+      // Bất kỳ ai cũng có thể đóng góp album ảnh
+      allow create: if request.resource.data.keys().hasAll(['title', 'category', 'status', 'createdAt'])
+                    && request.resource.data.status == 'pending'
+                    && request.resource.data.title is string;
+
+      // Chỉ Admin mới có quyền xem, phê duyệt và xóa các bài đăng ký album
+      allow read, update, delete: if isAdmin();
+    }
+
     // Cấu hình hệ thống (Settings/App Config - GitHub PAT, AI Keys, v.v.)
     match /settings/{docId} {
       // Chỉ Admin được đọc và cập nhật cấu hình
