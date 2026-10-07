@@ -373,12 +373,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 </div>
                 <div>
                   <label class="block font-bold text-slate-700 mb-1">Danh Mục Phân Loại</label>
-                  <select id="edit-album-category" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 bg-white">
-                    <option value="khai-giang">🎈 Khai Giảng & Bế Giảng</option>
-                    <option value="thay-co">💐 Tri Ân Thầy Cô (20/11)</option>
-                    <option value="hoi-trai">⛺ Hội Trại & Ngoại Khóa</option>
-                    <option value="the-thao">🏆 Thể Thao & Hội Khỏe</option>
-                    <option value="truong-xua">🏛️ Kỷ Niệm Trường Xưa</option>
+                  <select id="edit-album-category" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-warmOrange-500 bg-white font-medium">
+                    <option value="nha-truong">🏫 Nhà Trường</option>
+                    <option value="tri-an">💐 Tri Ân</option>
+                    <option value="hoat-dong">🏕️ Hoạt Động</option>
+                    <option value="truong-xua">🏛️ Trường Xưa</option>
+                    <option value="ky-yeu">📖 Kỷ Yếu</option>
+                    <option value="khac">✨ Khác</option>
                   </select>
                 </div>
               </div>
@@ -786,11 +787,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   // Danh mục Album mapping
   const albumCategoryMap: Record<string, { label: string; icon: string }> = {
-    'khai-giang': { label: 'Khai Giảng & Bế Giảng', icon: '🎈' },
-    'thay-co': { label: 'Tri Ân Thầy Cô', icon: '💐' },
-    'hoi-trai': { label: 'Hội Trại & Ngoại Khóa', icon: '⛺' },
-    'the-thao': { label: 'Thể Thao & Hội Khỏe', icon: '🏆' },
-    'truong-xua': { label: 'Kỷ Niệm Trường Xưa', icon: '🏛️' },
+    'nha-truong': { label: 'Nhà Trường', icon: '🏫' },
+    'tri-an': { label: 'Tri Ân', icon: '💐' },
+    'hoat-dong': { label: 'Hoạt Động', icon: '🏕️' },
+    'truong-xua': { label: 'Trường Xưa', icon: '🏛️' },
+    'ky-yeu': { label: 'Kỷ Yếu', icon: '📖' },
+    'khac': { label: 'Khác', icon: '✨' },
   };
 
   // Danh sách Email Admin được ủy quyền
