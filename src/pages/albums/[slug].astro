@@ -445,26 +445,28 @@ const { album, relatedAlbums } = Astro.props;
         <span class="text-[11px] text-slate-400 hidden sm:inline" id="slideshow-status-tag">Tự động: Tắt</span>
       </div>
 
-      <!-- Thumbnail Carousel Strip (Filmstrip) -->
-      <div id="lightbox-thumbs-container" class="py-2.5 px-3 sm:px-6 overflow-x-auto scrollbar-thin scrollbar-thumb-white/20 flex items-center gap-2 sm:gap-3 transition-all duration-300">
-        {album.photos.map((photo, index) => (
-          <button
-            type="button"
-            class="lightbox-thumb-btn shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden border-2 border-transparent opacity-50 hover:opacity-100 hover:scale-105 transition-all duration-200 cursor-pointer relative focus:outline-none"
-            data-index={index}
-            title={photo.caption || `Ảnh ${index + 1}`}
-          >
-            <img
-              src={photo.src}
-              alt={photo.caption || `Ảnh ${index + 1}`}
-              loading="lazy"
-              class="w-full h-full object-cover"
-            />
-            <span class="absolute bottom-0 right-0 bg-black/70 text-[9px] text-white px-1 rounded-tl-md font-mono">
-              {index + 1}
-            </span>
-          </button>
-        ))}
+      <!-- Thumbnail Carousel Strip (Filmstrip - Centered) -->
+      <div id="lightbox-thumbs-container" class="py-2.5 px-3 sm:px-6 overflow-x-auto scrollbar-thin scrollbar-thumb-white/20 flex items-center justify-start sm:justify-center transition-all duration-300">
+        <div class="flex items-center justify-center gap-2 sm:gap-3 mx-auto">
+          {album.photos.map((photo, index) => (
+            <button
+              type="button"
+              class="lightbox-thumb-btn shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden border-2 border-transparent opacity-50 hover:opacity-100 hover:scale-105 transition-all duration-200 cursor-pointer relative focus:outline-none"
+              data-index={index}
+              title={photo.caption || `Ảnh ${index + 1}`}
+            >
+              <img
+                src={photo.src}
+                alt={photo.caption || `Ảnh ${index + 1}`}
+                loading="lazy"
+                class="w-full h-full object-cover"
+              />
+              <span class="absolute bottom-0 right-0 bg-black/70 text-[9px] text-white px-1 rounded-tl-md font-mono">
+                {index + 1}
+              </span>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   </div>
