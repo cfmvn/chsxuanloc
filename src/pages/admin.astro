@@ -562,11 +562,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     .map((e: string) => e.trim().toLowerCase())
     .filter(Boolean);
 
+  // Local storage cache key
   const STORAGE_KEY_GH_PAT = 'chs_admin_gh_pat';
-  let activePat = '';
+  // Khởi tạo activePat ngay lập tức từ localStorage khi load trang
+  let activePat = (typeof localStorage !== 'undefined' ? (localStorage.getItem(STORAGE_KEY_GH_PAT) || '') : '').trim();
 
   // Tab Manager with URL Hash sync
-
   function switchTab(tabName: string, pushHash = true) {
     const validTabs = ['submissions', 'scholarships', 'automation', 'settings'];
     const activeTab = validTabs.includes(tabName) ? tabName : 'submissions';
@@ -607,6 +608,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   tabSubmissions?.addEventListener('click', () => switchTab('submissions'));
   tabScholarships?.addEventListener('click', () => switchTab('scholarships'));
   tabAutomation?.addEventListener('click', () => {
+    // Luôn kiểm tra activePat mới nhất (hoặc lấy từ localStorage nếu có)
+    if (!activePat) {
+      const cached = (localStorage.getItem(STORAGE_KEY_GH_PAT) || '').trim();
+      if (cached) {
+        updatePatState(cached);
+      }
+    }
+
     if (!activePat) {
       alert('⚠️ Bạn chưa cấu hình GitHub Personal Access Token. Vui lòng cài đặt trước!');
       switchTab('settings');
@@ -626,7 +635,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   // Update PAT Status UI
   function updatePatState(token: string) {
-    activePat = token.trim();
+    activePat = (token || '').trim();
 
     if (activePat) {
       if (ghPatInput) ghPatInput.value = activePat;
@@ -671,26 +680,38 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   // Load PAT from Firestore and LocalStorage
   async function loadPatFromDatabase() {
-    // 1. Check LocalStorage first for instant render
-    const cachedPat = localStorage.getItem(STORAGE_KEY_GH_PAT) || '';
+    // 1. Kiểm tra LocalStorage trước để render giao diện tức thì
+    const cachedPat = (localStorage.getItem(STORAGE_KEY_GH_PAT) || '').trim();
     if (cachedPat) {
       updatePatState(cachedPat);
     }
 
-    // 2. Fetch official config from Firestore with timeout
+    // 2. Fetch config từ Firestore settings/app_config
     try {
-      const fetchPromise = getDoc(doc(db, 'settings', 'app_config'));
-      const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 2500));
-      const res: any = await Promise.race([fetchPromise, timeoutPromise]);
-      if (res && res.exists && res.exists() && res.data()?.githubPat) {
-        const dbPat = res.data().githubPat;
-        localStorage.setItem(STORAGE_KEY_GH_PAT, dbPat);
-        updatePatState(dbPat);
-      } else if (!cachedPat) {
-        updatePatState('');
+      const snap = await getDoc(doc(db, 'settings', 'app_config'));
+      if (snap.exists() && snap.data()?.githubPat) {
+        const dbPat = (snap.data().githubPat || '').trim();
+        if (dbPat) {
+          localStorage.setItem(STORAGE_KEY_GH_PAT, dbPat);
+          updatePatState(dbPat);
+          return;
+        }
+      }
+      
+      // Nếu Firestore chưa có nhưng LocalStorage đã có token, ta tự động đồng bộ ngược lên Firestore
+      if (cachedPat) {
+        setDoc(doc(db, 'settings', 'app_config'), {
+          githubPat: cachedPat,
+          updatedAt: serverTimestamp(),
+          updatedBy: auth.currentUser?.email || 'admin',
+        }, { merge: true }).catch(() => {});
       }
     } catch (err) {
-      console.warn('Không thể đọc settings từ Firestore:', err);
+      console.warn('Lỗi khi đọc token từ Firestore (vẫn sử dụng token lưu trong trình duyệt):', err);
+      // Giữ nguyên cachedPat, không xóa token
+      if (cachedPat) {
+        updatePatState(cachedPat);
+      }
     }
   }
 
@@ -708,16 +729,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     updatePatState(val);
     showPatFeedback('✓ Đang lưu Token và đồng bộ lên Database...', 'info');
 
-    // 2. Đồng bộ lên Firestore với timeout
+    // 2. Đồng bộ lên Firestore
     try {
-      const savePromise = setDoc(doc(db, 'settings', 'app_config'), {
+      await setDoc(doc(db, 'settings', 'app_config'), {
         githubPat: val,
         updatedAt: serverTimestamp(),
         updatedBy: auth.currentUser?.email || 'admin',
       }, { merge: true });
-
-      const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 3000));
-      await Promise.race([savePromise, timeoutPromise]);
 
       showPatFeedback('🎉 Đã lưu thành công GitHub Token vào cơ sở dữ liệu và trình duyệt! Tab Tự Động Hóa đã sẵn sàng hoạt động.', 'success');
     } catch (err: any) {
@@ -735,12 +753,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     showPatFeedback('Đã xóa Token khỏi hệ thống.', 'info');
 
     try {
-      const clearPromise = setDoc(doc(db, 'settings', 'app_config'), {
+      await setDoc(doc(db, 'settings', 'app_config'), {
         githubPat: '',
         updatedAt: serverTimestamp(),
       }, { merge: true });
-      const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 2000));
-      await Promise.race([clearPromise, timeoutPromise]);
     } catch {}
   });
 

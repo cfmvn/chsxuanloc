@@ -40,6 +40,32 @@ service cloud.firestore {
       allow read, update, delete: if isAdmin();
     }
 
+    // Cấu hình hệ thống (Settings/App Config - GitHub PAT, AI Keys, v.v.)
+    match /settings/{docId} {
+      // Chỉ Admin được đọc và cập nhật cấu hình
+      allow read, write: if isAdmin();
+    }
+
+    // Thống kê bài viết, lượt xem, likes và bình luận
+    match /news_stats/{slug} {
+      allow read, write: if true;
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if request.auth != null;
+        allow update, delete: if isAdmin() || (request.auth != null && request.auth.uid == resource.data.userId);
+      }
+    }
+
+    // Thống kê album, lượt xem, likes và bình luận
+    match /album_stats/{slug} {
+      allow read, write: if true;
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if request.auth != null;
+        allow update, delete: if isAdmin() || (request.auth != null && request.auth.uid == resource.data.userId);
+      }
+    }
+
     // Default deny all other collections
     match /{document=**} {
       allow read, write: if false;
