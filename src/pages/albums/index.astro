@@ -1,69 +1,122 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import albumsData from '../../data/albums.json';
+
+// Phân loại danh mục thông minh cho từng album
+const enrichedAlbums = albumsData.map((album) => {
+  const t = (album.title || '').toLowerCase();
+  let cat = 'truong-xua';
+  let catLabel = 'Trường Xưa';
+  let catIcon = '🏛️';
+
+  if (t.includes('khai giảng') || t.includes('tổng kết') || t.includes('sơ kết') || t.includes('chuẩn quốc gia') || t.includes('nhà trường')) {
+    cat = 'nha-truong';
+    catLabel = 'Nhà Trường';
+    catIcon = '🏫';
+  } else if (t.includes('20-11') || t.includes('20/11') || t.includes('nhà giáo') || t.includes('thầy cô') || t.includes('tri ân') || t.includes('giao ước')) {
+    cat = 'tri-an';
+    catLabel = 'Tri Ân';
+    catIcon = '💐';
+  } else if (t.includes('nguồn') || t.includes('núi') || t.includes('chứa chan') || t.includes('dã ngoại') || t.includes('hội trại') || t.includes('tham quan') || t.includes('bóng đá') || t.includes('thể thao') || t.includes('phù đổng') || t.includes('đoàn trường')) {
+    cat = 'hoat-dong';
+    catLabel = 'Hoạt Động';
+    catIcon = '🏕️';
+  } else if (t.includes('kỷ yếu') || t.includes('lưu bút') || t.includes('họp lớp') || t.includes('khóa') || t.includes('niên khóa') || t.includes('lớp')) {
+    cat = 'ky-yeu';
+    catLabel = 'Kỷ Yếu';
+    catIcon = '📖';
+  } else if (t.includes('lịch sử') || t.includes('xưa') || t.includes('tư liệu') || t.includes('thập niên')) {
+    cat = 'truong-xua';
+    catLabel = 'Trường Xưa';
+    catIcon = '🏛️';
+  } else {
+    cat = 'khac';
+    catLabel = 'Khác';
+    catIcon = '✨';
+  }
+
+  return {
+    ...album,
+    category: cat,
+    categoryLabel: catLabel,
+    categoryIcon: catIcon,
+    senderName: album.senderName || 'CHS Xuân Lộc',
+    createdAtFormatted: album.createdAtFormatted || '01/01/2026'
+  };
+});
 ---
 
 <BaseLayout
   title="Thư Viện Album Ảnh Kỷ Niệm - Trường THPT Xuân Lộc"
   description="Toàn bộ kho tư liệu hình ảnh kỷ niệm, đại lễ, cựu học sinh, hội trại, leo núi Chứa Chan và các thời kỳ phát triển của Trường THPT Xuân Lộc."
 >
-  <!-- Hero Section with Modern Filters & Actions -->
-  <section class="relative bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950 text-white py-14 sm:py-18 border-b border-navy-800 overflow-hidden">
-    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(221,107,32,0.18),transparent_50%)]"></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4">
-      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-warmOrange-500/20 text-warmOrange-300 border border-warmOrange-500/30 text-xs font-semibold uppercase tracking-wider mb-2 shadow-sm backdrop-blur-md">
-        <svg class="w-4 h-4 text-warmOrange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-        <span>Kho Tư Liệu Ký Ức THPT Xuân Lộc</span>
+  <!-- Hero Section với hiệu ứng Glassmorphism & Gradient hiện đại -->
+  <section class="relative bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950 text-white pt-14 pb-16 sm:pt-20 sm:pb-24 border-b border-navy-800/80 overflow-hidden">
+    <!-- Hiệu ứng Glow nền mờ nghệ thuật -->
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-warmOrange-500/15 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute top-1/3 -right-20 w-[400px] h-[300px] bg-amber-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute top-1/2 -left-20 w-[400px] h-[300px] bg-sky-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-5">
+      <!-- Tag Ký Ức -->
+      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-warmOrange-400 text-xs font-semibold uppercase tracking-wider backdrop-blur-md shadow-inner">
+        <span class="w-2 h-2 rounded-full bg-warmOrange-400 animate-ping"></span>
+        <span>Kho Lưu Trữ Ký Ức THPT Xuân Lộc</span>
       </div>
-      <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight font-serif">
-        Thư Viện Album Ảnh Kỷ Niệm
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight font-serif leading-tight">
+        Thư Viện Album Ảnh <span class="text-transparent bg-clip-text bg-gradient-to-r from-warmOrange-400 via-amber-300 to-warmOrange-500">Kỷ Niệm</span>
       </h1>
-      <p class="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-        Lưu giữ trọn vẹn những khoảnh khắc thanh xuân thiêng liêng, họp mặt cựu học sinh, tri ân thầy cô và các chặng đường phát triển rực rỡ của mái trường.
+
+      <p class="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed font-light">
+        Nơi hội tụ hơn 23+ album tư liệu quý giá, những khoảnh khắc thanh xuân tươi đẹp, hoạt động dã ngoại và các thế hệ thầy cô, học sinh dưới mái trường THPT Xuân Lộc.
       </p>
 
-      <!-- Action Buttons & Search Filter -->
-      <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-2xl mx-auto">
-        <!-- Search Input -->
-        <div class="relative w-full sm:flex-1">
+      <!-- Thanh Tìm kiếm & Nút Đóng Góp Hiện Đại -->
+      <div class="pt-3 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-2xl mx-auto">
+        <!-- Ô Tìm Kiếm Real-time -->
+        <div class="relative w-full sm:flex-1 group">
           <input
             type="text"
             id="album-search"
-            placeholder="Tìm kiếm album (VD: Nhà trường, Tri ân, Hoạt động, Kỷ yếu...)"
-            class="w-full px-4 py-3 pl-10 rounded-2xl bg-navy-900/90 border border-navy-700/80 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-warmOrange-500 shadow-xl backdrop-blur-sm transition"
+            placeholder="Tìm theo tên album, năm, sự kiện (VD: Nhà trường, Tri ân, Núi Chứa Chan...)"
+            class="w-full px-4 py-3.5 pl-11 rounded-2xl bg-white/10 border border-white/15 text-white placeholder-slate-400 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-warmOrange-400 focus:bg-navy-900/90 shadow-2xl backdrop-blur-md transition-all duration-300"
           />
-          <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-4 h-4 text-slate-400 group-focus-within:text-warmOrange-400 absolute left-4 top-4 pointer-events-none transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
+          <button id="btn-clear-search" class="hidden absolute right-3.5 top-3.5 p-1 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
 
-        <!-- Open Contribute Album Modal Button -->
+        <!-- Nút Gửi Album Mới -->
         <button
           id="btn-open-submit-album"
-          class="w-full sm:w-auto px-5 py-3 rounded-2xl font-bold text-white bg-gradient-to-r from-warmOrange-500 to-amber-600 hover:from-warmOrange-600 hover:to-amber-700 shadow-lg shadow-warmOrange-500/25 transition transform hover:-translate-y-0.5 text-xs sm:text-sm flex items-center justify-center space-x-2 shrink-0 cursor-pointer active:scale-95"
+          class="w-full sm:w-auto px-6 py-3.5 rounded-2xl font-bold text-white bg-gradient-to-r from-warmOrange-500 to-amber-500 hover:from-warmOrange-600 hover:to-amber-600 shadow-xl shadow-warmOrange-500/20 transition-all duration-300 transform hover:-translate-y-0.5 text-xs sm:text-sm flex items-center justify-center space-x-2 shrink-0 cursor-pointer active:scale-95"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
           </svg>
-          <span>Đóng Góp Album Mới</span>
+          <span>Đóng Góp Album</span>
         </button>
       </div>
 
-      <!-- Modern Category Filter Chips -->
-      <div class="pt-4 flex items-center justify-center gap-2 overflow-x-auto pb-1 scrollbar-none flex-wrap" id="album-category-filters">
+      <!-- Category Filter Chips Đẹp Mắt -->
+      <div class="pt-4 flex items-center justify-center gap-2 overflow-x-auto pb-2 scrollbar-none flex-wrap" id="album-category-filters">
         <button
-          class="album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition flex items-center gap-1.5 bg-warmOrange-500 text-white shadow-md border border-warmOrange-400 cursor-pointer"
+          class="album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 bg-gradient-to-r from-warmOrange-500 to-amber-500 text-white shadow-lg shadow-warmOrange-500/25 border border-warmOrange-400 cursor-pointer scale-105"
           data-filter="all"
         >
           <span>🌟</span>
           <span>Tất cả</span>
-          <span class="text-[10px] px-2 py-0.5 rounded-full bg-black/20 text-white font-bold ml-0.5">{albumsData.length}</span>
+          <span class="text-[10px] px-2 py-0.5 rounded-full bg-black/25 text-white font-black ml-0.5">{enrichedAlbums.length}</span>
         </button>
 
         <button
-          class="album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition flex items-center gap-1.5 bg-navy-900/80 hover:bg-navy-800 text-slate-300 border border-navy-700/80 cursor-pointer"
+          class="album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 cursor-pointer hover:border-white/20"
           data-filter="nha-truong"
         >
           <span>🏫</span>
@@ -71,7 +124,7 @@ import albumsData from '../../data/albums.json';
         </button>
 
         <button
-          class="album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition flex items-center gap-1.5 bg-navy-900/80 hover:bg-navy-800 text-slate-300 border border-navy-700/80 cursor-pointer"
+          class="album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 cursor-pointer hover:border-white/20"
           data-filter="tri-an"
         >
           <span>💐</span>
@@ -79,7 +132,7 @@ import albumsData from '../../data/albums.json';
         </button>
 
         <button
-          class="album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition flex items-center gap-1.5 bg-navy-900/80 hover:bg-navy-800 text-slate-300 border border-navy-700/80 cursor-pointer"
+          class="album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 cursor-pointer hover:border-white/20"
           data-filter="hoat-dong"
         >
           <span>🏕️</span>
@@ -87,7 +140,7 @@ import albumsData from '../../data/albums.json';
         </button>
 
         <button
-          class="album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition flex items-center gap-1.5 bg-navy-900/80 hover:bg-navy-800 text-slate-300 border border-navy-700/80 cursor-pointer"
+          class="album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 cursor-pointer hover:border-white/20"
           data-filter="truong-xua"
         >
           <span>🏛️</span>
@@ -95,7 +148,7 @@ import albumsData from '../../data/albums.json';
         </button>
 
         <button
-          class="album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition flex items-center gap-1.5 bg-navy-900/80 hover:bg-navy-800 text-slate-300 border border-navy-700/80 cursor-pointer"
+          class="album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 cursor-pointer hover:border-white/20"
           data-filter="ky-yeu"
         >
           <span>📖</span>
@@ -103,7 +156,7 @@ import albumsData from '../../data/albums.json';
         </button>
 
         <button
-          class="album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition flex items-center gap-1.5 bg-navy-900/80 hover:bg-navy-800 text-slate-300 border border-navy-700/80 cursor-pointer"
+          class="album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 cursor-pointer hover:border-white/20"
           data-filter="khac"
         >
           <span>✨</span>
@@ -114,143 +167,76 @@ import albumsData from '../../data/albums.json';
     </div>
   </section>
 
-  <!-- Albums Grid Section -->
-  <section class="py-12 bg-slate-50 min-h-[70vh]">
+  <!-- Albums Showcase Section -->
+  <section class="py-12 sm:py-16 bg-gradient-to-b from-slate-100 via-slate-50 to-slate-100 min-h-[75vh]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <!-- Stats Count Bar -->
-      <div class="flex items-center justify-between mb-8 pb-4 border-b border-slate-200">
-        <p class="text-xs sm:text-sm font-semibold text-navy-900">
-          Hiển thị <span id="visible-count" class="text-warmOrange-600 font-bold">{albumsData.length}</span> album tư liệu
-        </p>
-        <span class="text-xs text-slate-500 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-xs flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span>Kho ảnh gốc độ phân giải cao</span>
-        </span>
+      <!-- Stats / Filter Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-8 pb-4 border-b border-slate-200/80">
+        <div class="flex items-center gap-2">
+          <div class="w-2.5 h-2.5 rounded-full bg-warmOrange-500"></div>
+          <p class="text-xs sm:text-sm font-bold text-navy-950">
+            Đang hiển thị <span id="visible-count" class="text-warmOrange-600 font-extrabold text-base">0</span> / <span id="total-count" class="text-slate-500 font-bold">{enrichedAlbums.length}</span> album
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2 text-xs text-slate-500">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 shadow-xs font-medium">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>R2 CDN Siêu Tốc</span>
+          </span>
+          <span class="hidden sm:inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white border border-slate-200 shadow-xs font-medium">
+            <span>⚡ Tự động tải thêm khi cuộn</span>
+          </span>
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7" id="albums-grid">
-        {albumsData.map((album) => {
-          // Gán tag phân loại thông minh dựa trên title
-          const t = album.title.toLowerCase();
-          let cat = 'truong-xua';
-          if (t.includes('khai giảng') || t.includes('tổng kết') || t.includes('sơ kết') || t.includes('chuẩn quốc gia') || t.includes('nhà trường')) {
-            cat = 'nha-truong';
-          } else if (t.includes('20-11') || t.includes('20/11') || t.includes('nhà giáo') || t.includes('thầy cô') || t.includes('tri ân') || t.includes('giao ước')) {
-            cat = 'tri-an';
-          } else if (t.includes('nguồn') || t.includes('núi') || t.includes('chứa chan') || t.includes('dã ngoại') || t.includes('hội trại') || t.includes('tham quan') || t.includes('bóng đá') || t.includes('thể thao') || t.includes('phù đổng') || t.includes('đoàn trường')) {
-            cat = 'hoat-dong';
-          } else if (t.includes('kỷ yếu') || t.includes('lưu bút') || t.includes('họp lớp') || t.includes('khóa') || t.includes('niên khóa') || t.includes('lớp')) {
-            cat = 'ky-yeu';
-          } else if (t.includes('lịch sử') || t.includes('xưa') || t.includes('tư liệu') || t.includes('thập niên')) {
-            cat = 'truong-xua';
-          }
+      <!-- Albums Grid Container -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-7" id="albums-grid">
+        <!-- Album Cards are dynamically rendered & managed by JS for seamless Infinite Scroll & Filter -->
+      </div>
 
-          return (
-            <article
-              class="album-card bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 flex flex-col group justify-between"
-              data-slug={album.slug}
-              data-title={album.title.toLowerCase()}
-              data-category={cat}
-            >
-              <!-- Top Part -->
-              <div>
-                <!-- Image Frame -->
-                <a href={`/albums/${album.slug}`} class="block h-52 overflow-hidden bg-slate-900 relative">
-                  <img
-                    src={album.coverImage}
-                    alt={album.title}
-                    loading="lazy"
-                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div class="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
-                  
-                  <!-- Badge photo count -->
-                  <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg text-xs font-bold bg-navy-950/80 text-warmOrange-300 backdrop-blur-md border border-navy-700/80 flex items-center space-x-1.5 shadow-md">
-                    <svg class="w-3.5 h-3.5 text-warmOrange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <span>{album.photoCount} ảnh</span>
-                  </span>
-                </a>
-
-                <!-- Card Content -->
-                <div class="p-5">
-                  <div class="flex items-center space-x-2 text-xs text-slate-400 mb-2 font-medium">
-                    <span class="inline-flex items-center gap-1 text-slate-500">
-                      <span>👁️</span>
-                      <span class="album-card-views" data-slug={album.slug}>0</span> lượt xem
-                    </span>
-                    <span>•</span>
-                    <span class="inline-flex items-center gap-1 text-slate-500">
-                      <span>💬</span>
-                      <span class="album-card-comments" data-slug={album.slug}>0</span>
-                    </span>
-                  </div>
-
-                  <h2 class="text-base font-bold text-navy-900 group-hover:text-warmOrange-600 transition-colors line-clamp-2 leading-snug mb-2">
-                    <a href={`/albums/${album.slug}`} set:html={album.title}></a>
-                  </h2>
-                </div>
-              </div>
-
-              <!-- Bottom Actions -->
-              <div class="px-5 py-3.5 bg-slate-50/70 border-t border-slate-100 flex items-center justify-between text-xs gap-2">
-                <span class="text-slate-400 font-medium">THPT Xuân Lộc</span>
-
-                <div class="flex items-center gap-1.5 shrink-0">
-                  <!-- Like Button -->
-                  <button
-                    type="button"
-                    class="album-card-like-btn px-2 py-1 rounded-lg text-[11px] font-bold border transition flex items-center gap-1 bg-white border-slate-200 text-slate-600 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 cursor-pointer"
-                    data-slug={album.slug}
-                    title="Yêu thích album"
-                  >
-                    <span>❤️</span>
-                    <span class="album-card-like-count" data-slug={album.slug}>0</span>
-                  </button>
-
-                  <!-- Share Button -->
-                  <button
-                    type="button"
-                    class="album-card-share-btn p-1 px-1.5 rounded-lg text-[11px] font-bold bg-white text-slate-600 border border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition cursor-pointer"
-                    data-slug={album.slug}
-                    data-title={album.title}
-                    title="Chia sẻ album"
-                  >
-                    <span>🔗</span>
-                  </button>
-
-                  <a
-                    href={`/albums/${album.slug}`}
-                    class="font-bold text-warmOrange-600 hover:text-warmOrange-700 inline-flex items-center space-x-1 group-hover:translate-x-1 transition-transform ml-1"
-                  >
-                    <span>Xem</span>
-                    <span>&rarr;</span>
-                  </a>
-                </div>
-              </div>
-            </article>
-          );
-        })}
+      <!-- Infinite Scroll Trigger Sentinel & Loading Spinner -->
+      <div id="infinite-scroll-sentinel" class="py-10 flex flex-col items-center justify-center space-y-3">
+        <div id="loading-spinner" class="flex items-center space-x-2 text-slate-500 text-xs font-bold bg-white px-5 py-2.5 rounded-full border border-slate-200 shadow-sm animate-pulse">
+          <svg class="animate-spin h-4 w-4 text-warmOrange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+          </svg>
+          <span>Đang tải thêm album ảnh...</span>
+        </div>
+        <p id="all-loaded-text" class="hidden text-xs font-semibold text-slate-400 uppercase tracking-wider">
+          🎉 Bạn đã xem toàn bộ album ảnh kỷ niệm!
+        </p>
       </div>
 
       <!-- No result state -->
-      <div id="no-results" class="hidden py-16 text-center text-slate-500 bg-white rounded-2xl border border-slate-200">
-        <svg class="w-12 h-12 text-slate-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-        <p class="font-medium text-navy-900">Không tìm thấy album phù hợp</p>
-        <p class="text-xs text-slate-400 mt-1">Hãy thử tìm với từ khóa khác như "cựu học sinh", "khai giảng", "tổng kết"...</p>
+      <div id="no-results" class="hidden py-16 px-4 text-center text-slate-500 bg-white rounded-3xl border border-slate-200/90 shadow-sm max-w-lg mx-auto">
+        <div class="w-16 h-16 rounded-2xl bg-amber-50 text-amber-500 border border-amber-200 flex items-center justify-center text-2xl mx-auto mb-3 shadow-inner">
+          🔍
+        </div>
+        <h3 class="text-base font-bold text-navy-900 mb-1">Không tìm thấy album phù hợp</h3>
+        <p class="text-xs text-slate-500 leading-relaxed">
+          Không có album nào khớp với từ khóa tìm kiếm hoặc danh mục đang chọn. Hãy thử tìm từ khóa khác hoặc xóa bộ lọc.
+        </p>
+        <button
+          id="btn-reset-filters"
+          class="mt-4 px-4 py-2 rounded-xl text-xs font-bold text-warmOrange-600 bg-warmOrange-50 hover:bg-warmOrange-100 transition cursor-pointer"
+        >
+          Xóa bộ lọc & xem tất cả
+        </button>
       </div>
 
     </div>
   </section>
 
+  <!-- Dữ liệu Album JSON ẩn để Script Client truy xuất tức thì mà không cần thêm API network request -->
+  <script id="raw-albums-data" type="application/json" set:html={JSON.stringify(enrichedAlbums)}></script>
+
   <!-- Modern Modal Đóng Góp / Gửi Album Ảnh Mới -->
   <div
     id="modal-submit-album"
-    class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
+    class="fixed inset-0 z-50 bg-navy-950/80 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
   >
     <div class="relative bg-white rounded-3xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-200">
       
@@ -310,7 +296,7 @@ import albumsData from '../../data/albums.json';
               id="sub-album-title"
               required
               placeholder="VD: Họp lớp 12A1 khóa 2005-2008, Hội trại 26/3..."
-              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:ring-2 focus:ring-warmOrange-500 focus:outline-none bg-white font-medium"
             />
           </div>
 
@@ -439,63 +425,301 @@ import albumsData from '../../data/albums.json';
 <script>
   import { auth, googleProvider, db } from '../../lib/firebase';
   import { signInWithPopup, onAuthStateChanged, type User } from 'firebase/auth';
-  import { collection, getDocs, doc, setDoc, addDoc, updateDoc, increment, serverTimestamp } from 'firebase/firestore';
+  import { collection, getDocs, doc, addDoc, updateDoc, increment, serverTimestamp } from 'firebase/firestore';
 
-  const searchInput = document.getElementById('album-search') as HTMLInputElement | null;
-  const cards = document.querySelectorAll('.album-card') as NodeListOf<HTMLElement>;
-  const noResults = document.getElementById('no-results');
-  const visibleCount = document.getElementById('visible-count');
-  const filterBtns = document.querySelectorAll('.album-filter-btn') as NodeListOf<HTMLButtonElement>;
+  // --- DỮ LIỆU & CẤU HÌNH INFINITE SCROLL ---
+  const rawAlbumsDataEl = document.getElementById('raw-albums-data');
+  const allAlbums: any[] = rawAlbumsDataEl ? JSON.parse(rawAlbumsDataEl.textContent || '[]') : [];
 
+  const PAGE_SIZE = 8; // Số album mỗi lần tải
+  let currentPage = 1;
   let activeCategory = 'all';
   let searchQuery = '';
+  let filteredAlbums: any[] = [...allAlbums];
+  let isLoadingMore = false;
 
-  // Filter functionality by Category & Search query
-  function applyFilters() {
-    let visible = 0;
+  // DOM Elements
+  const albumsGrid = document.getElementById('albums-grid');
+  const visibleCountEl = document.getElementById('visible-count');
+  const totalCountEl = document.getElementById('total-count');
+  const searchInput = document.getElementById('album-search') as HTMLInputElement | null;
+  const btnClearSearch = document.getElementById('btn-clear-search');
+  const filterBtns = document.querySelectorAll('.album-filter-btn') as NodeListOf<HTMLButtonElement>;
+  const noResultsEl = document.getElementById('no-results');
+  const btnResetFilters = document.getElementById('btn-reset-filters');
+  const loadingSpinner = document.getElementById('loading-spinner');
+  const allLoadedText = document.getElementById('all-loaded-text');
+  const sentinel = document.getElementById('infinite-scroll-sentinel');
 
-    cards.forEach((card) => {
-      const title = (card.getAttribute('data-title') || '').toLowerCase();
-      const cat = card.getAttribute('data-category') || '';
+  // Bộ nhớ đệm thống kê (Views, Likes, Comments) từ Firestore
+  let globalAlbumStats: Record<string, { viewsCount?: number; likesCount?: number; commentsCount?: number }> = {};
 
-      const matchesSearch = title.includes(searchQuery);
-      const matchesCat = activeCategory === 'all' || cat === activeCategory;
+  // Render 1 Album Card HTML hiện đại
+  function createAlbumCardHTML(album: any): string {
+    const slug = album.slug;
+    const title = album.title;
+    const cover = album.coverImage || 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&auto=format&fit=crop&q=80';
+    const photoCount = album.photoCount || (album.photos ? album.photos.length : 0);
+    const categoryLabel = album.categoryLabel || 'Trường Xưa';
+    const categoryIcon = album.categoryIcon || '🏛️';
 
-      if (matchesSearch && matchesCat) {
-        card.classList.remove('hidden');
-        visible++;
-      } else {
-        card.classList.add('hidden');
-      }
-    });
+    const stats = globalAlbumStats[slug] || {};
+    const views = stats.viewsCount || 0;
+    const comments = stats.commentsCount || 0;
+    const likes = stats.likesCount || 0;
 
-    if (visibleCount) visibleCount.textContent = visible.toString();
+    const likedList = getLikedAlbums();
+    const isLiked = likedList.includes(slug);
+    const likeBtnClass = isLiked
+      ? 'bg-rose-50 text-rose-600 border-rose-200'
+      : 'bg-white text-slate-600 border-slate-200 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200';
 
-    if (visible === 0 && noResults) {
-      noResults.classList.remove('hidden');
-    } else if (noResults) {
-      noResults.classList.add('hidden');
-    }
+    return `
+      <article
+        class="album-card group relative bg-white rounded-3xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-warmOrange-500/10 transition-all duration-500 hover:-translate-y-1.5 flex flex-col justify-between"
+        data-slug="${slug}"
+      >
+        <!-- Top Cover Frame -->
+        <div class="relative">
+          <a href="/albums/${slug}" class="block h-52 sm:h-56 overflow-hidden bg-navy-950 relative">
+            <img
+              src="${cover}"
+              alt="${title}"
+              loading="lazy"
+              class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/20 to-transparent opacity-70 group-hover:opacity-50 transition-opacity"></div>
+            
+            <!-- Category Chip Badge on Top Left -->
+            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-xl text-[11px] font-bold bg-navy-950/70 text-white backdrop-blur-md border border-white/15 flex items-center space-x-1 shadow-md">
+              <span>${categoryIcon}</span>
+              <span>${categoryLabel}</span>
+            </span>
+
+            <!-- Photo Count Badge on Bottom Right -->
+            <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-xl text-xs font-extrabold bg-navy-950/80 text-warmOrange-300 backdrop-blur-md border border-warmOrange-500/30 flex items-center space-x-1.5 shadow-md">
+              <svg class="w-3.5 h-3.5 text-warmOrange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <span>${photoCount} ảnh</span>
+            </span>
+          </a>
+
+          <!-- Main Info -->
+          <div class="p-5">
+            <!-- Stats Indicators -->
+            <div class="flex items-center space-x-2 text-[11px] text-slate-400 mb-2 font-medium">
+              <span class="inline-flex items-center gap-1 text-slate-500">
+                <span>👁️</span>
+                <span class="album-card-views font-semibold" data-slug="${slug}">${views}</span>
+              </span>
+              <span>•</span>
+              <span class="inline-flex items-center gap-1 text-slate-500">
+                <span>💬</span>
+                <span class="album-card-comments font-semibold" data-slug="${slug}">${comments}</span>
+              </span>
+              <span>•</span>
+              <span class="text-slate-400 font-mono">${album.createdAtFormatted || '01/01/2026'}</span>
+            </div>
+
+            <!-- Title -->
+            <h2 class="text-base font-bold text-navy-950 group-hover:text-warmOrange-600 transition-colors line-clamp-2 leading-snug">
+              <a href="/albums/${slug}">${title}</a>
+            </h2>
+          </div>
+        </div>
+
+        <!-- Card Footer -->
+        <div class="px-5 py-3.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between text-xs gap-2">
+          <span class="text-[11px] text-slate-400 font-medium truncate max-w-[110px]" title="${album.senderName || 'CHS Xuân Lộc'}">
+            👤 ${album.senderName || 'CHS Xuân Lộc'}
+          </span>
+
+          <div class="flex items-center gap-1.5 shrink-0">
+            <!-- Like Button -->
+            <button
+              type="button"
+              class="album-card-like-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold border transition flex items-center gap-1 cursor-pointer active:scale-90 ${likeBtnClass}"
+              data-slug="${slug}"
+              title="Yêu thích album"
+            >
+              <span>❤️</span>
+              <span class="album-card-like-count" data-slug="${slug}">${likes}</span>
+            </button>
+
+            <!-- Share Button -->
+            <button
+              type="button"
+              class="album-card-share-btn p-1.5 px-2 rounded-xl text-[11px] font-bold bg-white text-slate-600 border border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition cursor-pointer active:scale-90"
+              data-slug="${slug}"
+              data-title="${title.replace(/"/g, '&quot;')}"
+              title="Chia sẻ album"
+            >
+              <span>🔗</span>
+            </button>
+
+            <!-- View Action Link -->
+            <a
+              href="/albums/${slug}"
+              class="px-2.5 py-1.5 rounded-xl text-xs font-bold text-white bg-navy-950 group-hover:bg-warmOrange-600 transition-colors inline-flex items-center space-x-1"
+            >
+              <span>Xem</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+      </article>
+    `;
   }
 
-  // Bind Search Input
+  // Render danh sách Album theo phân trang (Infinite Scroll)
+  function renderAlbums(append = false) {
+    if (!albumsGrid) return;
+
+    if (!append) {
+      albumsGrid.innerHTML = '';
+      currentPage = 1;
+    }
+
+    const startIdx = 0;
+    const endIdx = currentPage * PAGE_SIZE;
+    const pageItems = filteredAlbums.slice(startIdx, endIdx);
+
+    if (pageItems.length === 0) {
+      albumsGrid.innerHTML = '';
+      if (noResultsEl) noResultsEl.classList.remove('hidden');
+      if (loadingSpinner) loadingSpinner.classList.add('hidden');
+      if (allLoadedText) allLoadedText.classList.add('hidden');
+      if (visibleCountEl) visibleCountEl.textContent = '0';
+      return;
+    }
+
+    if (noResultsEl) noResultsEl.classList.add('hidden');
+
+    if (!append) {
+      albumsGrid.innerHTML = pageItems.map(createAlbumCardHTML).join('');
+    } else {
+      const newItems = filteredAlbums.slice((currentPage - 1) * PAGE_SIZE, endIdx);
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = newItems.map(createAlbumCardHTML).join('');
+      while (tempDiv.firstChild) {
+        albumsGrid.appendChild(tempDiv.firstChild);
+      }
+    }
+
+    if (visibleCountEl) visibleCountEl.textContent = Math.min(endIdx, filteredAlbums.length).toString();
+
+    // Cập nhật trạng thái loading spinner & thông báo hết dữ liệu
+    if (endIdx >= filteredAlbums.length) {
+      if (loadingSpinner) loadingSpinner.classList.add('hidden');
+      if (allLoadedText) allLoadedText.classList.remove('hidden');
+    } else {
+      if (loadingSpinner) loadingSpinner.classList.remove('hidden');
+      if (allLoadedText) allLoadedText.classList.add('hidden');
+    }
+
+    setupAlbumCardActions();
+  }
+
+  // Lọc dữ liệu theo Search Query & Category
+  function applyFilters() {
+    filteredAlbums = allAlbums.filter((album) => {
+      const t = (album.title || '').toLowerCase();
+      const s = (album.senderName || '').toLowerCase();
+      const matchesSearch = !searchQuery || t.includes(searchQuery) || s.includes(searchQuery);
+      const matchesCategory = activeCategory === 'all' || album.category === activeCategory;
+      return matchesSearch && matchesCategory;
+    });
+
+    currentPage = 1;
+    renderAlbums(false);
+  }
+
+  // Tải thêm album khi cuộn xuống đáy
+  function loadMoreAlbums() {
+    if (isLoadingMore) return;
+    const maxPages = Math.ceil(filteredAlbums.length / PAGE_SIZE);
+    if (currentPage >= maxPages) {
+      if (loadingSpinner) loadingSpinner.classList.add('hidden');
+      if (allLoadedText) allLoadedText.classList.remove('hidden');
+      return;
+    }
+
+    isLoadingMore = true;
+    if (loadingSpinner) loadingSpinner.classList.remove('hidden');
+
+    setTimeout(() => {
+      currentPage++;
+      renderAlbums(true);
+      isLoadingMore = false;
+    }, 250); // Delay nhẹ tạo cảm giác mượt mà
+  }
+
+  // Khởi tạo Intersection Observer cho Infinite Scroll Tự Động
+  function setupInfiniteScroll() {
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !isLoadingMore) {
+          loadMoreAlbums();
+        }
+      });
+    }, {
+      rootMargin: '250px', // Kích hoạt tải trước khi người dùng chạm đáy 250px
+      threshold: 0.1,
+    });
+
+    observer.observe(sentinel);
+  }
+
+  // Gắn sự kiện ô tìm kiếm
   searchInput?.addEventListener('input', (e) => {
     searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
+    if (btnClearSearch) {
+      if (searchQuery) btnClearSearch.classList.remove('hidden');
+      else btnClearSearch.classList.add('hidden');
+    }
     applyFilters();
   });
 
-  // Bind Category Filter Chips
+  btnClearSearch?.addEventListener('click', () => {
+    if (searchInput) searchInput.value = '';
+    searchQuery = '';
+    btnClearSearch.classList.add('hidden');
+    applyFilters();
+  });
+
+  // Gắn sự kiện Category Filter Buttons
   filterBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
-      filterBtns.forEach(b => {
-        b.className = 'album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition flex items-center gap-1.5 bg-navy-900/80 hover:bg-navy-800 text-slate-300 border border-navy-700/80 cursor-pointer';
+      filterBtns.forEach((b) => {
+        b.className = 'album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 cursor-pointer hover:border-white/20';
       });
 
-      btn.className = 'album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition flex items-center gap-1.5 bg-warmOrange-500 text-white shadow-md border border-warmOrange-400 cursor-pointer';
+      btn.className = 'album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 bg-gradient-to-r from-warmOrange-500 to-amber-500 text-white shadow-lg shadow-warmOrange-500/25 border border-warmOrange-400 cursor-pointer scale-105';
 
       activeCategory = btn.getAttribute('data-filter') || 'all';
       applyFilters();
     });
+  });
+
+  // Nút Xóa Bộ Lọc khi không có kết quả
+  btnResetFilters?.addEventListener('click', () => {
+    if (searchInput) searchInput.value = '';
+    searchQuery = '';
+    activeCategory = 'all';
+    if (btnClearSearch) btnClearSearch.classList.add('hidden');
+
+    filterBtns.forEach((b) => {
+      if (b.getAttribute('data-filter') === 'all') {
+        b.className = 'album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 bg-gradient-to-r from-warmOrange-500 to-amber-500 text-white shadow-lg shadow-warmOrange-500/25 border border-warmOrange-400 cursor-pointer scale-105';
+      } else {
+        b.className = 'album-filter-btn px-4 py-2 rounded-2xl text-xs font-bold transition-all duration-200 flex items-center gap-1.5 bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 cursor-pointer hover:border-white/20';
+      }
+    });
+
+    applyFilters();
   });
 
   // --- CONTRIBUTE / SUBMIT ALBUM MODAL LOGIC ---
@@ -566,7 +790,7 @@ import albumsData from '../../data/albums.json';
   // Client-side Preview for files
   fileInput?.addEventListener('change', (e) => {
     const files = Array.from((e.target as HTMLInputElement).files || []);
-    selectedFiles = files.slice(0, 10); // Max 10 direct files
+    selectedFiles = files.slice(0, 10);
 
     if (previewGrid) {
       previewGrid.innerHTML = '';
@@ -611,14 +835,12 @@ import albumsData from '../../data/albums.json';
     if (subBtnText) subBtnText.textContent = 'Đang gửi phê duyệt...';
 
     try {
-      // 1. Convert client files to base64 preview thumbnails if any
       const previews: string[] = [];
       for (const file of selectedFiles.slice(0, 5)) {
         const b64 = await fileToBase64(file);
         if (b64) previews.push(b64);
       }
 
-      // 2. Add document to Firestore album_submissions
       await addDoc(collection(db, 'album_submissions'), {
         title,
         category,
@@ -626,7 +848,7 @@ import albumsData from '../../data/albums.json';
         year: year || '',
         driveUrl: driveUrl || '',
         photoCount: selectedFiles.length,
-        previews: previews, // Tiny previews for Admin
+        previews: previews,
         note: note || '',
         status: 'pending',
         userEmail: currentUser?.email || '',
@@ -650,7 +872,6 @@ import albumsData from '../../data/albums.json';
     return new Promise((resolve) => {
       const reader = new FileReader();
       reader.onload = () => {
-        // Resize down to 200px width thumbnail
         const img = new Image();
         img.onload = () => {
           const canvas = document.createElement('canvas');
@@ -695,34 +916,24 @@ import albumsData from '../../data/albums.json';
     try {
       const colRef = collection(db, 'album_stats');
       const snap = await getDocs(colRef);
-      const statsMap: Record<string, { viewsCount?: number; likesCount?: number; commentsCount?: number }> = {};
+      globalAlbumStats = {};
 
       snap.forEach((d) => {
-        statsMap[d.id] = d.data();
+        globalAlbumStats[d.id] = d.data();
       });
 
-      const likedList = getLikedAlbums();
-
-      cards.forEach((card) => {
+      // Cập nhật lên các card đã render
+      document.querySelectorAll('.album-card').forEach((card) => {
         const slug = card.getAttribute('data-slug');
         if (!slug) return;
-
-        const data = statsMap[slug] || {};
-        const viewsEl = card.querySelector<HTMLElement>('.album-card-views');
-        const commentsEl = card.querySelector<HTMLElement>('.album-card-comments');
-        const likeCountEl = card.querySelector<HTMLElement>('.album-card-like-count');
+        const data = globalAlbumStats[slug] || {};
+        const viewsEl = card.querySelector('.album-card-views');
+        const commentsEl = card.querySelector('.album-card-comments');
+        const likeCountEl = card.querySelector('.album-card-like-count');
 
         if (viewsEl) viewsEl.textContent = String(data.viewsCount || 0);
         if (commentsEl) commentsEl.textContent = String(data.commentsCount || 0);
         if (likeCountEl) likeCountEl.textContent = String(data.likesCount || 0);
-
-        if (likedList.includes(slug)) {
-          const likeBtns = card.querySelectorAll<HTMLButtonElement>(`.album-card-like-btn[data-slug="${slug}"]`);
-          likeBtns.forEach(btn => {
-            btn.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-200');
-            btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
-          });
-        }
       });
     } catch (err) {
       console.warn('Lỗi tải thống kê album:', err);
@@ -731,17 +942,21 @@ import albumsData from '../../data/albums.json';
 
   function setupAlbumCardActions() {
     document.querySelectorAll<HTMLButtonElement>('.album-card-like-btn').forEach((btn) => {
-      btn.addEventListener('click', async (e) => {
+      // Remove old listener clone
+      const newBtn = btn.cloneNode(true) as HTMLButtonElement;
+      btn.parentNode?.replaceChild(newBtn, btn);
+
+      newBtn.addEventListener('click', async (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const slug = btn.getAttribute('data-slug');
+        const slug = newBtn.getAttribute('data-slug');
         if (!slug) return;
 
         const liked = getLikedAlbums();
         const isLiked = liked.includes(slug);
         const statsRef = doc(db, 'album_stats', slug);
 
-        const countSpan = btn.querySelector('.album-card-like-count');
+        const countSpan = newBtn.querySelector('.album-card-like-count');
         let currentCount = countSpan ? parseInt(countSpan.textContent || '0', 10) : 0;
 
         try {
@@ -749,16 +964,14 @@ import albumsData from '../../data/albums.json';
             setLikedAlbum(slug);
             currentCount++;
             if (countSpan) countSpan.textContent = String(currentCount);
-            btn.classList.add('bg-rose-50', 'text-rose-600', 'border-rose-200');
-            btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+            newBtn.className = 'album-card-like-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold border transition flex items-center gap-1 cursor-pointer active:scale-90 bg-rose-50 text-rose-600 border-rose-200';
             await updateDoc(statsRef, { likesCount: increment(1) });
           } else {
-            const filtered = liked.filter(id => id !== slug);
+            const filtered = liked.filter((id) => id !== slug);
             localStorage.setItem('chs_liked_albums', JSON.stringify(filtered));
             currentCount = Math.max(0, currentCount - 1);
             if (countSpan) countSpan.textContent = String(currentCount);
-            btn.classList.remove('bg-rose-50', 'text-rose-600', 'border-rose-200');
-            btn.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
+            newBtn.className = 'album-card-like-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold border transition flex items-center gap-1 cursor-pointer active:scale-90 bg-white text-slate-600 border-slate-200 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200';
             await updateDoc(statsRef, { likesCount: increment(-1) });
           }
         } catch (err) {
@@ -768,11 +981,14 @@ import albumsData from '../../data/albums.json';
     });
 
     document.querySelectorAll<HTMLButtonElement>('.album-card-share-btn').forEach((btn) => {
-      btn.addEventListener('click', async (e) => {
+      const newBtn = btn.cloneNode(true) as HTMLButtonElement;
+      btn.parentNode?.replaceChild(newBtn, btn);
+
+      newBtn.addEventListener('click', async (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const slug = btn.getAttribute('data-slug');
-        const title = btn.getAttribute('data-title') || 'Album kỷ niệm THPT Xuân Lộc';
+        const slug = newBtn.getAttribute('data-slug');
+        const title = newBtn.getAttribute('data-title') || 'Album kỷ niệm THPT Xuân Lộc';
         const shareUrl = `${window.location.origin}/albums/${slug}`;
 
         if (navigator.share) {
@@ -796,8 +1012,10 @@ import albumsData from '../../data/albums.json';
     });
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    loadAllAlbumStats();
-    setupAlbumCardActions();
+  // Initial Load
+  document.addEventListener('DOMContentLoaded', async () => {
+    renderAlbums(false);
+    setupInfiniteScroll();
+    await loadAllAlbumStats();
   });
 </script>
