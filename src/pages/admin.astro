@@ -2020,8 +2020,8 @@ import staticAlbumsData from '../data/albums.json';
   const uploadProgressInfo = document.getElementById('upload-progress-info');
   const uploadProgressText = document.getElementById('upload-progress-text');
 
-  // Compress Image to WebP Data URL client-side (Max 1600px, 82% quality)
-  async function compressImageToWebP(file: File): Promise<string> {
+  // Helper: Nén ảnh và chuyển thành Blob WebP (Max 1920px, 82% quality)
+  async function compressImageToBlob(file: File, maxDim = 1920, quality = 0.82): Promise<Blob> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -2030,7 +2030,6 @@ import staticAlbumsData from '../data/albums.json';
           const canvas = document.createElement('canvas');
           let width = img.width;
           let height = img.height;
-          const maxDim = 1600;
 
           if (width > maxDim || height > maxDim) {
             if (width > height) {
@@ -2046,13 +2045,15 @@ import staticAlbumsData from '../data/albums.json';
           canvas.height = height;
           const ctx = canvas.getContext('2d');
           if (!ctx) {
-            resolve(e.target?.result as string);
+            resolve(file);
             return;
           }
 
           ctx.drawImage(img, 0, 0, width, height);
-          const webpDataUrl = canvas.toDataURL('image/webp', 0.82);
-          resolve(webpDataUrl);
+          canvas.toBlob((blob) => {
+            if (blob) resolve(blob);
+            else resolve(file);
+          }, 'image/webp', quality);
         };
         img.onerror = reject;
         img.src = e.target?.result as string;
@@ -2062,6 +2063,31 @@ import staticAlbumsData from '../data/albums.json';
     });
   }
 
+  // Upload file lên Cloudflare R2 thông qua Worker API
+  async function uploadFileToR2(blob: Blob, originalName: string, folder = 'albums'): Promise<string> {
+    const formData = new FormData();
+    const cleanName = originalName.replace(/\.[^/.]+$/, "") + ".webp";
+    formData.append('file', blob, cleanName);
+    formData.append('folder', folder);
+
+    const res = await fetch('https://api.chsxuanloc.workers.dev/', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || `Upload thất bại HTTP ${res.status}`);
+    }
+
+    const data = await res.json();
+    if (!data.success || !data.url) {
+      throw new Error(data.error || 'Không nhận được đường dẫn CDN từ máy chủ');
+    }
+
+    return data.url;
+  }
+
   // Handle batch file additions (from File Input, Drag Drop or Clipboard)
   async function handleFilesAddition(files: FileList | File[]) {
     const fileArray = Array.from(files).filter((f) => f.type.startsWith('image/'));
@@ -2069,28 +2095,36 @@ import staticAlbumsData from '../data/albums.json';
 
     if (uploadProgressInfo && uploadProgressText) {
       uploadProgressInfo.classList.remove('hidden');
-      uploadProgressText.textContent = `Đang xử lý & nén ${fileArray.length} hình ảnh...`;
+      uploadProgressText.textContent = `Đang nén và tải ${fileArray.length} hình ảnh lên CDN...`;
     }
 
     const albumTitle = editAlbumTitle?.value.trim() || 'Album kỷ niệm';
+    const albumSlug = (document.getElementById('edit-album-slug') as HTMLElement)?.textContent?.trim() || 'misc';
+    const targetFolder = `albums/${albumSlug}`;
 
     try {
       for (let i = 0; i < fileArray.length; i++) {
         const file = fileArray[i];
         if (uploadProgressText) {
-          uploadProgressText.textContent = `Đang xử lý (${i + 1}/${fileArray.length}): ${file.name}...`;
+          uploadProgressText.textContent = `Đang tải lên CDN (${i + 1}/${fileArray.length}): ${file.name}...`;
         }
-        const compressedWebp = await compressImageToWebP(file);
+
+        // 1. Nén ảnh tại client sang WebP chất lượng cao
+        const webpBlob = await compressImageToBlob(file);
+
+        // 2. Upload thẳng lên Cloudflare R2 thông qua Worker API
+        const cdnUrl = await uploadFileToR2(webpBlob, file.name, targetFolder);
+
         currentEditingPhotos.push({
-          src: compressedWebp,
+          src: cdnUrl,
           caption: albumTitle,
-          originalUrl: file.name,
+          originalUrl: cdnUrl,
         });
       }
 
       renderModalPhotoThumbnails();
     } catch (err: any) {
-      alert('Lỗi xử lý file ảnh: ' + (err.message || err));
+      alert('Lỗi tải ảnh lên CDN R2: ' + (err.message || err));
     } finally {
       if (uploadProgressInfo) uploadProgressInfo.classList.add('hidden');
       if (inputFilePhotos) inputFilePhotos.value = '';
