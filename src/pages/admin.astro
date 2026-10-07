@@ -1631,7 +1631,7 @@ import staticAlbumsData from '../data/albums.json';
           slug: alb.slug,
           title: alb.title,
           category: cat,
-          senderName: 'Mã nguồn Website',
+          senderName: 'CHS Xuân Lộc',
           year: alb.slug.match(/\d{4}/)?.[0] || '',
           photoCount: alb.photoCount || alb.photos?.length || 0,
           photos: alb.photos || [],
@@ -1639,7 +1639,7 @@ import staticAlbumsData from '../data/albums.json';
           previews: (alb.photos || []).slice(0, 8).map((p: any) => p.src),
           status: 'approved',
           source: 'code',
-          createdAt: null,
+          createdAt: new Date('2026-01-01T00:00:00'),
         });
         countA++;
       });
@@ -1686,8 +1686,10 @@ import staticAlbumsData from '../data/albums.json';
       const isCodeAlbum = item.source === 'code';
       const catInfo = albumCategoryMap[item.category] || { label: item.category || 'Trường Xưa', icon: '📸' };
 
-      let dateStr = isCodeAlbum ? '<span class="text-blue-600 font-semibold font-mono">Code Web</span>' : '';
-      if (item.createdAt?.toDate) {
+      let dateStr = '01/01/2026';
+      if (item.createdAt instanceof Date) {
+        dateStr = item.createdAt.toLocaleDateString('vi-VN');
+      } else if (item.createdAt?.toDate) {
         dateStr = new Date(item.createdAt.toDate()).toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' });
       } else if (item.createdAt?.seconds) {
         dateStr = new Date(item.createdAt.seconds * 1000).toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -1732,7 +1734,7 @@ import staticAlbumsData from '../data/albums.json';
           </div>
         </td>
         <td class="py-3.5 px-4 whitespace-nowrap">
-          <div class="font-bold text-navy-900">${escapeHtml(item.senderName || 'Thành viên CHS')}</div>
+          <div class="font-bold text-navy-900">${escapeHtml(item.senderName || 'CHS Xuân Lộc')}</div>
           <div class="text-[11px] text-slate-400 truncate max-w-[140px]">${escapeHtml(item.userEmail || (isCodeAlbum ? 'Thư viện THPT Xuân Lộc' : ''))}</div>
         </td>
         <td class="py-3.5 px-4 whitespace-nowrap">
@@ -1926,7 +1928,7 @@ import staticAlbumsData from '../data/albums.json';
     if (editAlbumDocId) editAlbumDocId.value = id;
     if (editAlbumTitle) editAlbumTitle.value = item.title || '';
     if (editAlbumCategory) editAlbumCategory.value = item.category || 'truong-xua';
-    if (editAlbumSender) editAlbumSender.value = item.senderName || (isCode ? 'THPT Xuân Lộc' : '');
+    if (editAlbumSender) editAlbumSender.value = item.senderName || 'CHS Xuân Lộc';
     if (editAlbumYear) editAlbumYear.value = item.year || '';
     if (editAlbumDriveUrl) editAlbumDriveUrl.value = item.driveUrl || '';
     if (editAlbumNote) editAlbumNote.value = item.note || '';
