@@ -297,43 +297,42 @@ const { album, relatedAlbums } = Astro.props;
     role="dialog"
   >
     <!-- Top Control Bar -->
-    <div class="flex flex-wrap items-center justify-between p-3 sm:px-6 border-b border-white/10 text-white z-20 gap-3 bg-black/50">
+    <div class="flex flex-wrap items-center justify-between p-3 sm:px-6 border-b border-white/10 text-white z-30 gap-3 bg-black/70 backdrop-blur-md">
       
       <!-- Counter & Title -->
-      <div class="flex items-center space-x-3">
-        <span id="lightbox-counter" class="text-xs sm:text-sm font-bold text-warmOrange-400 bg-white/10 px-2.5 py-1 rounded-md">1 / 10</span>
-        <span id="lightbox-title" class="text-xs text-slate-300 hidden md:inline truncate max-w-xs">{album.title}</span>
+      <div class="flex items-center space-x-3 min-w-0">
+        <span id="lightbox-counter" class="text-xs sm:text-sm font-bold text-warmOrange-400 bg-white/10 px-2.5 py-1 rounded-lg shrink-0 border border-white/10">1 / 10</span>
+        <span id="lightbox-title" class="text-xs text-slate-200 hidden md:inline truncate max-w-sm font-medium">{album.title}</span>
       </div>
 
       <!-- Center: Slideshow & Transition Controls -->
-      <div class="flex items-center space-x-2">
+      <div class="flex items-center space-x-2 flex-wrap gap-y-1">
         
         <!-- Play / Pause Slideshow Button -->
         <button
           id="btn-toggle-slideshow"
-          class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-warmOrange-500 hover:bg-warmOrange-600 text-white transition shadow-sm cursor-pointer"
+          class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-warmOrange-500 hover:bg-warmOrange-600 text-white transition shadow-sm cursor-pointer"
           title="Bật/Tắt tự động chạy slide (Phím Space)"
         >
           <span id="icon-play-state">▶</span>
           <span id="label-play-state">Chạy Slide</span>
         </button>
 
-        <!-- Toggle Effect Checkbox (Mặc định là BẬT) -->
-        <label class="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-medium text-slate-200 cursor-pointer transition select-none">
+        <!-- Toggle Effect Checkbox -->
+        <label class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-medium text-slate-200 cursor-pointer transition select-none border border-white/10">
           <input
             type="checkbox"
             id="toggle-effect-checkbox"
             checked
             class="rounded text-warmOrange-500 focus:ring-warmOrange-500 w-3.5 h-3.5 accent-warmOrange-500"
           />
-          <span class="hidden sm:inline">Hiệu Ứng Chuyển Động</span>
-          <span class="sm:hidden">Hiệu ứng</span>
+          <span>Hiệu Ứng Điện Ảnh</span>
         </label>
 
         <!-- Effect Style Selector -->
         <select
           id="select-effect-style"
-          class="px-2.5 py-1.5 rounded-lg bg-navy-900 border border-white/20 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-warmOrange-500 cursor-pointer"
+          class="px-2.5 py-1.5 rounded-xl bg-navy-950 border border-white/20 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-warmOrange-500 cursor-pointer"
         >
           <option value="fade">Mờ Dần Điện Ảnh (Cross Fade)</option>
           <option value="zoom">Thu Phóng Điện Ảnh (Ken Burns)</option>
@@ -342,13 +341,48 @@ const { album, relatedAlbums } = Astro.props;
         </select>
       </div>
 
-      <!-- Right: Zoom & Close -->
-      <div class="flex items-center space-x-2">
-        <button id="lightbox-zoom" class="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition text-xs font-semibold" title="Phóng to">
-          🔍 <span class="hidden sm:inline">Phóng to</span>
+      <!-- Right: Tools (Thumbnails Toggle, Zoom, Download, Close) -->
+      <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
+        <!-- Toggle Thumbnails Button -->
+        <button
+          id="btn-toggle-thumbs"
+          class="p-2 px-2.5 rounded-xl bg-white/10 hover:bg-warmOrange-600 text-white transition text-xs font-semibold border border-white/10 flex items-center gap-1.5 cursor-pointer"
+          title="Hiện / Ẩn dải ảnh thu nhỏ (Thumbnails)"
+        >
+          <span>🖼️</span>
+          <span class="hidden lg:inline text-xs">Dải ảnh</span>
         </button>
-        <button id="lightbox-close" class="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition" title="Đóng (Esc)">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+        <!-- Download Original Image -->
+        <a
+          id="lightbox-download"
+          href="#"
+          target="_blank"
+          download
+          class="p-2 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white transition text-xs font-semibold border border-white/10 flex items-center gap-1 cursor-pointer"
+          title="Tải ảnh gốc về máy"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+        </a>
+
+        <!-- Zoom Button -->
+        <button
+          id="lightbox-zoom"
+          class="p-2 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white transition text-xs font-semibold border border-white/10 flex items-center gap-1 cursor-pointer"
+          title="Phóng to / Thu nhỏ ảnh"
+        >
+          <span id="lightbox-zoom-icon">🔍</span>
+        </button>
+
+        <!-- Close Button -->
+        <button
+          id="lightbox-close"
+          class="p-2 rounded-xl bg-rose-600/80 hover:bg-rose-600 text-white transition cursor-pointer border border-rose-500/50"
+          title="Đóng (Phím Esc)"
+        >
+          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
@@ -356,12 +390,12 @@ const { album, relatedAlbums } = Astro.props;
     </div>
 
     <!-- Main View Stage (Dual Layer for Seamless Transitions) -->
-    <div class="flex-1 relative flex items-center justify-center p-2 sm:p-6 overflow-hidden perspective-1000">
+    <div class="flex-1 relative flex items-center justify-center p-2 sm:p-4 overflow-hidden perspective-1000 min-h-0">
       
       <!-- Previous Button -->
       <button
         id="lightbox-prev"
-        class="absolute left-2 sm:left-6 z-30 p-3 rounded-full bg-black/60 hover:bg-warmOrange-600 text-white backdrop-blur-md transition shadow-lg border border-white/10 active:scale-90"
+        class="absolute left-2 sm:left-6 z-30 p-3 sm:p-4 rounded-full bg-black/60 hover:bg-warmOrange-600 text-white backdrop-blur-md transition shadow-2xl border border-white/20 active:scale-90 cursor-pointer"
         aria-label="Ảnh trước"
       >
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -370,14 +404,14 @@ const { album, relatedAlbums } = Astro.props;
       </button>
 
       <!-- Stage Layers Container -->
-      <div id="image-stage" class="relative w-full h-full max-h-[82vh] max-w-[94vw] flex items-center justify-center overflow-hidden">
+      <div id="image-stage" class="relative w-full h-full flex items-center justify-center overflow-hidden">
         
         <!-- Back Layer (Old Image for Cross-fade) -->
         <img
           id="lightbox-img-back"
           src=""
           alt=""
-          class="absolute max-h-[82vh] max-w-[94vw] object-contain rounded-lg shadow-2xl opacity-0 pointer-events-none"
+          class="absolute max-h-[70vh] sm:max-h-[75vh] max-w-[92vw] object-contain rounded-xl shadow-2xl opacity-0 pointer-events-none transition-all duration-300"
         />
 
         <!-- Front Layer (Active Image) -->
@@ -385,14 +419,14 @@ const { album, relatedAlbums } = Astro.props;
           id="lightbox-img-front"
           src=""
           alt=""
-          class="relative max-h-[82vh] max-w-[94vw] object-contain rounded-lg shadow-2xl cursor-zoom-in select-none z-10"
+          class="relative max-h-[70vh] sm:max-h-[75vh] max-w-[92vw] object-contain rounded-xl shadow-2xl cursor-zoom-in select-none z-10 transition-transform duration-300"
         />
       </div>
 
       <!-- Next Button -->
       <button
         id="lightbox-next"
-        class="absolute right-2 sm:right-6 z-30 p-3 rounded-full bg-black/60 hover:bg-warmOrange-600 text-white backdrop-blur-md transition shadow-lg border border-white/10 active:scale-90"
+        class="absolute right-2 sm:right-6 z-30 p-3 sm:p-4 rounded-full bg-black/60 hover:bg-warmOrange-600 text-white backdrop-blur-md transition shadow-2xl border border-white/20 active:scale-90 cursor-pointer"
         aria-label="Ảnh kế tiếp"
       >
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -401,11 +435,37 @@ const { album, relatedAlbums } = Astro.props;
       </button>
     </div>
 
-    <!-- Bottom Caption Bar -->
-    <div class="p-3 text-center border-t border-white/10 text-slate-300 text-xs z-20 bg-black/50 flex items-center justify-between px-4 sm:px-8">
-      <span class="text-[11px] text-slate-400 hidden sm:inline">Phím tắt: ⬅ ➡ (Chuyển ảnh), Space (Chạy/Dừng slide), Esc (Thoát)</span>
-      <span id="lightbox-caption" class="text-xs text-warmOrange-200 font-medium truncate mx-auto"></span>
-      <span class="text-[11px] text-slate-400 hidden sm:inline" id="slideshow-status-tag">Tự động: Tắt</span>
+    <!-- Bottom Thumbnail Strip & Caption Container -->
+    <div class="z-30 bg-black/80 backdrop-blur-md border-t border-white/10 flex flex-col justify-end">
+      
+      <!-- Caption & Hint Bar -->
+      <div class="p-2 sm:px-6 text-center text-slate-300 text-xs flex items-center justify-between border-b border-white/5">
+        <span class="text-[11px] text-slate-400 hidden sm:inline">Phím: ⬅ ➡ (Chuyển ảnh), Space (Chạy slide), Esc (Đóng)</span>
+        <span id="lightbox-caption" class="text-xs text-warmOrange-300 font-semibold truncate mx-auto px-4"></span>
+        <span class="text-[11px] text-slate-400 hidden sm:inline" id="slideshow-status-tag">Tự động: Tắt</span>
+      </div>
+
+      <!-- Thumbnail Carousel Strip (Filmstrip) -->
+      <div id="lightbox-thumbs-container" class="py-2.5 px-3 sm:px-6 overflow-x-auto scrollbar-thin scrollbar-thumb-white/20 flex items-center gap-2 sm:gap-3 transition-all duration-300">
+        {album.photos.map((photo, index) => (
+          <button
+            type="button"
+            class="lightbox-thumb-btn shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden border-2 border-transparent opacity-50 hover:opacity-100 hover:scale-105 transition-all duration-200 cursor-pointer relative focus:outline-none"
+            data-index={index}
+            title={photo.caption || `Ảnh ${index + 1}`}
+          >
+            <img
+              src={photo.src}
+              alt={photo.caption || `Ảnh ${index + 1}`}
+              loading="lazy"
+              class="w-full h-full object-cover"
+            />
+            <span class="absolute bottom-0 right-0 bg-black/70 text-[9px] text-white px-1 rounded-tl-md font-mono">
+              {index + 1}
+            </span>
+          </button>
+        ))}
+      </div>
     </div>
   </div>
 </BaseLayout>
@@ -474,6 +534,12 @@ const { album, relatedAlbums } = Astro.props;
   const selectEffectStyle = document.getElementById('select-effect-style') as HTMLSelectElement | null;
   const slideshowStatusTag = document.getElementById('slideshow-status-tag');
 
+  const btnDownload = document.getElementById('lightbox-download') as HTMLAnchorElement | null;
+  const btnToggleThumbs = document.getElementById('btn-toggle-thumbs');
+  const thumbsContainer = document.getElementById('lightbox-thumbs-container');
+  const thumbBtns = document.querySelectorAll<HTMLButtonElement>('.lightbox-thumb-btn');
+  const zoomIcon = document.getElementById('lightbox-zoom-icon');
+
   let currentIndex = 0;
   let isZoomed = false;
   let isSlideshowPlaying = false;
@@ -490,6 +556,36 @@ const { album, relatedAlbums } = Astro.props;
     item.addEventListener('click', () => {
       openLightbox(idx, false);
     });
+  });
+
+  // Handle Thumbnail clicks
+  thumbBtns.forEach((thumbBtn) => {
+    thumbBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const idxStr = thumbBtn.getAttribute('data-index');
+      if (idxStr !== null) {
+        const idx = parseInt(idxStr, 10);
+        if (!isNaN(idx) && idx !== currentIndex) {
+          currentIndex = idx;
+          updateModalImage(true);
+        }
+      }
+    });
+  });
+
+  // Toggle Thumbnail Strip
+  btnToggleThumbs?.addEventListener('click', () => {
+    if (thumbsContainer) {
+      if (thumbsContainer.classList.contains('hidden')) {
+        thumbsContainer.classList.remove('hidden');
+        btnToggleThumbs.classList.add('bg-warmOrange-600');
+        btnToggleThumbs.classList.remove('bg-white/10');
+      } else {
+        thumbsContainer.classList.add('hidden');
+        btnToggleThumbs.classList.remove('bg-warmOrange-600');
+        btnToggleThumbs.classList.add('bg-white/10');
+      }
+    }
   });
 
   function openLightbox(index: number, autoPlay: boolean = false) {
@@ -521,9 +617,25 @@ const { album, relatedAlbums } = Astro.props;
     const hasEffects = toggleEffectCheckbox?.checked ?? true;
     const effectStyle = selectEffectStyle?.value || 'fade';
 
-    // Update text metadata
+    // Update text metadata & download link
     if (counter) counter.textContent = `${currentIndex + 1} / ${photos.length}`;
     if (caption) caption.textContent = nextPhoto.caption;
+    if (btnDownload) {
+      btnDownload.href = nextPhoto.src;
+      btnDownload.download = `xuan-loc-photo-${currentIndex + 1}.jpg`;
+    }
+
+    // Highlight active thumbnail and scroll into view smoothly
+    thumbBtns.forEach((btn, i) => {
+      if (i === currentIndex) {
+        btn.classList.add('border-warmOrange-500', 'opacity-100', 'scale-110', 'shadow-lg', 'ring-2', 'ring-warmOrange-400');
+        btn.classList.remove('border-transparent', 'opacity-50');
+        btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      } else {
+        btn.classList.remove('border-warmOrange-500', 'opacity-100', 'scale-110', 'shadow-lg', 'ring-2', 'ring-warmOrange-400');
+        btn.classList.add('border-transparent', 'opacity-50');
+      }
+    });
 
     if (withTransition && hasEffects && backImg) {
       // Set back layer to current image
@@ -568,7 +680,7 @@ const { album, relatedAlbums } = Astro.props;
     if (labelPlayState) labelPlayState.textContent = 'Tạm Dừng';
     if (slideshowStatusTag) slideshowStatusTag.textContent = 'Tự động: Đang chạy (3.5s)';
     if (btnToggleSlideshow) {
-      btnToggleSlideshow.className = 'flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-sm cursor-pointer';
+      btnToggleSlideshow.className = 'flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-sm cursor-pointer';
     }
 
     clearInterval(slideshowTimer);
@@ -585,7 +697,7 @@ const { album, relatedAlbums } = Astro.props;
     if (labelPlayState) labelPlayState.textContent = 'Chạy Slide';
     if (slideshowStatusTag) slideshowStatusTag.textContent = 'Tự động: Tắt';
     if (btnToggleSlideshow) {
-      btnToggleSlideshow.className = 'flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-warmOrange-500 hover:bg-warmOrange-600 text-white transition shadow-sm cursor-pointer';
+      btnToggleSlideshow.className = 'flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-warmOrange-500 hover:bg-warmOrange-600 text-white transition shadow-sm cursor-pointer';
     }
   }
 
@@ -602,9 +714,10 @@ const { album, relatedAlbums } = Astro.props;
     if (isZoomed) {
       resetZoom();
     } else {
-      frontImg.style.transform = 'scale(1.5)';
+      frontImg.style.transform = 'scale(1.6)';
       frontImg.classList.remove('cursor-zoom-in');
       frontImg.classList.add('cursor-zoom-out');
+      if (zoomIcon) zoomIcon.textContent = '➖';
       isZoomed = true;
       stopSlideshow();
     }
@@ -615,6 +728,7 @@ const { album, relatedAlbums } = Astro.props;
     frontImg.style.transform = 'scale(1)';
     frontImg.classList.remove('cursor-zoom-out');
     frontImg.classList.add('cursor-zoom-in');
+    if (zoomIcon) zoomIcon.textContent = '🔍';
     isZoomed = false;
   }
 
