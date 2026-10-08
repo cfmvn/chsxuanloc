@@ -3,167 +3,346 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout
-  title="Về Chúng Tôi • Cổng Thông Tin Cựu Học Sinh THPT Xuân Lộc"
-  description="Giới thiệu về Cổng thông tin Cựu học sinh Trường THPT Xuân Lộc (Đồng Nai) - Nơi kết nối các thế hệ học trò, lưu giữ ký ức thanh xuân và chốn thân thương tìm về của những người con Xuân Lộc sau bao năm bôn ba."
+  title="Về Chúng Tôi • Chốn Tìm Về Của Cựu Học Sinh THPT Xuân Lộc"
+  description="Cổng thông tin Cựu học sinh Trường THPT Xuân Lộc (Đồng Nai) - Bến đỗ bình yên của những người con Xuân Lộc sau bao năm bôn ba muôn nẻo đường đời. Nơi lưu giữ ký ức thanh xuân, tình thầy trò và nghĩa đồng môn sâu nặng."
 >
-  <!-- Hero Section -->
-  <section class="relative bg-navy-950 text-white overflow-hidden py-20 sm:py-28 border-b border-navy-800">
-    <!-- Background Image with Ambient Glow -->
+  <!-- Hero Section with Nostalgic Countryside Photo -->
+  <section class="relative bg-navy-950 text-white overflow-hidden py-24 sm:py-32 border-b border-amber-900/40">
+    <!-- Background Countryside Image with Rich Golden Overlay -->
     <div class="absolute inset-0 z-0">
       <img
-        src="/assets/images/truong-xuan-loc.webp"
-        alt="Trường THPT Xuân Lộc"
-        class="w-full h-full object-cover object-center filter brightness-[0.35] contrast-105"
+        src="/assets/images/xuan-loc-que-huong.jpg"
+        alt="Quê hương Xuân Lộc Đồng Nai"
+        class="w-full h-full object-cover object-center filter brightness-[0.40] contrast-110 scale-105"
       />
-      <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/80 to-navy-950/50"></div>
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(245,158,11,0.25),transparent_80%)]"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/75 to-navy-950/40"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_10%,rgba(245,158,11,0.3),transparent_80%)]"></div>
     </div>
 
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-6">
       <!-- Badge -->
-      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/10 text-amber-300 border border-amber-400/30 text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-lg mb-6">
+      <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/10 text-amber-300 border border-amber-400/40 text-xs font-bold uppercase tracking-wider backdrop-blur-md shadow-lg">
         <span class="w-2 h-2 rounded-full bg-warmOrange-400 animate-pulse"></span>
-        <span>TÂM HUYẾT • GẮN KẾT • NGHĨA TÌNH</span>
+        <span>CHỐN THÂN THƯƠNG TÌM VỀ • ĐỒNG NAI QUÊ MẸ</span>
       </div>
 
       <!-- Main Title -->
-      <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight mb-6">
-        Dù Bôn Ba Muôn Phương, <br />
+      <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight drop-shadow-md">
+        Một Thời Áo Trắng, <br />
         <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-warmOrange-400">
-          Xuân Lộc Vẫn Là Chốn Tìm Về
+          Một Đời Nhớ Thương
         </span>
       </h1>
 
       <!-- Subtitle -->
-      <p class="text-base sm:text-lg md:text-xl text-slate-200 leading-relaxed max-w-3xl mx-auto font-light drop-shadow">
-        Cổng thông tin được xây dựng từ tình yêu thương và nỗi nhớ mái trường xưa — một chiếc cầu nối không gian và thời gian dành cho mọi thế hệ cựu học sinh Trường THPT Xuân Lộc thân yêu.
+      <p class="text-base sm:text-lg md:text-xl text-slate-200 leading-relaxed max-w-2xl mx-auto font-light drop-shadow">
+        Dù bôn ba trăm ngả cuộc đời, đất đỏ quê hương và mái trường xưa vẫn luôn là bến đỗ bình yên nhất trong sâu thẳm trái tim mỗi người con Xuân Lộc.
       </p>
+
+      <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5">
+        <a
+          href="#tam-tinh"
+          class="w-full sm:w-auto px-7 py-3 rounded-xl font-bold text-sm text-navy-950 bg-gradient-to-r from-amber-300 via-yellow-300 to-warmOrange-400 hover:from-amber-200 hover:to-warmOrange-300 shadow-xl shadow-amber-500/20 transition-all transform hover:-translate-y-0.5"
+        >
+          Đọc Lời Tâm Tình Đồng Môn ↓
+        </a>
+        <a
+          href="/nien-khoa"
+          class="w-full sm:w-auto px-7 py-3 rounded-xl font-semibold text-sm text-slate-100 bg-white/10 hover:bg-white/20 border border-white/25 backdrop-blur-md transition"
+        >
+          Tìm Lại Niên Khóa Cũ
+        </a>
+      </div>
     </div>
   </section>
 
-  <!-- Letter / Heartfelt Philosophy -->
-  <section class="py-16 sm:py-24 bg-gradient-to-b from-white via-amber-50/30 to-slate-50 relative">
+  <!-- Heartfelt Letter: Tâm Tình Đồng Môn -->
+  <section id="tam-tinh" class="py-16 sm:py-24 bg-gradient-to-b from-white via-amber-50/40 to-slate-50 relative">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <!-- Heartfelt Card -->
-      <div class="bg-white rounded-3xl p-8 sm:p-12 lg:p-14 border border-amber-200/80 shadow-xl shadow-amber-500/5 relative">
-        <!-- Floating Quote Icon -->
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-warmOrange-500 to-amber-500 text-white flex items-center justify-center text-2xl shadow-lg shadow-warmOrange-500/20 absolute -top-7 left-8 sm:left-12">
-          ❝
+      <!-- Vintage Styled Letter Container -->
+      <div class="bg-white rounded-3xl p-7 sm:p-12 lg:p-14 border border-amber-200/80 shadow-2xl shadow-amber-500/5 relative overflow-hidden">
+        
+        <!-- Decorative Vintage Seal Header -->
+        <div class="flex items-center justify-between border-b border-amber-100 pb-6 mb-8">
+          <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center text-2xl shadow-inner">
+              ✉️
+            </div>
+            <div>
+              <div class="text-xs uppercase tracking-wider font-bold text-warmOrange-600">Thư Ngỏ Nghĩa Tình</div>
+              <div class="text-base sm:text-lg font-extrabold text-navy-950">Gửi Những Người Bạn Xuân Lộc</div>
+            </div>
+          </div>
+          <span class="hidden sm:inline-block px-3 py-1 rounded-full text-xs font-semibold bg-amber-100/70 text-amber-900 border border-amber-200">
+            Từ trái tim cựu học sinh
+          </span>
         </div>
 
-        <div class="space-y-6 pt-4 text-slate-700 leading-relaxed font-sans text-base sm:text-lg">
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-navy-950 font-serif">
-            Gửi những người bạn, những người đồng môn Xuân Lộc thân thương,
-          </h2>
-
-          <p>
-            Thời gian thấm thoát thoi đưa. Rời khỏi cánh cổng trường THPT Xuân Lộc dưới bóng núi Chứa Chan hùng vĩ, mỗi người trong chúng ta lại bước vào một hành trình riêng. Có bạn lập nghiệp tại Sài Gòn nhộn nhịp, có bạn chọn gắn bó với quê hương, có bạn đi muôn nẻo Bắc - Trung - Nam, và cũng có những người bạn đang sinh sống, làm việc ở phương trời hải ngoại xa xôi.
+        <div class="space-y-6 text-slate-700 leading-relaxed text-base sm:text-lg font-sans">
+          <p class="font-serif text-xl sm:text-2xl text-navy-950 font-bold leading-snug">
+            Chào bạn — người đồng môn thân mến của chúng tôi!
           </p>
 
           <p>
-            Cuộc sống cuốn ta theo guồng quay mưu sinh, gia đình và sự nghiệp. Nhưng chắc hẳn trong thẳm sâu tâm hồn, chưa một ai quên được những hàng phượng đỏ rực sân trường mỗi độ hè về, tiếng trống trường vang vọng xua tan cái nắng gắt của đất đỏ miền Đông, những buổi truy bài căng thẳng, và nụ cười rạng rỡ của bạn bè tuổi mười bảy, đôi mươi trong trẻo vô ngần.
+            Có những buổi chiều tan ca giữa phố thị ồn ào và tấp nập, khi dòng xe ngược xuôi hối hả, liệu có bao giờ bạn bất giác thấy lòng mình chùng xuống, rồi thèm được nghe lại một giọng nói quê nhà chân chất, thèm được ngồi lại bên người bạn cùng bàn năm cũ?
           </p>
 
-          <div class="p-6 rounded-2xl bg-amber-50/80 border-l-4 border-warmOrange-500 text-slate-800 italic font-serif my-6 leading-relaxed">
-            "Mỗi người một phương trời, bươn chải và trưởng thành, nhưng khi ngoảnh lại, chúng ta đều có chung một điểm tựa thanh xuân — mang tên Trường THPT Xuân Lộc."
+          <p>
+            Ngày chúng ta rời mái trường THPT Xuân Lộc, hành trang mang theo chỉ là chiếc balo giản dị, ước mơ tuổi đôi mươi cháy bỏng và bao lời hẹn ước ngây ngô. Rồi dòng đời cuốn mỗi người đi một ngả: người ở lại gắn bó với mảnh đất quê hương, người xuôi về Sài Gòn bươn chải lập nghiệp, người ngược ra miền Trung, miền Bắc, và cũng có những người bạn đang sinh sống nơi trời Tây xa xôi cách trở nửa vòng trái đất.
+          </p>
+
+          <!-- Highlight Blockquote with warm parchment feel -->
+          <div class="my-8 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50/50 border-l-4 border-warmOrange-500 shadow-sm">
+            <p class="font-serif italic text-slate-800 text-lg sm:text-xl leading-relaxed">
+              "Trải qua bao thăng trầm, nếm đủ ngọt bùi và cay đắng của cuộc sống, ta mới hiểu rằng: Tiền tài hay danh vọng rồi cũng có lúc mỏi mệt, chỉ có những ký ức vô tư thuở áo trắng và tình bạn bè dưới mái trường xưa là mãi vẹn nguyên, trong trẻo như thuở ban đầu."
+            </p>
           </div>
 
           <p>
-            <strong>Cổng Thông Tin Cựu Học Sinh (chsxuanloc.com)</strong> ra đời không ngoài mục đích gì khác hơn là tạo nên một <em>ngôi nhà chung trực tuyến</em> ấm áp, nơi bất kỳ ai — dù thuộc khóa đầu tiên 1985–1986 hay những thế hệ học sinh vừa mới tốt nghiệp — đều có thể ghé thăm, tìm lại bóng hình bạn cũ, gửi lời tri ân thầy cô, và cùng nhau sẻ chia những câu chuyện đời thường dung dị.
+            Bạn có nhớ không? Những con đường đất đỏ bazan bám vàng vạt áo mỗi mùa mưa tới, tiếng ve râm ran gọi hè trên những tán phượng rực đỏ góc sân trường, những buổi chiều đạp xe ngược gió qua các ngã đường thị trấn Gia Ray, hay những mẩu giấy chuyền tay trong hộc bàn giờ kiểm tra... Tất cả những điều nhỏ bé ấy đã nuôi dưỡng tâm hồn chúng ta khôn lớn, làm nên một phần máu thịt của tuổi thanh xuân không bao giờ tìm lại được lần thứ hai.
           </p>
 
-          <div class="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <p>
+            <strong>Cổng Thông Tin Cựu Học Sinh (chsxuanloc.com)</strong> này được ra đời hoàn toàn từ tấm lòng tha thiết ấy. Chúng tôi không tạo ra một trang web để phô trương thành tích, mà chỉ mong dựng lên một <em>ngôi nhà chung ấm áp</em> — nơi bạn có thể tìm lại bóng hình thầy cô, dò tìm lại danh sách lớp của mình sau hàng chục năm mất liên lạc, hay đơn giản chỉ là ghé vào đọc một mẩu tâm sự để thấy lòng mình được an yên.
+          </p>
+
+          <div class="pt-8 mt-8 border-t border-amber-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <div class="font-bold text-navy-950">Ban Liên Lạc & Nhóm Cựu Học Sinh Sáng Lập</div>
-              <div class="text-xs text-warmOrange-600 font-semibold uppercase tracking-wider mt-0.5">Trường THPT Xuân Lộc • Đồng Nai</div>
+              <div class="font-bold text-navy-950 text-base">Những Người Con Xuân Lộc Xa Quê</div>
+              <div class="text-xs text-warmOrange-600 font-semibold uppercase tracking-wider mt-0.5">Đồng Sáng Lập & Ban Biên Tập Kỷ Yếu</div>
             </div>
-            <div class="text-xs text-slate-400 bg-slate-100 px-3 py-1.5 rounded-full font-medium">
-              Hoạt động phi lợi nhuận & vì cộng đồng
+            <div class="text-xs text-slate-500 italic bg-amber-50/80 px-3.5 py-1.5 rounded-xl border border-amber-200/50">
+              "Về lại trường xưa, tìm lại chính mình"
             </div>
           </div>
+
         </div>
       </div>
 
     </div>
   </section>
 
-  <!-- 4 Core Pillars of the Website -->
-  <section class="py-16 sm:py-20 bg-slate-50 border-t border-slate-200">
+  <!-- Photo Gallery: Ký Ức & Quê Hương Xuân Lộc -->
+  <section class="py-16 sm:py-24 bg-slate-100 border-y border-slate-200/80 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <!-- Section Title -->
+      <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-warmOrange-500/10 text-warmOrange-700 border border-warmOrange-500/20 text-xs font-bold uppercase tracking-wider mb-3">
+          <span>Khung Hình Kỷ Niệm</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-navy-950 tracking-tight">
+          Hình Bóng Quê Hương & Năm Tháng Thanh Xuân
+        </h2>
+        <p class="text-slate-600 text-sm sm:text-base mt-2 max-w-2xl mx-auto">
+          Những góc phố, con đường và sân trường đã cùng chúng ta đi qua những năm tháng đẹp nhất của cuộc đời.
+        </p>
+      </div>
+
+      <!-- Gallery Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Photo 1: Countryside Path -->
+        <div class="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-md hover:shadow-xl transition-all duration-300 group flex flex-col">
+          <div class="aspect-[16/10] overflow-hidden bg-navy-950 relative">
+            <img
+              src="/assets/images/xuan-loc-que-huong.jpg"
+              alt="Con đường đất đỏ quê hương Xuân Lộc Đồng Nai"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-transparent to-transparent"></div>
+            <div class="absolute top-3.5 left-3.5">
+              <span class="px-3 py-1 rounded-full text-xs font-bold bg-navy-950/80 backdrop-blur-md text-amber-300 border border-white/10">
+                Đất Đỏ Miền Đông
+              </span>
+            </div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-bold text-lg text-navy-950 mb-2 group-hover:text-warmOrange-600 transition-colors">
+                Con Đường Quê Hương Xuân Lộc
+              </h3>
+              <p class="text-sm text-slate-600 leading-relaxed">
+                Những lối nhỏ quanh co bên những vườn cây trĩu quả, nơi in hằn những vệt bánh xe đạp cọc cạch của tuổi học trò sớm hôm đi tìm con chữ.
+              </p>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-100 text-xs text-amber-700 font-medium flex items-center justify-between">
+              <span>Huyện Xuân Lộc, Đồng Nai</span>
+              <span>Bình yên & mộc mạc</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 2: High School Memories -->
+        <div class="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-md hover:shadow-xl transition-all duration-300 group flex flex-col">
+          <div class="aspect-[16/10] overflow-hidden bg-navy-950 relative">
+            <img
+              src="/assets/images/xuan-loc-ky-uc.jpg"
+              alt="Sân trường THPT Xuân Lộc rực rỡ hoa phượng vĩ"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-transparent to-transparent"></div>
+            <div class="absolute top-3.5 left-3.5">
+              <span class="px-3 py-1 rounded-full text-xs font-bold bg-warmOrange-600 text-white shadow-sm">
+                Mái Trường Xưa
+              </span>
+            </div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-bold text-lg text-navy-950 mb-2 group-hover:text-warmOrange-600 transition-colors">
+                Sân Trường THPT Xuân Lộc
+              </h3>
+              <p class="text-sm text-slate-600 leading-relaxed">
+                Tà áo trắng tinh khôi tung bay trong gió sớm, tiếng cười giòn tan dưới tán phượng rực đỏ và những trang lưu bút viết vội ngày bế giảng.
+              </p>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-100 text-xs text-warmOrange-700 font-medium flex items-center justify-between">
+              <span>Tuổi mười bảy vô tư</span>
+              <span>Ký ức khó phai</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo 3: Reunion Gathering -->
+        <div class="bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-md hover:shadow-xl transition-all duration-300 group flex flex-col">
+          <div class="aspect-[16/10] overflow-hidden bg-navy-950 relative">
+            <img
+              src="/assets/images/xuan-loc-hop-mat.jpg"
+              alt="Họp mặt cựu học sinh sau bao năm xa cách"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-950/70 via-transparent to-transparent"></div>
+            <div class="absolute top-3.5 left-3.5">
+              <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-700 text-white shadow-sm">
+                Ngày Hội Ngộ
+              </span>
+            </div>
+          </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <h3 class="font-bold text-lg text-navy-950 mb-2 group-hover:text-emerald-700 transition-colors">
+                Nụ Cười Ngày Tương Phùng
+              </h3>
+              <p class="text-sm text-slate-600 leading-relaxed">
+                Gặp lại nhau khi mái đầu đã điểm hoa râm, cùng lật lại cuốn kỷ yếu ố màu thời gian và kể cho nhau nghe những buồn vui của đời người.
+              </p>
+            </div>
+            <div class="pt-4 mt-4 border-t border-slate-100 text-xs text-emerald-700 font-medium flex items-center justify-between">
+              <span>Nghĩa tình đồng môn</span>
+              <span>Gắn kết trọn đời</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Town Snapshot Banner -->
+      <div class="mt-10 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center gap-6">
+        <div class="w-full sm:w-1/3 aspect-[16/10] rounded-2xl overflow-hidden shrink-0 border border-slate-200 bg-slate-100">
+          <img
+            src="/assets/images/thi-tran-gia-ray.jpg"
+            alt="Thị trấn Gia Ray, Xuân Lộc, Đồng Nai"
+            class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+            loading="lazy"
+          />
+        </div>
+        <div class="space-y-3">
+          <div class="inline-flex items-center space-x-1.5 text-xs font-bold text-amber-700 uppercase tracking-wider">
+            <span>📍 Thị Trấn Gia Ray • Huyện Xuân Lộc</span>
+          </div>
+          <h4 class="text-xl font-bold text-navy-950">
+            Góc Phố Thân Thương Của Những Buổi Chiều Tan Học
+          </h4>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Dù Gia Ray hôm nay đã đổi thay, khoác lên mình diện mạo phố xá khang trang và hiện đại hơn, nhưng đối với thế hệ cựu học sinh, từng góc quán cóc, từng con dốc nhỏ vẫn in đậm dấu chân những ngày cắp sách tới trường.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4 Pillars of Purpose: Giản Dị & Nghĩa Tình -->
+  <section class="py-16 sm:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header -->
       <div class="text-center max-w-3xl mx-auto mb-14">
-        <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-warmOrange-500/10 text-warmOrange-700 border border-warmOrange-500/20 text-xs font-bold uppercase tracking-wider mb-3">
-          <span>Sứ Mệnh & Trách Nhiệm</span>
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-amber-100/80 text-amber-900 border border-amber-300/80 text-xs font-bold uppercase tracking-wider mb-3">
+          <span>Tâm Huyết Của Website</span>
         </div>
         <h2 class="text-2xl sm:text-4xl font-extrabold text-navy-950 tracking-tight">
-          Bốn Giá Trị Cốt Lõi Chúng Tôi Hướng Tới
+          Những Điều Giản Dị Chúng Tôi Gìn Giữ
         </h2>
         <p class="text-slate-600 text-sm sm:text-base mt-3">
-          Website được vận hành bền bỉ nhằm phục vụ và mang lại giá trị thiết thực nhất cho cộng đồng cựu học sinh.
+          Không cầu kỳ, không thương mại — tất cả chỉ hướng tới một mục đích duy nhất: Là sợi dây kết nối bền chặt cho các thế hệ học trò Xuân Lộc.
         </p>
       </div>
 
-      <!-- Grid 4 Pillars -->
+      <!-- 4 Cards -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
         <!-- Pillar 1 -->
-        <div class="bg-white rounded-2xl p-7 border border-slate-200/90 shadow-sm hover:shadow-lg hover:border-amber-300 transition-all flex flex-col justify-between group">
+        <div class="p-7 rounded-3xl bg-amber-50/50 border border-amber-200/80 hover:bg-white hover:shadow-xl hover:border-amber-400/60 transition-all duration-300 group flex flex-col justify-between">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
-              🏛️
+            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+              📜
             </div>
-            <h3 class="text-lg font-bold text-navy-950 group-hover:text-warmOrange-600 transition-colors mb-2.5">
-              Lưu Giữ Ký Ức & Kỷ Yếu
+            <h3 class="text-lg font-bold text-navy-950 group-hover:text-warmOrange-600 transition-colors mb-2">
+              Nhặt Lại Ký Ức Xưa
             </h3>
             <p class="text-sm text-slate-600 leading-relaxed">
-              Số hóa toàn bộ kỷ yếu các niên khóa từ những năm đầu mở trường. Lưu giữ hình ảnh, bài thơ, trang báo tường và những câu chuyện đẹp của tuổi học trò.
+              Số hóa từng bức ảnh lớp ố màu, từng dòng thơ lưu bút, để năm tháng dẫu trôi qua cũng không thể làm phai mờ ký ức của một thời rực rỡ.
             </p>
           </div>
-          <div class="pt-5 mt-5 border-t border-slate-100">
-            <a href="/nien-khoa" class="text-xs font-bold text-warmOrange-600 hover:text-warmOrange-700 inline-flex items-center">
-              <span>Xem kỷ yếu niên khóa</span>
+          <div class="pt-5 mt-5 border-t border-amber-200/60">
+            <a href="/tam-su" class="text-xs font-bold text-warmOrange-600 hover:text-warmOrange-700 inline-flex items-center">
+              <span>Đọc báo tường kỷ niệm</span>
               <span class="ml-1">&rarr;</span>
             </a>
           </div>
         </div>
 
         <!-- Pillar 2 -->
-        <div class="bg-white rounded-2xl p-7 border border-slate-200/90 shadow-sm hover:shadow-lg hover:border-orange-300 transition-all flex flex-col justify-between group">
+        <div class="p-7 rounded-3xl bg-orange-50/50 border border-orange-200/80 hover:bg-white hover:shadow-xl hover:border-orange-400/60 transition-all duration-300 group flex flex-col justify-between">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-orange-100 text-orange-700 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 rounded-2xl bg-orange-100 text-orange-800 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
               🤝
             </div>
-            <h3 class="text-lg font-bold text-navy-950 group-hover:text-warmOrange-600 transition-colors mb-2.5">
-              Nhịp Cầu Tìm Bạn & Đồng Môn
+            <h3 class="text-lg font-bold text-navy-950 group-hover:text-warmOrange-600 transition-colors mb-2">
+              Tìm Lại Người Bạn Cũ
             </h3>
             <p class="text-sm text-slate-600 leading-relaxed">
-              Công cụ tìm kiếm bạn cũ theo lớp, niên khóa và khu vực sinh sống. Giúp những người bạn thất lạc thông tin sau hàng chục năm có cơ hội tương phùng.
+              Chiếc cầu nối giúp bạn tìm lại bạn bè cùng bàn, cùng khóa sau 10, 20 hay 30 năm thất lạc thông tin vì cuộc sống mưu sinh.
             </p>
           </div>
-          <div class="pt-5 mt-5 border-t border-slate-100">
+          <div class="pt-5 mt-5 border-t border-orange-200/60">
             <a href="/tim-ban" class="text-xs font-bold text-warmOrange-600 hover:text-warmOrange-700 inline-flex items-center">
-              <span>Tìm kiếm bạn học</span>
+              <span>Tra cứu bạn học</span>
               <span class="ml-1">&rarr;</span>
             </a>
           </div>
         </div>
 
         <!-- Pillar 3 -->
-        <div class="bg-white rounded-2xl p-7 border border-slate-200/90 shadow-sm hover:shadow-lg hover:border-indigo-300 transition-all flex flex-col justify-between group">
+        <div class="p-7 rounded-3xl bg-indigo-50/50 border border-indigo-200/80 hover:bg-white hover:shadow-xl hover:border-indigo-400/60 transition-all duration-300 group flex flex-col justify-between">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-800 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
               💐
             </div>
-            <h3 class="text-lg font-bold text-navy-950 group-hover:text-indigo-600 transition-colors mb-2.5">
-              Tri Ân Thầy Cô Giáo
+            <h3 class="text-lg font-bold text-navy-950 group-hover:text-indigo-600 transition-colors mb-2">
+              Tri Ân Quý Thầy Cô
             </h3>
             <p class="text-sm text-slate-600 leading-relaxed">
-              Trang thông tin tri ân quý thầy cô qua các thời kỳ. Nơi cựu học sinh gửi lời chúc, kỷ niệm thăm hỏi và cập nhật thông tin về những người lái đò thầm lặng.
+              Nơi bày tỏ lòng biết ơn sâu sắc đến những người lái đò thầm lặng, cập nhật tin tức thăm hỏi và tri ân các thế hệ thầy cô giáo.
             </p>
           </div>
-          <div class="pt-5 mt-5 border-t border-slate-100">
+          <div class="pt-5 mt-5 border-t border-indigo-200/60">
             <a href="/thay-co" class="text-xs font-bold text-indigo-600 hover:text-indigo-700 inline-flex items-center">
               <span>Trang tri ân thầy cô</span>
               <span class="ml-1">&rarr;</span>
@@ -172,21 +351,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
         <!-- Pillar 4 -->
-        <div class="bg-white rounded-2xl p-7 border border-slate-200/90 shadow-sm hover:shadow-lg hover:border-emerald-300 transition-all flex flex-col justify-between group">
+        <div class="p-7 rounded-3xl bg-emerald-50/50 border border-emerald-200/80 hover:bg-white hover:shadow-xl hover:border-emerald-400/60 transition-all duration-300 group flex flex-col justify-between">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-2xl mb-5 group-hover:scale-110 transition-transform">
               🌱
             </div>
-            <h3 class="text-lg font-bold text-navy-950 group-hover:text-emerald-600 transition-colors mb-2.5">
-              Tiếp Sức & Đồng Hành
+            <h3 class="text-lg font-bold text-navy-950 group-hover:text-emerald-600 transition-colors mb-2">
+              Nâng Bước Đàn Em
             </h3>
             <p class="text-sm text-slate-600 leading-relaxed">
-              Kết nối mạng lưới doanh nghiệp cựu học sinh, hỗ trợ cơ hội nghề nghiệp và chung tay gây quỹ học bổng tiếp sức cho các em học sinh nghèo vượt khó.
+              Chung tay kết nối mạng lưới nghề nghiệp và gây quỹ học bổng tiếp sức cho các em học sinh nghèo vượt khó tại mái trường Xuân Lộc.
             </p>
           </div>
-          <div class="pt-5 mt-5 border-t border-slate-100">
+          <div class="pt-5 mt-5 border-t border-emerald-200/60">
             <a href="/doanh-nghiep" class="text-xs font-bold text-emerald-600 hover:text-emerald-700 inline-flex items-center">
-              <span>Mạng lưới kết nối</span>
+              <span>Mạng lưới hỗ trợ</span>
               <span class="ml-1">&rarr;</span>
             </a>
           </div>
@@ -197,62 +376,71 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
   </section>
 
-  <!-- Principles of Operation -->
-  <section class="py-16 sm:py-20 bg-white">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-navy-950">
-          Nguyên Tắc Hoạt Động Của Website
-        </h2>
-        <p class="text-slate-600 text-sm sm:text-base mt-2">
-          Chúng tôi xây dựng và gìn giữ trang web này trên nền tảng của sự minh bạch, tôn trọng và nghĩa tình.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100">
-          <div class="text-amber-500 font-bold text-lg mb-2">1. Hoàn toàn phi lợi nhuận</div>
-          <p class="text-sm text-slate-600 leading-relaxed">
-            Website được xây dựng, lưu trữ và duy trì hoàn toàn bằng sự đóng góp tự nguyện về công sức và kỹ thuật của các cựu học sinh, không kinh doanh hay thu bất kỳ chi phí nào từ người dùng.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100">
-          <div class="text-warmOrange-600 font-bold text-lg mb-2">2. Bảo mật & tôn trọng quyền riêng tư</div>
-          <p class="text-sm text-slate-600 leading-relaxed">
-            Thông tin cá nhân, liên lạc của cựu học sinh và thầy cô được bảo vệ cẩn trọng. Chỉ hiển thị các thông tin liên lạc công khai khi được sự đồng ý của chính chủ thể.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100">
-          <div class="text-emerald-600 font-bold text-lg mb-2">3. Văn minh, tích cực & thuần khiết</div>
-          <p class="text-sm text-slate-600 leading-relaxed">
-            Không gian trang web hoàn toàn dành cho ký ức học đường, tình cảm thầy trò và sự tương trợ học thuật, nghề nghiệp. Không bàn luận chính trị, tôn giáo hay các nội dung thương mại tiêu cực.
-          </p>
+  <!-- Community Pledge (3 Cam Kết Chân Thành) -->
+  <section class="py-16 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-3xl p-8 sm:p-10 border border-slate-200 shadow-sm space-y-6">
+        <h3 class="text-xl sm:text-2xl font-bold text-navy-950 text-center font-serif">
+          Ba Cam Kết Tận Tâm Từ Ban Biên Tập
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-2">
+          <div class="space-y-2">
+            <div class="font-bold text-amber-700 text-sm flex items-center space-x-1.5">
+              <span>✦</span>
+              <span>Phi Lợi Nhuận Trọn Đời</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Website được đóng góp và duy trì tự nguyện bởi cựu học sinh, không thu phí, không thương mại hóa ký ức.
+            </p>
+          </div>
+          <div class="space-y-2">
+            <div class="font-bold text-warmOrange-700 text-sm flex items-center space-x-1.5">
+              <span>✦</span>
+              <span>Bảo Mật Quyền Riêng Tư</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Tôn trọng thông tin cá nhân của thầy cô và bạn bè, chỉ công khai những tư liệu được cho phép.
+            </p>
+          </div>
+          <div class="space-y-2">
+            <div class="font-bold text-emerald-700 text-sm flex items-center space-x-1.5">
+              <span>✦</span>
+              <span>Giữ Gìn Sự Thuần Khiết</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Không gian thuần túy dành cho tình thầy trò, nghĩa bạn bè và sự tương trợ học thuật, cuộc sống.
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA Box -->
-  <section class="py-16 bg-gradient-to-r from-navy-950 via-navy-900 to-navy-950 text-white text-center relative overflow-hidden">
+  <!-- Final Call to Action -->
+  <section class="py-20 bg-navy-950 text-white text-center relative overflow-hidden">
+    <!-- Ambient glow behind CTA -->
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_50%,rgba(245,158,11,0.2),transparent_80%)]"></div>
+    
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6">
+      <div class="inline-block p-3 rounded-2xl bg-white/10 backdrop-blur-md mb-2">
+        <span class="text-3xl">🏡</span>
+      </div>
       <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight">
-        Bạn Muốn Đóng Góp Tư Liệu Hay Kể Câu Chuyện Của Khóa Mình?
+        Xuân Lộc Luôn Chào Đón Bạn Trở Về!
       </h2>
-      <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-        Mỗi bức ảnh cũ, mỗi dòng kỷ niệm, mỗi thông tin khóa lớp bạn chia sẻ đều là một mảnh ghép vô giá góp phần hoàn thiện cuốn biên niên sử cựu học sinh Xuân Lộc.
+      <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl mx-auto">
+        Dù đã bao năm chưa có dịp về thăm trường, chỉ cần để lại một dòng tin nhắn, một tấm ảnh cũ — bạn đã góp phần sưởi ấm thêm mái nhà chung này.
       </p>
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
         <a
           href="/tam-su"
-          class="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm text-navy-950 bg-gradient-to-r from-amber-300 via-yellow-300 to-warmOrange-400 hover:from-amber-200 hover:to-warmOrange-300 shadow-xl shadow-amber-500/20 transition-all transform hover:-translate-y-0.5"
+          class="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm text-navy-950 bg-gradient-to-r from-amber-300 via-yellow-300 to-warmOrange-400 hover:from-amber-200 hover:to-warmOrange-300 shadow-xl shadow-amber-500/25 transition-all transform hover:-translate-y-0.5"
         >
-          Gửi Kỷ Niệm / Báo Tường
+          Gửi Dòng Tâm Sự & Kỷ Niệm
         </a>
         <a
           href="/tim-ban"
-          class="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm text-slate-200 bg-white/10 hover:bg-white/20 border border-white/20 transition text-center backdrop-blur-md"
+          class="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm text-slate-200 bg-white/10 hover:bg-white/20 border border-white/20 transition backdrop-blur-md"
         >
           Ghi Danh Tìm Bạn Cùng Lớp
         </a>
