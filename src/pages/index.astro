@@ -77,25 +77,241 @@ const recentGridPosts = posts.slice(3, 7);
     </div>
   </section>
 
-  <!-- Key Stats Section (Updated 40-Year Facts) -->
-  <section class="py-12 bg-white border-b border-slate-200">
+  <!-- Special 40th Anniversary Showcase & Interactive Card (1985 - 2025) -->
+  <section class="py-12 sm:py-16 bg-gradient-to-b from-navy-950 via-navy-900 to-slate-900 text-white relative overflow-hidden border-b border-navy-800">
+    <!-- Ambient Glow & Pattern Background -->
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(245,158,11,0.15),transparent_80%)] pointer-events-none"></div>
+    <div class="absolute -right-32 top-1/4 w-96 h-96 bg-warmOrange-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -left-32 bottom-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <!-- Section Title & Badge -->
+      <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+        <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-warmOrange-500/20 to-amber-500/20 text-amber-300 border border-amber-400/40 text-xs sm:text-sm font-bold uppercase tracking-wider mb-4 shadow-lg backdrop-blur-md">
+          <span class="text-amber-400">✨</span>
+          <span>DẤU ẤN BỐN THẬP KỶ • 1985 – 2025</span>
+          <span class="text-amber-400">✨</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          Hành Trình 40 Năm Vẻ Vang <br class="hidden sm:inline" />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-warmOrange-400">
+            Trường THPT Xuân Lộc
+          </span>
+        </h2>
+        <p class="text-slate-300 text-sm sm:text-base mt-3 max-w-2xl mx-auto font-light leading-relaxed">
+          Từ mái trường cấp 4 đơn sơ bên sườn núi Chứa Chan năm 1985 đến biểu tượng giáo dục mũi nhọn, nơi chắp cánh cho hơn 20.000 thế hệ học sinh tỏa sáng muôn phương.
+        </p>
+      </div>
+
+      <!-- MAIN FEATURED 40-YEAR CARD (Clickable to /gioi-thieu) -->
+      <div class="relative group rounded-3xl p-1 bg-gradient-to-r from-amber-500/40 via-warmOrange-500/60 to-yellow-500/40 shadow-2xl shadow-warmOrange-500/10 mb-10 transition-all duration-500 hover:shadow-warmOrange-500/20 hover:scale-[1.008]">
+        <div class="bg-navy-950/90 rounded-[22px] p-6 sm:p-8 lg:p-10 backdrop-blur-xl border border-white/10 relative overflow-hidden flex flex-col lg:flex-row items-center gap-8">
+          
+          <!-- Card Visual Side -->
+          <div class="w-full lg:w-1/2 relative rounded-2xl overflow-hidden aspect-[16/10] sm:aspect-[16/9] lg:aspect-[4/3] bg-navy-900 shrink-0 shadow-lg border border-white/10">
+            <img
+              src="/assets/images/truong-xuan-loc.webp"
+              alt="Toàn cảnh khuôn viên trường THPT Xuân Lộc 40 năm"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/30 to-transparent"></div>
+            
+            <!-- Floating Milestone Badge on Image -->
+            <div class="absolute top-3.5 left-3.5 sm:top-4 sm:left-4">
+              <span class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-navy-950/90 backdrop-blur-md text-amber-300 border border-amber-400/50 shadow-md flex items-center space-x-1.5">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                <span>Kỷ Niệm 40 Năm (1985 - 2025)</span>
+              </span>
+            </div>
+
+            <div class="absolute bottom-3.5 left-3.5 right-3.5 sm:bottom-4 sm:left-4 sm:right-4">
+              <div class="text-xs sm:text-sm text-slate-200 font-medium bg-navy-950/80 backdrop-blur-md p-3 rounded-xl border border-white/10 flex items-center justify-between">
+                <span class="flex items-center space-x-2">
+                  <span>🏛️</span>
+                  <span>Khuôn viên 19.509,7 m² Đạt Chuẩn QG Mức Độ 2</span>
+                </span>
+                <span class="text-amber-400 text-xs font-bold">Gia Ray, Đồng Nai</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Content Side -->
+          <div class="w-full lg:w-1/2 flex flex-col justify-between space-y-6">
+            <div class="space-y-4">
+              <div class="flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-amber-400">
+                <span>⭐ Chuyên Trang Kỷ Niệm Trọng Thể</span>
+                <span>•</span>
+                <span>Tài Liệu Toàn Tập</span>
+              </div>
+
+              <h3 class="text-2xl sm:text-3xl font-extrabold text-white leading-tight group-hover:text-amber-300 transition-colors">
+                Bốn Thập Kỷ Trồng Người, Vun Đắp Khát Vọng & Tự Hào
+              </h3>
+
+              <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                Khám phá toàn bộ tư liệu lịch sử 40 năm hình thành, biên niên sử các thời kỳ lãnh đạo Ban Giám hiệu, bảng vàng Huân chương Lao động cao quý cùng phóng sự về hơn 20.000 cựu học sinh trên khắp mọi miền đất nước.
+              </p>
+
+              <!-- Quick Highlights Badges -->
+              <div class="grid grid-cols-2 gap-3 pt-2">
+                <div class="p-3 rounded-xl bg-navy-900/80 border border-navy-700/80">
+                  <div class="text-xs text-slate-400 font-medium">Thành lập</div>
+                  <div class="text-sm sm:text-base font-bold text-amber-300">23/12/1985</div>
+                </div>
+                <div class="p-3 rounded-xl bg-navy-900/80 border border-navy-700/80">
+                  <div class="text-xs text-slate-400 font-medium">Khen thưởng cấp cao</div>
+                  <div class="text-sm sm:text-base font-bold text-emerald-400">Huân Chương Hạng I</div>
+                </div>
+                <div class="p-3 rounded-xl bg-navy-900/80 border border-navy-700/80">
+                  <div class="text-xs text-slate-400 font-medium">Học sinh tốt nghiệp</div>
+                  <div class="text-sm sm:text-base font-bold text-warmOrange-400">20.000+ Học sinh</div>
+                </div>
+                <div class="p-3 rounded-xl bg-navy-900/80 border border-navy-700/80">
+                  <div class="text-xs text-slate-400 font-medium">Chất lượng đào tạo</div>
+                  <div class="text-sm sm:text-base font-bold text-indigo-300">Top 149 ĐHQG TP.HCM</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Call to action button -->
+            <div class="pt-2">
+              <a
+                href="/40-nam-thpt-xuan-loc"
+                class="inline-flex items-center justify-center space-x-2.5 w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-sm sm:text-base text-navy-950 bg-gradient-to-r from-amber-400 via-yellow-300 to-warmOrange-400 hover:from-amber-300 hover:to-warmOrange-300 shadow-xl shadow-amber-500/25 transition-all transform hover:-translate-y-0.5"
+                id="btn-explore-40-years"
+              >
+                <span>Xem Toàn Tập Kỷ Niệm 40 Năm</span>
+                <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 4 INTERACTIVE EXPLORATION CARDS (DEEP LINKS TO SECTIONS) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        
+        <!-- Card 1: Lịch Sử Mốc Son -->
+        <a
+          href="/40-nam-thpt-xuan-loc#lich-su"
+          class="bg-navy-950/70 hover:bg-navy-900/90 rounded-2xl p-5 border border-navy-800 hover:border-amber-400/50 shadow-md hover:shadow-lg transition-all duration-300 group flex flex-col justify-between"
+        >
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center text-xl mb-3.5 group-hover:scale-110 transition-transform">
+              📜
+            </div>
+            <div class="text-[11px] font-bold text-amber-400 uppercase tracking-wider mb-1">Mốc Son Lịch Sử</div>
+            <h4 class="text-base font-bold text-white group-hover:text-amber-300 transition-colors mb-2">
+              Các Giai Đoạn Phát Triển
+            </h4>
+            <p class="text-xs text-slate-400 line-clamp-3 leading-relaxed">
+              Từ trường PTTH Xuân Lộc II với 2 dãy phòng học cấp 4 năm 1985 đến cơ sở mới 2ha khang trang hiện đại.
+            </p>
+          </div>
+          <div class="pt-4 mt-4 border-t border-navy-800 flex items-center justify-between text-xs font-semibold text-amber-400 group-hover:text-amber-300">
+            <span>Xem mốc thời gian</span>
+            <span>&rarr;</span>
+          </div>
+        </a>
+
+        <!-- Card 2: Bảng Vàng Khen Thưởng -->
+        <a
+          href="/40-nam-thpt-xuan-loc#khen-thuong"
+          class="bg-navy-950/70 hover:bg-navy-900/90 rounded-2xl p-5 border border-navy-800 hover:border-warmOrange-400/50 shadow-md hover:shadow-lg transition-all duration-300 group flex flex-col justify-between"
+        >
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-warmOrange-500/20 text-warmOrange-300 flex items-center justify-center text-xl mb-3.5 group-hover:scale-110 transition-transform">
+              🎖️
+            </div>
+            <div class="text-[11px] font-bold text-warmOrange-400 uppercase tracking-wider mb-1">Vinh Quang Truyền Thống</div>
+            <h4 class="text-base font-bold text-white group-hover:text-warmOrange-300 transition-colors mb-2">
+              Khen Thưởng Cấp Nhà Nước
+            </h4>
+            <p class="text-xs text-slate-400 line-clamp-3 leading-relaxed">
+              Huân chương Lao động Hạng I, II, III; Bằng khen Thủ tướng Chính phủ và nhiều cờ thi đua xuất sắc.
+            </p>
+          </div>
+          <div class="pt-4 mt-4 border-t border-navy-800 flex items-center justify-between text-xs font-semibold text-warmOrange-400 group-hover:text-warmOrange-300">
+            <span>Xem bảng vàng</span>
+            <span>&rarr;</span>
+          </div>
+        </a>
+
+        <!-- Card 3: Biên Niên Sử Lãnh Đạo -->
+        <a
+          href="/40-nam-thpt-xuan-loc#quan-tri-su-pham"
+          class="bg-navy-950/70 hover:bg-navy-900/90 rounded-2xl p-5 border border-navy-800 hover:border-indigo-400/50 shadow-md hover:shadow-lg transition-all duration-300 group flex flex-col justify-between"
+        >
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-xl mb-3.5 group-hover:scale-110 transition-transform">
+              🏛️
+            </div>
+            <div class="text-[11px] font-bold text-indigo-300 uppercase tracking-wider mb-1">Quản Trị Sư Phạm</div>
+            <h4 class="text-base font-bold text-white group-hover:text-indigo-300 transition-colors mb-2">
+              Dấu Ấn Ban Giám Hiệu
+            </h4>
+            <p class="text-xs text-slate-400 line-clamp-3 leading-relaxed">
+              Biên niên sử quản lý và phong cách lãnh đạo tiếp nối qua các thế hệ Hiệu trưởng từ năm 1985 đến nay.
+            </p>
+          </div>
+          <div class="pt-4 mt-4 border-t border-navy-800 flex items-center justify-between text-xs font-semibold text-indigo-300 group-hover:text-indigo-200">
+            <span>Xem biên niên sử</span>
+            <span>&rarr;</span>
+          </div>
+        </a>
+
+        <!-- Card 4: Cựu Học Sinh & Quỹ Học Bổng -->
+        <a
+          href="/40-nam-thpt-xuan-loc#cuu-hoc-sinh-tieu-bieu"
+          class="bg-navy-950/70 hover:bg-navy-900/90 rounded-2xl p-5 border border-navy-800 hover:border-emerald-400/50 shadow-md hover:shadow-lg transition-all duration-300 group flex flex-col justify-between"
+        >
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-xl mb-3.5 group-hover:scale-110 transition-transform">
+              🎓
+            </div>
+            <div class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider mb-1">Kế Thừa & Lan Tỏa</div>
+            <h4 class="text-base font-bold text-white group-hover:text-emerald-300 transition-colors mb-2">
+              20.000+ Thế Hệ Tỏa Sáng
+            </h4>
+            <p class="text-xs text-slate-400 line-clamp-3 leading-relaxed">
+              Gương mặt cựu học sinh tiêu biểu trong học thuật, doanh nghiệp, quản lý và quỹ học bổng tiếp sức.
+            </p>
+          </div>
+          <div class="pt-4 mt-4 border-t border-navy-800 flex items-center justify-between text-xs font-semibold text-emerald-400 group-hover:text-emerald-300">
+            <span>Xem gương mặt tiêu biểu</span>
+            <span>&rarr;</span>
+          </div>
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Key Stats Quick Bar (Clean Modern Ribbon) -->
+  <section class="py-8 bg-white border-b border-slate-200 shadow-sm relative z-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-        <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
-          <div class="text-3xl md:text-4xl font-extrabold text-navy-900">40 Năm</div>
-          <div class="text-xs md:text-sm font-medium text-slate-500 mt-1">Xây dựng & tỏa sáng (1985 - 2025)</div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-amber-200 transition">
+          <div class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-navy-950">40 Năm</div>
+          <div class="text-xs sm:text-sm font-medium text-slate-500 mt-1">Xây dựng & tỏa sáng (1985 - 2025)</div>
         </div>
-        <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
-          <div class="text-3xl md:text-4xl font-extrabold text-warmOrange-600">20.000+</div>
-          <div class="text-xs md:text-sm font-medium text-slate-500 mt-1">Cựu học sinh đã tốt nghiệp</div>
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-warmOrange-200 transition">
+          <div class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-warmOrange-600">20.000+</div>
+          <div class="text-xs sm:text-sm font-medium text-slate-500 mt-1">Cựu học sinh đã tốt nghiệp</div>
         </div>
-        <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
-          <div class="text-3xl md:text-4xl font-extrabold text-indigo-600">Top 149</div>
-          <div class="text-xs md:text-sm font-medium text-slate-500 mt-1">Trường ưu tiên ĐHQG TP.HCM</div>
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-indigo-200 transition">
+          <div class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-indigo-600">Top 149</div>
+          <div class="text-xs sm:text-sm font-medium text-slate-500 mt-1">Trường ưu tiên ĐHQG TP.HCM</div>
         </div>
-        <div class="p-4 rounded-xl bg-slate-50 border border-slate-100">
-          <div class="text-3xl md:text-4xl font-extrabold text-emerald-600">Huân Chương</div>
-          <div class="text-xs md:text-sm font-medium text-slate-500 mt-1">Lao Động Hạng Nhất (2015)</div>
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-emerald-200 transition">
+          <div class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-emerald-600">Huân Chương</div>
+          <div class="text-xs sm:text-sm font-medium text-slate-500 mt-1">Lao Động Hạng Nhất (2015)</div>
         </div>
       </div>
     </div>
