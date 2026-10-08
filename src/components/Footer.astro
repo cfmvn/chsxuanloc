@@ -1,5 +1,24 @@
 ---
 const currentYear = new Date().getFullYear();
+
+const quickNav = [
+  { href: '/', label: 'Trang Chủ' },
+  { href: '/ve-chung-toi', label: 'Về Chúng Tôi' },
+  { href: '/40-nam-thpt-xuan-loc', label: 'Kỷ Niệm 40 Năm (1985 - 2025)' },
+  { href: '/nien-khoa', label: 'Kỷ Yếu Niên Khóa' },
+  { href: '/tim-ban', label: 'Tìm Bạn Cùng Lớp' },
+  { href: '/tam-su', label: 'Báo Tường & Tâm Sự' },
+  { href: '/thay-co', label: 'Tri Ân Thầy Cô' },
+  { href: '/tin-tuc', label: 'Tin Tức & Hoạt Động' },
+];
+
+const periodLinks = [
+  { href: '/nien-khoa/khoa-1990-1993', label: 'Khóa 1990 - 1993 (Thời sơ khai)' },
+  { href: '/nien-khoa/khoa-2000-2003', label: 'Khóa 2000 - 2003 (Chuyển giao)' },
+  { href: '/nien-khoa/khoa-2005-2008', label: 'Khóa 2005 - 2008' },
+  { href: '/nien-khoa/khoa-2015-2018', label: 'Khóa 2015 - 2018' },
+  { href: '/nien-khoa/khoa-2021-2024', label: 'Khóa 2021 - 2024 (Mới tốt nghiệp)' },
+];
 ---
 
 <footer class="bg-navy-950 text-slate-300 border-t border-navy-800/80">
@@ -20,36 +39,66 @@ const currentYear = new Date().getFullYear();
           </div>
         </div>
         <p class="text-sm text-slate-400 leading-relaxed">
-          Nơi kết nối các thế hệ cựu học sinh Trường THPT Xuân Lộc (Đồng Nai) từ năm 1986 đến nay. Lưu giữ kỷ niệm, tri ân thầy cô và hỗ trợ các thế hệ đàn em tiếp bước.
+          Nơi hội tụ và kết nối các thế hệ cựu học sinh Trường THPT Xuân Lộc (Đồng Nai) từ năm 1985 đến nay. Dù bôn ba muôn nơi, mái trường xưa luôn là chốn thân thương tìm về.
         </p>
         <div class="pt-2">
-          <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-navy-800 text-warmOrange-300 border border-navy-700">
-            Trang thông tin phi lợi nhuận
-          </span>
+          <a
+            href="/ve-chung-toi"
+            class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-warmOrange-300 bg-navy-900 border border-warmOrange-500/30 hover:bg-navy-850 hover:text-white transition-colors"
+          >
+            <span>Tìm hiểu về website & sứ mệnh</span>
+            <span>&rarr;</span>
+          </a>
         </div>
       </div>
 
-      <!-- Quick Navigation -->
+      <!-- Quick Navigation with Unified Clean Icon -->
       <div>
         <h3 class="text-sm font-semibold text-white tracking-wider uppercase mb-4">Danh Mục</h3>
-        <ul class="space-y-2.5 text-sm">
-          <li><a href="/" class="hover:text-warmOrange-400 transition-colors">Trang Chủ</a></li>
-          <li><a href="/40-nam-thpt-xuan-loc" class="text-amber-400 font-semibold hover:text-warmOrange-300 transition-colors flex items-center space-x-1"><span>✨ 40 Năm Xuân Lộc</span></a></li>
-          <li><a href="/nien-khoa" class="hover:text-warmOrange-400 transition-colors">Kỷ Yếu Niên Khóa</a></li>
-          <li><a href="/tin-tuc" class="hover:text-warmOrange-400 transition-colors">Tin Tức & Hoạt Động</a></li>
-          <li><a href="/thay-co" class="hover:text-warmOrange-400 transition-colors">Tri Ân Thầy Cô</a></li>
+        <ul class="space-y-2 text-sm">
+          {quickNav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="group flex items-center space-x-2 text-slate-300 hover:text-warmOrange-400 transition-colors py-0.5"
+              >
+                <svg
+                  class="w-3.5 h-3.5 text-slate-500 group-hover:text-warmOrange-400 group-hover:translate-x-0.5 transition-all shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                </svg>
+                <span>{item.label}</span>
+              </a>
+            </li>
+          ))}
         </ul>
       </div>
 
-      <!-- Batches Fast Link -->
+      <!-- Batches Fast Link with Same Unified Icon -->
       <div>
         <h3 class="text-sm font-semibold text-white tracking-wider uppercase mb-4">Các Thời Kỳ</h3>
-        <ul class="space-y-2.5 text-sm">
-          <li><a href="/nien-khoa/khoa-1990-1993" class="hover:text-warmOrange-400 transition-colors">Khóa 1990 - 1993 (Thời sơ khai)</a></li>
-          <li><a href="/nien-khoa/khoa-2000-2003" class="hover:text-warmOrange-400 transition-colors">Khóa 2000 - 2003 (Chuyển giao)</a></li>
-          <li><a href="/nien-khoa/khoa-2005-2008" class="hover:text-warmOrange-400 transition-colors">Khóa 2005 - 2008</a></li>
-          <li><a href="/nien-khoa/khoa-2015-2018" class="hover:text-warmOrange-400 transition-colors">Khóa 2015 - 2018</a></li>
-          <li><a href="/nien-khoa/khoa-2021-2024" class="hover:text-warmOrange-400 transition-colors">Khóa 2021 - 2024 (Mới tốt nghiệp)</a></li>
+        <ul class="space-y-2 text-sm">
+          {periodLinks.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="group flex items-center space-x-2 text-slate-300 hover:text-warmOrange-400 transition-colors py-0.5"
+              >
+                <svg
+                  class="w-3.5 h-3.5 text-slate-500 group-hover:text-warmOrange-400 group-hover:translate-x-0.5 transition-all shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                </svg>
+                <span>{item.label}</span>
+              </a>
+            </li>
+          ))}
         </ul>
       </div>
 
@@ -83,9 +132,13 @@ const currentYear = new Date().getFullYear();
     <div class="mt-12 pt-8 border-t border-navy-900 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400">
       <p>© {currentYear} Cổng thông tin Cựu học sinh THPT Xuân Lộc. Vận hành phi lợi nhuận bởi các cựu học sinh.</p>
       <div class="mt-4 sm:mt-0 flex space-x-6">
+        <a href="/ve-chung-toi" class="hover:text-slate-300 transition-colors">Về Chúng Tôi</a>
+        <span class="text-slate-600">•</span>
         <span class="hover:text-slate-300">Tự hào THPT Xuân Lộc</span>
+        <span class="text-slate-600">•</span>
         <span class="hover:text-slate-300">Tình Thầy Trò • Tình Bạn Hữu</span>
       </div>
     </div>
   </div>
 </footer>
+
