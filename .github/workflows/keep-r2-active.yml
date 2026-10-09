@@ -1,0 +1,32 @@
+name: Keep Cloudflare R2 Files Active
+
+on:
+  schedule:
+    # Chạy vào lúc 00:00 UTC ngày 1 và ngày 15 hàng tháng
+    - cron: '0 0 1,15 * *'
+  workflow_dispatch: # Cho phép bấm chạy thủ công trên GitHub
+
+jobs:
+  ping-r2:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run R2 warm-up script
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          R2_PUBLIC_DOMAIN: ${{ secrets.R2_PUBLIC_DOMAIN }}
+        run: node scripts/ping-r2-files.js
