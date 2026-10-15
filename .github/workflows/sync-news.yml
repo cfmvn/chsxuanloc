@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      id-token: write
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -75,6 +76,9 @@ jobs:
             npx -y firebase-tools deploy --only hosting --project xuanlocchs --non-interactive
           elif [ -n "$FIREBASE_TOKEN" ]; then
             npx -y firebase-tools deploy --only hosting --project xuanlocchs --token "$FIREBASE_TOKEN" --non-interactive
+          else
+            echo "⚠️ Không tìm thấy FIREBASE_SERVICE_ACCOUNT hoặc FIREBASE_TOKEN trong GitHub Secrets"
+            exit 1
           fi
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CHSXUANLOC }}
