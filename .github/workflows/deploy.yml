@@ -39,13 +39,27 @@ jobs:
       - name: Deploy to Firebase Hosting & Firestore Rules
         run: |
           if [ -n "$FIREBASE_SERVICE_ACCOUNT" ]; then
+            echo "::notice::Using FIREBASE_SERVICE_ACCOUNT (length: ${#FIREBASE_SERVICE_ACCOUNT})"
             echo "$FIREBASE_SERVICE_ACCOUNT" > /tmp/service-account.json
             export GOOGLE_APPLICATION_CREDENTIALS=/tmp/service-account.json
-            npx -y firebase-tools deploy --only hosting,firestore:rules --project xuanlocchs --non-interactive
+            CMD="npx -y firebase-tools deploy --only hosting,firestore:rules --project xuanlocchs --non-interactive"
           elif [ -n "$FIREBASE_TOKEN" ]; then
-            npx -y firebase-tools deploy --only hosting,firestore:rules --project xuanlocchs --token "$FIREBASE_TOKEN" --non-interactive
+            echo "::notice::Using FIREBASE_TOKEN (length: ${#FIREBASE_TOKEN})"
+            CMD="npx -y firebase-tools deploy --only hosting,firestore:rules --project xuanlocchs --token $FIREBASE_TOKEN --non-interactive"
           else
-            echo "⚠️ Không tìm thấy FIREBASE_SERVICE_ACCOUNT hoặc FIREBASE_TOKEN trong GitHub Secrets"
+            echo "::error::Khong tim thay FIREBASE_SERVICE_ACCOUNT hoac FIREBASE_TOKEN trong GitHub Secrets"
+            exit 1
+          fi
+
+          echo "Running: $CMD"
+          if ! eval "$CMD" > /tmp/deploy.log 2>&1; then
+            cat /tmp/deploy.log
+            ERR=$(tail -n 20 /tmp/deploy.log | tr '\r\n' ' ')
+            echo "::error title=FirebaseDeployError::$ERR"
+            echo "### Firebase Deploy Failed" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            cat /tmp/deploy.log >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
             exit 1
           fi
         env:
